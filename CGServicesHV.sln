@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29905.134
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoaCore", "..\SoaCore\SoaCore\SoaCore.csproj", "{FDEF40A0-91EB-4B88-8E98-FFA39D3CB7C0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CGServicesHV", "CGServicesHV\CGServicesHV.csproj", "{0A7FD3BA-F163-4640-8648-1124EC8AC115}"
+	ProjectSection(ProjectDependencies) = postProject
+		{FDEF40A0-91EB-4B88-8E98-FFA39D3CB7C0} = {FDEF40A0-91EB-4B88-8E98-FFA39D3CB7C0}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FDEF40A0-91EB-4B88-8E98-FFA39D3CB7C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FDEF40A0-91EB-4B88-8E98-FFA39D3CB7C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FDEF40A0-91EB-4B88-8E98-FFA39D3CB7C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FDEF40A0-91EB-4B88-8E98-FFA39D3CB7C0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A7FD3BA-F163-4640-8648-1124EC8AC115}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A7FD3BA-F163-4640-8648-1124EC8AC115}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A7FD3BA-F163-4640-8648-1124EC8AC115}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A7FD3BA-F163-4640-8648-1124EC8AC115}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DE6A3291-A6FA-4515-AE4B-165F6D649F3E}
+	EndGlobalSection
+EndGlobal

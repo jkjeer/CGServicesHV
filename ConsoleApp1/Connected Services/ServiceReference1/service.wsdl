@@ -1,0 +1,305 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="RackTagService" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsp:Policy wsu:Id="NetTcpBinding_IRackTagService_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <msb:BinaryEncoding xmlns:msb="http://schemas.microsoft.com/ws/06/2004/mspolicy/netbinary1" />
+        <sp:TransportBinding xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <wsp:Policy>
+            <sp:TransportToken>
+              <wsp:Policy>
+                <msf:WindowsTransportSecurity xmlns:msf="http://schemas.microsoft.com/ws/2006/05/framing/policy">
+                  <msf:ProtectionLevel>EncryptAndSign</msf:ProtectionLevel>
+                </msf:WindowsTransportSecurity>
+              </wsp:Policy>
+            </sp:TransportToken>
+            <sp:AlgorithmSuite>
+              <wsp:Policy>
+                <sp:Basic256 />
+              </wsp:Policy>
+            </sp:AlgorithmSuite>
+            <sp:Layout>
+              <wsp:Policy>
+                <sp:Strict />
+              </wsp:Policy>
+            </sp:Layout>
+          </wsp:Policy>
+        </sp:TransportBinding>
+        <wsaw:UsingAddressing />
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import namespace="http://tempuri.org/" />
+      <xsd:import namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+      <xsd:import />
+      <xsd:import namespace="http://schemas.datacontract.org/2004/07/System.Data" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IRackTagService_GetRackIdListByStatus_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetRackIdListByStatus" />
+  </wsdl:message>
+  <wsdl:message name="IRackTagService_GetRackIdListByStatus_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetRackIdListByStatusResponse" />
+  </wsdl:message>
+  <wsdl:message name="IRackTagService_GetRackIdListBySchedule_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetRackIdListBySchedule" />
+  </wsdl:message>
+  <wsdl:message name="IRackTagService_GetRackIdListBySchedule_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetRackIdListByScheduleResponse" />
+  </wsdl:message>
+  <wsdl:message name="IRackTagService_GetRackStatusCodes_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetRackStatusCodes" />
+  </wsdl:message>
+  <wsdl:message name="IRackTagService_GetRackStatusCodes_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetRackStatusCodesResponse" />
+  </wsdl:message>
+  <wsdl:message name="IRackTagService_GetLockedRacks_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetLockedRacks" />
+  </wsdl:message>
+  <wsdl:message name="IRackTagService_GetLockedRacks_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetLockedRacksResponse" />
+  </wsdl:message>
+  <wsdl:message name="IRackTagService_GetRackTagItems_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetRackTagItems" />
+  </wsdl:message>
+  <wsdl:message name="IRackTagService_GetRackTagItems_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetRackTagItemsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IRackTagService_GetRackTagItemsDataTable_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetRackTagItemsDataTable" />
+  </wsdl:message>
+  <wsdl:message name="IRackTagService_GetRackTagItemsDataTable_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetRackTagItemsDataTableResponse" />
+  </wsdl:message>
+  <wsdl:message name="IRackTagService_GetRackTagItemsBySchedule_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetRackTagItemsBySchedule" />
+  </wsdl:message>
+  <wsdl:message name="IRackTagService_GetRackTagItemsBySchedule_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetRackTagItemsByScheduleResponse" />
+  </wsdl:message>
+  <wsdl:message name="IRackTagService_GetRackTagItemsByScheduleDataTable_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetRackTagItemsByScheduleDataTable" />
+  </wsdl:message>
+  <wsdl:message name="IRackTagService_GetRackTagItemsByScheduleDataTable_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetRackTagItemsByScheduleDataTableResponse" />
+  </wsdl:message>
+  <wsdl:message name="IRackTagService_GetRackTags_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetRackTags" />
+  </wsdl:message>
+  <wsdl:message name="IRackTagService_GetRackTags_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetRackTagsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IRackTagService_GetRackTagsShipped_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetRackTagsShipped" />
+  </wsdl:message>
+  <wsdl:message name="IRackTagService_GetRackTagsShipped_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetRackTagsShippedResponse" />
+  </wsdl:message>
+  <wsdl:message name="IRackTagService_GetRackTagsDataTable_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetRackTagsDataTable" />
+  </wsdl:message>
+  <wsdl:message name="IRackTagService_GetRackTagsDataTable_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetRackTagsDataTableResponse" />
+  </wsdl:message>
+  <wsdl:message name="IRackTagService_GetRackTagsBySchedule_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetRackTagsBySchedule" />
+  </wsdl:message>
+  <wsdl:message name="IRackTagService_GetRackTagsBySchedule_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetRackTagsByScheduleResponse" />
+  </wsdl:message>
+  <wsdl:message name="IRackTagService_GetRackTagsByScheduleDataTable_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetRackTagsByScheduleDataTable" />
+  </wsdl:message>
+  <wsdl:message name="IRackTagService_GetRackTagsByScheduleDataTable_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetRackTagsByScheduleDataTableResponse" />
+  </wsdl:message>
+  <wsdl:portType name="IRackTagService">
+    <wsdl:operation name="GetRackIdListByStatus">
+      <wsdl:input wsaw:Action="http://tempuri.org/IRackTagService/GetRackIdListByStatus" message="tns:IRackTagService_GetRackIdListByStatus_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IRackTagService/GetRackIdListByStatusResponse" message="tns:IRackTagService_GetRackIdListByStatus_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetRackIdListBySchedule">
+      <wsdl:input wsaw:Action="http://tempuri.org/IRackTagService/GetRackIdListBySchedule" message="tns:IRackTagService_GetRackIdListBySchedule_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IRackTagService/GetRackIdListByScheduleResponse" message="tns:IRackTagService_GetRackIdListBySchedule_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetRackStatusCodes">
+      <wsdl:input wsaw:Action="http://tempuri.org/IRackTagService/GetRackStatusCodes" message="tns:IRackTagService_GetRackStatusCodes_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IRackTagService/GetRackStatusCodesResponse" message="tns:IRackTagService_GetRackStatusCodes_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetLockedRacks">
+      <wsdl:input wsaw:Action="http://tempuri.org/IRackTagService/GetLockedRacks" message="tns:IRackTagService_GetLockedRacks_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IRackTagService/GetLockedRacksResponse" message="tns:IRackTagService_GetLockedRacks_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetRackTagItems">
+      <wsdl:input wsaw:Action="http://tempuri.org/IRackTagService/GetRackTagItems" message="tns:IRackTagService_GetRackTagItems_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IRackTagService/GetRackTagItemsResponse" message="tns:IRackTagService_GetRackTagItems_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetRackTagItemsDataTable">
+      <wsdl:input wsaw:Action="http://tempuri.org/IRackTagService/GetRackTagItemsDataTable" message="tns:IRackTagService_GetRackTagItemsDataTable_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IRackTagService/GetRackTagItemsDataTableResponse" message="tns:IRackTagService_GetRackTagItemsDataTable_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetRackTagItemsBySchedule">
+      <wsdl:input wsaw:Action="http://tempuri.org/IRackTagService/GetRackTagItemsBySchedule" message="tns:IRackTagService_GetRackTagItemsBySchedule_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IRackTagService/GetRackTagItemsByScheduleResponse" message="tns:IRackTagService_GetRackTagItemsBySchedule_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetRackTagItemsByScheduleDataTable">
+      <wsdl:input wsaw:Action="http://tempuri.org/IRackTagService/GetRackTagItemsByScheduleDataTable" message="tns:IRackTagService_GetRackTagItemsByScheduleDataTable_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IRackTagService/GetRackTagItemsByScheduleDataTableResponse" message="tns:IRackTagService_GetRackTagItemsByScheduleDataTable_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetRackTags">
+      <wsdl:input wsaw:Action="http://tempuri.org/IRackTagService/GetRackTags" message="tns:IRackTagService_GetRackTags_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IRackTagService/GetRackTagsResponse" message="tns:IRackTagService_GetRackTags_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetRackTagsShipped">
+      <wsdl:input wsaw:Action="http://tempuri.org/IRackTagService/GetRackTagsShipped" message="tns:IRackTagService_GetRackTagsShipped_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IRackTagService/GetRackTagsShippedResponse" message="tns:IRackTagService_GetRackTagsShipped_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetRackTagsDataTable">
+      <wsdl:input wsaw:Action="http://tempuri.org/IRackTagService/GetRackTagsDataTable" message="tns:IRackTagService_GetRackTagsDataTable_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IRackTagService/GetRackTagsDataTableResponse" message="tns:IRackTagService_GetRackTagsDataTable_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetRackTagsBySchedule">
+      <wsdl:input wsaw:Action="http://tempuri.org/IRackTagService/GetRackTagsBySchedule" message="tns:IRackTagService_GetRackTagsBySchedule_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IRackTagService/GetRackTagsByScheduleResponse" message="tns:IRackTagService_GetRackTagsBySchedule_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetRackTagsByScheduleDataTable">
+      <wsdl:input wsaw:Action="http://tempuri.org/IRackTagService/GetRackTagsByScheduleDataTable" message="tns:IRackTagService_GetRackTagsByScheduleDataTable_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IRackTagService/GetRackTagsByScheduleDataTableResponse" message="tns:IRackTagService_GetRackTagsByScheduleDataTable_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="NetTcpBinding_IRackTagService" type="tns:IRackTagService">
+    <wsp:PolicyReference URI="#NetTcpBinding_IRackTagService_policy" />
+    <soap12:binding transport="http://schemas.microsoft.com/soap/tcp" />
+    <wsdl:operation name="GetRackIdListByStatus">
+      <soap12:operation soapAction="http://tempuri.org/IRackTagService/GetRackIdListByStatus" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRackIdListBySchedule">
+      <soap12:operation soapAction="http://tempuri.org/IRackTagService/GetRackIdListBySchedule" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRackStatusCodes">
+      <soap12:operation soapAction="http://tempuri.org/IRackTagService/GetRackStatusCodes" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetLockedRacks">
+      <soap12:operation soapAction="http://tempuri.org/IRackTagService/GetLockedRacks" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRackTagItems">
+      <soap12:operation soapAction="http://tempuri.org/IRackTagService/GetRackTagItems" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRackTagItemsDataTable">
+      <soap12:operation soapAction="http://tempuri.org/IRackTagService/GetRackTagItemsDataTable" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRackTagItemsBySchedule">
+      <soap12:operation soapAction="http://tempuri.org/IRackTagService/GetRackTagItemsBySchedule" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRackTagItemsByScheduleDataTable">
+      <soap12:operation soapAction="http://tempuri.org/IRackTagService/GetRackTagItemsByScheduleDataTable" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRackTags">
+      <soap12:operation soapAction="http://tempuri.org/IRackTagService/GetRackTags" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRackTagsShipped">
+      <soap12:operation soapAction="http://tempuri.org/IRackTagService/GetRackTagsShipped" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRackTagsDataTable">
+      <soap12:operation soapAction="http://tempuri.org/IRackTagService/GetRackTagsDataTable" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRackTagsBySchedule">
+      <soap12:operation soapAction="http://tempuri.org/IRackTagService/GetRackTagsBySchedule" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRackTagsByScheduleDataTable">
+      <soap12:operation soapAction="http://tempuri.org/IRackTagService/GetRackTagsByScheduleDataTable" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="RackTagService">
+    <wsdl:port name="NetTcpBinding_IRackTagService" binding="tns:NetTcpBinding_IRackTagService">
+      <soap12:address location="net.tcp://localhost:8090/Design_Time_Addresses/CGServices/CGServices.RackTagSvc.RackTagService" />
+      <wsa10:EndpointReference>
+        <wsa10:Address>net.tcp://localhost:8090/Design_Time_Addresses/CGServices/CGServices.RackTagSvc.RackTagService</wsa10:Address>
+        <Identity xmlns="http://schemas.xmlsoap.org/ws/2006/02/addressingidentity">
+          <Spn>CGIServices\SVCPY.cgi.int</Spn>
+        </Identity>
+      </wsa10:EndpointReference>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

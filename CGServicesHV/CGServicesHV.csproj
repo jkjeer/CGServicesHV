@@ -1,0 +1,490 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{0A7FD3BA-F163-4640-8648-1124EC8AC115}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CGServicesHV</RootNamespace>
+    <AssemblyName>CGServicesHV</AssemblyName>
+    <ProjectTypeGuids>{3D9AD99F-2412-4246-B90B-4EAA41C64699};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <StartArguments>/client:"WcfTestClient.exe"</StartArguments>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="IBM.Data.DB2.iSeries, Version=12.0.0.0, Culture=neutral, PublicKeyToken=9cdb2ebfb1f93a26, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\SoaCore\SoaCore\bin\Debug\IBM.Data.DB2.iSeries.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="SoaCore">
+      <HintPath>..\..\SoaCore\SoaCore\bin\Debug\SoaCore.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Runtime.Caching" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Web" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Common\Managers\E1\BusinessSystemSessionManager.cs" />
+    <Compile Include="Common\Managers\E1\E1DimensionManager.cs" />
+    <Compile Include="Common\Managers\E1\E1TimeManager.cs" />
+    <Compile Include="Common\Managers\E1\F3111Manager.cs" />
+    <Compile Include="Common\Managers\E1\F3201Manager.cs" />
+    <Compile Include="Common\Managers\E1\F4102Manager.cs" />
+    <Compile Include="Common\Managers\E1\F4715Manager.cs" />
+    <Compile Include="Common\Managers\E1\F580020Manager.cs" />
+    <Compile Include="Common\Managers\E1\F580021Manager.cs" />
+    <Compile Include="Common\Managers\E1\F580024Manager.cs" />
+    <Compile Include="Common\Managers\E1\F580030AManager.cs" />
+    <Compile Include="Common\Managers\E1\F580030Manager.cs" />
+    <Compile Include="Common\Managers\E1\F580055Manager.cs" />
+    <Compile Include="Common\Managers\E1\F580200Manager.cs" />
+    <Compile Include="Common\Managers\E1\F580220Manager.cs" />
+    <Compile Include="Common\Managers\E1\F5834A01Manager.cs" />
+    <Compile Include="Common\Managers\E1\F584715Manager.cs" />
+    <Compile Include="Common\Managers\E1\FlexItemManager.cs" />
+    <Compile Include="Common\Managers\E1\ItemAttributeManager.cs" />
+    <Compile Include="Common\Managers\E1\RawGlassManager.cs" />
+    <Compile Include="Common\Managers\E1\ScheduleBackoutEventManager.cs" />
+    <Compile Include="Common\Managers\E1\SessionManager.cs" />
+    <Compile Include="Common\Managers\E1\SpeedRecvManager.cs" />
+    <Compile Include="Common\Managers\Enterprise\BatchInvoiceMgr.cs" />
+    <Compile Include="Common\Managers\Enterprise\BatchJournalEntryMgr.cs" />
+    <Compile Include="Common\Managers\Enterprise\BatchNumManager.cs" />
+    <Compile Include="Common\Managers\Enterprise\BulkCopyManager.cs" />
+    <Compile Include="Common\Managers\Enterprise\ConnectionManager.cs" />
+    <Compile Include="Common\Managers\Enterprise\ConnectionStringManager.cs" />
+    <Compile Include="Common\Managers\Enterprise\CrateManager.cs" />
+    <Compile Include="Common\Managers\Enterprise\CustomerManager.cs" />
+    <Compile Include="Common\Managers\Enterprise\CustomerNameManager.cs" />
+    <Compile Include="Common\Managers\Enterprise\EdiMessageManager.cs" />
+    <Compile Include="Common\Managers\Enterprise\GlassItemManager.cs" />
+    <Compile Include="Common\Managers\Enterprise\GlassUnitManager.cs" />
+    <Compile Include="Common\Managers\Enterprise\HighWaterMarkManager.cs" />
+    <Compile Include="Common\Managers\Enterprise\HVRackTagManager.cs" />
+    <Compile Include="Common\Managers\Enterprise\InvoiceManager.cs" />
+    <Compile Include="Common\Managers\Enterprise\ItemAttributeManager.cs" />
+    <Compile Include="Common\Managers\Enterprise\MTSScheduleEventsManager.cs" />
+    <Compile Include="Common\Managers\Enterprise\MTSScheduleManager.cs" />
+    <Compile Include="Common\Managers\Enterprise\OutsideMTSScheduleEventsManager.cs" />
+    <Compile Include="Common\Managers\Enterprise\PlantManager.cs" />
+    <Compile Include="Common\Managers\Enterprise\ProcessRunSpanManager.cs" />
+    <Compile Include="Common\Managers\Enterprise\ProductionTransactionManager.cs" />
+    <Compile Include="Common\Managers\Enterprise\RackTagManager.cs" />
+    <Compile Include="Common\Managers\Enterprise\ServiceContextManager.cs" />
+    <Compile Include="Common\Managers\Enterprise\UdcItemManager.cs" />
+    <Compile Include="Common\Managers\Process\BusinessSystemTransferProcessor.cs" />
+    <Compile Include="Common\Managers\Process\HighWaterMarkInitManager.cs" />
+    <Compile Include="Common\Managers\Process\ItemXrefDownloadManager.cs" />
+    <Compile Include="Common\Managers\Process\MTSScheduleDownloadManager.cs" />
+    <Compile Include="Common\Managers\Process\OutsideMTSScheduleDownloadManager.cs" />
+    <Compile Include="Common\Managers\Process\OutsideRackAuditManager.cs" />
+    <Compile Include="Common\Managers\Process\OutsideRackDetailAuditManager.cs" />
+    <Compile Include="Common\Managers\Process\OutsideRackDetailDownloadManager.cs" />
+    <Compile Include="Common\Managers\Process\OutsideRackDownloadManager.cs" />
+    <Compile Include="Common\Managers\Process\OutsideRawTagsDownloadManager.cs" />
+    <Compile Include="Common\Managers\Process\OutsideWorkOrderDownloadManager.cs" />
+    <Compile Include="Common\Managers\Process\PlantDownloadManager.cs" />
+    <Compile Include="Common\Managers\Process\RackAssetTransactionUpload.cs" />
+    <Compile Include="Common\Managers\Process\RackAssetTypeDownloadManager.cs" />
+    <Compile Include="Common\Managers\Process\RackAssetXrefDownloadManager.cs" />
+    <Compile Include="Common\Managers\Process\RackAuditManager.cs" />
+    <Compile Include="Common\Managers\Process\RackDetailAuditManager.cs" />
+    <Compile Include="Common\Managers\Process\RackDetailDownloadManager.cs" />
+    <Compile Include="Common\Managers\Process\RackedScheduleUpdateManager.cs" />
+    <Compile Include="Common\Managers\Process\RackEventDownloadManager.cs" />
+    <Compile Include="Common\Managers\Enterprise\RackIdListManager.cs" />
+    <Compile Include="Common\Managers\Process\RackItemEventDownloadManager.cs" />
+    <Compile Include="Common\Managers\Enterprise\RackManager.cs" />
+    <Compile Include="Common\Managers\Enterprise\RackStatusCodeManager.cs" />
+    <Compile Include="Common\Managers\Enterprise\RackTagItemManager.cs" />
+    <Compile Include="Common\Managers\Enterprise\RackTypeKeyManager.cs" />
+    <Compile Include="Common\Managers\Enterprise\RelatedSalesOrderLineManager.cs" />
+    <Compile Include="Common\Managers\Enterprise\ScheduleEventManager.cs" />
+    <Compile Include="Common\Managers\Enterprise\ScheduleManager.cs" />
+    <Compile Include="Common\Managers\Enterprise\SqlBulkCopyManager.cs" />
+    <Compile Include="Common\Managers\Enterprise\SubscriptionManager.cs" />
+    <Compile Include="Common\Managers\Enterprise\WorkOrderManager.cs" />
+    <Compile Include="Common\Managers\Enterprise\WorkOrderStatusManager.cs" />
+    <Compile Include="Common\Managers\Process\AddressBookDownloadManager.cs" />
+    <Compile Include="Common\Managers\Process\ConfiguratorRuleDownloadManager.cs" />
+    <Compile Include="Common\Managers\Process\ConsumedStoceUploadManager.cs" />
+    <Compile Include="Common\Managers\Process\CustomerDownloadManager.cs" />
+    <Compile Include="Common\Managers\Process\CustPackUploadManager.cs" />
+    <Compile Include="Common\Managers\Process\EmployeeDownloadManager.cs" />
+    <Compile Include="Common\Managers\Process\GlassItemDownloadManager.cs" />
+    <Compile Include="Common\Managers\Process\HvCompletionUploadManager.cs" />
+    <Compile Include="Common\Managers\Process\HvIssueUploadManager.cs" />
+    <Compile Include="Common\Managers\Process\HvReceiptUploadManager.cs" />
+    <Compile Include="Common\Managers\Process\HvTrimUploadManager.cs" />
+    <Compile Include="Common\Managers\Process\HvWoIssueUploadManager.cs" />
+    <Compile Include="Common\Managers\Process\InventoryLocationDownloadManager.cs" />
+    <Compile Include="Common\Managers\Process\ItemDownloadManager.cs" />
+    <Compile Include="Common\Managers\Process\MachinePartUploadManager.cs" />
+    <Compile Include="Common\Managers\Process\PurchaseOrderDownloadManager.cs" />
+    <Compile Include="Common\Managers\Process\RackAssetDownloadManager.cs" />
+    <Compile Include="Common\Managers\Process\RackDownloadManager.cs" />
+    <Compile Include="Common\Managers\Process\RackItemDownloadManager.cs" />
+    <Compile Include="Common\Managers\Process\RackTransactionUploadManager.cs" />
+    <Compile Include="Common\Managers\Process\RackTypeDownloadManager.cs" />
+    <Compile Include="Common\Managers\Process\RawTagsAuditManager.cs" />
+    <Compile Include="Common\Managers\Process\RawTagsDownloadManager.cs" />
+    <Compile Include="Common\Managers\Process\RejectCodeDownloadManager.cs" />
+    <Compile Include="Common\Managers\Process\RelatedOrderDownloadManager.cs" />
+    <Compile Include="Common\Managers\Process\ScheduleBackoutUploadManager.cs" />
+    <Compile Include="Common\Managers\Process\ScheduleEventDownloadManager.cs" />
+    <Compile Include="Common\Managers\Process\SpecUnitMtoDownloadManager.cs" />
+    <Compile Include="Common\Managers\Process\SpecUnitMtsDownloadManager.cs" />
+    <Compile Include="Common\Managers\Process\SupplierDownloadManager.cs" />
+    <Compile Include="Common\Managers\Process\UdcItemDownloadManager.cs" />
+    <Compile Include="Common\Managers\Process\UdcTypeDownloadManager.cs" />
+    <Compile Include="Common\Managers\Process\UnitBusinessTransactionUploadManager.cs" />
+    <Compile Include="Common\Managers\Process\WoMgmtUploadManager.cs" />
+    <Compile Include="Common\Managers\Process\WorkOrderStatusDownloadManager.cs" />
+    <Compile Include="Common\Managers\ShopFloor\ConsumedStoceItemManager.cs" />
+    <Compile Include="Common\Managers\ShopFloor\CustPackItemManager.cs" />
+    <Compile Include="Common\Managers\Process\EdiMessageDownloadManager.cs" />
+    <Compile Include="Common\Managers\ShopFloor\MTSIncomingOrderManager.cs" />
+    <Compile Include="Common\Managers\ShopFloor\RackAssetTransactionItemManager.cs" />
+    <Compile Include="Common\Managers\ShopFloor\ScheduleEventLedgerManager.cs" />
+    <Compile Include="Common\Managers\ShopFloor\ShopFloorScheduleEventManager.cs" />
+    <Compile Include="Common\Managers\ShopFloor\UnitBusinessTransactionManager.cs" />
+    <Compile Include="Common\Types\E1\F3111.cs" />
+    <Compile Include="Common\Types\E1\F580200.cs" />
+    <Compile Include="Common\Types\Enterprise\MTSSchedule.cs" />
+    <Compile Include="Common\Types\Enterprise\MTSScheduleEvent.cs" />
+    <Compile Include="Common\Types\Enterprise\MTSScheduleLine.cs" />
+    <Compile Include="Common\Types\Enterprise\HVRackTagItem.cs" />
+    <Compile Include="Common\Types\Enterprise\SpecUnitDocument.cs" />
+    <Compile Include="Common\Types\Enterprise\SpecUnitItem.cs" />
+    <Compile Include="Common\Types\Enterprise\SubscriptionType.cs" />
+    <Compile Include="Common\Types\Enums\RackTag.cs" />
+    <Compile Include="Common\Types\Enums\Schedule.cs" />
+    <Compile Include="Common\Types\Response\ActionLink.cs" />
+    <Compile Include="Common\Managers\ShopFloor\HvCompletionItemManager.cs" />
+    <Compile Include="Common\Managers\ShopFloor\HvIssueItemManager.cs" />
+    <Compile Include="Common\Managers\ShopFloor\HvReceiptItemManager.cs" />
+    <Compile Include="Common\Managers\ShopFloor\HvTrimItemManager.cs" />
+    <Compile Include="Common\Managers\ShopFloor\HvWoIssueItemManager.cs" />
+    <Compile Include="Common\Managers\ShopFloor\MachinePartManager.cs" />
+    <Compile Include="Common\Managers\ShopFloor\RackTransactionItemManager.cs" />
+    <Compile Include="Common\Managers\ShopFloor\RawTagsDownloadManager.cs" />
+    <Compile Include="Common\Managers\ShopFloor\SalesAttributeDownloadManager.cs" />
+    <Compile Include="Common\Managers\ShopFloor\SalesLineDownloadManager.cs" />
+    <Compile Include="Common\Managers\ShopFloor\ScheduleDownloadManager.cs" />
+    <Compile Include="Common\Managers\ShopFloor\ScheduleStatusEventsManager.cs" />
+    <Compile Include="Common\Managers\Enterprise\SequenceManager.cs" />
+    <Compile Include="Common\Managers\Enterprise\TriggerManager.cs" />
+    <Compile Include="Common\Managers\ShopFloor\WoMgmtItemManager.cs" />
+    <Compile Include="Common\Managers\Process\WorkOrderDownloadManager.cs" />
+    <Compile Include="Common\Types\E1\BusinessSystemSession.cs" />
+    <Compile Include="Common\Types\E1\E1ScheduleData.cs" />
+    <Compile Include="Common\Types\E1\E1TimeIdSpan.cs" />
+    <Compile Include="Common\Types\E1\F3201.cs" />
+    <Compile Include="Common\Types\E1\F4715.cs" />
+    <Compile Include="Common\Types\E1\F580020.cs" />
+    <Compile Include="Common\Types\E1\F580021.cs" />
+    <Compile Include="Common\Types\E1\F580024.cs" />
+    <Compile Include="Common\Types\E1\F58002X.cs" />
+    <Compile Include="Common\Types\E1\F580030.cs" />
+    <Compile Include="Common\Types\E1\F580030A.cs" />
+    <Compile Include="Common\Types\E1\F580220.cs" />
+    <Compile Include="Common\Types\E1\F5834A01.cs" />
+    <Compile Include="Common\Types\E1\F5834A11.cs" />
+    <Compile Include="Common\Types\E1\F584715.cs" />
+    <Compile Include="Common\Types\E1\RawGlassItem.cs" />
+    <Compile Include="Common\Types\E1\ShopFloorControlTrigger.cs" />
+    <Compile Include="Common\Types\E1\SpeedRecvItem.cs" />
+    <Compile Include="Common\Types\Enterprise\AaiAccount.cs" />
+    <Compile Include="Common\Types\Enterprise\Address.cs" />
+    <Compile Include="Common\Types\Enterprise\AddressBookLocation.cs" />
+    <Compile Include="Common\Types\Enterprise\Asn.cs" />
+    <Compile Include="Common\Types\Enterprise\AsnLine.cs" />
+    <Compile Include="Common\Types\Enterprise\BaseItem.cs" />
+    <Compile Include="Common\Types\Enterprise\BatchInvoice.cs" />
+    <Compile Include="Common\Types\Enterprise\BatchJournalEntry.cs" />
+    <Compile Include="Common\Types\Enterprise\ConfiguratorRule.cs" />
+    <Compile Include="Common\Types\Enterprise\Crate.cs" />
+    <Compile Include="Common\Types\Enterprise\Customer.cs" />
+    <Compile Include="Common\Types\Enterprise\Dimension.cs" />
+    <Compile Include="Common\Types\Enterprise\DiscreteItemReference.cs" />
+    <Compile Include="Common\Types\Enterprise\EdiMessage.cs" />
+    <Compile Include="Common\Types\Enterprise\Employee.cs" />
+    <Compile Include="Common\Types\Enterprise\GlassItem.cs" />
+    <Compile Include="Common\Types\Enterprise\GlassType.cs" />
+    <Compile Include="Common\Types\Enterprise\InventoryLocation.cs" />
+    <Compile Include="Common\Types\Enterprise\Invoice.cs" />
+    <Compile Include="Common\Types\Enterprise\InvoiceBatch.cs" />
+    <Compile Include="Common\Types\Enterprise\InvoiceLine.cs" />
+    <Compile Include="Common\Types\Enterprise\Item.cs" />
+    <Compile Include="Common\Types\Enterprise\ItemAttribute.cs" />
+    <Compile Include="Common\Types\Enterprise\ItemAttributeCache.cs" />
+    <Compile Include="Common\Types\Enterprise\ItemComponent.cs" />
+    <Compile Include="Common\Types\Enterprise\ItemCostComponent.cs" />
+    <Compile Include="Common\Types\Enterprise\ItemRouting.cs" />
+    <Compile Include="Common\Types\Enterprise\JournalEntry.cs" />
+    <Compile Include="Common\Types\Enterprise\Lite.cs" />
+    <Compile Include="Common\Types\Enterprise\Logo.cs" />
+    <Compile Include="Common\Types\Enterprise\OrderId.cs" />
+    <Compile Include="Common\Types\Enterprise\Plant.cs" />
+    <Compile Include="Common\Types\Enterprise\ProcessRunSpan.cs" />
+    <Compile Include="Common\Types\Enterprise\ProductionTransaction.cs" />
+    <Compile Include="Common\Types\Enterprise\PurchaseOrder.cs" />
+    <Compile Include="Common\Types\Enterprise\PurchaseOrderLine.cs" />
+    <Compile Include="Common\Types\Enterprise\Rack.cs" />
+    <Compile Include="Common\Types\Enterprise\RackEvent.cs" />
+    <Compile Include="Common\Types\Enterprise\RackItem.cs" />
+    <Compile Include="Common\Types\Enterprise\RackStatusCode.cs" />
+    <Compile Include="Common\Types\Enterprise\RackTagItem.cs" />
+    <Compile Include="Common\Types\Enterprise\RackType.cs" />
+    <Compile Include="Common\Types\Enterprise\RejectCode.cs" />
+    <Compile Include="Common\Types\Enterprise\RelatedSalesOrderLine.cs" />
+    <Compile Include="Common\Types\Enterprise\Routing.cs" />
+    <Compile Include="Common\Types\Enterprise\Schedule.cs" />
+    <Compile Include="Common\Types\Enterprise\ScheduleEvent.cs" />
+    <Compile Include="Common\Types\Enterprise\ScheduleLine.cs" />
+    <Compile Include="Common\Types\Enterprise\Shape.cs" />
+    <Compile Include="Common\Types\Enterprise\SpecUnit.cs" />
+    <Compile Include="Common\Types\Enterprise\Supplier.cs" />
+    <Compile Include="Common\Types\Enterprise\Surface.cs" />
+    <Compile Include="Common\Types\Enterprise\UdcItem.cs" />
+    <Compile Include="Common\Types\Enterprise\UdcType.cs" />
+    <Compile Include="Common\Types\Enterprise\Uom.cs" />
+    <Compile Include="Common\Types\Enterprise\WorkOrder.cs" />
+    <Compile Include="Common\Types\Enterprise\WorkOrderComponent.cs" />
+    <Compile Include="Common\Types\Enterprise\WorkOrderStatus.cs" />
+    <Compile Include="Common\Types\Response\BusinessObject.cs" />
+    <Compile Include="Common\Types\Response\ConnectionStrings.cs" />
+    <Compile Include="Common\Types\Response\Error.cs" />
+    <Compile Include="Common\Types\Response\GenericGetResponse.cs" />
+    <Compile Include="Common\Types\Response\GenericListExtensions.cs" />
+    <Compile Include="Common\Types\Response\InvoiceBatchResponse.cs" />
+    <Compile Include="Common\Types\Response\Message.cs" />
+    <Compile Include="Common\Types\Response\ProcessResponse.cs" />
+    <Compile Include="Common\Types\Response\ProcessStep.cs" />
+    <Compile Include="Common\Types\Response\SerializedObject.cs" />
+    <Compile Include="Common\Types\Response\ServiceContext.cs" />
+    <Compile Include="Common\Types\Response\SqlBulkCopyResponse.cs" />
+    <Compile Include="Common\Types\Response\SqlDmlResponse.cs" />
+    <Compile Include="Common\Types\Response\ValidationError.cs" />
+    <Compile Include="Common\Types\ShopFloor\AddressBookItem.cs" />
+    <Compile Include="Common\Types\ShopFloor\AddressBookTable.cs" />
+    <Compile Include="Common\Types\ShopFloor\ConfiguratorRuleTable.cs" />
+    <Compile Include="Common\Types\ShopFloor\ConsumedStoceItem.cs" />
+    <Compile Include="Common\Types\ShopFloor\CustomerTable.cs" />
+    <Compile Include="Common\Types\ShopFloor\CustPackItem.cs" />
+    <Compile Include="Common\Types\ShopFloor\EdiMessageTable.cs" />
+    <Compile Include="Common\Types\ShopFloor\EmployeeTable.cs" />
+    <Compile Include="Common\Types\ShopFloor\GlassItemTable.cs" />
+    <Compile Include="Common\Types\ShopFloor\HighWaterMark.cs" />
+    <Compile Include="Common\Types\ShopFloor\HvCompletionItem.cs" />
+    <Compile Include="Common\Types\ShopFloor\HvIssueItem.cs" />
+    <Compile Include="Common\Types\ShopFloor\HVQueTable.cs" />
+    <Compile Include="Common\Types\ShopFloor\HvReceiptItem.cs" />
+    <Compile Include="Common\Types\ShopFloor\HvTrimItem.cs" />
+    <Compile Include="Common\Types\ShopFloor\HvWoIssueItem.cs" />
+    <Compile Include="Common\Types\ShopFloor\InventoryLocationTable.cs" />
+    <Compile Include="Common\Types\ShopFloor\ItemTable.cs" />
+    <Compile Include="Common\Types\ShopFloor\ItemXrefTable.cs" />
+    <Compile Include="Common\Types\ShopFloor\MachinePartConsumedItem.cs" />
+    <Compile Include="Common\Types\ShopFloor\MTSIncomingOrderLine.cs" />
+    <Compile Include="Common\Types\ShopFloor\PlantTable.cs" />
+    <Compile Include="Common\Types\ShopFloor\ProcessingStatus.cs" />
+    <Compile Include="Common\Types\ShopFloor\PurchaseOrderTable.cs" />
+    <Compile Include="Common\Types\ShopFloor\RackAssetTable.cs" />
+    <Compile Include="Common\Types\ShopFloor\RackAssetTransactionItem.cs" />
+    <Compile Include="Common\Types\ShopFloor\RackAssetTypeTable.cs" />
+    <Compile Include="Common\Types\ShopFloor\RackAssetXrefTable.cs" />
+    <Compile Include="Common\Types\ShopFloor\RackDetailTable.cs" />
+    <Compile Include="Common\Types\ShopFloor\RackEventTable.cs" />
+    <Compile Include="Common\Types\ShopFloor\RackItemEventTable.cs" />
+    <Compile Include="Common\Types\ShopFloor\RackItemTable.cs" />
+    <Compile Include="Common\Types\ShopFloor\RackLedgerItem.cs" />
+    <Compile Include="Common\Types\ShopFloor\RackTable.cs" />
+    <Compile Include="Common\Types\ShopFloor\RackTransactionItem.cs" />
+    <Compile Include="Common\Types\ShopFloor\RackTypeTable.cs" />
+    <Compile Include="Common\Types\ShopFloor\RawTagsTable.cs" />
+    <Compile Include="Common\Types\ShopFloor\RejectCodeTable.cs" />
+    <Compile Include="Common\Types\ShopFloor\RelatedOrderTable.cs" />
+    <Compile Include="Common\Types\ShopFloor\SalesAttributeTable.cs" />
+    <Compile Include="Common\Types\ShopFloor\SalesLineTable.cs" />
+    <Compile Include="Common\Types\ShopFloor\ScheduleLineTable.cs" />
+    <Compile Include="Common\Types\ShopFloor\ScheduleTable.cs" />
+    <Compile Include="Common\Types\ShopFloor\ShopFloorRawGlassItem.cs" />
+    <Compile Include="Common\Types\ShopFloor\SpecUnitDocumentTable.cs" />
+    <Compile Include="Common\Types\ShopFloor\SpecUnitTable.cs" />
+    <Compile Include="Common\Types\ShopFloor\SupplierTable.cs" />
+    <Compile Include="Common\Types\ShopFloor\Trigger.cs" />
+    <Compile Include="Common\Types\ShopFloor\UdcItemTable.cs" />
+    <Compile Include="Common\Types\ShopFloor\UdcTypeTable.cs" />
+    <Compile Include="Common\Types\ShopFloor\UnitBusinessTransaction.cs" />
+    <Compile Include="Common\Types\ShopFloor\WoMgmtItem.cs" />
+    <Compile Include="Common\Types\ShopFloor\WorkOrderStatusTable.cs" />
+    <Compile Include="Common\Types\ShopFloor\WorkOrderTable.cs" />
+    <Compile Include="Common\Utilities\CastDbNull.cs" />
+    <Compile Include="Common\Utilities\CastIsNullEmpty.cs" />
+    <Compile Include="Common\Utilities\CollectionUtils.cs" />
+    <Compile Include="Common\Utilities\Common.cs" />
+    <Compile Include="Common\Utilities\Data.cs" />
+    <Compile Include="Common\Utilities\E1DateParms.cs" />
+    <Compile Include="Common\Utilities\E1TimeSpan.cs" />
+    <Compile Include="Common\Utilities\EnumValidator.cs" />
+    <Compile Include="Common\Utilities\InExtension.cs" />
+    <Compile Include="Common\Utilities\Logging.cs" />
+    <Compile Include="Common\Utilities\Mail.cs" />
+    <Compile Include="Common\Utilities\Sql.cs" />
+    <Compile Include="Common\Utilities\Timestamp.cs" />
+    <Compile Include="Common\Utilities\XMLSerializationUtility.cs" />
+    <Compile Include="Common\Utilities\XsltManager.cs" />
+    <Compile Include="ItemSvc\IItemService.cs" />
+    <Compile Include="ItemSvc\ItemProcessor.cs" />
+    <Compile Include="ItemSvc\ItemService.cs" />
+    <Compile Include="ItemSvc\MachinePartProcessor.cs" />
+    <Compile Include="OrderSvc\IOrderService.cs" />
+    <Compile Include="OrderSvc\OrderProcessor.cs" />
+    <Compile Include="OrderSvc\OrderService.cs" />
+    <Compile Include="ProductionSvc\IProductionService.cs" />
+    <Compile Include="ProductionSvc\ProductionProcessor.cs" />
+    <Compile Include="ProductionSvc\ProductionService.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RackSvc\IRackService.cs" />
+    <Compile Include="RackSvc\OutsideRackProcessor.cs" />
+    <Compile Include="RackSvc\RackService.cs" />
+    <Compile Include="RackSvc\RackProcessor.cs" />
+    <Compile Include="RackTagSvc\IRackTagService.cs" />
+    <Compile Include="RackTagSvc\RackTagProcessor.cs" />
+    <Compile Include="RackTagSvc\RackTagService.cs" />
+    <Compile Include="ReferenceSvc\IReferenceService.cs" />
+    <Compile Include="ReferenceSvc\ReferenceProcessor.cs" />
+    <Compile Include="ReferenceSvc\ReferenceService.cs" />
+    <Compile Include="ScheduleSvc\IScheduleService.cs" />
+    <Compile Include="ScheduleSvc\MTSScheduleProcessor.cs" />
+    <Compile Include="ScheduleSvc\OutsideMTSScheduleProcessor.cs" />
+    <Compile Include="ScheduleSvc\ScheduleProcessor.cs" />
+    <Compile Include="ScheduleSvc\ScheduleService.cs" />
+    <Compile Include="SubscriptionSvc\ISubscriptionService.cs" />
+    <Compile Include="SubscriptionSvc\SubscriptionProcessor.cs" />
+    <Compile Include="SubscriptionSvc\SubscriptionService.cs" />
+    <Compile Include="WOStatusSvc\IWorkOrderStatusService.cs" />
+    <Compile Include="WOStatusSvc\PendingUpdatesResult.cs" />
+    <Compile Include="WOStatusSvc\PendingUpdatesResults.cs" />
+    <Compile Include="WOStatusSvc\PlantOperationResponse.cs" />
+    <Compile Include="WOStatusSvc\PlantOperationResponses.cs" />
+    <Compile Include="WOStatusSvc\WorkOrderStatusProcessor.cs" />
+    <Compile Include="WOStatusSvc\WOStatusSvc.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Common\Xslt\ConsumedStoceUploadReport.xslt">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Common\Xslt\CustPackUploadReport.xslt">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Common\Xslt\HvCompletionUploadReport.xslt">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Common\Xslt\HvIssueUploadReport.xslt" />
+    <EmbeddedResource Include="Common\Xslt\HvReceiptUploadReport.xslt" />
+    <EmbeddedResource Include="Common\Xslt\HvTrimUploadReport.xslt" />
+    <EmbeddedResource Include="Common\Xslt\HvWoIssueUploadReport.xslt" />
+    <EmbeddedResource Include="Common\Xslt\RackTransactionUploadReport.xslt" />
+    <EmbeddedResource Include="Common\Xslt\ScheduleDownloadReport.xslt">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Common\Xslt\WoMgmtUploadReport.xslt" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+    <EmbeddedResource Include="Common\Xslt\MachinePartUploadReport.xslt" />
+    <EmbeddedResource Include="Common\Xslt\MTSScheduleDownloadResponseBody.xslt">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Common\Xslt\RackAssetTransactionUploadReport.xslt" />
+    <EmbeddedResource Include="Common\Xslt\OutsideMTSScheduleDownloadResponseBody.xslt" />
+    <EmbeddedResource Include="Common\Xslt\HighWaterMarkInitReport.xslt" />
+    <EmbeddedResource Include="Common\Xslt\ScheduleBackoutReport.xslt" />
+    <EmbeddedResource Include="Common\Xslt\OutsideMTSScheduleResetResponseBody.xslt" />
+    <EmbeddedResource Include="Common\Xslt\RackAuditReport.xslt">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Common\Xslt\RackDetailAuditReport.xslt">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Common\Xslt\RawTagsAuditReport.xslt" />
+    <Content Include="NLog.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform">
+      <Version>2.0.1</Version>
+    </PackageReference>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>12.0.3</Version>
+    </PackageReference>
+    <PackageReference Include="NLog.Config">
+      <Version>4.6.8</Version>
+    </PackageReference>
+    <PackageReference Include="NLog.Schema">
+      <Version>4.6.8</Version>
+    </PackageReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{3D9AD99F-2412-4246-B90B-4EAA41C64699}">
+        <WcfProjectProperties>
+          <AutoStart>True</AutoStart>
+        </WcfProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
