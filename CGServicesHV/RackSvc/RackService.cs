@@ -746,7 +746,7 @@ namespace CGServicesHV.RackSvc
                     {"RackId", rackId},
                     {"StatusCodes", statusCodes?.Split(',').ToList()}
                 };
-                var resources = new List<string> { "PLANT.SHOPFLOOR", "PLANT.INTEGRATION", "E1.HA" };
+                var resources = new List<string> { "PLANT.SHOPFLOOR", "PLANT.INTEGRATION", "E1.PD" };
                 BusinessSystemTransferProcessor.Invoke(plants, OutsideRackProcessor.DownloadOutsideRawTags, parallel, parms, resources);
                 return BusinessSystemTransferProcessor.Invoke(plants, RackProcessor.DownloadRawTags, parallel, parms, resources);
             }
@@ -771,7 +771,7 @@ namespace CGServicesHV.RackSvc
                     {"RackId", rackId},
                     {"StatusCodes", statusCodes?.Split(',').ToList()}
                 };
-                var resources = new List<string> { "PLANT.SHOPFLOOR", "PLANT.INTEGRATION", "E1.HA" };
+                var resources = new List<string> { "PLANT.SHOPFLOOR", "PLANT.INTEGRATION", "E1.PD" };
                 return BusinessSystemTransferProcessor.Invoke(plants, OutsideRackProcessor.DownloadOutsideRawTags, parallel, parms, resources);
             }
             catch (Exception e)
