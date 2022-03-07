@@ -71,18 +71,29 @@ namespace CGServicesHV.Common.Managers.Process
                 var step2 = new ProcessStep("Get Source Data");
                 try
                 {
-                    if (statusCodes.Any())
-                    {
-                        var reader = GetWorkOrder(session, processRunSpan, plant.PlantNum, workOrderNum, statusCodes);
-                        table.AddLedger(reader, plant);
-                    }
-                    else
+                    if (useHighWaterMark)
                     {
                         var reader = GetWorkOrderLedger(session, processRunSpan, plant.PlantNum, workOrderNum);
                         table.AddLedger(reader, plant);
                     }
-
+                    else
+                    {
+                        var reader = GetWorkOrder(session, processRunSpan, plant.PlantNum, workOrderNum, statusCodes);
+                        table.AddLedger(reader, plant);
+                    }
                     step2.RowsAffected = table.Rows.Count;
+
+                    //if (statusCodes.Any())
+                    //{
+                    //    var reader = GetWorkOrder(session, processRunSpan, plant.PlantNum, workOrderNum, statusCodes);
+                    //    table.AddLedger(reader, plant);
+                    //}
+                    //else
+                    //{
+                    //    var reader = GetWorkOrderLedger(session, processRunSpan, plant.PlantNum, workOrderNum);
+                    //    table.AddLedger(reader, plant);
+                    //}
+                    //step2.RowsAffected = table.Rows.Count;
                 }
                 catch (Exception e)
                 {
