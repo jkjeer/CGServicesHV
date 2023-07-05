@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Linq;
 using System.Text;
 using CGServicesHV.Common.Types.Response;
 using NLog;
+using static CGServicesHV.Common.Utilities.Sql;
 
 namespace CGServicesHV.Common.Utilities
 {
@@ -49,6 +51,72 @@ namespace CGServicesHV.Common.Utilities
                 throw new ApplicationException(cn.ConnectionString + "  " + e.Message + ": " + e.StackTrace);
             }
             return responses;
+        }
+
+        public class SqlFilters : List<SqlFilter>
+        {
+            public override string ToString()
+            {
+                var filterString = new StringBuilder();
+                if (this.Count == 0)
+                {
+                    filterString.Append("1=1");
+                }
+                else
+                {
+                    foreach (SqlFilter filter in this)
+                    {
+                        if (filter == this.Last())
+                        {
+                            filterString.Append($"{filter.Text}");
+                        }
+                        else
+                        {
+                            filterString.Append($"{filter.Text} {filter.Operator} ");
+                        }
+                    }
+                }
+                return filterString.ToString();
+            }
+
+            public string ToEnclosedString()
+            {
+                var filterString = new StringBuilder();
+                filterString.Append("(");
+                foreach (SqlFilter filter in this)
+                {
+                    if (filter == this.Last())
+                    {
+                        filterString.Append($"{filter.Text}");
+                    }
+                    else
+                    {
+                        filterString.Append($"{filter.Text} {filter.Operator} ");
+                    }
+                }
+                filterString.Append(")");
+                return filterString.ToString();
+            }
+        }
+
+        public class SqlFilter
+        {
+            public SqlFilter(string text, string operation)
+            {
+                Text = text;
+                Operator = operation;
+            }
+
+            public string Text { get; set; }
+            public string Operator { get; set; }
+        }
+
+        public static string GetSqlFilterTokens(int count)
+        {
+            var sb = new StringBuilder();
+            sb.Insert(0, "?,", count - 1);
+            sb.Append("?");
+            return sb.ToString();
         }
     }
 }

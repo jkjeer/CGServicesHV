@@ -5,6 +5,7 @@ using System.Linq;
 using CGServicesHV.Common.Managers.Process;
 using CGServicesHV.Common.Types.Enterprise;
 using CGServicesHV.Common.Types.Response;
+using CGServicesHV.RackTagSvc;
 using SoaCore.Wcf;
 
 namespace CGServicesHV.RackSvc
@@ -12,6 +13,26 @@ namespace CGServicesHV.RackSvc
     [ParameterInspectorLogger, CGIErrorHandler]
     public class RackService : IRackService
     {
+        public RackLoadItems GetFloatRackLoadItems(string plantCode)
+        {
+            if (string.IsNullOrEmpty(plantCode))
+            {
+                throw new Exception("Plant Code is REQUIRED.");
+            }
+            var processor = new RackProcessor();
+            return processor.GetFloatRackLoadItems(plantCode);
+        }
+
+        public DataTable GetFloatRackLoadItemsDataTable(string plantCode)
+        {
+            if (string.IsNullOrEmpty(plantCode))
+            {
+                throw new Exception("Plant Code is REQUIRED.");
+            }
+            var processor = new RackProcessor();
+            return processor.GetFloatRackLoadItems(plantCode).GetDataTable(); ;
+        }
+
         public ProcessResponse DownloadRackEvents(string plants, TimeSpan timeSpan, bool useHighWaterMark, bool parallel, decimal rackId = 0, string statusCodes = null)
         {
             if (string.IsNullOrEmpty(plants))
@@ -85,6 +106,28 @@ namespace CGServicesHV.RackSvc
             }
         }
 
+        public ProcessResponse DownloadRacksArchive(string plants, TimeSpan timeSpan, bool useHighWaterMark, bool parallel, decimal rackId = 0, string statusCodes = null)
+        {
+            if (string.IsNullOrEmpty(plants))
+            {
+                throw new Exception("Plant Code is REQUIRED.");
+            }
+            try
+            {
+                var parms = new Dictionary<string, object>();
+                parms.Add("TimeSpan", timeSpan);
+                parms.Add("HighWaterMark", useHighWaterMark);
+                parms.Add("RackId", rackId);
+                parms.Add("StatusCodes", statusCodes?.Split(',').ToList());
+                var resources = new List<string> { "PLANT.SHOPFLOOR", "PLANT.INTEGRATION" };
+                return BusinessSystemTransferProcessor.Invoke(plants, RackProcessor.DownloadRacksArchive, parallel, parms, resources);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.ToString());
+            }
+        }
+
         public ProcessResponse DownloadOutsideRacks(string plants, TimeSpan timeSpan, bool useHighWaterMark, bool parallel, decimal rackId = 0, string statusCodes = null)
         {
             if (string.IsNullOrEmpty(plants))
@@ -125,6 +168,28 @@ namespace CGServicesHV.RackSvc
                 var resources = new List<string> { "PLANT.SHOPFLOOR", "PLANT.INTEGRATION", "E1.PD" };
                 //BusinessSystemTransferProcessor.Invoke(plants, OutsideRackProcessor.DownloadOutsideRackDetails, parallel, parms, resources);
                 return BusinessSystemTransferProcessor.Invoke(plants, RackProcessor.DownloadRackDetails, parallel, parms, resources);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.ToString());
+            }
+        }
+
+        public ProcessResponse DownloadRackDetailsArchive(string plants, TimeSpan timeSpan, bool useHighWaterMark, bool parallel, decimal rackId = 0, string statusCodes = null)
+        {
+            if (string.IsNullOrEmpty(plants))
+            {
+                throw new Exception("Plant Code is REQUIRED.");
+            }
+            try
+            {
+                var parms = new Dictionary<string, object>();
+                parms.Add("TimeSpan", timeSpan);
+                parms.Add("HighWaterMark", useHighWaterMark);
+                parms.Add("RackId", rackId);
+                parms.Add("StatusCodes", statusCodes?.Split(',').ToList());
+                var resources = new List<string> { "PLANT.SHOPFLOOR", "PLANT.INTEGRATION" };
+                return BusinessSystemTransferProcessor.Invoke(plants, RackProcessor.DownloadRackDetailsArchive, parallel, parms, resources);
             }
             catch (Exception e)
             {
@@ -420,6 +485,26 @@ namespace CGServicesHV.RackSvc
     [ParameterInspectorLogger, CGIErrorHandler]
     public class RackRestService : IRackRestService
     {
+        public RackLoadItems GetFloatRackLoadItems(string plantCode)
+        {
+            if (string.IsNullOrEmpty(plantCode))
+            {
+                throw new Exception("Plant Code is REQUIRED.");
+            }
+            var processor = new RackProcessor();
+            return processor.GetFloatRackLoadItems(plantCode);
+        }
+
+        public DataTable GetFloatRackLoadItemsDataTable(string plantCode)
+        {
+            if (string.IsNullOrEmpty(plantCode))
+            {
+                throw new Exception("Plant Code is REQUIRED.");
+            }
+            var processor = new RackProcessor();
+            return processor.GetFloatRackLoadItems(plantCode).GetDataTable(); ;
+        }
+
         public ProcessResponse DownloadRackEvents(string plants, TimeSpan timeSpan, bool useHighWaterMark, bool parallel, decimal rackId = 0, string statusCodes = null)
         {
             if (string.IsNullOrEmpty(plants))
@@ -493,6 +578,28 @@ namespace CGServicesHV.RackSvc
             }
         }
 
+        public ProcessResponse DownloadRacksArchive(string plants, TimeSpan timeSpan, bool useHighWaterMark, bool parallel, decimal rackId = 0, string statusCodes = null)
+        {
+            if (string.IsNullOrEmpty(plants))
+            {
+                throw new Exception("Plant Code is REQUIRED.");
+            }
+            try
+            {
+                var parms = new Dictionary<string, object>();
+                parms.Add("TimeSpan", timeSpan);
+                parms.Add("HighWaterMark", useHighWaterMark);
+                parms.Add("RackId", rackId);
+                parms.Add("StatusCodes", statusCodes?.Split(',').ToList());
+                var resources = new List<string> { "PLANT.SHOPFLOOR", "PLANT.INTEGRATION" };
+                return BusinessSystemTransferProcessor.Invoke(plants, RackProcessor.DownloadRacksArchive, parallel, parms, resources);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.ToString());
+            }
+        }
+
         public ProcessResponse DownloadOutsideRacks(string plants, TimeSpan timeSpan, bool useHighWaterMark, bool parallel, decimal rackId = 0, string statusCodes = null)
         {
             if (string.IsNullOrEmpty(plants))
@@ -533,6 +640,28 @@ namespace CGServicesHV.RackSvc
                 var resources = new List<string> { "PLANT.SHOPFLOOR", "PLANT.INTEGRATION", "E1.PD" };
                 //BusinessSystemTransferProcessor.Invoke(plants, OutsideRackProcessor.DownloadOutsideRackDetails, parallel, parms, resources);
                 return BusinessSystemTransferProcessor.Invoke(plants, RackProcessor.DownloadRackDetails, parallel, parms, resources);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.ToString());
+            }
+        }
+
+        public ProcessResponse DownloadRackDetailsArchive(string plants, TimeSpan timeSpan, bool useHighWaterMark, bool parallel, decimal rackId = 0, string statusCodes = null)
+        {
+            if (string.IsNullOrEmpty(plants))
+            {
+                throw new Exception("Plant Code is REQUIRED.");
+            }
+            try
+            {
+                var parms = new Dictionary<string, object>();
+                parms.Add("TimeSpan", timeSpan);
+                parms.Add("HighWaterMark", useHighWaterMark);
+                parms.Add("RackId", rackId);
+                parms.Add("StatusCodes", statusCodes?.Split(',').ToList());
+                var resources = new List<string> { "PLANT.SHOPFLOOR", "PLANT.INTEGRATION" };
+                return BusinessSystemTransferProcessor.Invoke(plants, RackProcessor.DownloadRackDetailsArchive, parallel, parms, resources);
             }
             catch (Exception e)
             {

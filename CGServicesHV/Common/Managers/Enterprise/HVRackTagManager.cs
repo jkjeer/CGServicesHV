@@ -274,7 +274,7 @@ namespace CGServicesHV.Common.Managers.Enterprise
                         rackTag.TotalRackWeightLbs = rackTag.TotalGlassWeightLbs + rackTag.RackTareWeightLbs;
                         rackTag.TotalWeightLbs = rackTag.TotalGlassWeightLbs;
 
-                        if (!rackTag.E1ItemNumber.Equals(rackTag.OriginalE1ItemNumber)) // ReClass
+                        if (!rackTag.E1ItemNumber.Equals(rackTagSFMfg.E1ItemNumber)) // ReClass
                         {
                             var f4102Mgr = new F4102Manager(e1Session);
                             var custNameManager = new CustomerNameManager(e1Session);
@@ -507,7 +507,7 @@ namespace CGServicesHV.Common.Managers.Enterprise
             {
                 rackTagE1Mfg.Customer = !string.IsNullOrEmpty(rackTagE1Mfg.Customer) ? rackTagE1Mfg.Customer : rawTag.Customer;
                 rackTagE1Mfg.PackingTinInTinOut = !string.IsNullOrEmpty(rackTagE1Mfg.PackingTinInTinOut) ? rackTagE1Mfg.PackingTinInTinOut : rawTag.PackingTinInTinOut;
-                rackTagE1Mfg.OriginalE1ItemNumber = rackTagE1Mfg.E1ItemNumber;
+                //rackTagE1Mfg.OriginalE1ItemNumber = rackTagE1Mfg.E1ItemNumber;
 
                 rackTagE1Mfg.E1ItemNumber = !string.IsNullOrEmpty(rawTag.E1ItemNumber) ? rawTag.E1ItemNumber : rackTagE1Mfg.E1ItemNumber;
 
@@ -515,6 +515,10 @@ namespace CGServicesHV.Common.Managers.Enterprise
                 rackTagE1Mfg.GlassHeatTreatment = rawTag.GlassHeatTreatment; //!string.IsNullOrEmpty(rackTagE1Mfg.GlassHeatTreatment) ? rackTagE1Mfg.GlassHeatTreatment : rawTag.GlassHeatTreatment;
                 rackTagE1Mfg.FirstSurfaceCoat = rawTag.FirstSurfaceCoat; //!string.IsNullOrEmpty(rackTagE1Mfg.FirstSurfaceCoat) ? rackTagE1Mfg.FirstSurfaceCoat : rawTag.FirstSurfaceCoat;
                 rackTagE1Mfg.SecondSurfaceCoat = rawTag.SecondSurfaceCoat; //!string.IsNullOrEmpty(rackTagE1Mfg.SecondSurfaceCoat) ? rackTagE1Mfg.SecondSurfaceCoat : rawTag.SecondSurfaceCoat;
+
+                rackTagE1Mfg.SecondSurfaceCoatDesc1 = rawTag.SecondSurfaceCoatDesc1; //!string.IsNullOrEmpty(rackTagE1Mfg.SecondSurfaceCoatDesc1) ? rackTagE1Mfg.SecondSurfaceCoatDesc1 : rawTag.SecondSurfaceCoatDesc1;
+                rackTagE1Mfg.TradeMarkInfoToPrint = rawTag.TradeMarkInfoToPrint; //!string.IsNullOrEmpty(rackTagE1Mfg.TradeMarkInfoToPrint) ? rackTagE1Mfg.TradeMarkInfoToPrint : rawTag.TradeMarkInfoToPrint;
+
                 rackTagE1Mfg.Dimensions = !string.IsNullOrEmpty(rackTagE1Mfg.Dimensions) ? rackTagE1Mfg.Dimensions : rawTag.Dimensions;
                 rackTagE1Mfg.DimensionsMetric = !string.IsNullOrEmpty(rackTagE1Mfg.DimensionsMetric) ? rackTagE1Mfg.DimensionsMetric : rawTag.DimensionsMetric;
                 rackTagE1Mfg.Quantity = (rackTagE1Mfg.Quantity > 0) ? rackTagE1Mfg.Quantity : rawTag.Quantity;
@@ -586,11 +590,15 @@ namespace CGServicesHV.Common.Managers.Enterprise
                 rackTagE1Mfg.PackingTinInTinOut = !string.IsNullOrEmpty(rackTagE1Mfg.PackingTinInTinOut) ? rackTagE1Mfg.PackingTinInTinOut : rackTagSFMfg.PackingTinInTinOut;
 
                 //rackTagE1Mfg.E1ItemNumber = !string.IsNullOrEmpty(rackTagE1Mfg.E1ItemNumber) ? rackTagE1Mfg.E1ItemNumber : rackTagSFMfg.E1ItemNumber;
+                rackTagE1Mfg.OriginalE1ItemNumber = rackTagSFMfg.E1ItemNumber;
 
                 rackTagE1Mfg.GlassThickness = (rackTagE1Mfg.GlassThickness > 0) ? rackTagE1Mfg.GlassThickness : rackTagSFMfg.GlassThickness;
                 rackTagE1Mfg.GlassHeatTreatment = !string.IsNullOrEmpty(rackTagE1Mfg.GlassHeatTreatment) ? rackTagE1Mfg.GlassHeatTreatment : rackTagSFMfg.GlassHeatTreatment;
-                //rackTagE1Mfg.FirstSurfaceCoat = !string.IsNullOrEmpty(rackTagE1Mfg.FirstSurfaceCoat) ? rackTagE1Mfg.FirstSurfaceCoat : rackTagSFMfg.FirstSurfaceCoat;
-                //rackTagE1Mfg.SecondSurfaceCoat = !string.IsNullOrEmpty(rackTagE1Mfg.SecondSurfaceCoat) ? rackTagE1Mfg.SecondSurfaceCoat : rackTagSFMfg.SecondSurfaceCoat;
+                rackTagE1Mfg.FirstSurfaceCoat = !string.IsNullOrEmpty(rackTagE1Mfg.FirstSurfaceCoat) ? rackTagE1Mfg.FirstSurfaceCoat : rackTagSFMfg.FirstSurfaceCoat;
+                rackTagE1Mfg.SecondSurfaceCoat = !string.IsNullOrEmpty(rackTagE1Mfg.SecondSurfaceCoat) ? rackTagE1Mfg.SecondSurfaceCoat : rackTagSFMfg.SecondSurfaceCoat;
+                rackTagE1Mfg.SecondSurfaceCoatDesc1 = !string.IsNullOrEmpty(rackTagE1Mfg.SecondSurfaceCoatDesc1) ? rackTagE1Mfg.SecondSurfaceCoatDesc1 : rackTagSFMfg.SecondSurfaceCoatDesc1;
+                rackTagE1Mfg.TradeMarkInfoToPrint = !string.IsNullOrEmpty(rackTagE1Mfg.TradeMarkInfoToPrint) ? rackTagE1Mfg.TradeMarkInfoToPrint : rackTagSFMfg.TradeMarkInfoToPrint;
+
                 rackTagE1Mfg.Dimensions = !string.IsNullOrEmpty(rackTagE1Mfg.Dimensions) ? rackTagE1Mfg.Dimensions : rackTagSFMfg.Dimensions;
                 rackTagE1Mfg.DimensionsMetric = !string.IsNullOrEmpty(rackTagE1Mfg.DimensionsMetric) ? rackTagE1Mfg.DimensionsMetric : rackTagSFMfg.DimensionsMetric;
                 //rackTagE1Mfg.Quantity = (rackTagE1Mfg.Quantity > 0) ? rackTagE1Mfg.Quantity : rackTagSFMfg.Quantity;
@@ -917,6 +925,10 @@ namespace CGServicesHV.Common.Managers.Enterprise
                          , ISNULL(CTE.Lite1_HeatTreatment, '') AS GlassHeatTreatment
                          , ISNULL(CTE.Lite1_1stSrfCoat, '') AS FirstSurfaceCoat
                          , ISNULL(CTE.Lite1_2ndSrfCoat, '') AS SecondSurfaceCoat
+                        ,ISNULL(dbo.fnGetAttrDescriptionOne('57', 'CT', CTE.Lite1_2ndSrfCoat),'') AS SecondSurfaceCoatDesc1
+                        ,CASE WHEN LEFT(CTE.Lite1_2ndSrfCoat,2) = 'CS' THEN
+						LEFT(ISNULL(dbo.fnGetAttrDescriptionOne('57', 'CT', CTE.Lite1_2ndSrfCoat),''),CHARINDEX(' ',ISNULL(dbo.fnGetAttrDescriptionOne('57', 'CT', CTE.Lite1_2ndSrfCoat),''),9)) + CHAR(0174) + ' ' + SUBSTRING(ISNULL(dbo.fnGetAttrDescriptionOne('57', 'CT', CTE.Lite1_2ndSrfCoat),''),CHARINDEX(' ',ISNULL(dbo.fnGetAttrDescriptionOne('57', 'CT', CTE.Lite1_2ndSrfCoat),''),9)+1,2)
+						ELSE '' END AS TradeMarkInfoToPrint
                          , ISNULL(CTE.Dimensions, '') AS Dimensions
                          , ISNULL(CAST(CASE WHEN ISNULL(CTE.LeftMM, 0) = 0 THEN CTE.RightMM
                                             ELSE CTE.LeftMM
@@ -1093,6 +1105,10 @@ namespace CGServicesHV.Common.Managers.Enterprise
                         rackTag.GlassHeatTreatment = CastDbNull.To(reader["GlassHeatTreatment"], string.Empty).Trim();
                         rackTag.FirstSurfaceCoat = CastDbNull.To(reader["FirstSurfaceCoat"], string.Empty).Trim();
                         rackTag.SecondSurfaceCoat = CastDbNull.To(reader["SecondSurfaceCoat"], string.Empty).Trim();
+
+                        rackTag.SecondSurfaceCoatDesc1 = CastDbNull.To(reader["SecondSurfaceCoatDesc1"], string.Empty).Trim();
+                        rackTag.TradeMarkInfoToPrint = CastDbNull.To(reader["TradeMarkInfoToPrint"], string.Empty).Trim();
+
                         rackTag.Dimensions = CastDbNull.To(reader["Dimensions"], string.Empty).Trim();
                         rackTag.DimensionsMetric = CastDbNull.To(reader["DimensionsMetric"], string.Empty).Trim();
                         rackTag.CurrentQuantity = CastDbNull.To<decimal>(reader["Quantity"], 0);
@@ -1366,6 +1382,10 @@ namespace CGServicesHV.Common.Managers.Enterprise
                         rackTag.GlassHeatTreatment = CastDbNull.To(reader["GlassHeatTreatment"], string.Empty).Trim();
                         rackTag.FirstSurfaceCoat = CastDbNull.To(reader["FirstSurfaceCoat"], string.Empty).Trim();
                         rackTag.SecondSurfaceCoat = CastDbNull.To(reader["SecondSurfaceCoat"], string.Empty).Trim();
+
+                        rackTag.SecondSurfaceCoatDesc1 = CastDbNull.To(reader["SecondSurfaceCoatDesc1"], string.Empty).Trim();
+                        rackTag.TradeMarkInfoToPrint = CastDbNull.To(reader["TradeMarkInfoToPrint"], string.Empty).Trim();
+
                         rackTag.Dimensions = CastDbNull.To(reader["Dimensions"], string.Empty).Trim();
                         rackTag.DimensionsMetric = CastDbNull.To(reader["DimensionsMetric"], string.Empty).Trim();
                         rackTag.Quantity = CastDbNull.To<decimal>(reader["Quantity"], 0);
@@ -1461,6 +1481,10 @@ namespace CGServicesHV.Common.Managers.Enterprise
                           ,v.[GlassHeatTreatment]
                           ,v.[FirstSurfaceCoat]
                           ,v.[SecondSurfaceCoat]
+                        ,ISNULL(dbo.fnGetAttrDescriptionOne('57', 'CT', v.[SecondSurfaceCoat]),'') AS SecondSurfaceCoatDesc1
+                        ,CASE WHEN LEFT(v.[SecondSurfaceCoat],2) = 'CS' THEN 
+                        LEFT(ISNULL(dbo.fnGetAttrDescriptionOne('57', 'CT', v.[SecondSurfaceCoat]),''),CHARINDEX(' ',ISNULL(dbo.fnGetAttrDescriptionOne('57', 'CT', v.[SecondSurfaceCoat]),''),9)) + char(0174) + ' ' + SUBSTRING(ISNULL(dbo.fnGetAttrDescriptionOne('57', 'CT', v.[SecondSurfaceCoat]),''),CHARINDEX(' ',ISNULL(dbo.fnGetAttrDescriptionOne('57', 'CT', v.[SecondSurfaceCoat]),''),9)+1,2) 
+						ELSE '' END AS TradeMarkInfoToPrint
                           ,v.[Dimensions]
                           ,v.[DimensionsMetric]
                           ,v.[Quantity]
@@ -2248,15 +2272,26 @@ namespace CGServicesHV.Common.Managers.Enterprise
                             RHZ58RID,
 		                    RDLOT1,
                             RDZ58SN,
+							RDMCU,
                             RHMCU,
+							RHZ58RT,
 		                    HLMCU,
-                            ROW_NUMBER() OVER ( PARTITION BY HLZ58RID  ORDER BY HLUPMJ ASC, HLTDAY ASC ) AS RowNum
+							HLZ58RT,
+							HLIOPR,
+							DLMCU,
+							DLLOT1,
+							DLZ58SN,
+                            ROW_NUMBER() OVER ( PARTITION BY DLZ58RID  ORDER BY DLUPMJ ASC, DLTDAY ASC ) AS RowNum
+                            --ROW_NUMBER() OVER ( PARTITION BY HLZ58RID  ORDER BY HLUPMJ ASC, HLTDAY ASC ) AS RowNum
                         FROM
                             F580055
                             INNER JOIN F580056
 			                    ON RDZ58RID = RHZ58RID
                             INNER JOIN F580559
 			                    ON HLZ58RID = RHZ58RID
+                            INNER JOIN F580569
+			                    ON DLZ58RID = RHZ58RID
+								AND DLZ58SN = RDZ58SN
                         WHERE
                             RDZ58SN = ?
                     ) x WHERE RowNum = 1
@@ -2283,7 +2318,7 @@ namespace CGServicesHV.Common.Managers.Enterprise
                 {
                     while (reader0.Read())
                     {
-                        currentPlant = CastDbNull.To(reader0["HLMCU"], string.Empty).Trim();
+                        currentPlant = CastDbNull.To(reader0["DLMCU"], string.Empty).Trim();
                         rackId = CastDbNull.To<decimal>(reader0["RHZ58RID"], 0);
                     }
 

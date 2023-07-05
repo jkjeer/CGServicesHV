@@ -134,7 +134,7 @@
               <xsl:sort select="HvCompletionsID"/>
             </xsl:apply-templates>
             <tr>
-              <td colspan="3"/>
+              <td colspan="5"/>
               <td align="right" class="numeric">
                 <xsl:value-of select="format-number(sum(ArrayOfHvCompletionItem/HvCompletionItem/QuantityCanceled), '#,###')"/>
               </td>

@@ -22,6 +22,7 @@ namespace CGServicesHV.Common.Types.ShopFloor
         public EmployeeTable()
         {
             ExtendedProperties.Add("Target", "[EBS].[EmployeeLedger]");
+            Columns.Add("PlantID", typeof(string));
             Columns.Add("AddressNum", typeof(decimal));
             Columns.Add("AlternateNum", typeof(string));
             Columns.Add("Name", typeof(string));
@@ -45,7 +46,7 @@ namespace CGServicesHV.Common.Types.ShopFloor
                     while (reader.Read())
                     {
                         var dr = NewRow();
-
+                        dr["PlantID"] = CastDbNull.To(reader["MCRP01"], string.Empty).Trim();
                         dr["AddressNum"] = Convert.ToDouble(CastDbNull.To(reader["ABALKY"], "0"));
                         dr["AlternateNum"] = CastDbNull.To<decimal>(reader["ABAN8"], 0).ToString();
                         dr["Name"] = CastDbNull.To(reader["ABALPH"], string.Empty).Trim();

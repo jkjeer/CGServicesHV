@@ -46,6 +46,7 @@ namespace CGServicesHV.Common.Types.ShopFloor
             Columns.Add("OperationCode", typeof(string));
             Columns.Add("UserId", typeof(string));
             Columns.Add("ProgramId", typeof(string));
+            Columns.Add("RackUnitQty", typeof(decimal));
         }
 
         public void Add(IDataReader reader, Plant plant)
@@ -92,6 +93,7 @@ namespace CGServicesHV.Common.Types.ShopFloor
                         dr["TransactionDate"] = E1TimeManager.CastToDateTime(updateDateId, updateTimeId).AddHours(plant.TimeOffset);
                         dr["UserId"] = CastDbNull.To<string>(reader["USERID"], String.Empty).Trim();
                         dr["ProgramId"] = CastDbNull.To<string>(reader["PID"], String.Empty).Trim();
+                        dr["RackUnitQty"] = Data.CastDbNull.To<decimal>(reader["HLZ58NA02"], 0);
                         this.Rows.Add(dr);
                     }
 

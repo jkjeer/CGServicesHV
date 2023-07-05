@@ -10,7 +10,7 @@ namespace CGServicesHV.OrderSvc
     [ParameterInspectorLogger, CGIErrorHandler]
     public class OrderService : IOrderService
     {
-        public ProcessResponse DownloadSalesLines(string plants, TimeSpan timeSpan, bool useHighWaterMark, bool parallel, decimal salesOrderNum = 0, string nextStatusCodes = null)
+        public ProcessResponse DownloadSalesLines(string plants, TimeSpan timeSpan, bool useHighWaterMark, bool parallel, decimal salesOrderNum = 0, string nextStatusCodes = null, string orderTypes = null)
         {
             if (string.IsNullOrEmpty(plants))
             {
@@ -21,10 +21,31 @@ namespace CGServicesHV.OrderSvc
                 var parms = new Dictionary<string, object>();
                 parms.Add("TimeSpan", timeSpan);
                 parms.Add("HighWaterMark", useHighWaterMark);
-                parms.Add("SalesOrderNum", salesOrderNum);
+                parms.Add("WorkOrderNum", salesOrderNum);
                 parms.Add("StatusCodes", nextStatusCodes?.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).ToList());
+                parms.Add("OrderTypes", orderTypes?.Split(',').ToList());
                 var resources = new List<string> { "PLANT.SHOPFLOOR", "PLANT.INTEGRATION" };
                 return BusinessSystemTransferProcessor.Invoke(plants, OrderProcessor.DownloadSalesLines, parallel, parms, resources);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.ToString());
+            }
+        }
+
+        public ProcessResponse DownloadSalesLineMessages(string plants, TimeSpan timeSpan, bool useHighWaterMark, bool parallel)
+        {
+            if (string.IsNullOrEmpty(plants))
+            {
+                throw new Exception("Plant Code is REQUIRED.");
+            }
+            try
+            {
+                var parms = new Dictionary<string, object>();
+                parms.Add("TimeSpan", timeSpan);
+                parms.Add("HighWaterMark", useHighWaterMark);
+                var resources = new List<string> { "PLANT.SHOPFLOOR", "PLANT.INTEGRATION" };
+                return BusinessSystemTransferProcessor.Invoke(plants, OrderProcessor.DownloadSalesLineMessages, parallel, parms, resources);
             }
             catch (Exception e)
             {
@@ -48,6 +69,52 @@ namespace CGServicesHV.OrderSvc
                 parms.Add("StatusCodes", (!String.IsNullOrEmpty(statusCodes)) ? statusCodes?.Split(',').ToList() : null);
                 var resources = new List<string> { "PLANT.SHOPFLOOR", "PLANT.INTEGRATION" };
                 return BusinessSystemTransferProcessor.Invoke(plants, OrderProcessor.DownloadWorkOrders, parallel, parms, resources);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.ToString());
+            }
+        }
+
+        public ProcessResponse DownloadWorkOrderParts(string plants, TimeSpan timeSpan, bool useHighWaterMark, bool parallel, decimal orderNum, string startDate, string endDate)
+        {
+            if (string.IsNullOrEmpty(plants))
+            {
+                throw new Exception("Plant Code is REQUIRED.");
+            }
+            try
+            {
+                var parms = new Dictionary<string, object>();
+                parms.Add("TimeSpan", timeSpan);
+                parms.Add("HighWaterMark", useHighWaterMark);
+                parms.Add("OrderNum", orderNum);
+                parms.Add("StartDate", startDate);
+                parms.Add("EndDate", endDate);
+                var resources = new List<string> { "PLANT.SHOPFLOOR", "PLANT.INTEGRATION" };
+                return BusinessSystemTransferProcessor.Invoke(plants, OrderProcessor.DownloadWorkOrderParts, parallel, parms, resources);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.ToString());
+            }
+        }
+
+        public ProcessResponse DownloadWorkOrderCosts(string plants, TimeSpan timeSpan, bool useHighWaterMark, bool parallel, decimal orderNum, string startDate, string endDate)
+        {
+            if (string.IsNullOrEmpty(plants))
+            {
+                throw new Exception("Plant Code is REQUIRED.");
+            }
+            try
+            {
+                var parms = new Dictionary<string, object>();
+                parms.Add("TimeSpan", timeSpan);
+                parms.Add("HighWaterMark", useHighWaterMark);
+                parms.Add("OrderNum", orderNum);
+                parms.Add("StartDate", startDate);
+                parms.Add("EndDate", endDate);
+                var resources = new List<string> { "PLANT.SHOPFLOOR", "PLANT.INTEGRATION" };
+                return BusinessSystemTransferProcessor.Invoke(plants, OrderProcessor.DownloadWorkOrderCosts, parallel, parms, resources);
             }
             catch (Exception e)
             {
@@ -92,6 +159,26 @@ namespace CGServicesHV.OrderSvc
                 parms.Add("WorkOrderNum", workOrderNum);
                 var resources = new List<string> { "PLANT.SHOPFLOOR", "PLANT.INTEGRATION" };
                 return BusinessSystemTransferProcessor.Invoke(plants, OrderProcessor.DownloadWorkOrderStatus, parallel, parms, resources);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.ToString());
+            }
+        }
+
+        public ProcessResponse DownloadRelatedOrders(string plants, TimeSpan timeSpan, bool useHighWaterMark, bool parallel)
+        {
+            if (string.IsNullOrEmpty(plants))
+            {
+                throw new Exception("Plant Code is REQUIRED.");
+            }
+            try
+            {
+                var parms = new Dictionary<string, object>();
+                parms.Add("TimeSpan", timeSpan);
+                parms.Add("HighWaterMark", useHighWaterMark);
+                var resources = new List<string> { "PLANT.SHOPFLOOR", "PLANT.INTEGRATION" };
+                return BusinessSystemTransferProcessor.Invoke(plants, OrderProcessor.DownloadRelatedOrders, parallel, parms, resources);
             }
             catch (Exception e)
             {
@@ -125,7 +212,7 @@ namespace CGServicesHV.OrderSvc
     [ParameterInspectorLogger, CGIErrorHandler]
     public class OrderRestService : IOrderRestService
     {
-        public ProcessResponse DownloadSalesLines(string plants, TimeSpan timeSpan, bool useHighWaterMark, bool parallel, decimal salesOrderNum = 0, string nextStatusCodes = null)
+        public ProcessResponse DownloadSalesLines(string plants, TimeSpan timeSpan, bool useHighWaterMark, bool parallel, decimal salesOrderNum = 0, string nextStatusCodes = null, string orderTypes = null)
         {
             if (string.IsNullOrEmpty(plants))
             {
@@ -136,10 +223,31 @@ namespace CGServicesHV.OrderSvc
                 var parms = new Dictionary<string, object>();
                 parms.Add("TimeSpan", timeSpan);
                 parms.Add("HighWaterMark", useHighWaterMark);
-                parms.Add("SalesOrderNum", salesOrderNum);
+                parms.Add("WorkOrderNum", salesOrderNum);
                 parms.Add("StatusCodes", nextStatusCodes?.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).ToList());
+                parms.Add("OrderTypes", orderTypes?.Split(',').ToList());
                 var resources = new List<string> { "PLANT.SHOPFLOOR", "PLANT.INTEGRATION" };
                 return BusinessSystemTransferProcessor.Invoke(plants, OrderProcessor.DownloadSalesLines, parallel, parms, resources);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.ToString());
+            }
+        }
+
+        public ProcessResponse DownloadSalesLineMessages(string plants, TimeSpan timeSpan, bool useHighWaterMark, bool parallel)
+        {
+            if (string.IsNullOrEmpty(plants))
+            {
+                throw new Exception("Plant Code is REQUIRED.");
+            }
+            try
+            {
+                var parms = new Dictionary<string, object>();
+                parms.Add("TimeSpan", timeSpan);
+                parms.Add("HighWaterMark", useHighWaterMark);
+                var resources = new List<string> { "PLANT.SHOPFLOOR", "PLANT.INTEGRATION" };
+                return BusinessSystemTransferProcessor.Invoke(plants, OrderProcessor.DownloadSalesLineMessages, parallel, parms, resources);
             }
             catch (Exception e)
             {
@@ -163,6 +271,52 @@ namespace CGServicesHV.OrderSvc
                 //parms.Add("StatusCodes", (!String.IsNullOrEmpty(statusCodes)) ? statusCodes?.Split(',').ToList() : null);
                 var resources = new List<string> { "PLANT.SHOPFLOOR", "PLANT.INTEGRATION" };
                 return BusinessSystemTransferProcessor.Invoke(plants, OrderProcessor.DownloadWorkOrders, parallel, parms, resources);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.ToString());
+            }
+        }
+
+        public ProcessResponse DownloadWorkOrderParts(string plants, TimeSpan timeSpan, bool useHighWaterMark, bool parallel, decimal orderNum, string startDate, string endDate)
+        {
+            if (string.IsNullOrEmpty(plants))
+            {
+                throw new Exception("Plant Code is REQUIRED.");
+            }
+            try
+            {
+                var parms = new Dictionary<string, object>();
+                parms.Add("TimeSpan", timeSpan);
+                parms.Add("HighWaterMark", useHighWaterMark);
+                parms.Add("OrderNum", orderNum);
+                parms.Add("StartDate", startDate);
+                parms.Add("EndDate", endDate);
+                var resources = new List<string> { "PLANT.SHOPFLOOR", "PLANT.INTEGRATION" };
+                return BusinessSystemTransferProcessor.Invoke(plants, OrderProcessor.DownloadWorkOrderParts, parallel, parms, resources);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.ToString());
+            }
+        }
+
+        public ProcessResponse DownloadWorkOrderCosts(string plants, TimeSpan timeSpan, bool useHighWaterMark, bool parallel, decimal orderNum, string startDate, string endDate)
+        {
+            if (string.IsNullOrEmpty(plants))
+            {
+                throw new Exception("Plant Code is REQUIRED.");
+            }
+            try
+            {
+                var parms = new Dictionary<string, object>();
+                parms.Add("TimeSpan", timeSpan);
+                parms.Add("HighWaterMark", useHighWaterMark);
+                parms.Add("OrderNum", orderNum);
+                parms.Add("StartDate", startDate);
+                parms.Add("EndDate", endDate);
+                var resources = new List<string> { "PLANT.SHOPFLOOR", "PLANT.INTEGRATION" };
+                return BusinessSystemTransferProcessor.Invoke(plants, OrderProcessor.DownloadWorkOrderCosts, parallel, parms, resources);
             }
             catch (Exception e)
             {
@@ -207,6 +361,26 @@ namespace CGServicesHV.OrderSvc
                 parms.Add("WorkOrderNum", workOrderNum);
                 var resources = new List<string> { "PLANT.SHOPFLOOR", "PLANT.INTEGRATION" };
                 return BusinessSystemTransferProcessor.Invoke(plants, OrderProcessor.DownloadWorkOrderStatus, parallel, parms, resources);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.ToString());
+            }
+        }
+
+        public ProcessResponse DownloadRelatedOrders(string plants, TimeSpan timeSpan, bool useHighWaterMark, bool parallel)
+        {
+            if (string.IsNullOrEmpty(plants))
+            {
+                throw new Exception("Plant Code is REQUIRED.");
+            }
+            try
+            {
+                var parms = new Dictionary<string, object>();
+                parms.Add("TimeSpan", timeSpan);
+                parms.Add("HighWaterMark", useHighWaterMark);
+                var resources = new List<string> { "PLANT.SHOPFLOOR", "PLANT.INTEGRATION" };
+                return BusinessSystemTransferProcessor.Invoke(plants, OrderProcessor.DownloadRelatedOrders, parallel, parms, resources);
             }
             catch (Exception e)
             {

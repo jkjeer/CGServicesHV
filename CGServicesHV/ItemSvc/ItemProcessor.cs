@@ -14,6 +14,118 @@ namespace CGServicesHV.ItemSvc
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
+        public static ProcessResponse AccountBalanceDownload(Plant plant, BusinessSystemSession session, Dictionary<string, SqlConnection> sqlCns, Dictionary<string, object> parms)
+        {
+            var response = new ProcessResponse("Account Balance Processor", plant);
+            try
+            {
+                var timeSpan = Data.UnboxParm.To(parms, "TimeSpan", new TimeSpan());
+                var useHighWaterMark = Data.UnboxParm.To(parms, "HighWaterMark", false);
+                var century = Data.UnboxParm.To(parms, "Century", 0);
+                var year = Data.UnboxParm.To(parms, "Year", 0);
+                response = AccountBalanceDownloadManager.Process(session, sqlCns, plant, timeSpan, useHighWaterMark, century, year);
+            }
+            catch (Exception e)
+            {
+                response.Errors.Add(new Error(e));
+            }
+            response.Close();
+            return response;
+        }
+
+        public static ProcessResponse AccountDownload(Plant plant, BusinessSystemSession session, Dictionary<string, SqlConnection> sqlCns, Dictionary<string, object> parms)
+        {
+            var response = new ProcessResponse("Account Balance Processor", plant);
+            try
+            {
+                var timeSpan = Data.UnboxParm.To(parms, "TimeSpan", new TimeSpan());
+                var useHighWaterMark = Data.UnboxParm.To(parms, "HighWaterMark", false);
+                response = AccountDownloadManager.Process(session, sqlCns, plant, timeSpan, useHighWaterMark);
+            }
+            catch (Exception e)
+            {
+                response.Errors.Add(new Error(e));
+            }
+            response.Close();
+            return response;
+        }
+
+        public static ProcessResponse DownloadGlassItemMetrics(Plant plant, BusinessSystemSession session, Dictionary<string, SqlConnection> sqlCns, Dictionary<string, object> parms)
+        {
+            var response = new ProcessResponse($"Glass Item Metric Download Processor", plant);
+            try
+            {
+                var timeSpan = Data.UnboxParm.To(parms, "TimeSpan", new TimeSpan());
+                var useHighWaterMark = Data.UnboxParm.To(parms, "HighWaterMark", false);
+                var metrics = Data.UnboxParm.To(parms, "Metrics", new List<string>());
+                var itemNum = Data.UnboxParm.To<decimal>(parms, "ItemNum", 0);
+                response.ProcessResponses.Add(GlassItemMetricDownloadManager.Process(session, sqlCns, plant, timeSpan, useHighWaterMark, metrics, itemNum));
+            }
+            catch (Exception e)
+            {
+                response.Errors.Add(new Error(e));
+            }
+            response.Close(true);
+            return response;
+        }
+
+        public static ProcessResponse DownloadItemMetrics(Plant plant, BusinessSystemSession session, Dictionary<string, SqlConnection> sqlCns, Dictionary<string, object> parms)
+        {
+            var response = new ProcessResponse($"Item Metric Download Processor", plant);
+            try
+            {
+                var timeSpan = Data.UnboxParm.To(parms, "TimeSpan", new TimeSpan());
+                var useHighWaterMark = Data.UnboxParm.To(parms, "HighWaterMark", false);
+                var documentTypes = Data.UnboxParm.ToStringList(parms, "DocumentType");
+                response.ProcessResponses.Add(ItemMetricDownloadManager.Process(session, sqlCns, plant, timeSpan, useHighWaterMark, documentTypes));
+            }
+            catch (Exception e)
+            {
+                response.Errors.Add(new Error(e));
+            }
+            response.Close();
+            return response;
+        }
+
+        public static ProcessResponse DownloadItemCosts(Plant plant, BusinessSystemSession session, Dictionary<string, SqlConnection> sqlCns, Dictionary<string, object> parms)
+        {
+            var response = new ProcessResponse($"Item Cost Processor", plant);
+            try
+            {
+                var timeSpan = Data.UnboxParm.To(parms, "TimeSpan", new TimeSpan());
+                var useHighWaterMark = Data.UnboxParm.To(parms, "HighWaterMark", false);
+                var itemNum = Data.UnboxParm.To<decimal>(parms, "ItemNum", 0);
+                var mgr = new ItemCostDownloadManager(session);
+                response.ProcessResponses.Add(mgr.Process(session, sqlCns, plant, timeSpan, useHighWaterMark, itemNum));
+            }
+            catch (Exception e)
+            {
+                response.Errors.Add(new Error(e));
+            }
+            response.Close();
+            return response;
+        }
+
+        public static ProcessResponse DownloadItemUOMs(Plant plant, BusinessSystemSession session, Dictionary<string, SqlConnection> sqlCns, Dictionary<string, object> parms)
+        {
+            var response = new ProcessResponse($"Item UOM Processor", plant);
+            try
+            {
+                var timeSpan = Data.UnboxParm.To(parms, "TimeSpan", new TimeSpan());
+                var useHighWaterMark = Data.UnboxParm.To(parms, "HighWaterMark", false);
+                var itemNum = Data.UnboxParm.To<decimal>(parms, "ItemNum", 0);
+                var mgr = new ItemUOMDownloadManager(session);
+                response.ProcessResponses.Add(mgr.Process(session, sqlCns, plant, timeSpan, useHighWaterMark, itemNum));
+            }
+            catch (Exception e)
+            {
+                response.Errors.Add(new Error(e));
+            }
+            response.Close();
+            return response;
+        }
+
+
         /********************************************************************************
         * ITEM
         ********************************************************************************/
@@ -24,10 +136,11 @@ namespace CGServicesHV.ItemSvc
             {
                 var timeSpan = Data.UnboxParm.To(parms, "TimeSpan", new TimeSpan());
                 var useHighWaterMark = Data.UnboxParm.To(parms, "HighWaterMark", false);
+                var stockingTypes = Data.UnboxParm.To(parms, "StockingTypes", new List<string>());
+                var glCategories = Data.UnboxParm.To(parms, "GlCategories", new List<string>());
                 var itemNum = Data.UnboxParm.To<decimal>(parms, "ItemNum", 0);
-                var stockTypes = Data.UnboxParm.To(parms, "StockTypes", new List<string>());
                 var mgr = new ItemDownloadManager(session);
-                response.ProcessResponses.Add(mgr.Process(session, sqlCns, plant, timeSpan, useHighWaterMark, itemNum, stockTypes));
+                response.ProcessResponses.Add(mgr.Process(session, sqlCns, plant, timeSpan, useHighWaterMark, stockingTypes, glCategories, itemNum));
             }
             catch (Exception e)
             {

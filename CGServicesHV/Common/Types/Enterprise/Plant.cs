@@ -29,6 +29,8 @@ namespace CGServicesHV.Common.Types.Enterprise
 
         [DataMember(Order = 30, EmitDefaultValue = false)]
         public decimal AddressNum { get; set; }
+        [DataMember(Order = 31, EmitDefaultValue = false)]
+        public string AddressName { get; set; }
         [DataMember(Order = 32, EmitDefaultValue = false)]
         public string LegacyAddressNum { get; set; }
         [DataMember(Order = 40, EmitDefaultValue = false)]
@@ -38,6 +40,11 @@ namespace CGServicesHV.Common.Types.Enterprise
         public string TimeZone { get; set; }
         [DataMember(Order = 52, EmitDefaultValue = false)]
         public int TimeOffset { get; set; }
+        [DataMember(Order = 54, EmitDefaultValue = false)]
+        public string TimeZoneName { get; set; }
+
+        [DataMember(Order = 52, EmitDefaultValue = false)]
+        public double BusinessSystemOffset { get; set; }
     }
 
     [DataContract(Namespace = "")]

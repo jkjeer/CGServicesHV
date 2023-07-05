@@ -127,37 +127,41 @@ namespace CGServicesHV.Common.Managers.Enterprise
             var cmd = new SqlCommand();
             cmd.CommandType = CommandType.Text;
             cmd.CommandText = @"
-            SELECT
-                PG.GROUP_CD,
-	            PT.PLANT_NUMERIC_CD,
-	            PT.PLANT_ALPHA_CD,
-	            PT.PLANT_NAME,
-	            PT.PLANT_NO,
-	            PT.TIME_ZONE_CD,
-	            PT.TIME_ZONE_OFFSET,
-                PT.CUSTOMER_NO,
-                PT.COMPANY_CD,
-                PT.SHORT_COMPANY_CD
-            FROM
-                SVCCG.PLANT_GROUP PG
-                INNER JOIN SVCCG.PLANT_GROUP_XREF PGX
+                SELECT
+                    PG.GROUP_CD,
+	                PT.PLANT_NUMERIC_CD,
+	                PT.PLANT_ALPHA_CD,
+	                PT.PLANT_NAME,
+                    PT.PLANT_ADDRESS_NAME,
+	                PT.PLANT_NO,
+	                PT.TIME_ZONE_CD,
+	                PT.TIME_ZONE_OFFSET,
+                    PT.TIME_ZONE_NAME,
+                    PT.CUSTOMER_NO,
+                    PT.COMPANY_CD,
+                    PT.SHORT_COMPANY_CD
+                FROM
+                    SVCCG.PLANT_GROUP PG
+                    INNER JOIN SVCCG.PLANT_GROUP_XREF PGX
                     ON  PGX.GROUP_CD = PG.GROUP_CD
-	            INNER JOIN SVCCG.PLANT PT
+	                INNER JOIN SVCCG.PLANT PT
 	                ON PT.PLANT_ALPHA_CD = PGX.PLANT_ALPHA_CD
-            UNION
-            SELECT
-	            '' AS GROUP_CD,
-                PLANT_NUMERIC_CD,
-	            PLANT_ALPHA_CD,
-	            PLANT_NAME,
-	            PLANT_NO,
-	            TIME_ZONE_CD,
-	            TIME_ZONE_OFFSET,
-                CUSTOMER_NO,
-                COMPANY_CD,
-                SHORT_COMPANY_CD
-            FROM
-                SVCCG.PLANT
+                UNION
+                SELECT
+	                '' AS GROUP_CD,
+                    PLANT_NUMERIC_CD,
+	                PLANT_ALPHA_CD,
+	                PLANT_NAME,
+                    PLANT_ADDRESS_NAME,
+	                PLANT_NO,
+	                TIME_ZONE_CD,
+	                TIME_ZONE_OFFSET,
+                    TIME_ZONE_NAME,
+                    CUSTOMER_NO,
+                    COMPANY_CD,
+                    SHORT_COMPANY_CD
+                FROM
+                    SVCCG.PLANT
             ";
             return cmd;
         }
@@ -185,8 +189,10 @@ namespace CGServicesHV.Common.Managers.Enterprise
                             Name = CastDbNull.To(reader["PLANT_NAME"], string.Empty).Trim(),
                             NumericValue = CastDbNull.To(reader["PLANT_NO"], 0),
                             AddressNum = CastDbNull.To<decimal>(reader["CUSTOMER_NO"], 0),
+                            AddressName = CastDbNull.To(reader["PLANT_ADDRESS_NAME"], string.Empty).Trim(),
                             TimeOffset = CastDbNull.To(reader["TIME_ZONE_OFFSET"], 0),
                             TimeZone = CastDbNull.To(reader["TIME_ZONE_CD"], string.Empty).Trim(),
+                            TimeZoneName = CastDbNull.To(reader["TIME_ZONE_NAME"], string.Empty).Trim(),
                             CompanyNum = CastDbNull.To(reader["COMPANY_CD"], string.Empty).Trim(),
                             ShortCompanyNum = CastDbNull.To(reader["SHORT_COMPANY_CD"], string.Empty).Trim()
                         };

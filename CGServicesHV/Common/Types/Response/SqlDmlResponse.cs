@@ -71,6 +71,8 @@ namespace CGServicesHV.Common.Types.Response
         public int RowsAffected { get; set; }
         [DataMember(Order = 70)]
         public Errors Errors { get; set; }
+        [DataMember(Order = 80)]
+        public Messages Messages { get; set; }
 
         [DataMember(Order = 100)]
         public DateTime StartTime { get; set; }

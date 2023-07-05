@@ -98,14 +98,6 @@ namespace CGServicesHV.Common.Managers.Process
                     try
                     {
                         bulkResponse = BulkCopyManager.BulkTable(table.ExtendedProperties["Target"].ToString(), table, sqlCns["PLANT.INTEGRATION"]);
-                        if (plant.PlantCode == "SGCG")
-                        {
-                            var mzcgCn = ConnectionManager.GetSqlConnectionFromKey("MZCG.INTEGRATION");
-                            mzcgCn.Open();
-                            var bulkResponse1 = BulkCopyManager.BulkTable(table.ExtendedProperties["Target"].ToString(), table, mzcgCn);
-                            mzcgCn.Close();
-                            step3.SqlBulkCopyResponses.Add(bulkResponse1);
-                        }
                     }
                     catch (Exception e)
                     {

@@ -36,20 +36,38 @@ namespace CGServicesHV.OrderSvc
 
         public static ProcessResponse DownloadSalesLines(Plant plant, BusinessSystemSession session, Dictionary<string, SqlConnection> sqlCns, Dictionary<string, object> parms)
         {
-            var response = new ProcessResponse($"{plant.PlantCode} Sales Line Download Manager");
+            var response = new ProcessResponse($"Sales Line Download Processor", plant);
             try
             {
                 var timeSpan = Data.UnboxParm.To(parms, "TimeSpan", new TimeSpan());
                 var useHighWaterMark = Data.UnboxParm.To(parms, "HighWaterMark", false);
-                var salesOrderNum = Data.UnboxParm.To<decimal>(parms, "SalesOrderNum", 0);
+                var workOrderNum = Data.UnboxParm.To<decimal>(parms, "SalesOrderNum", 0);
                 var statusCodes = Data.UnboxParm.To(parms, "StatusCodes", new List<string>());
-                response.ProcessResponses.Add(SalesLineDownloadManager.Process(session, sqlCns, plant, timeSpan, useHighWaterMark, salesOrderNum, statusCodes));
+                var orderTypes = Data.UnboxParm.To(parms, "OrderTypes", new List<string>());
+                response.ProcessResponses.Add(SalesLineDownloadManager.Process(session, sqlCns, plant, timeSpan, useHighWaterMark, workOrderNum, statusCodes, orderTypes));
             }
             catch (Exception e)
             {
                 response.Errors.Add(new Error(e));
             }
-            response.Done();
+            response.Close();
+            return response;
+        }
+
+        public static ProcessResponse DownloadSalesLineMessages(Plant plant, BusinessSystemSession session, Dictionary<string, SqlConnection> sqlCns, Dictionary<string, object> parms)
+        {
+            var response = new ProcessResponse($"Sales Line Download Processor", plant);
+            try
+            {
+                var timeSpan = Data.UnboxParm.To(parms, "TimeSpan", new TimeSpan());
+                var useHighWaterMark = Data.UnboxParm.To(parms, "HighWaterMark", false);
+                response.ProcessResponses.Add(SalesLineMessageDownloadManager.Process(session, sqlCns, plant, timeSpan, useHighWaterMark));
+            }
+            catch (Exception e)
+            {
+                response.Errors.Add(new Error(e));
+            }
+            response.Close();
             return response;
         }
 
@@ -69,6 +87,48 @@ namespace CGServicesHV.OrderSvc
                 response.Errors.Add(new Error(e));
             }
             response.Done();
+            return response;
+        }
+
+        public static ProcessResponse DownloadWorkOrderParts(Plant plant, BusinessSystemSession session, Dictionary<string, SqlConnection> sqlCns, Dictionary<string, object> parms)
+        {
+            var response = new ProcessResponse($"Work Order Part Download Processor", plant);
+            try
+            {
+                var timeSpan = Data.UnboxParm.To(parms, "TimeSpan", new TimeSpan());
+                var useHighWaterMark = Data.UnboxParm.To(parms, "HighWaterMark", false);
+                var orderNum = Data.UnboxParm.To<decimal>(parms, "OrderNum", 0);
+                var startDate = Data.UnboxParm.To<string>(parms, "StartDate", String.Empty);
+                var endDate = Data.UnboxParm.To<string>(parms, "EndDate", String.Empty);
+                var mgr = new WorkOrderPartDownloadManager(session);
+                response.ProcessResponses.Add(mgr.Process(session, sqlCns, plant, timeSpan, useHighWaterMark, orderNum, startDate, endDate));
+            }
+            catch (Exception e)
+            {
+                response.Errors.Add(new Error(e));
+            }
+            response.Close();
+            return response;
+        }
+
+        public static ProcessResponse DownloadWorkOrderCosts(Plant plant, BusinessSystemSession session, Dictionary<string, SqlConnection> sqlCns, Dictionary<string, object> parms)
+        {
+            var response = new ProcessResponse($"Work Order Cost Download Processor", plant);
+            try
+            {
+                var timeSpan = Data.UnboxParm.To(parms, "TimeSpan", new TimeSpan());
+                var useHighWaterMark = Data.UnboxParm.To(parms, "HighWaterMark", false);
+                var orderNum = Data.UnboxParm.To<decimal>(parms, "OrderNum", 0);
+                var startDate = Data.UnboxParm.To<string>(parms, "StartDate", String.Empty);
+                var endDate = Data.UnboxParm.To<string>(parms, "EndDate", String.Empty);
+                var mgr = new WorkOrderCostDownloadManager(session);
+                response.ProcessResponses.Add(mgr.Process(session, sqlCns, plant, timeSpan, useHighWaterMark, orderNum, startDate, endDate));
+            }
+            catch (Exception e)
+            {
+                response.Errors.Add(new Error(e));
+            }
+            response.Close();
             return response;
         }
 
@@ -106,6 +166,23 @@ namespace CGServicesHV.OrderSvc
                 response.Errors.Add(new Error(e));
             }
             response.Done();
+            return response;
+        }
+
+        public static ProcessResponse DownloadRelatedOrders(Plant plant, BusinessSystemSession session, Dictionary<string, SqlConnection> sqlCns, Dictionary<string, object> parms)
+        {
+            var response = new ProcessResponse($"Related Order Download Processor", plant);
+            try
+            {
+                var timeSpan = Data.UnboxParm.To(parms, "TimeSpan", new TimeSpan());
+                var useHighWaterMark = Data.UnboxParm.To(parms, "HighWaterMark", false);
+                response.ProcessResponses.Add(RelatedOrderDownloadManager.Process(session, sqlCns, plant, timeSpan, useHighWaterMark));
+            }
+            catch (Exception e)
+            {
+                response.Errors.Add(new Error(e));
+            }
+            response.Close();
             return response;
         }
     }

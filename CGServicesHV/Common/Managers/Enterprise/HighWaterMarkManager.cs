@@ -99,18 +99,19 @@ namespace CGServicesHV.Common.Managers.Enterprise
             {
                 CommandType = CommandType.Text,
                 CommandText = @"
-                SELECT
-                    MarkId,
-                    MarkName ,
-                    EnterpriseDateTime ,
-                    LocalDateTime ,
-                    LookbackSeconds ,
-                    UniqueID ,
-                    WrittenDate
-                FROM 
-                    EBS.HighWaterMark
-                WHERE 
-                    MarkName = @MarkName "
+                    SELECT
+                        MarkId,
+                        MarkName ,
+                        EnterpriseDateTime ,
+                        LocalDateTime ,
+                        LookbackSeconds ,
+                        UniqueID ,
+                        WrittenDate
+                    FROM 
+                        EBS.HighWaterMark
+                    WHERE 
+                        MarkName = @MarkName
+                "
             };
             cmd.Parameters.Add(new SqlParameter("@MarkName", SqlDbType.VarChar, 30));
             return cmd;
@@ -140,21 +141,21 @@ namespace CGServicesHV.Common.Managers.Enterprise
                         mark.EnterpriseTimeSpan = (DateTime.Now - (mark.EnterpriseDateTime.AddSeconds(-CastDbNull.To(reader["LookbackSeconds"], 0))));
                         mark.LocalTimeSpan = (DateTime.Now - (mark.LocalDateTime.AddSeconds(-CastDbNull.To(reader["LookbackSeconds"], 0))));
                         mark.Exists = true;
+                        Logger.Trace($@"ROWS: 1");
                     }
 
                     reader.Close();
                 }
-                Logger.Trace($@"ROWS: 1");
 
                 if (!mark.Exists)
                 {
                     throw new Exception($"High Water Mark [{markName}] does NOT exist at Plant {plant.PlantNum}-{plant.PlantCode}");
                 }
 
-                if (mark.UniqueID == 0)
-                {
-                    throw new Exception($"High Water Mark [{markName}] UniqueId = 0 at Plant {plant.PlantNum}-{plant.PlantCode}");
-                }
+                //if (mark.UniqueID == 0)
+                //{
+                //    throw new Exception($"High Water Mark [{markName}] UniqueId = 0 at Plant {plant.PlantNum}-{plant.PlantCode}");
+                //}
 
             }
             catch (Exception e)
@@ -175,14 +176,15 @@ namespace CGServicesHV.Common.Managers.Enterprise
             {
                 CommandType = CommandType.Text,
                 CommandText = @"
-                UPDATE 
-                    EBS.HighWaterMark
-                SET
-                    EnterpriseDateTime = @EnterpriseDateTime,
-                    LocalDateTime = @LocalDateTime,
-                    WrittenDate = GETDATE()                     
-                WHERE 
-                    MarkName = @MarkName"
+                    UPDATE 
+                        EBS.HighWaterMark
+                    SET
+                        EnterpriseDateTime = @EnterpriseDateTime,
+                        LocalDateTime = @LocalDateTime,
+                        WrittenDate = GETDATE()                     
+                    WHERE 
+                        MarkName = @MarkName
+                "
             };
             cmd.Parameters.Add(new SqlParameter("@MarkName", SqlDbType.VarChar, 30));
             cmd.Parameters.Add(new SqlParameter("@EnterpriseDateTime", SqlDbType.DateTime));

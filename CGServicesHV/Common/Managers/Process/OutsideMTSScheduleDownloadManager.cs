@@ -67,9 +67,10 @@ namespace CGServicesHV.Common.Managers.Process
                         //mtsSchedule.MfgPlantNum = "32";
                         //mtsSchedule.PlantNum = mtsSchedule.MfgPlantNum;
                         //response.Plant = PlantManager.GetPlant(mtsSchedule.MfgPlantNum);
-                        cnSFInt = GetSFIntSqlConnection(mtsSchedule.MfgPlantNum);
+                        var mfgPlant = PlantManager.GetPlant(mtsSchedule.MfgPlantNum);
+                        cnSFInt = GetSFIntSqlConnection(mfgPlant.PlantCode);
                         response.ConnectionStrings.Add(new ConnectionString("cnSFInt", cnSFInt.ConnectionString));
-                        cnSF = GetSFSqlConnection(mtsSchedule.MfgPlantNum);
+                        cnSF = GetSFSqlConnection(mfgPlant.PlantCode);
                         response.ConnectionStrings.Add(new ConnectionString("cnSF", cnSF.ConnectionString));
                         //foreach (var mtsScheduleLine in mtsSchedule.MTSScheduleLines)
                         //{
@@ -426,12 +427,12 @@ namespace CGServicesHV.Common.Managers.Process
             return rowCount;
         }
 
-        private static SqlConnection GetSFIntSqlConnection(string plantNum)
+        private static SqlConnection GetSFIntSqlConnection(string plantCode)
         {
             var cnSFInt = new SqlConnection();
             try
             {
-                cnSFInt = ConnectionManager.GetSqlConnectionFromKey(plantNum + ".INTEGRATION", false);
+                cnSFInt = ConnectionManager.GetSqlConnectionFromKey(plantCode + ".INTEGRATION", false);
                 cnSFInt.Open();
             }
             catch (Exception e)
@@ -442,12 +443,12 @@ namespace CGServicesHV.Common.Managers.Process
             return cnSFInt;
         }
 
-        private static SqlConnection GetSFSqlConnection(string plantNum)
+        private static SqlConnection GetSFSqlConnection(string plantCode)
         {
             var cnSF = new SqlConnection();
             try
             {
-                cnSF = ConnectionManager.GetSqlConnectionFromKey(plantNum + ".SHOPFLOOR", false);
+                cnSF = ConnectionManager.GetSqlConnectionFromKey(plantCode + ".SHOPFLOOR", false);
                 cnSF.Open();
             }
             catch (Exception e)

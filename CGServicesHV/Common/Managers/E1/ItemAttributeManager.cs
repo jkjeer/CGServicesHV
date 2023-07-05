@@ -156,7 +156,8 @@ namespace CGServicesHV.Common.Managers.E1
                 WHERE
                     A.RN = 1
                 ORDER BY 1
-                FOR READ ONLY";
+                FOR READ ONLY
+            ";
             cmd.Parameters.Add(new iDB2Parameter("CFGID", iDB2DbType.iDB2Decimal));
             cmd.Parameters["CFGID"].Precision = 15;
             cmd.Parameters["CFGID"].Scale = 0;

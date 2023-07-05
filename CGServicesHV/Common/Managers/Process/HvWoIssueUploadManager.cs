@@ -18,8 +18,6 @@ using CGServicesHV.Common.Utilities;
 using IBM.Data.DB2.iSeries;
 using NLog;
 
-// ReSharper disable InconsistentNaming
-
 namespace CGServicesHV.Common.Managers.Process
 {
     public class HvWoIssueUploadManager

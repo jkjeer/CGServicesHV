@@ -12,6 +12,11 @@ namespace CGServicesHV.RackSvc
     [ServiceContract]
     public interface IRackService
     {
+        [OperationContract, OperationInvokerLogger]
+        RackLoadItems GetFloatRackLoadItems(string plantCode);
+
+        [OperationContract, OperationInvokerLogger]
+        DataTable GetFloatRackLoadItemsDataTable(string plantCode);
 
         [OperationContract, OperationInvokerLogger]
         Racks GetRacks(decimal rackId, string serialNum, string plantCode, string glCategory, double days, bool attributes);
@@ -24,6 +29,10 @@ namespace CGServicesHV.RackSvc
 
         [OperationContract, OperationInvokerLogger]
         ProcessResponse DownloadRacks(string plant, TimeSpan timeSpan, bool useHighWaterMark = false, bool parallel = false, decimal rackId = 0, string statusCodes = null);
+
+        [OperationContract, OperationInvokerLogger]
+        ProcessResponse DownloadRacksArchive(string plant, TimeSpan timeSpan, bool useHighWaterMark = false, bool parallel = false, decimal rackId = 0, string statusCodes = null);
+
 
         [OperationContract, OperationInvokerLogger]
         ProcessResponse DownloadOutsideRacks(string plant, TimeSpan timeSpan, bool useHighWaterMark = false, bool parallel = false, decimal rackId = 0, string statusCodes = null);
@@ -42,6 +51,10 @@ namespace CGServicesHV.RackSvc
 
         [OperationContract, OperationInvokerLogger]
         ProcessResponse DownloadRackDetails(string plant, TimeSpan timeSpan, bool useHighWaterMark = false, bool parallel = false, decimal rackId = 0, string statusCodes = null);
+
+        [OperationContract, OperationInvokerLogger]
+        ProcessResponse DownloadRackDetailsArchive(string plant, TimeSpan timeSpan, bool useHighWaterMark = false, bool parallel = false, decimal rackId = 0, string statusCodes = null);
+
 
         [OperationContract, OperationInvokerLogger]
         ProcessResponse DownloadOutsideRackDetails(string plant, TimeSpan timeSpan, bool useHighWaterMark = false, bool parallel = false, decimal rackId = 0, string statusCodes = null);
@@ -71,6 +84,13 @@ namespace CGServicesHV.RackSvc
     [ServiceContract]
     public interface IRackRestService
     {
+        [OperationContract, OperationInvokerLogger]
+        [WebGet(UriTemplate = "/GetFloatRackLoadItems?PlantCode={plantCode}")]
+        RackLoadItems GetFloatRackLoadItems(string plantCode);
+
+        [OperationContract, OperationInvokerLogger]
+        [WebGet(UriTemplate = "/GetFloatRackLoadItemsDataTable?PlantCode={plantCode}")]
+        DataTable GetFloatRackLoadItemsDataTable(string plantCode);
 
         [OperationContract, OperationInvokerLogger]
         [WebGet(UriTemplate = "/GetRacks?RackId={rackId}&SerialNum={serialNum}&PlantCode={plantCode}&GlCategory={glCategory}&Days={days}&Attributes={attributes}")]
@@ -87,6 +107,11 @@ namespace CGServicesHV.RackSvc
         [OperationContract, OperationInvokerLogger]
         [WebGet(UriTemplate = "/DownloadRacks?Plant={plant}&TimeSpan={timeSpan}&HighWaterMark={useHighWaterMark}&Parallel={parallel}&RackId={rackId}&StatusCodes={statusCodes}")]
         ProcessResponse DownloadRacks(string plant, TimeSpan timeSpan, bool useHighWaterMark, bool parallel, decimal rackId, string statusCodes);
+
+        [OperationContract, OperationInvokerLogger]
+        [WebGet(UriTemplate = "/DownloadRacksArchive?Plant={plant}&TimeSpan={timeSpan}&HighWaterMark={useHighWaterMark}&Parallel={parallel}&RackId={rackId}&StatusCodes={statusCodes}")]
+        ProcessResponse DownloadRacksArchive(string plant, TimeSpan timeSpan, bool useHighWaterMark, bool parallel, decimal rackId, string statusCodes);
+
 
         [OperationContract, OperationInvokerLogger]
         [WebGet(UriTemplate = "/DownloadOutsideRacks?Plant={plant}&TimeSpan={timeSpan}&HighWaterMark={useHighWaterMark}&Parallel={parallel}&RackId={rackId}&StatusCodes={statusCodes}")]
@@ -111,6 +136,11 @@ namespace CGServicesHV.RackSvc
         [OperationContract, OperationInvokerLogger]
         [WebGet(UriTemplate = "/DownloadRackDetails?Plant={plant}&TimeSpan={timeSpan}&HighWaterMark={useHighWaterMark}&Parallel={parallel}&RackId={rackId}&StatusCodes={statusCodes}")]
         ProcessResponse DownloadRackDetails(string plant, TimeSpan timeSpan, bool useHighWaterMark, bool parallel, decimal rackId, string statusCodes);
+
+        [OperationContract, OperationInvokerLogger]
+        [WebGet(UriTemplate = "/DownloadRackDetailsArchive?Plant={plant}&TimeSpan={timeSpan}&HighWaterMark={useHighWaterMark}&Parallel={parallel}&RackId={rackId}&StatusCodes={statusCodes}")]
+        ProcessResponse DownloadRackDetailsArchive(string plant, TimeSpan timeSpan, bool useHighWaterMark, bool parallel, decimal rackId, string statusCodes);
+
 
         [OperationContract, OperationInvokerLogger]
         [WebGet(UriTemplate = "/DownloadOutsideRackDetails?Plant={plant}&TimeSpan={timeSpan}&HighWaterMark={useHighWaterMark}&Parallel={parallel}&RackId={rackId}&StatusCodes={statusCodes}")]

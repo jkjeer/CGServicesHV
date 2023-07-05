@@ -378,8 +378,8 @@ namespace CGServicesHV.Common.Managers.Process
                             HLUKID as UKID
 	                    FROM
 		                    F580056
-						    LEFT OUTER JOIN F580559 ON HLZ58RID = RDZ58RID
-                            LEFT OUTER JOIN F580569
+						    INNER JOIN F580559 ON HLZ58RID = RDZ58RID
+                            INNER JOIN F580569
                             ON  DLMCU = RDMCU AND
                                 DLLOTN = RDLOTN AND
                                 DLZ58SN = RDZ58SN AND

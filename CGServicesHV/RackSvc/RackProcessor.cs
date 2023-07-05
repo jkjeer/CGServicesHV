@@ -17,6 +17,34 @@ namespace CGServicesHV.RackSvc
         /********************************************************************************
         * METHODS
         ********************************************************************************/
+        public RackLoadItems GetFloatRackLoadItems(string plantCode)
+        {
+            var e1Session = GetE1Session();
+            RackLoadItems items;
+            try
+            {
+                var itemMgr = new RackLoadItemManager(e1Session);
+                items = itemMgr.GetFloatRackLoadItems(e1Session, plantCode);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            finally
+            {
+                e1Session.Close();
+            }
+            return items;
+        }
+
+        private static BusinessSystemSession GetE1Session(ConnectionStrings connectionStrings = null)
+        {
+            var e1Session = BusinessSystemSessionManager.GetBusinessSession();
+            ConnectionStringManager.AddConnectionString(connectionStrings, "cnE1", e1Session.DbConnection.ConnectionString);
+            return e1Session;
+        }
+
+
         public static ProcessResponse DownloadRackAssetXref(Plant plant, BusinessSystemSession session, Dictionary<string, SqlConnection> sqlCns, Dictionary<string, object> parms)
         {
             var response = new ProcessResponse($"Rack Asset Xref Download Processor", plant);
@@ -135,6 +163,27 @@ namespace CGServicesHV.RackSvc
             return response;
         }
 
+        public static ProcessResponse DownloadRacksArchive(Plant plant, BusinessSystemSession session, Dictionary<string, SqlConnection> sqlCns, Dictionary<string, object> parms)
+        {
+            var response = new ProcessResponse($"Rack Archive Download Processor", plant);
+            try
+            {
+                var timeSpan = Data.UnboxParm.To(parms, "TimeSpan", new TimeSpan());
+                var useHighWaterMark = Data.UnboxParm.To(parms, "HighWaterMark", false);
+                var rackId = Data.UnboxParm.To<decimal>(parms, "RackId", 0);
+                var statusCodes = Data.UnboxParm.To(parms, "StatusCodes", new List<string>());
+                var mgr = new RackArchiveDownloadManager(session);
+                response.ProcessResponses.Add(mgr.Process(session, sqlCns, plant, timeSpan, useHighWaterMark, rackId, statusCodes));
+            }
+            catch (Exception e)
+            {
+                response.Errors.Add(new Error(e));
+            }
+            response.Close();
+            return response;
+        }
+
+
         public static ProcessResponse DownloadRackDetails(Plant plant, BusinessSystemSession session, Dictionary<string, SqlConnection> sqlCns, Dictionary<string, object> parms)
         {
             var response = new ProcessResponse($"Rack Detail Download Processor", plant);
@@ -154,6 +203,29 @@ namespace CGServicesHV.RackSvc
             response.Done();
             return response;
         }
+
+        public static ProcessResponse DownloadRackDetailsArchive(Plant plant, BusinessSystemSession session, Dictionary<string, SqlConnection> sqlCns, Dictionary<string, object> parms)
+        {
+            var response = new ProcessResponse($"Rack Detail Download Processor", plant);
+            try
+            {
+                var timeSpan = Data.UnboxParm.To(parms, "TimeSpan", new TimeSpan());
+                var useHighWaterMark = Data.UnboxParm.To(parms, "HighWaterMark", false);
+                var rackId = Data.UnboxParm.To<decimal>(parms, "RackId", 0);
+                var statusCodes = Data.UnboxParm.To(parms, "StatusCodes", new List<string>());
+                var mgr = new RackDetailArchiveDownloadManager(session);
+                response.ProcessResponses.Add(mgr.Process(session, sqlCns, plant, timeSpan, useHighWaterMark, rackId,
+                    statusCodes));
+            }
+            catch (Exception e)
+            {
+                response.Errors.Add(new Error(e));
+            }
+            response.Close();
+            return response;
+        }
+
+
 
         public static ProcessResponse DownloadRackItems(Plant plant, BusinessSystemSession session, Dictionary<string, SqlConnection> sqlCns, Dictionary<string, object> parms)
         {

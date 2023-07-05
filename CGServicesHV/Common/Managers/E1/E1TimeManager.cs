@@ -259,6 +259,79 @@ namespace CGServicesHV.Common.Managers.E1
             return sb.ToString();
         }
 
+        public static (string, List<iDB2Parameter>) GetBusinessDateFilter(string dateFieldName, string timeFieldName, E1TimeIdSpan span)
+        {
+            var querystring = "";
+            var dbParameters = new List<iDB2Parameter>();
+
+            if (span.StartTimeId2 != 235959)
+            {
+                querystring = $"({dateFieldName} = ? AND {timeFieldName} > ? AND {timeFieldName} <= ?)";
+
+                var parm1 = new iDB2Parameter("DATE1", iDB2DbType.iDB2Decimal);
+                parm1.Precision = 6;
+                parm1.Scale = 0;
+                parm1.Value = span.StartDateId;
+                dbParameters.Add(parm1);
+
+                var parm2 = new iDB2Parameter("TIME1", iDB2DbType.iDB2Decimal);
+                parm2.Precision = 6;
+                parm2.Scale = 0;
+                parm2.Value = span.StartTimeId1;
+                dbParameters.Add(parm2);
+
+                var parm3 = new iDB2Parameter("TIME2", iDB2DbType.iDB2Decimal);
+                parm3.Precision = 6;
+                parm3.Scale = 0;
+                parm3.Value = span.StartTimeId2;
+                dbParameters.Add(parm3);
+
+            }
+            else
+            {
+                querystring = $"(({dateFieldName} = ? AND {timeFieldName} > ?) OR ({dateFieldName} > ? AND {dateFieldName} <= ?) OR ({dateFieldName} = ? AND {timeFieldName} <= ?))";
+
+                var parm1 = new iDB2Parameter("StartDateId", iDB2DbType.iDB2Decimal);
+                parm1.Precision = 6;
+                parm1.Scale = 0;
+                parm1.Value = span.StartDateId;
+                dbParameters.Add(parm1);
+
+                var parm2 = new iDB2Parameter("StartTimeId", iDB2DbType.iDB2Decimal);
+                parm2.Precision = 6;
+                parm2.Scale = 0;
+                parm2.Value = span.StartTimeId1;
+                dbParameters.Add(parm2);
+
+                var parm3 = new iDB2Parameter("MidDateId1", iDB2DbType.iDB2Decimal);
+                parm3.Precision = 6;
+                parm3.Scale = 0;
+                parm3.Value = span.MidDateId1;
+                dbParameters.Add(parm3);
+
+                var parm4 = new iDB2Parameter("MidDateId2", iDB2DbType.iDB2Decimal);
+                parm4.Precision = 6;
+                parm4.Scale = 0;
+                parm4.Value = span.MidDateId2;
+                dbParameters.Add(parm4);
+
+                var parm5 = new iDB2Parameter("EndDateId", iDB2DbType.iDB2Decimal);
+                parm5.Precision = 6;
+                parm5.Scale = 0;
+                parm5.Value = span.EndDateId;
+                dbParameters.Add(parm5);
+
+                var parm6 = new iDB2Parameter("EndTimeId", iDB2DbType.iDB2Decimal);
+                parm6.Precision = 6;
+                parm6.Scale = 0;
+                parm6.Value = span.EndTimeId;
+                dbParameters.Add(parm6);
+
+            }
+
+            return (querystring, dbParameters);
+        }
+
         public static decimal CastToE1DateId(DateTime inputDate)
         {
             return (inputDate.Year - 1900) * 1000 + inputDate.DayOfYear;

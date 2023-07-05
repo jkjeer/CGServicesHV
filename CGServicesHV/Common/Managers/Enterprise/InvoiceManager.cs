@@ -326,7 +326,7 @@ namespace CGServicesHV.Common.Managers.Enterprise
                         invoice.InvoiceLines = dict[invoice.InvoiceId];
                         //if (invoice.IsCredit)
                         //{
-                        //    foreach (CTServices.Common.Types.InvoiceLine line in invoice.InvoiceLines)
+                        //    foreach (CGServicesHV.Common.Types.InvoiceLine line in invoice.InvoiceLines)
                         //    {
                         //        line.GrossAmt = line.GrossAmt * -1;
                         //        line.OpenAmt = line.OpenAmt * -1;

@@ -1,145 +1,170 @@
-﻿// Decompiled with JetBrains decompiler
-// Type: CGServicesHV.Common.Types.ShopFloor.SalesLineTable
-// Assembly: CGServicesHV, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-// MVID: 85F30AF5-AC07-435F-A3C1-52D64835746D
-// Assembly location: \\CGD1intsvcpd\c$\inetpub\wwwroot\CGServicesHVE1\bin\CGServicesHV.dll
-
-using CGServicesHV.Common.Types.Enterprise;
-using CGServicesHV.Common.Utilities;
-using System;
-using System.ComponentModel;
+﻿using System;
 using System.Data;
 using System.Linq;
+using CGServicesHV.Common.Utilities;
 
 namespace CGServicesHV.Common.Types.ShopFloor
 {
-    [DesignerCategory("Code")]
+    [System.ComponentModel.DesignerCategory("Code")]
     public class SalesLineTable : DataTable
     {
+
         public DateTime MaxDate
         {
-            get
-            {
-                return this.AsEnumerable().Select<DataRow, DateTime>((Func<DataRow, DateTime>)(a => a.Field<DateTime>("TransactionDate"))).Max<DateTime>();
-            }
-            set
-            {
-            }
+            get { return (from a in this.AsEnumerable() select a.Field<DateTime>("TransactionDate")).Max(); }
+            set { }
         }
 
         public SalesLineTable()
         {
-            this.ExtendedProperties.Add((object)"Target", (object)"[EBS].[SalesLineLedger]");
-            this.Columns.Add("OrderNum", typeof(Decimal));
-            this.Columns.Add("OrderType", typeof(string));
-            this.Columns.Add("OrderLineNum", typeof(Decimal));
-            this.Columns.Add("LineType", typeof(string));
-            this.Columns.Add("VolumeType", typeof(string));
-            this.Columns.Add("Quantity", typeof(Decimal));
-            this.Columns.Add("LastStatus", typeof(string));
-            this.Columns.Add("NextStatus", typeof(string));
-            this.Columns.Add("WOrderNum", typeof(Decimal));
-            this.Columns.Add("ROrderNum", typeof(Decimal));
-            this.Columns.Add("ROrderType", typeof(string));
-            this.Columns.Add("ROrderLineNum", typeof(Decimal));
-            this.Columns.Add("ItemNum", typeof(Decimal));
-            this.Columns.Add("GLCategory", typeof(string));
-            this.Columns.Add("StockType", typeof(string));
-            this.Columns.Add("Description1", typeof(string));
-            this.Columns.Add("Description2", typeof(string));
-            this.Columns.Add("OrderDate", typeof(DateTime));
-            this.Columns.Add("RequestedDate", typeof(DateTime));
-            this.Columns.Add("OrigRequestedDate", typeof(DateTime));
-            this.Columns.Add("CancelDate", typeof(DateTime));
-            this.Columns.Add("ShipDate", typeof(DateTime));
-            this.Columns.Add("InvoiceDate", typeof(DateTime));
-            this.Columns.Add("CustomerSoldNum", typeof(Decimal));
-            this.Columns.Add("CustomerShipNum", typeof(Decimal));
-            this.Columns.Add("CustomerOrderNum", typeof(string));
-            this.Columns.Add("CustomerPart1", typeof(string));
-            this.Columns.Add("CustomerPart2", typeof(string));
-            this.Columns.Add("CustomerPart3", typeof(string));
-            this.Columns.Add("CustomerSeqNum", typeof(string));
-            this.Columns.Add("GenericSeqNum", typeof(string));
-            this.Columns.Add("ProductType", typeof(string));
-            this.Columns.Add("CardinalProductType", typeof(string));
-            this.Columns.Add("ReasonCode", typeof(string));
-            this.Columns.Add("Priority", typeof(string));
-            this.Columns.Add("UnitCostAmt", typeof(Decimal));
-            this.Columns.Add("UnitPriceAmt", typeof(Decimal));
-            this.Columns.Add("ExtendedPriceAmt", typeof(Decimal));
-            this.Columns.Add("PriceOverride", typeof(string));
-            this.Columns.Add("ZeroPriceOverride", typeof(string));
-            this.Columns.Add("UnitActualSqft", typeof(Decimal));
-            this.Columns.Add("UnitBillableSqft", typeof(Decimal));
-            this.Columns.Add("InvoiceNum", typeof(Decimal));
-            this.Columns.Add("LoadNum", typeof(Decimal));
-            this.Columns.Add("TransactionDate", typeof(DateTime));
-            this.Columns.Add("UserId", typeof(string));
-            this.Columns.Add("ProgramId", typeof(string));
+            ExtendedProperties.Add("Target", "[EBS].[SalesLineLedger]");
+            Columns.Add("OrderNum", typeof(decimal));
+            Columns.Add("OrderType", typeof(string));
+            Columns.Add("OrderLineNum", typeof(decimal));
+
+            Columns.Add("LineType", typeof(string));
+            Columns.Add("VolumeType", typeof(string));
+            Columns.Add("Quantity", typeof(decimal));
+            Columns.Add("LastStatus", typeof(string));
+            Columns.Add("NextStatus", typeof(string));
+
+            Columns.Add("WOrderNum", typeof(decimal));
+            Columns.Add("ROrderNum", typeof(decimal));
+            Columns.Add("ROrderType", typeof(string));
+            Columns.Add("ROrderLineNum", typeof(decimal));
+            Columns.Add("ItemNum", typeof(decimal));
+            Columns.Add("ConfigId", typeof(decimal));
+            Columns.Add("GLCategory", typeof(string));
+            Columns.Add("StockType", typeof(string));
+            Columns.Add("Description1", typeof(string));
+            Columns.Add("Description2", typeof(string));
+
+            Columns.Add("OrderDate", typeof(DateTime));
+            Columns.Add("RequestedDate", typeof(DateTime));
+            Columns.Add("OrigRequestedDate", typeof(DateTime));
+            Columns.Add("CancelDate", typeof(DateTime));
+            Columns.Add("ShipDate", typeof(DateTime));
+            Columns.Add("InvoiceDate", typeof(DateTime));
+            Columns.Add("DeliveryDateTime", typeof(DateTime));
+
+            Columns.Add("CustomerSoldNum", typeof(decimal));
+            Columns.Add("CustomerShipNum", typeof(decimal));
+            Columns.Add("CustomerOrderNum", typeof(string));
+            Columns.Add("CustomerPart1", typeof(string));
+            Columns.Add("CustomerPart2", typeof(string));
+            Columns.Add("CustomerPart3", typeof(string));
+            Columns.Add("CustomerSeqNum", typeof(string));
+            Columns.Add("GenericSeqNum", typeof(string));
+            Columns.Add("ProductType", typeof(string));
+            Columns.Add("ReasonCode", typeof(string));
+            Columns.Add("Priority", typeof(string));
+
+            Columns.Add("UnitCostAmt", typeof(decimal));
+            Columns.Add("UnitPriceAmt", typeof(decimal));
+            Columns.Add("UnitListPriceAmt", typeof(decimal));
+            Columns.Add("ExtendedPriceAmt", typeof(decimal));
+            Columns.Add("PriceOverride", typeof(string));
+            Columns.Add("ZeroPriceOverride", typeof(string));
+            Columns.Add("UnitActualSqft", typeof(decimal));
+            Columns.Add("UnitBillableSqft", typeof(decimal));
+
+            Columns.Add("InvoiceNum", typeof(decimal));
+            Columns.Add("LoadNum", typeof(decimal));
+
+            Columns.Add("ScheduleBatchName", typeof(string));
+            Columns.Add("ScheduleGroupName", typeof(string));
+
+            Columns.Add("TransactionDate", typeof(DateTime));
         }
 
-        public void Add(IDataReader reader, Plant plant)
+        public void Add(IDataReader reader, Enterprise.Plant plant)
         {
             try
             {
                 while (reader.Read())
                 {
-                    DataRow row = this.NewRow();
-                    row["OrderNum"] = (object)CGServicesHV.Common.Utilities.Data.CastDbNull.To<Decimal>(reader["SDDOCO"], Decimal.Zero);
-                    row["OrderType"] = (object)CastDbNull.To<string>(reader["SDDCTO"], string.Empty).Trim();
-                    row["OrderLineNum"] = (object)(CastDbNull.To<Decimal>(reader["SDLNID"], Decimal.Zero) / new Decimal(1000));
-                    row["LineType"] = (object)CastDbNull.To<string>(reader["SDLNTY"], string.Empty).Trim();
-                    row["VolumeType"] = (object)CastDbNull.To<string>(reader["ATZ5840460"], string.Empty).Trim();
-                    row["Quantity"] = (object)(CastDbNull.To<Decimal>(reader["SDUORG"], Decimal.Zero) / new Decimal(1000));
-                    row["LastStatus"] = (object)CastDbNull.To<string>(reader["SDLTTR"], string.Empty).Trim();
-                    row["NextStatus"] = (object)CastDbNull.To<string>(reader["SDNXTR"], string.Empty).Trim();
-                    string str = CastDbNull.To<string>(reader["SDRCTO"], string.Empty).Trim();
-                    row["WOrderNum"] = (object)(str == "WO" ? CGServicesHV.Common.Utilities.Data.CastStringToDecimal(CastDbNull.To<string>(reader["SDRORN"], string.Empty).Trim()) : Decimal.Zero);
-                    row["ROrderNum"] = (object)CGServicesHV.Common.Utilities.Data.CastStringToDecimal(CastDbNull.To<string>(reader["SDRORN"], string.Empty).Trim());
-                    row["ROrderType"] = (object)CastDbNull.To<string>(reader["SDRCTO"], string.Empty).Trim();
-                    row["ROrderLineNum"] = (object)(CastDbNull.To<Decimal>(reader["SDRLLN"], Decimal.Zero) / new Decimal(1000));
-                    row["ItemNum"] = (object)CastDbNull.To<Decimal>(reader["SDITM"], Decimal.Zero);
-                    row["GLCategory"] = (object)CastDbNull.To<string>(reader["SDGLC"], string.Empty).Trim();
-                    row["StockType"] = (object)CastDbNull.To<string>(reader["IBSTKT"], string.Empty).Trim();
-                    row["Description1"] = (object)CastDbNull.To<string>(reader["SDDSC1"], string.Empty).Trim();
-                    row["Description2"] = (object)CastDbNull.To<string>(reader["SDDSC2"], string.Empty).Trim();
-                    row["OrderDate"] = (object)Timestamp.CastToDateTime(CGServicesHV.Common.Utilities.Data.CastDbNull.To<Decimal>(reader["SDTRDJ"], Decimal.Zero), Decimal.Zero);
-                    row["RequestedDate"] = (object)Timestamp.CastToDateTime(CGServicesHV.Common.Utilities.Data.CastDbNull.To<Decimal>(reader["SDDRQJ"], Decimal.Zero), Decimal.Zero);
-                    row["OrigRequestedDate"] = (object)Timestamp.CastToDateTime(CGServicesHV.Common.Utilities.Data.CastDbNull.To<Decimal>(reader["SDOPDJ"], Decimal.Zero), Decimal.Zero);
-                    row["CancelDate"] = (object)Timestamp.CastToDateTime(CGServicesHV.Common.Utilities.Data.CastDbNull.To<Decimal>(reader["SDCNDJ"], Decimal.Zero), Decimal.Zero);
-                    row["ShipDate"] = (object)Timestamp.CastToDateTime(CGServicesHV.Common.Utilities.Data.CastDbNull.To<Decimal>(reader["SDADDJ"], Decimal.Zero), Decimal.Zero);
-                    row["InvoiceDate"] = (object)Timestamp.CastToDateTime(CGServicesHV.Common.Utilities.Data.CastDbNull.To<Decimal>(reader["SDIVD"], Decimal.Zero), Decimal.Zero);
-                    row["CustomerSoldNum"] = (object)CastDbNull.To<Decimal>(reader["SDAN8"], Decimal.Zero);
-                    row["CUstomerShipNum"] = (object)CastDbNull.To<Decimal>(reader["SDSHAN"], Decimal.Zero);
-                    row["CustomerOrderNum"] = (object)CastDbNull.To<string>(reader["SDVR01"], string.Empty).Trim();
-                    row["CustomerPart1"] = (object)CastDbNull.To<string>(reader["ATZ58CP2"], string.Empty).Trim();
-                    row["CustomerPart2"] = (object)CastDbNull.To<string>(reader["ATZ58CP3"], string.Empty).Trim();
-                    row["CustomerPart3"] = (object)CastDbNull.To<string>(reader["ATZ58CP4"], string.Empty).Trim();
-                    row["CustomerSeqNum"] = (object)CastDbNull.To<string>(reader["ATZ58CSQNO"], string.Empty).Trim();
-                    row["GenericSeqNum"] = (object)CastDbNull.To<string>(reader["ATZ58GSQNO"], string.Empty).Trim();
-                    row["ProductType"] = (object)CastDbNull.To<string>(reader["ATZ58PT"], string.Empty).Trim();
-                    row["ReasonCode"] = (object)CastDbNull.To<string>(reader["SDRCD"], string.Empty).Trim();
-                    row["Priority"] = (object)CastDbNull.To<string>(reader["SDURCD"], string.Empty).Trim();
-                    row["UnitCostAmt"] = (object)(CastDbNull.To<Decimal>(reader["SDUNCS"], Decimal.Zero) / new Decimal(10000));
-                    row["UnitPriceAmt"] = 0; //(object)(CastDbNull.To<Decimal>(reader["SDUPRC"], Decimal.Zero) / new Decimal(10000)); // Do NOT push any pricing info on the Sales Line … only Cost.
-                    row["ExtendedPriceAmt"] = 0; //(object)(CastDbNull.To<Decimal>(reader["SDAEXP"], Decimal.Zero) / new Decimal(100));
-                    row["PriceOverride"] = ""; //(object)CastDbNull.To<string>(reader["SDPROV"], string.Empty).Trim();
-                    row["ZeroPriceOverride"] = ""; //(object)CastDbNull.To<string>(reader["ATZ58ZPO"], string.Empty).Trim();
-                    row["UnitActualSqft"] = (object)(CastDbNull.To<Decimal>(reader["ATZ58USF"], Decimal.Zero) / new Decimal(10000));
-                    row["UnitBillableSqft"] = (object)(CastDbNull.To<Decimal>(reader["ATZ58BSF"], Decimal.Zero) / new Decimal(10000));
-                    row["LoadNum"] = (object)CastDbNull.To<Decimal>(reader["SDPSN"], Decimal.Zero);
-                    row["InvoiceNum"] = (object)CastDbNull.To<Decimal>(reader["SDDOC"], Decimal.Zero);
-                    row["TransactionDate"] = (object)Timestamp.CastToDateTime(CGServicesHV.Common.Utilities.Data.CastDbNull.To<Decimal>(reader["SDUPMJ"], Decimal.Zero), CGServicesHV.Common.Utilities.Data.CastDbNull.To<Decimal>(reader["SDTDAY"], Decimal.Zero)).AddHours((double)plant.TimeOffset);
-                    row["UserId"] = (object)CastDbNull.To<string>(reader["SDUSER"], string.Empty).Trim();
-                    row["ProgramId"] = (object)CastDbNull.To<string>(reader["SDPID"], string.Empty).Trim();
-                    this.Rows.Add(row);
+                    DataRow dr = this.NewRow();
+                    dr["OrderNum"] = CastDbNull.To<decimal>(reader["SDDOCO"], 0);
+                    dr["OrderType"] = CastDbNull.To<string>(reader["SDDCTO"], String.Empty).Trim();
+                    dr["OrderLineNum"] = CastDbNull.To<decimal>(reader["SDLNID"], 0) / 1000;
+
+                    dr["LineType"] = CastDbNull.To<string>(reader["SDLNTY"], String.Empty).Trim();
+                    dr["VolumeType"] = CastDbNull.To<string>(reader["ATZ5840460"], String.Empty).Trim();
+                    dr["Quantity"] = CastDbNull.To<decimal>(reader["SDUORG"], 0) / 1000;
+                    dr["LastStatus"] = CastDbNull.To<string>(reader["SDLTTR"], String.Empty).Trim();
+                    dr["NextStatus"] = CastDbNull.To<string>(reader["SDNXTR"], String.Empty).Trim();
+
+                    if (CastDbNull.To<string>(reader["SDRCTO"], String.Empty).Trim() == "WO")
+                    {
+                        dr["WOrderNum"] = Data.CastStringToDecimal(CastDbNull.To<string>(reader["SDRORN"], String.Empty).Trim());
+                    }
+                    else
+                    {
+                        if (CastDbNull.To<string>(reader["SDDCTO"], String.Empty).Trim() == "ST")
+                        {
+                            dr["WOrderNum"] = CastDbNull.To<decimal>(reader["ATZ58WODC"], 0);
+                        }
+                        else
+                        {
+                            dr["WOrderNum"] = (decimal)0;
+                        }
+                    }
+                    dr["ROrderNum"] = Data.CastStringToDecimal(CastDbNull.To<string>(reader["SDRORN"], String.Empty).Trim());
+                    dr["ROrderType"] = CastDbNull.To<string>(reader["SDRCTO"], String.Empty).Trim();
+                    dr["ROrderLineNum"] = CastDbNull.To<decimal>(reader["SDRLLN"], 0) / 1000;
+
+                    dr["ItemNum"] = CastDbNull.To<decimal>(reader["SDITM"], 0);
+                    dr["ConfigId"] = CastDbNull.To<decimal>(reader["CMCFGID"], 0);
+                    dr["GLCategory"] = CastDbNull.To<string>(reader["SDGLC"], String.Empty).Trim();
+                    dr["Description1"] = CastDbNull.To<string>(reader["SDDSC1"], String.Empty).Trim();
+                    dr["Description2"] = CastDbNull.To<string>(reader["SDDSC2"], String.Empty).Trim();
+
+                    dr["OrderDate"] = Timestamp.CastToDateTime(Data.CastDbNull.To<decimal>(reader["SDTRDJ"], 0));
+                    dr["RequestedDate"] = Timestamp.CastToDateTime(Data.CastDbNull.To<decimal>(reader["SDDRQJ"], 0));
+                    dr["OrigRequestedDate"] = Timestamp.CastToDateTime(Data.CastDbNull.To<decimal>(reader["SDOPDJ"], 0));
+                    dr["CancelDate"] = Timestamp.CastToDateTime(Data.CastDbNull.To<decimal>(reader["SDCNDJ"], 0));
+                    dr["ShipDate"] = Timestamp.CastToDateTime(Data.CastDbNull.To<decimal>(reader["SDADDJ"], 0));
+                    dr["InvoiceDate"] = Timestamp.CastToDateTime(Data.CastDbNull.To<decimal>(reader["SDIVD"], 0));
+                    dr["DeliveryDateTime"] = Timestamp.CastToDateTime(Data.CastDbNull.To<decimal>(reader["SDPDDJ"], 0),
+                        Data.CastDbNull.To<decimal>(reader["SDDRQT"], 0));
+
+                    dr["CustomerSoldNum"] = CastDbNull.To<decimal>(reader["SDAN8"], 0);
+                    dr["CUstomerShipNum"] = CastDbNull.To<decimal>(reader["SDSHAN"], 0);
+                    dr["CustomerOrderNum"] = CastDbNull.To<string>(reader["SDVR01"], String.Empty).Trim();
+                    dr["CustomerPart1"] = CastDbNull.To<string>(reader["ATZ58CP2"], String.Empty).Trim();
+                    dr["CustomerPart2"] = CastDbNull.To<string>(reader["ATZ58CP3"], String.Empty).Trim();
+                    dr["CustomerPart3"] = CastDbNull.To<string>(reader["ATZ58CP4"], String.Empty).Trim();
+                    dr["CustomerSeqNum"] = CastDbNull.To<string>(reader["ATZ58CSQNO"], String.Empty).Trim();
+                    dr["GenericSeqNum"] = CastDbNull.To<string>(reader["ATZ58GSQNO"], String.Empty).Trim();
+                    dr["ProductType"] = CastDbNull.To<string>(reader["ATZ58PT"], String.Empty).Trim();
+                    dr["ReasonCode"] = CastDbNull.To<string>(reader["SDRCD"], String.Empty).Trim();
+                    dr["Priority"] = CastDbNull.To<string>(reader["SDURCD"], String.Empty).Trim();
+
+                    dr["UnitCostAmt"] = CastDbNull.To<decimal>(reader["SDUNCS"], 0) / 10000;
+                    dr["UnitPriceAmt"] = CastDbNull.To<decimal>(reader["SDUPRC"], 0) / 10000;
+                    dr["UnitListPriceAmt"] = CastDbNull.To<decimal>(reader["SDLPRC"], 0) / 10000;
+                    dr["ExtendedPriceAmt"] = CastDbNull.To<decimal>(reader["SDAEXP"], 0) / 100;
+                    dr["PriceOverride"] = CastDbNull.To<string>(reader["SDPROV"], String.Empty).Trim();
+                    dr["ZeroPriceOverride"] = CastDbNull.To<string>(reader["ATZ58ZPO"], String.Empty).Trim();
+
+                    dr["UnitActualSqft"] = CastDbNull.To<decimal>(reader["ATZ58USF"], 0) / 10000;
+                    dr["UnitBillableSqft"] = CastDbNull.To<decimal>(reader["ATZ58BSF"], 0) / 10000;
+
+                    dr["LoadNum"] = CastDbNull.To<decimal>(reader["SDPSN"], 0);
+                    dr["InvoiceNum"] = CastDbNull.To<decimal>(reader["SDDOC"], 0);
+
+                    dr["ScheduleBatchName"] = CastDbNull.To<string>(reader["BHZ58BDES"], String.Empty).Trim();
+                    dr["ScheduleGroupName"] = CastDbNull.To<string>(reader["BHZ58GDES"], String.Empty).Trim();
+
+                    dr["TransactionDate"] = Timestamp.CastToDateTime(Data.CastDbNull.To<decimal>(reader["SDUPMJ"], 0),
+                        Data.CastDbNull.To<decimal>(reader["SDTDAY"], 0)).AddMinutes(plant.BusinessSystemOffset);
+                    this.Rows.Add(dr);
                 }
                 reader.Close();
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                throw new Exception(ex.Message);
+                throw new Exception(e.Message);
             }
         }
     }

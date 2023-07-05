@@ -26,6 +26,7 @@ namespace CGServicesHV.Common.Managers.Process
         {
             var hash = new Dictionary<string, iDB2Command>
             {
+                {"SpecUnitMtoDownloadManager.GetF3215Data", GetF3215Data()},
                 {"SpecUnitMtoDownloadManager.GetSpecUnitDocumentsPrepared", GetSpecUnitDocumentsPrepared()}
             };
             foreach (var keyName in hash.Keys.Where(keyName => !session.DbCommands.ContainsKey(keyName))) session.DbCommands.Add(keyName, hash[keyName]);
@@ -275,6 +276,57 @@ namespace CGServicesHV.Common.Managers.Process
                                 step5a.Done();
                                 response.RowsAffected = step5a.RowsAffected;
                                 response.AddStep(step5a);
+                            }
+                        }
+
+                        /********************************************************/
+                        var table1 = new ConfiguratorPartTable();
+                        var stepF3215 = new ProcessStep("Get F3215 Data");
+                        try
+                        {
+                            var cmd = session.DbCommands["SpecUnitMtoDownloadManager.GetF3215Data"];
+                            cmd.Connection = session.DbConnection;
+                            foreach (SpecUnitItem specUnit in specUnitItems)
+                            {
+                                cmd.Parameters[0].Value = plant.PlantNum.PadLeft(12);
+                                cmd.Parameters[1].Value = specUnit.ConfigId;
+                                var reader = cmd.ExecuteReader(CommandBehavior.SingleResult);
+                                table1.Add(reader, plant);
+                            }
+                            stepF3215.RowsAffected = table1.Rows.Count;
+                        }
+                        catch (Exception e)
+                        {
+                            stepF3215.Errors.Add(new Error(e));
+                        }
+                        stepF3215.Done();
+                        response.AddStep(stepF3215);
+
+                        /********************************************************/
+                        if (!response.HasErrors() && table1.Rows.Count > 0)
+                        {
+                            var stepF3215Bulk = new ProcessStep("Bulk Copy Configurator Part");
+                            SqlBulkCopyResponse bulkResponse = new SqlBulkCopyResponse();
+                            try
+                            {
+                                if (table1.Rows.Count > 0)
+                                {
+                                    bulkResponse =
+                                        BulkCopyManager.BulkTable(table1.ExtendedProperties["Target"].ToString(),
+                                            table1, sqlCns["PLANT.INTEGRATION"]);
+                                }
+                            }
+                            catch (Exception e)
+                            {
+                                stepF3215Bulk.Errors.Add(new Error(e));
+                            }
+                            finally
+                            {
+                                stepF3215Bulk.RowsAffected = (int)bulkResponse.RowsCopied;
+                                stepF3215Bulk.SqlBulkCopyResponses.Add(bulkResponse);
+                                stepF3215Bulk.Done();
+                                response.RowsAffected = stepF3215Bulk.RowsAffected;
+                                response.AddStep(stepF3215Bulk);
                             }
                         }
 
@@ -809,6 +861,43 @@ namespace CGServicesHV.Common.Managers.Process
             }
 
             return specUnitDocuments;
+        }
+
+        private iDB2Command GetF3215Data()
+        {
+            var cmd = new iDB2Command
+            {
+                CommandType = CommandType.Text,
+                CommandText = $@"
+                SELECT 
+	                CCCFGID, 
+	                CCITM, 
+	                CCMCU, 
+	                CCDSC1, 
+                    CCLOCN,
+                    CCDSC1,
+	                CCQNTY, 
+	                CCUOM, 
+	                CCOPSQ, 
+	                CCECST, 
+	                CCUPMJ,
+	                CCTDAY, 
+	                ROW_NUMBER() OVER (ORDER BY CCCFGCID) AS CCCPNB
+                FROM 
+	                F3215 
+                WHERE 
+	                CCMCU = ? AND
+                    CCCFGID = ? AND
+	                CCCFGSID = ''
+                ORDER BY 
+	                CCCFGCID
+                FOR READ ONLY"
+            };
+            cmd.Parameters.Add(new iDB2Parameter("MCU", iDB2DbType.iDB2Graphic, 12));
+            cmd.Parameters.Add(new iDB2Parameter("CFGID", iDB2DbType.iDB2Decimal));
+            cmd.Parameters["CFGID"].Precision = 15;
+            cmd.Parameters["CFGID"].Scale = 0;
+            return cmd;
         }
     }
 }

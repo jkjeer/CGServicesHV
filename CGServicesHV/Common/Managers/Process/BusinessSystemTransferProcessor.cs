@@ -41,10 +41,13 @@ namespace CGServicesHV.Common.Managers.Process
                 sb.Append(Environment.NewLine);
                 sb.Append($"Processor: {Processor.Method.Name}");
                 sb.Append(Environment.NewLine);
-                foreach (var p in Parms)
+                if (Parms != null)
                 {
-                    sb.Append($"Parm: {p.Key} {p.Value}");
-                    sb.Append(Environment.NewLine);
+                    foreach (var p in Parms)
+                    {
+                        sb.Append($"Parm: {p.Key} {p.Value}");
+                        sb.Append(Environment.NewLine);
+                    }
                 }
                 foreach (var r in Resources)
                 {
@@ -95,7 +98,7 @@ namespace CGServicesHV.Common.Managers.Process
                 {
                     if (activeList.Contains(subscriptionType.SubscriptionTypeCode))
                     {
-                        Logger.Info($"Adding Subscription {plant.PlantCode} {subscriptionType.SubscriptionTypeCode}");
+                        Logger.Trace($"Adding Subscription {plant.PlantCode} {subscriptionType.SubscriptionTypeCode}");
                         var invocation = new InvocationObject
                         {
                             Processor = subscriptionType.DelegateMethod,
@@ -113,13 +116,13 @@ namespace CGServicesHV.Common.Managers.Process
                     }
                     else
                     {
-                        Logger.Info($"WARNING: Plant {plant.PlantCode} Subscription {subscriptionType.SubscriptionTypeCode} is INACTIVE");
+                        Logger.Trace($"WARNING: Plant {plant.PlantCode} Subscription {subscriptionType.SubscriptionTypeCode} is INACTIVE");
                         //auxResponse.Errors.Add(new Error($"WARNING: Plant {plant.PlantCode} Subscription {subscriptionType.SubscriptionTypeCode} is INACTIVE"));
                     }
                 }
                 if (invocations.Any())
                 {
-                    Logger.Info($"Adding {invocations.Count} Invocations for {plant.PlantCode}");
+                    Logger.Trace($"Adding {invocations.Count} Invocations for {plant.PlantCode}");
                     dict.Add(plant, invocations);
                 }
             }
@@ -146,8 +149,8 @@ namespace CGServicesHV.Common.Managers.Process
                 invocations.Add(invocation);
                 if (invocations.Any())
                 {
-                    Logger.Info($"Adding {invocations.Count} Invocations for {plant.PlantCode}");
-                    Logger.Info(SerializeInvocations(plant, invocations));
+                    Logger.Trace($"Adding {invocations.Count} Invocations for {plant.PlantCode}");
+                    Logger.Trace(SerializeInvocations(plant, invocations));
                     dict.Add(plant, invocations);
                 }
             }
@@ -167,7 +170,7 @@ namespace CGServicesHV.Common.Managers.Process
             {
                 Parallel.ForEach(plantJobs, kvp =>
                 {
-                    Logger.Info($"Parallel Processor");
+                    Logger.Trace($"Parallel Processor");
                     var response = new ProcessResponse($"Parallel Processor", kvp.Key);
                     var session = new BusinessSystemSession();
                     var sqlCns = new Dictionary<string, SqlConnection>();
@@ -237,6 +240,13 @@ namespace CGServicesHV.Common.Managers.Process
                                 cnCorpInt.Open();
                                 sqlCns.Add("CORP.INTEGRATION", cnCorpInt);
                             }
+                            // Corporate Data Warehouse Connection
+                            if (kvp.Value.Any(x => x.Resources.Contains("CORP.WAREHOUSE")))
+                            {
+                                var cnCorpDW = ConnectionManager.GetSqlConnectionFromKey("CORP.WAREHOUSE");
+                                cnCorpDW.Open();
+                                sqlCns.Add("CORP.WAREHOUSE", cnCorpDW);
+                            }
                         }
                         catch (Exception e)
                         {
@@ -255,18 +265,18 @@ namespace CGServicesHV.Common.Managers.Process
                                     if (sqlCn.Value.State != ConnectionState.Open)
                                     {
                                         connectionState = false;
-                                        Logger.Info($"Parallel Call {kvp.Key.PlantCode} {invocation.Processor.Method.Name} Processor connection {sqlCn.Value.DataSource}.{sqlCn.Value.Database} is NOT Open");
+                                        Logger.Trace($"Parallel Call {kvp.Key.PlantCode} {invocation.Processor.Method.Name} Processor connection {sqlCn.Value.DataSource}.{sqlCn.Value.Database} is NOT Open");
                                         parallelResponse.Errors.Add(new Error($"Parallel Call {kvp.Key.PlantCode} {invocation.Processor.Method.Name} Processor connection {sqlCn.Value.DataSource}.{sqlCn.Value.Database} is NOT Open"));
                                     }
                                 }
                                 if (connectionState)
                                 {
-                                    Logger.Info($"kvp.Key.PlantCode = {kvp.Key.PlantCode}");
-                                    Logger.Info($"invocation = {invocation.Resources}");
-                                    Logger.Info($"invocation.Processor.Method.Name = {invocation?.Processor?.Method?.Name}");
+                                    Logger.Debug($"kvp.Key.PlantCode = {kvp.Key.PlantCode}");
+                                    Logger.Debug($"invocation = {invocation.Resources}");
+                                    Logger.Debug($"invocation.Processor.Method.Name = {invocation?.Processor?.Method?.Name}");
                                     if (invocation.Processor != null)
                                     {
-                                        Logger.Info($"Parallel Call {kvp.Key.PlantCode} {invocation.Processor.Method.Name} Processor");
+                                        Logger.Debug($"Parallel Call {kvp.Key.PlantCode} {invocation.Processor.Method.Name} Processor");
                                         var step3 = new ProcessStep($"Call {kvp.Key.PlantCode} {invocation.Processor.Method.Name} Processor");
                                         try
                                         {
@@ -337,7 +347,7 @@ namespace CGServicesHV.Common.Managers.Process
             {
                 foreach (var kvp in invocations)
                 {
-                    Logger.Info($"Synchronous Processor");
+                    Logger.Trace($"Synchronous Processor");
                     var sqlCns = new Dictionary<string, SqlConnection>();
                     var response = new ProcessResponse($"Synchronous Processor", kvp.Key);
                     var session = new BusinessSystemSession();
@@ -406,6 +416,13 @@ namespace CGServicesHV.Common.Managers.Process
                                 cnCorpInt.Open();
                                 sqlCns.Add("CORP.INTEGRATION", cnCorpInt);
                             }
+                            // Corporate Data Warehouse Connection
+                            if (kvp.Value.Any(x => x.Resources.Contains("CORP.WAREHOUSE")))
+                            {
+                                var cnCorpDW = ConnectionManager.GetSqlConnectionFromKey("CORP.WAREHOUSE");
+                                cnCorpDW.Open();
+                                sqlCns.Add("CORP.WAREHOUSE", cnCorpDW);
+                            }
                         }
                         catch (Exception e)
                         {
@@ -424,13 +441,13 @@ namespace CGServicesHV.Common.Managers.Process
                                     if (sqlCn.Value.State != ConnectionState.Open)
                                     {
                                         connectionState = false;
-                                        Logger.Info($"Synchronous Call {kvp.Key.PlantCode} {invocation.Processor.Method.Name} Processor connection {sqlCn.Value.DataSource}.{sqlCn.Value.Database} is NOT Open");
+                                        Logger.Trace($"Synchronous Call {kvp.Key.PlantCode} {invocation.Processor.Method.Name} Processor connection {sqlCn.Value.DataSource}.{sqlCn.Value.Database} is NOT Open");
                                         synchResponse.Errors.Add(new Error($"Synchronous Call {kvp.Key.PlantCode} {invocation.Processor.Method.Name} Processor connection {sqlCn.Value.DataSource}.{sqlCn.Value.Database} is NOT Open"));
                                     }
                                 }
                                 if (connectionState)
                                 {
-                                    Logger.Info($"Synchronous Call {kvp.Key.PlantCode} {invocation.Processor.Method.Name} Processor");
+                                    Logger.Trace($"Synchronous Call {kvp.Key.PlantCode} {invocation.Processor.Method.Name} Processor");
                                     var step3 = new ProcessStep($"Call {kvp.Key.PlantCode} {invocation.Processor.Method.Name} Processor");
                                     try
                                     {

@@ -344,6 +344,7 @@ namespace CGServicesHV.Common.Managers.Process
 						        F580056
 					        WHERE 
 						        RDZ58DST NOT IN ('0') AND
+                                RDPQOH > 0 AND
 						        RDMCU = '          32'  ) A 
 				        WHERE A.RN = 1
                     UNION
@@ -363,6 +364,7 @@ namespace CGServicesHV.Common.Managers.Process
                                 INNER JOIN F580055 ON RHZ58RID = RDZ58RID
 					        WHERE 
 						        RDZ58DST NOT IN ('0') AND
+                                RDPQOH > 0 AND
 						        RDMCU IN ('          05', '          04', '          08') AND 
 					            RHLOCN LIKE 'MZ%'
 						        ) B 

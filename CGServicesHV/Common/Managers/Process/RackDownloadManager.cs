@@ -188,8 +188,9 @@ namespace CGServicesHV.Common.Managers.Process
                         RHPID AS PID,
 		                CAST(0 AS DECIMAL(15,0)) AS HLUKID,
 		                CAST('Init' AS VARCHAR(10)) AS HLIOPR,
-                        HLMUPM AS HLMUPM_ORIG,
-                        HLUPMT AS HLUPMT_ORIG
+                        CAST(0 AS DECIMAL(6,0)) AS HLMUPM_ORIG,
+                        CAST(0 AS DECIMAL(6,0)) AS HLUPMT_ORIG,
+                        RHZ58NA02 AS HLZ58NA02
                     FROM 
 	                    F580055
                         LEFT OUTER JOIN F580559
@@ -308,12 +309,14 @@ namespace CGServicesHV.Common.Managers.Process
                         HLPID AS PID,
                         HLIOPR,
                         CAST(0 AS DECIMAL(6,0)) AS HLMUPM_ORIG,
-                        CAST(0 AS DECIMAL(6,0)) AS HLUPMT_ORIG         
+                        CAST(0 AS DECIMAL(6,0)) AS HLUPMT_ORIG,        
+                        HLZ58NA02 AS HLZ58NA02
                     FROM 
                         F580559
                     WHERE 
                         HLUKID > ? AND HLMCU = ? 
-                    FOR READ ONLY"
+                    FOR READ ONLY
+                "
             };
             cmd.Parameters.Add(new iDB2Parameter("UKID", iDB2DbType.iDB2Decimal));
             cmd.Parameters["UKID"].Precision = 15;

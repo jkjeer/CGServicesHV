@@ -35,7 +35,7 @@ namespace CGServicesHV.Common.Managers.Enterprise
         public static ProcessSteps SetSubscription(SqlConnection cnInt, string plantString, string subscriptionTypeString, bool isActive, bool isEnabled)
         {
             var startTime = DateTime.Now.ToLocalTime();
-            Logger.Info($"BEGIN: {DateTime.Now.ToLocalTime()}");
+            Logger.Trace($"BEGIN: {DateTime.Now.ToLocalTime()}");
             var steps = new ProcessSteps();
             var step = new ProcessStep($@"Step. Update Plant ({plantString})");
             try
@@ -66,7 +66,7 @@ namespace CGServicesHV.Common.Managers.Enterprise
             }
             finally
             {
-                Logger.Info($"END: {Convert.ToDecimal((DateTime.Now.ToLocalTime() - startTime).TotalSeconds)} SECONDS");
+                Logger.Trace($"END: {Convert.ToDecimal((DateTime.Now.ToLocalTime() - startTime).TotalSeconds)} SECONDS");
             }
             return steps;
         }
@@ -156,7 +156,7 @@ namespace CGServicesHV.Common.Managers.Enterprise
                 var cmd = GetSubscriptionList();
                 cmd.Parameters["@PLANT_ALPHA_CD"].Value = plant.PlantCode;
                 cmd.Connection = cn;
-                Logger.Info(Logging.DbCmdString(cmd));
+                Logger.Trace(Logging.DbCmdString(cmd));
                 using (IDataReader reader = cmd.ExecuteReader(CommandBehavior.SingleResult))
                 {
                     while (reader.Read())
@@ -167,7 +167,7 @@ namespace CGServicesHV.Common.Managers.Enterprise
 
                     reader.Close();
                 }
-                Logger.Info($@"Rows: {subscriptions.Count}");
+                Logger.Trace($@"Rows: {subscriptions.Count}");
             }
             catch (Exception e)
             {
@@ -299,8 +299,8 @@ namespace CGServicesHV.Common.Managers.Enterprise
                     //CacheItemPolicy cacheItemPolicy = new CacheItemPolicy();
                     ////cacheItemPolicy.AbsoluteExpiration = DateTime.Now.AddHours(1.0);
                     //cache.Add("SubscriptionTypeItems", subscriptionTypeItems, cacheItemPolicy);
-                    //Logger.Info("Subscription Type Cache Loaded");
-                    //Logger.Info(XmlSerializationUtility.SerializeObject(Encoding.UTF8, subscriptionTypeItems));
+                    //Logger.Trace("Subscription Type Cache Loaded");
+                    //Logger.Trace(XmlSerializationUtility.SerializeObject(Encoding.UTF8, subscriptionTypeItems));
                 }
                 catch (Exception e)
                 {
@@ -502,11 +502,11 @@ namespace CGServicesHV.Common.Managers.Enterprise
         {
             try
             {
-                Logger.Info($"GetDelegateDynamic CGServicesHV.{className} {methodName}");
+                Logger.Trace($"GetDelegateDynamic CGServicesHV.{className} {methodName}");
                 Type t = Type.GetType($"CGServicesHV.{className}");
                 //ReSharper disable once AssignNullToNotNullAttribute
                 var d = (BusinessSystemTransferProcessor.ProcessDelegate)Delegate.CreateDelegate(typeof(BusinessSystemTransferProcessor.ProcessDelegate), t, methodName);
-                Logger.Info($"GetDelegateDynamic OK - {d.Method}");
+                Logger.Trace($"GetDelegateDynamic OK - {d.Method}");
                 return d;
             }
             catch (Exception)
@@ -555,7 +555,7 @@ namespace CGServicesHV.Common.Managers.Enterprise
                 // Store data in the cache
                 CacheItemPolicy cacheItemPolicy = new CacheItemPolicy();
                 cache.Add("SubscriptionTypeItems", subscriptionTypeItems, cacheItemPolicy);
-                Logger.Info(XmlSerializationUtility.SerializeObject(Encoding.UTF8, (SubscriptionTypeItems)cache.Get("SubscriptionTypeItems"), true));
+                Logger.Trace(XmlSerializationUtility.SerializeObject(Encoding.UTF8, (SubscriptionTypeItems)cache.Get("SubscriptionTypeItems"), true));
             }
             catch (Exception e)
             {
@@ -611,9 +611,9 @@ namespace CGServicesHV.Common.Managers.Enterprise
             {
                 var toConfigAddresses = ConfigurationManager.AppSettings["MailErrorToAddress"];
                 var serializedXml = response.Serialize();
-                Logger.Info($"Serialized Process: {serializedXml}");
+                Logger.Trace($"Serialized Process: {serializedXml}");
                 var xslOutput = XsltManager.Transform(serializedXml, "CGServicesHV.Common.Xslt.RunSubscriptionType.xslt", Encoding.UTF8);
-                Logger.Info($"Report XML: {xslOutput}");
+                Logger.Trace($"Report XML: {xslOutput}");
                 var subject = $@"Run Subscription Type [{ConfigurationManager.AppSettings["PrimaryEnvironment"]}]";
                 if (response.HasErrors()) subject = $"Error - {subject}";
                 Mail.SendHtmlAsync(ConfigurationManager.AppSettings["SmtpHost"],

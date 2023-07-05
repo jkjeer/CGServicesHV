@@ -143,6 +143,42 @@ namespace CGServicesHV.Common.Managers.Process
         /********************************************************************************
         * EVENTS
         ********************************************************************************/
+        //private static iDB2Command GetReader(IReadOnlyCollection<string> filters)
+        //{
+        //    var filterString = new StringBuilder();
+        //    foreach (var filter in filters)
+        //    {
+        //        filterString.Append(filter);
+        //    }
+        //    var cmd = new iDB2Command
+        //    {
+        //        CommandType = CommandType.Text,
+        //        CommandText = $@"
+        //        SELECT 
+        //         ROMCU,
+        //         RODOCO,
+        //         RODCTO,
+        //         ROLNID,
+        //         ROZ58L1CLN,
+        //         ROMCU2,
+        //         RODOC1,
+        //         RORCTO,
+        //         RORLLN,
+        //         ROEDTR,
+        //         ROUORG,
+        //         ROZ58JBSTS,
+        //         ROUPMJ,
+        //         ROTDAY
+        //        FROM 
+        //         F580400
+        //     WHERE 
+        //            {filterString}
+        //         RODOCO > 0 AND
+        //         ROMCU2 != ''"
+        //    };
+        //    return cmd;
+        //}
+
         private static iDB2Command GetReader(IReadOnlyCollection<string> filters)
         {
             var filterString = new StringBuilder();
@@ -168,13 +204,39 @@ namespace CGServicesHV.Common.Managers.Process
 	                ROUORG,
 	                ROZ58JBSTS,
 	                ROUPMJ,
-	                ROTDAY
+	                ROTDAY,
+                    ATZ58WODC AS WADOCO,
+                    ATZ58WOTY AS WADCTO,
+                    COALESCE(PDAN8, 0) AS PDAN8
                 FROM 
 	                F580400
+	                LEFT OUTER JOIN F4211 SD1
+	                ON	SD1.SDKCOO = ROKCOO AND
+		                SD1.SDDOCO = RODOCO AND
+		                SD1.SDDCTO = RODCTO AND
+		                SD1.SDLNID = ROLNID	                
+                    LEFT OUTER JOIN F42119 SD2
+	                ON	SD2.SDKCOO = ROKCOO AND
+		                SD2.SDDOCO = RODOCO AND
+		                SD2.SDDCTO = RODCTO AND
+		                SD2.SDLNID = ROLNID
+					LEFT OUTER JOIN F580032
+					ON  ATKCOO = COALESCE(SD1.SDKCOO, SD2.SDKCOO) AND
+						ATDOCO = COALESCE(SD1.SDDOCO, SD2.SDDOCO) AND
+						ATDCTO = COALESCE(SD1.SDDCTO, SD2.SDDCTO) AND
+						ATLNID = COALESCE(SD1.SDLNID, SD2.SDLNID) 
+                    LEFT OUTER JOIN F4311
+                    ON  PDKCOO = RORKCO AND
+                        PDDOCO = RODOC1 AND
+                        PDDCTO = RORCTO AND
+                        PDLNID = RORLLN
 	            WHERE 
                     {filterString}
+                    ROZ58JBSTS IN ('30','40') AND
 	                RODOCO > 0 AND
-	                ROMCU2 != ''"
+					ROEDTR IN ('S','V','R','8','Y') 
+                FOR READ ONLY
+                "
             };
             return cmd;
         }

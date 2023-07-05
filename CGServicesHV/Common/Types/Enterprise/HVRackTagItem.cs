@@ -81,6 +81,10 @@ namespace CGServicesHV.Common.Types.Enterprise
             GlassHeatTreatment = "";
             FirstSurfaceCoat = "";
             SecondSurfaceCoat = "";
+
+            SecondSurfaceCoatDesc1 = "";
+            TradeMarkInfoToPrint = "";
+
             Dimensions = "";
             DimensionsMetric = "";
             Quantity = 0;
@@ -237,6 +241,15 @@ namespace CGServicesHV.Common.Types.Enterprise
 
         [DataMember(EmitDefaultValue = true)]
         public string SecondSurfaceCoat { get; set; }
+
+
+
+        [DataMember(EmitDefaultValue = true)]
+        public string SecondSurfaceCoatDesc1 { get; set; }
+
+        [DataMember(EmitDefaultValue = true)]
+        public string TradeMarkInfoToPrint { get; set; }
+
 
         [DataMember(EmitDefaultValue = true)]
         public string Dimensions { get; set; }

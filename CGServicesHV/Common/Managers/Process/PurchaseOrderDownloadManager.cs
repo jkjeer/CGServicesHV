@@ -196,6 +196,10 @@ namespace CGServicesHV.Common.Managers.Process
 	                    OLGLC,
 	                    OLUPMJ,
 	                    OLTDAY,
+                    OLUOM,
+                    OLRORN,
+                    OLRCTO,
+                    OLRLLN,
                         CMCFGID
                     FROM 
 	                    F43199
@@ -206,7 +210,8 @@ namespace CGServicesHV.Common.Managers.Process
                             CMLNID = OLLNID
 	                WHERE 
                         {filterString}
-	                    OLGLC IN ('GLAS','GLAF','GLAX','GLAZ','GLAC','COMA')"
+	                    OLGLC IN ('GLAS','GLAF','GLAX','GLAZ','GLAC','COMA')
+                "
                 //ORDER BY OLUKID
                 //FETCH FIRST 50000 ROWS ONLY"
             };
@@ -298,6 +303,10 @@ namespace CGServicesHV.Common.Managers.Process
 	                        PDGLC AS OLGLC,
 	                        PDUPMJ AS OLUPMJ,
 	                        PDTDAY AS OLTDAY,
+                    PDUOM AS OLUOM,
+                    PDRORN AS OLRORN,
+                    PDRCTO AS OLRCTO,
+                    PDRLLN AS OLRLLN,
                             CMCFGID,
                             ROW_NUMBER() OVER (PARTITION BY PDKCOO, PDDOCO, PDDCTO, PDLNID ORDER BY PDUPMJ, PDTDAY) AS RN
                         FROM 
@@ -311,7 +320,8 @@ namespace CGServicesHV.Common.Managers.Process
                             {filterString}
 	                        PDGLC IN ('GLAS','GLAF','GLAX','GLAZ','GLAC','COMA')
                     ) A
-                    WHERE A.RN = 1"
+                    WHERE A.RN = 1
+                "
             };
             return cmd;
         }

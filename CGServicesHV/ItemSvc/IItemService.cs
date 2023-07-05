@@ -11,16 +11,22 @@ namespace CGServicesHV.ItemSvc
     {
 
         [OperationContract, OperationInvokerLogger]
-        ProcessResponse DownloadGlassItems(string plant, TimeSpan timeSpan, bool useHighWaterMark = false, bool parallel = false, decimal itemNum = 0, string stockTypes = null);
+        ProcessResponse DownloadItems(string plants, TimeSpan timeSpan, bool useHighWaterMark = false, bool parallel = false, string stockTypes = null, string glCategories = null, decimal itemNum = 0);
 
         [OperationContract, OperationInvokerLogger]
-        ProcessResponse DownloadItems(string plant, TimeSpan timeSpan, bool useHighWaterMark = false, bool parallel = false, decimal itemNum = 0, string stockTypes = null);
+        ProcessResponse DownloadItemCosts(string plants, TimeSpan timeSpan, bool useHighWaterMark = false, bool parallel = false, decimal itemNum = 0);
+
+        [OperationContract, OperationInvokerLogger]
+        ProcessResponse DownloadItemUOMs(string plants, TimeSpan timeSpan, bool useHighWaterMark = false, bool parallel = false, decimal itemNum = 0);
+
+        [OperationContract, OperationInvokerLogger]
+        ProcessResponse DownloadGlassItems(string plant, TimeSpan timeSpan, bool useHighWaterMark = false, bool parallel = false, decimal itemNum = 0, string stockTypes = null);
 
         [OperationContract, OperationInvokerLogger]
         ProcessResponse DownloadItemXref(string plant, TimeSpan timeSpan, bool useHighWaterMark = false, bool parallel = false, string xrefTypes = null);
 
-        //[OperationContract, OperationInvokerLogger]
-        //ProcessResponse UploadMachinePartTransaction(string plantCode);
+        [OperationContract, OperationInvokerLogger]
+        ProcessResponse UploadMachinePartTransaction(string plantCode);
 
         [OperationContract, OperationInvokerLogger]
         ProcessResponse UploadMachineParts(string plant, TimeSpan timeSpan, bool useHighWaterMark = false, bool parallel = false);
@@ -34,6 +40,12 @@ namespace CGServicesHV.ItemSvc
         [OperationContract, OperationInvokerLogger]
         ProcessResponse DownloadSpecUnits(string plant, TimeSpan timeSpan, bool useHighWaterMark = false, bool parallel = false, decimal itemNum = 0);
 
+        [OperationContract, OperationInvokerLogger]
+        ProcessResponse DownloadAccountBalances(string plant, TimeSpan timeSpan, bool useHighWaterMark, bool parallel, int century, int year);
+
+        [OperationContract, OperationInvokerLogger]
+        ProcessResponse DownloadAccounts(string plant, TimeSpan timeSpan, bool useHighWaterMark, bool parallel);
+
     }
 
     [ServiceContract]
@@ -41,20 +53,36 @@ namespace CGServicesHV.ItemSvc
     {
 
         [OperationContract, OperationInvokerLogger]
-        [WebGet(UriTemplate = "/DownloadGlassItems?Plant={plant}&TimeSpan={timeSpan}&HighWaterMark={useHighWaterMark}&Parallel={parallel}&ItemNum={itemNum}&StockTypes={stockTypes}")]
-        ProcessResponse DownloadGlassItems(string plant, TimeSpan timeSpan, bool useHighWaterMark, bool parallel, decimal itemNum, string stockTypes);
+        [WebGet(UriTemplate = "/DownloadItems?Plant={plants}&TimeSpan={timeSpan}&HighWaterMark={useHighWaterMark}&Parallel={parallel}&StockTypes={stockTypes}&GlCategories={glCategories}&ItemNum={itemNum}")]
+        ProcessResponse DownloadItems(string plants, TimeSpan timeSpan, bool useHighWaterMark, bool parallel, string stockTypes, string glCategories, decimal itemNum);
 
         [OperationContract, OperationInvokerLogger]
-        [WebGet(UriTemplate = "/DownloadItems?Plant={plant}&TimeSpan={timeSpan}&HighWaterMark={useHighWaterMark}&Parallel={parallel}&ItemNum={itemNum}&StockTypes={stockTypes}")]
-        ProcessResponse DownloadItems(string plant, TimeSpan timeSpan, bool useHighWaterMark, bool parallel, decimal itemNum, string stockTypes);
+        [WebGet(UriTemplate = "/DownloadItemCosts?Plant={plants}&TimeSpan={timeSpan}&HighWaterMark={useHighWaterMark}&Parallel={parallel}&ItemNum={itemNum}")]
+        ProcessResponse DownloadItemCosts(string plants, TimeSpan timeSpan, bool useHighWaterMark, bool parallel, decimal itemNum);
+
+        [OperationContract, OperationInvokerLogger]
+        [WebGet(UriTemplate = "/DownloadItemUOMs?Plant={plants}&TimeSpan={timeSpan}&HighWaterMark={useHighWaterMark}&Parallel={parallel}&ItemNum={itemNum}")]
+        ProcessResponse DownloadItemUOMs(string plants, TimeSpan timeSpan, bool useHighWaterMark, bool parallel, decimal itemNum);
+
+        [OperationContract, OperationInvokerLogger]
+        [WebGet(UriTemplate = "/DownloadGlassItemMetrics?Plant={plantCode}&TimeSpan={timeSpan}&HighWaterMark={useHighWaterMark}&Parallel={parallel}&Metrics={metrics}&ItemNum={itemNum}")]
+        ProcessResponse DownloadGlassItemMetrics(string plantCode, TimeSpan timeSpan, bool useHighWaterMark, bool parallel, string metrics, decimal itemNum);
+
+        [OperationContract, OperationInvokerLogger]
+        [WebGet(UriTemplate = "/DownloadItemMetrics?Plant={plantCode}&TimeSpan={timeSpan}&HighWaterMark={useHighWaterMark}&Parallel={parallel}&DocumentType={documentTypes}")]
+        ProcessResponse DownloadItemMetrics(string plantCode, TimeSpan timeSpan, bool useHighWaterMark, bool parallel, string documentTypes);
+
+        [OperationContract, OperationInvokerLogger]
+        [WebGet(UriTemplate = "/DownloadGlassItems?Plant={plant}&TimeSpan={timeSpan}&HighWaterMark={useHighWaterMark}&Parallel={parallel}&ItemNum={itemNum}&StockTypes={stockTypes}")]
+        ProcessResponse DownloadGlassItems(string plant, TimeSpan timeSpan, bool useHighWaterMark, bool parallel, decimal itemNum, string stockTypes);
 
         [OperationContract, OperationInvokerLogger]
         [WebGet(UriTemplate = "/DownloadItemXref?Plant={plant}&TimeSpan={timeSpan}&HighWaterMark={useHighWaterMark}&Parallel={parallel}&XrefTypes={xrefTypes}")]
         ProcessResponse DownloadItemXref(string plant, TimeSpan timeSpan, bool useHighWaterMark, bool parallel, string xrefTypes);
 
-        //[OperationContract, OperationInvokerLogger]
-        //[WebGet(UriTemplate = "/UploadMachinePartTransaction?Plant={plant}")]
-        //ProcessResponse UploadMachinePartTransaction(string plant);
+        [OperationContract, OperationInvokerLogger]
+        [WebGet(UriTemplate = "/UploadMachinePartTransaction?Plant={plant}")]
+        ProcessResponse UploadMachinePartTransaction(string plant);
 
         [OperationContract, OperationInvokerLogger]
         [WebGet(UriTemplate = "/UploadMachineParts?Plant={plant}&TimeSpan={timeSpan}&HighWaterMark={useHighWaterMark}&Parallel={parallel}")]
@@ -72,5 +100,13 @@ namespace CGServicesHV.ItemSvc
         [WebGet(UriTemplate = "/DownloadSpecUnits?Plant={plant}&TimeSpan={timeSpan}&HighWaterMark={useHighWaterMark}&Parallel={parallel}&ItemNum={itemNum}")]
         ProcessResponse DownloadSpecUnits(string plant, TimeSpan timeSpan, bool useHighWaterMark, bool parallel, decimal itemNum);
 
+
+        [OperationContract, OperationInvokerLogger]
+        [WebGet(UriTemplate = "/DownloadAccountBalances?Plant={plant}&TimeSpan={timeSpan}&HighWaterMark={useHighWaterMark}&Parallel={parallel}&Century={century}&Year={year}")]
+        ProcessResponse DownloadAccountBalances(string plant, TimeSpan timeSpan, bool useHighWaterMark, bool parallel, int century, int year);
+
+        [OperationContract, OperationInvokerLogger]
+        [WebGet(UriTemplate = "/DownloadAccounts?Plant={plant}&TimeSpan={timeSpan}&HighWaterMark={useHighWaterMark}&Parallel={parallel}")]
+        ProcessResponse DownloadAccounts(string plant, TimeSpan timeSpan, bool useHighWaterMark, bool parallel);
     }
 }

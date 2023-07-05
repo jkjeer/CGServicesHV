@@ -65,6 +65,8 @@ namespace CGServicesHV.Common.Types.ShopFloor
             Columns.Add("POrderNumInit", typeof(decimal));
             Columns.Add("POrderTypeInit", typeof(string));
             Columns.Add("POrderLineNumInit", typeof(decimal));
+
+            Columns.Add("PlantID", typeof(string));
         }
 
         public void Add(IDataReader reader, Plant plant)
@@ -127,6 +129,7 @@ namespace CGServicesHV.Common.Types.ShopFloor
                     {
                         dr["CreateDate"] = E1TimeManager.CastToDateTime(updateDateId, updateTimeId).AddHours(plant.TimeOffset);
                     }
+                    dr["PlantID"] = CastDbNull.To(reader["MCU"], string.Empty).Trim();
                     Rows.Add(dr);
                 }
                 reader.Close();

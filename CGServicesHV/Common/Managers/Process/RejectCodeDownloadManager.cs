@@ -21,25 +21,9 @@ namespace CGServicesHV.Common.Managers.Process
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         /********************************************************************************
-        * CONSTRUCTOR
-        ********************************************************************************/
-        //public RejectCodeDownloadManager(BusinessSystemSession e1Session)
-        //{
-        //    var hash = new Dictionary<string, iDB2Command>
-        //    {
-        //        //{"UdcItemDownloadManager.GetUdcItem", GetUdcItem()}
-        //    };
-        //    foreach (var keyName in hash.Keys.Where(keyName => !e1Session.DbCommands.ContainsKey(keyName)))
-        //    {
-        //        e1Session.DbCommands.Add(keyName, hash[keyName]);
-        //    }
-        //}
-
-        /********************************************************************************
         * PROCESS
         ********************************************************************************/
-        public static ProcessResponse Process(BusinessSystemSession session, Dictionary<string, SqlConnection> sqlCns, Plant plant,
-            TimeSpan timeSpan, bool useHighWaterMark)
+        public static ProcessResponse Process(BusinessSystemSession session, Dictionary<string, SqlConnection> sqlCns, Plant plant)
         {
             var response = new ProcessResponse("Reject Code Download Manager");
             response.Plant = plant;
@@ -50,26 +34,6 @@ namespace CGServicesHV.Common.Managers.Process
             }
 
             var table = new RejectCodeTable();
-            ProcessRunSpan processRunSpan = new ProcessRunSpan();
-            HighWaterMark highWaterMark = new HighWaterMark();
-
-            /********************************************************/
-            var step1 = new ProcessStep("Resolve Run Span");
-            try
-            {
-                highWaterMark = (useHighWaterMark) ? HighWaterMarkManager.GetHighWaterMark(sqlCns["PLANT.INTEGRATION"], plant, "RejectCode") : null;
-                processRunSpan = ProcessRunSpanManager.GetRunSpan(highWaterMark, timeSpan, E1TimeManager.GetE1TimeStamp(session));
-                step1.Messages.Add(new Message("RunSpan", processRunSpan.Serialize()));
-            }
-            catch (Exception e)
-            {
-                step1.Errors.Add(new Error(e));
-            }
-            finally
-            {
-                step1.Done();
-                response.AddStep(step1);
-            }
 
             if (!response.HasErrors())
             {
@@ -77,7 +41,7 @@ namespace CGServicesHV.Common.Managers.Process
                 var step2 = new ProcessStep("Get Source Data");
                 try
                 {
-                    var reader = GetReader(session, plant.PlantNum, processRunSpan);
+                    var reader = GetReader(session, plant.PlantNum);
                     table.Add(reader, plant);
                     Logger.Info($"Rows: {table.Rows.Count}  Plant: {plant.PlantCode}");
                     step2.RowsAffected = table.Rows.Count;
@@ -96,10 +60,7 @@ namespace CGServicesHV.Common.Managers.Process
                     var bulkResponse = new SqlBulkCopyResponse();
                     try
                     {
-                        if (table.Rows.Count > 0)
-                        {
-                            bulkResponse = BulkCopyManager.BulkTable(table.ExtendedProperties["Target"].ToString(), table, sqlCns["PLANT.INTEGRATION"]);
-                        }
+                        bulkResponse = BulkCopyManager.BulkTable(table.ExtendedProperties["Target"].ToString(), table, sqlCns["PLANT.INTEGRATION"]);
                     }
                     catch (Exception e)
                     {
@@ -114,27 +75,6 @@ namespace CGServicesHV.Common.Managers.Process
                         response.AddStep(step3);
                     }
                 }
-
-                /********************************************************/
-                if (useHighWaterMark && !response.HasErrors() && table.Rows.Count > 0)
-                {
-                    var step4 = new ProcessStep("Update High Water Mark");
-                    try
-                    {
-                        highWaterMark.EnterpriseDateTime = table.MaxDate.AddHours(-plant.TimeOffset);
-                        step4.SqlDmlResponses.Add(HighWaterMarkManager.SaveHighWaterMarkDate(sqlCns["PLANT.INTEGRATION"], plant, highWaterMark, highWaterMark.EnterpriseDateTime));
-                        step4.RowsAffected = 1;
-                    }
-                    catch (Exception e)
-                    {
-                        step4.Errors.Add(new Error(e));
-                    }
-                    finally
-                    {
-                        step4.Done();
-                        response.AddStep(step4);
-                    }
-                }
             }
             response.Close();
             return response;
@@ -143,62 +83,42 @@ namespace CGServicesHV.Common.Managers.Process
         /********************************************************************************
         * EVENTS
         ********************************************************************************/
-        private static iDB2Command GetReader(IReadOnlyCollection<string> filters)
+        private static iDB2Command GetReader()
         {
-            var filterString = new StringBuilder();
-            foreach (var filter in filters)
-            {
-                filterString.Append(filter);
-            }
             var cmd = new iDB2Command
             {
                 CommandType = CommandType.Text,
                 CommandText = $@"
-	            SELECT 
-                    RCSY,
-                    RCRT,
-                    RCKY,
-                    RCDL01,
-                    RCMCU,
-                    MCRP01,
-                    DRDL01,
-                    DRUPMJ,
-                    DRUPMT
-                FROM 
-                    F580027
-	                INNER JOIN F0006 
-                    ON  MCMCU = RCMCU
-	                LEFT OUTER JOIN {ConfigurationManager.AppSettings["ControlLib"]}.F0005 
-                    ON  RCSY = DRSY AND
-				        RCRT = DRRT AND
-				        TRIM(RCKY) = TRIM(DRKY)
-                WHERE
-                    {filterString}
-                FOR READ ONLY"
+	                SELECT 
+                        RCSY,
+                        RCRT,
+                        RCKY,
+                        RCDL01,
+                        RCMCU,
+                        MCRP01,
+                        DRDL01,
+                        DRUPMJ,
+                        DRUPMT
+                    FROM 
+                        F580027
+	                    INNER JOIN F0006 
+                            ON  MCMCU = RCMCU
+	                    LEFT OUTER JOIN {ConfigurationManager.AppSettings["ControlLib"]}.F0005 
+                            ON  RCSY = DRSY AND
+				                RCRT = DRRT AND
+				                TRIM(RCKY) = TRIM(DRKY)
+                    FOR READ ONLY"
             };
             return cmd;
         }
 
-        public static IDataReader GetReader(BusinessSystemSession session, string plantNum, ProcessRunSpan processRunSpan)
+        public static IDataReader GetReader(BusinessSystemSession session, string plantNum)
         {
-            var filters = new List<string>();
-            var parameters = new List<iDB2Parameter>();
             try
             {
-                // Process Run Span
-                if (!processRunSpan.IsEmpty)
-                {
-                    filters.Add(E1TimeManager.GetE1DateTimeQueryString("DRUPMJ", "DRUPMT", processRunSpan.E1TimeIdSpan));
-                }
-                // Command
-                var cmd = GetReader(filters);
-                foreach (iDB2Parameter parameter in parameters)
-                {
-                    cmd.Parameters.Add(parameter);
-                }
+                var cmd = GetReader();
                 cmd.Connection = session.DbConnection;
                 Logger.Debug(Logging.DbCmdString(cmd));
-                // Reader
                 return cmd.ExecuteReader(CommandBehavior.SingleResult);
             }
             catch (Exception e)

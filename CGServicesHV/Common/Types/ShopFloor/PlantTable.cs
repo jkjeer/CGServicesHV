@@ -39,10 +39,12 @@ namespace CGServicesHV.Common.Types.ShopFloor
             Columns.Add("Company", typeof(string));
             Columns.Add("Division", typeof(string));
             Columns.Add("TimeZone", typeof(string));
+            Columns.Add("TimeZoneName", typeof(string));
+            Columns.Add("IsLocal", typeof(bool));
             Columns.Add("TransactionDate", typeof(DateTime));
         }
 
-        public void Add(Plants plants)
+        public void Add(Plant localPlant, Plants plants)
         {
             try
             {
@@ -67,6 +69,8 @@ namespace CGServicesHV.Common.Types.ShopFloor
                     dr["Company"] = plant.CompanyNum;
                     dr["Division"] = "";
                     dr["TimeZone"] = plant.TimeZone;
+                    dr["TimeZoneName"] = plant.TimeZoneName;
+                    dr["IsLocal"] = localPlant.PlantCode == plant.PlantCode;
                     dr["TransactionDate"] = DateTime.Now.AddHours(plant.TimeOffset);
                     Rows.Add(dr);
                 }

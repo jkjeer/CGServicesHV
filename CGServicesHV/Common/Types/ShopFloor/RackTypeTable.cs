@@ -56,6 +56,7 @@ namespace CGServicesHV.Common.Types.ShopFloor
             Columns.Add("GrossCubes", typeof(decimal));
             Columns.Add("VolumeUOM", typeof(string));
             Columns.Add("UpdateDate", typeof(DateTime));
+            Columns.Add("PlantID", typeof(string));
         }
 
         public void Add(IDataReader reader, Plant plant)
@@ -101,7 +102,7 @@ namespace CGServicesHV.Common.Types.ShopFloor
                         var updateDateId = CastDbNull.To<decimal>(reader["RTUPMJ"], 0);
                         var updateTimeId = CastDbNull.To<decimal>(reader["RTTDAY"], 0);
                         dr["UpdateDate"] = Utilities.Common.CastToDateTime(updateDateId, updateTimeId).AddHours(plant.TimeOffset);
-                        ;
+                        dr["PlantID"] = CastDbNull.To(reader["RTMCU"], string.Empty).Trim();
                         Rows.Add(dr);
                     }
 

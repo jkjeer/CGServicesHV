@@ -235,7 +235,8 @@ namespace CGServicesHV.Common.Managers.Process
                         IBGLPT IN ('GLAS','GLAF','GLAX','GLAZ','COMA','GLAC')) A
                 WHERE
 	                A.ROWNUM = 1
-                FOR READ ONLY";
+                FOR READ ONLY
+            ";
             cmd.Parameters.Add(new iDB2Parameter("MCU1", iDB2DbType.iDB2Graphic, 12));
             cmd.Parameters.Add(new iDB2Parameter("MCU2", iDB2DbType.iDB2Graphic, 12));
             cmd.Parameters.Add(new iDB2Parameter("MCU3", iDB2DbType.iDB2Graphic, 12));
@@ -455,11 +456,11 @@ namespace CGServicesHV.Common.Managers.Process
                 FROM
                     F41002
                 WHERE
-		            UMMCU = ? AND
+		            UMMCU IN ('          32', '          05', '          04', '          08') AND 
                     UMITM = ? AND
 		            UMUM = 'EA' AND
 		            UMRUM = 'LB'";
-            cmd.Parameters.Add(new iDB2Parameter("MCU", iDB2DbType.iDB2Graphic, 12));
+            //cmd.Parameters.Add(new iDB2Parameter("MCU", iDB2DbType.iDB2Graphic, 12));
             cmd.Parameters.Add(new iDB2Parameter("ITM", iDB2DbType.iDB2Decimal));
             cmd.Parameters["ITM"].Precision = 8;
             cmd.Parameters["ITM"].Scale = 0;
@@ -476,8 +477,8 @@ namespace CGServicesHV.Common.Managers.Process
                 cmd.Connection = session.DbConnection;
                 foreach (DataRow dr in dt.Rows)
                 {
-                    cmd.Parameters[0].Value = plant.PlantNum.PadLeft(12);
-                    cmd.Parameters[1].Value = (decimal)dr["ItemNum"];
+                    //cmd.Parameters["MCU"].Value = plant.PlantNum.PadLeft(12);
+                    cmd.Parameters["ITM"].Value = (decimal)dr["ItemNum"];
                     var i = 0;
                     Logger.Info(Logging.DbCmdString(cmd));
                     using (IDataReader reader = cmd.ExecuteReader(CommandBehavior.SingleRow))

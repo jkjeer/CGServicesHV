@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Text;
 
 namespace CGServicesHV.Common.Utilities
@@ -127,6 +128,21 @@ namespace CGServicesHV.Common.Utilities
             {
                 var value = CollectionUtils.GetValueOrDefault(parms, name);
                 return (value != null) ? (T)value : defaultValue;
+            }
+
+            public static List<string> ToStringList(Dictionary<string, object> parms, string name)
+            {
+                var value = CollectionUtils.GetValueOrDefault(parms, name);
+                return (value != null) ? value.ToString().Split(',').ToList() : new List<string>();
+            }
+
+            public static void Validate(Dictionary<string, object> parms, string[] validNames)
+            {
+                var invalidParms = parms.Keys.Where(x => validNames.All(x2 => x2 != x)).ToList();
+                if (invalidParms.Any())
+                {
+                    throw new Exception($"Invalid Parameters {string.Join(",", invalidParms)}");
+                }
             }
         }
     }
