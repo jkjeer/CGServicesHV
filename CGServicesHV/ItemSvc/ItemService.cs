@@ -52,6 +52,26 @@ namespace CGServicesHV.ItemSvc
             }
         }
 
+        public ProcessResponse DownloadItemBalances(string plants, TimeSpan timeSpan, bool useHighWaterMark, bool parallel)
+        {
+            if (string.IsNullOrEmpty(plants))
+            {
+                throw new Exception("Plant Code is REQUIRED");
+            }
+            try
+            {
+                var parms = new Dictionary<string, object>();
+                parms.Add("TimeSpan", timeSpan);
+                parms.Add("HighWaterMark", useHighWaterMark);
+                var resources = new List<string> { "PLANT.SHOPFLOOR", "PLANT.INTEGRATION" };
+                return BusinessSystemTransferProcessor.Invoke(plants, ItemProcessor.DownloadItemBalances, parallel, parms, resources);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
         public ProcessResponse DownloadItemCosts(string plants, TimeSpan timeSpan, bool useHighWaterMark, bool parallel, decimal itemNum)
         {
             if (string.IsNullOrEmpty(plants))
@@ -357,6 +377,26 @@ namespace CGServicesHV.ItemSvc
                 parms.Add("DocumentType", documentTypes?.Split(',').ToList());
                 var resources = new List<string> { "PLANT.SHOPFLOOR", "PLANT.INTEGRATION" };
                 return BusinessSystemTransferProcessor.Invoke(plants, ItemProcessor.DownloadItemMetrics, parallel, parms, resources);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
+        public ProcessResponse DownloadItemBalances(string plants, TimeSpan timeSpan, bool useHighWaterMark, bool parallel)
+        {
+            if (string.IsNullOrEmpty(plants))
+            {
+                throw new Exception("Plant Code is REQUIRED");
+            }
+            try
+            {
+                var parms = new Dictionary<string, object>();
+                parms.Add("TimeSpan", timeSpan);
+                parms.Add("HighWaterMark", useHighWaterMark);
+                var resources = new List<string> { "PLANT.SHOPFLOOR", "PLANT.INTEGRATION" };
+                return BusinessSystemTransferProcessor.Invoke(plants, ItemProcessor.DownloadItemBalances, parallel, parms, resources);
             }
             catch (Exception e)
             {

@@ -4,12 +4,37 @@ using CGServicesHV.Common.Managers.Process;
 using CGServicesHV.Common.Types.Enterprise;
 using CGServicesHV.Common.Types.Response;
 using SoaCore.Wcf;
+using NLog;
 
 namespace CGServicesHV.ScheduleSvc
 {
     [ParameterInspectorLogger, CGIErrorHandler]
     public class ScheduleService : IScheduleService
     {
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
+        public ProcessResponse DownloadScheduleHeader(string plants, TimeSpan timeSpan, bool useHighWaterMark, bool parallel)
+        {
+            if (string.IsNullOrEmpty(plants))
+            {
+                throw new Exception("Plant Code is REQUIRED.");
+            }
+            try
+            {
+                var parms = new Dictionary<string, object>
+                {
+                    {"TimeSpan", timeSpan},
+                    {"HighWaterMark", useHighWaterMark},
+                };
+                var resources = new List<string> { "PLANT.SHOPFLOOR", "PLANT.INTEGRATION", "E1.HA" };
+                return BusinessSystemTransferProcessor.Invoke(plants, ScheduleProcessor.DownloadScheduleHeader, parallel, parms, resources);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.ToString());
+            }
+        }
+
         public MTSScheduleEvents GetUnprocessedMTSScheduleEvents(string plantCode)
         {
             if (string.IsNullOrEmpty(plantCode) || plantCode.Length < 4)
@@ -237,6 +262,30 @@ namespace CGServicesHV.ScheduleSvc
     [ParameterInspectorLogger, CGIErrorHandler]
     public class ScheduleRestService : IScheduleRestService
     {
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
+        public ProcessResponse DownloadScheduleHeader(string plants, TimeSpan timeSpan, bool useHighWaterMark, bool parallel)
+        {
+            if (string.IsNullOrEmpty(plants))
+            {
+                throw new Exception("Plant Code is REQUIRED.");
+            }
+            try
+            {
+                var parms = new Dictionary<string, object>
+                {
+                    {"TimeSpan", timeSpan},
+                    {"HighWaterMark", useHighWaterMark},
+                };
+                var resources = new List<string> { "PLANT.SHOPFLOOR", "PLANT.INTEGRATION", "E1.HA" };
+                return BusinessSystemTransferProcessor.Invoke(plants, ScheduleProcessor.DownloadScheduleHeader, parallel, parms, resources);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.ToString());
+            }
+        }
+
         public MTSScheduleEvents GetUnprocessedMTSScheduleEvents(string plantCode = null)
         {
             if (string.IsNullOrEmpty(plantCode) || plantCode.Length < 4)

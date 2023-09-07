@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Globalization;
+using System.Linq;
 using System.Text;
 using CGServicesHV.Common.Types.E1;
 using CGServicesHV.Common.Utilities;
@@ -398,6 +399,92 @@ namespace CGServicesHV.Common.Managers.E1
             catch (Exception e)
             {
                 throw new ApplicationException(e.Message);
+            }
+        }
+
+        public static string GetE1DateFilterString(List<string[]> dateFieldNames, DateTime startDate, DateTime endDate)
+        {
+            var startDateId = Timestamp.CastToE1Date(startDate);
+            var startTimeId = Timestamp.CastToE1Time(startDate);
+            var endDateId = Timestamp.CastToE1Date(endDate);
+            var endTimeId = Timestamp.CastToE1Time(endDate);
+            var startDateIdP1 = Timestamp.CastToE1Date(startDate.AddDays(1));
+            var endDateIdM1 = Timestamp.CastToE1Date(endDate.AddDays(-1));
+
+            var sb = new StringBuilder();
+            sb.Append("(");
+            if (startDate.Date == endDate.Date)
+            {
+                foreach (var dateFieldName in dateFieldNames)
+                {
+                    var dateName = dateFieldName[0];
+                    var timeName = dateFieldName[1];
+                    sb.Append($"({dateName} = {startDateId} AND {timeName} BETWEEN {startTimeId} AND {endTimeId})");
+                    if (dateFieldName != dateFieldNames.Last())
+                    {
+                        sb.Append(" OR ");
+                    }
+                }
+            }
+            else if ((endDate.Date - startDate.Date).TotalDays == 1)
+            {
+                foreach (var dateFieldName in dateFieldNames)
+                {
+                    var dateName = dateFieldName[0];
+                    var timeName = dateFieldName[1];
+                    sb.Append($"(({dateName} = {startDateId} AND {timeName} > {startTimeId}) OR ({dateName} = {endDateId} AND {timeName} <= {endTimeId}))");
+                    if (dateFieldName != dateFieldNames.Last())
+                    {
+                        sb.Append(" OR ");
+                    }
+                }
+            }
+            else
+            {
+                foreach (var dateFieldName in dateFieldNames)
+                {
+                    var dateName = dateFieldName[0];
+                    var timeName = dateFieldName[1];
+                    sb.Append($"(({dateName} = {startDateId} AND {timeName} > {startTimeId}) OR ({dateName} = {endDateId} AND {timeName} <= {endTimeId}) OR ({dateName} BETWEEN {startDateIdP1} AND {endDateIdM1}))");
+                    if (dateFieldName != dateFieldNames.Last())
+                    {
+                        sb.Append(" OR ");
+                    }
+                }
+            }
+            sb.Append(")");
+            return sb.ToString();
+        }
+
+        public static DateTime? CastToNullableDate(decimal dateId, decimal timeId = 0)
+        {
+            try
+            {
+                if (dateId == 0 && timeId == 0)
+                {
+                    return null;
+                }
+                else
+                {
+                    // Date Portion
+                    var yearValue = (int)Math.Round(dateId / 1000, 0);
+                    var dayValue = (int)dateId % 1000;
+
+                    // Time Portion
+                    var timeString = Convert.ToString(timeId, CultureInfo.CurrentCulture).PadLeft(6).Replace(" ", "0");
+                    var hours = Convert.ToInt16(timeString.Substring(0, 2));
+                    var minutes = Convert.ToInt16(timeString.Substring(2, 2));
+                    var seconds = Convert.ToInt16(timeString.Substring(4, 2));
+                    TimeSpan ts = new TimeSpan(hours, minutes, seconds);
+
+                    // DateTime Value
+                    DateTime dt = new DateTime(1900, 1, 1);
+                    return dt.AddYears(yearValue).AddDays(dayValue - 1).Add(ts);
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
             }
         }
     }

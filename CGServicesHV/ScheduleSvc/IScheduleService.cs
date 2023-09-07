@@ -1,15 +1,18 @@
-﻿using System.ServiceModel;
+﻿using System;
+using System.ServiceModel;
 using System.ServiceModel.Web;
 using CGServicesHV.Common.Types.Enterprise;
 using CGServicesHV.Common.Types.Response;
 using SoaCore.Wcf;
-// ReSharper disable InconsistentNaming
 
 namespace CGServicesHV.ScheduleSvc
 {
     [ServiceContract]
     public interface IScheduleService
     {
+        [OperationContract, OperationInvokerLogger]
+        ProcessResponse DownloadScheduleHeader(string plant, TimeSpan timeSpan, bool useHighWaterMark = false, bool parallel = false);
+
         [OperationContract, OperationInvokerLogger]
         MTSScheduleEvents GetUnprocessedMTSScheduleEvents(string plantCode);
 
@@ -44,6 +47,10 @@ namespace CGServicesHV.ScheduleSvc
     [ServiceContract]
     public interface IScheduleRestService
     {
+        [OperationContract, OperationInvokerLogger]
+        [WebGet(UriTemplate = "/DownloadScheduleHeader?Plant={plant}&TimeSpan={timeSpan}&HighWaterMark={useHighWaterMark}&Parallel={parallel}")]
+        ProcessResponse DownloadScheduleHeader(string plant, TimeSpan timeSpan, bool useHighWaterMark, bool parallel);
+
         [OperationContract, OperationInvokerLogger]
         [WebGet(UriTemplate = "/GetUnprocessedMTSScheduleEvents?PlantCode={plantCode}")]
         MTSScheduleEvents GetUnprocessedMTSScheduleEvents(string plantCode);

@@ -9,6 +9,8 @@ namespace CGServicesHV.ItemSvc
     [ServiceContract]
     public interface IItemService
     {
+        [OperationContract, OperationInvokerLogger]
+        ProcessResponse DownloadItemBalances(string plants, TimeSpan timeSpan, bool useHighWaterMark = false, bool parallel = false);
 
         [OperationContract, OperationInvokerLogger]
         ProcessResponse DownloadItems(string plants, TimeSpan timeSpan, bool useHighWaterMark = false, bool parallel = false, string stockTypes = null, string glCategories = null, decimal itemNum = 0);
@@ -51,6 +53,9 @@ namespace CGServicesHV.ItemSvc
     [ServiceContract]
     public interface IItemRestService
     {
+        [OperationContract, OperationInvokerLogger]
+        [WebGet(UriTemplate = "/DownloadItemBalances?Plant={plantCode}&TimeSpan={timeSpan}&HighWaterMark={useHighWaterMark}&Parallel={parallel}")]
+        ProcessResponse DownloadItemBalances(string plantCode, TimeSpan timeSpan, bool useHighWaterMark, bool parallel);
 
         [OperationContract, OperationInvokerLogger]
         [WebGet(UriTemplate = "/DownloadItems?Plant={plants}&TimeSpan={timeSpan}&HighWaterMark={useHighWaterMark}&Parallel={parallel}&StockTypes={stockTypes}&GlCategories={glCategories}&ItemNum={itemNum}")]

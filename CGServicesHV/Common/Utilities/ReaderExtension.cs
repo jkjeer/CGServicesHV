@@ -8,7 +8,7 @@ namespace CGServicesHV.Common.Utilities
     {
         private static Logger Logger = LogManager.GetCurrentClassLogger();
 
-        public static T Get<T>(this IDataReader r, string columnName, T defaultValue = default(T))
+        public static T Get<T>(this IDataReader r, string columnName, T defaultValue = default(T), bool trim = true)
         {
             var obj = r[columnName];
             var i = r.GetOrdinal(columnName);
@@ -23,7 +23,7 @@ namespace CGServicesHV.Common.Utilities
                     switch (typeof(T).Name.ToLower())
                     {
                         case "string":
-                            obj = r.GetString(i).Trim();
+                            obj = (trim) ? r.GetString(i).Trim() : r.GetString(i);
                             break;
                         case "int16":
                             obj = r.GetInt16(i);

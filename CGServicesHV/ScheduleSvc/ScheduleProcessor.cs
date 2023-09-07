@@ -19,6 +19,25 @@ namespace CGServicesHV.ScheduleSvc
     {
         private static Logger Logger = LogManager.GetCurrentClassLogger();
 
+        public static ProcessResponse DownloadScheduleHeader(Plant plant, BusinessSystemSession session, Dictionary<string, SqlConnection> sqlCns, Dictionary<string, object> parms)
+        {
+            var response = new ProcessResponse($"Schedule Header Download Processor", plant);
+            try
+            {
+                //Data.UnboxParm.Validate(parms, new string[] { "TimeSpan", "HighWaterMark", "Parallel" });
+                var timeSpan = Data.UnboxParm.To(parms, "TimeSpan", new TimeSpan());
+                var useHighWaterMark = Data.UnboxParm.To(parms, "HighWaterMark", false);
+                var mgr = new ScheduleHeaderDownloadManager(session);
+                response.ProcessResponses.Add(mgr.Process(session, sqlCns, plant, timeSpan, useHighWaterMark));
+            }
+            catch (Exception e)
+            {
+                response.Errors.Add(new Error(e));
+            }
+            response.Close();
+            return response;
+        }
+
         public static ProcessResponse BackoutSchedule(Plant plant, BusinessSystemSession session, Dictionary<string, SqlConnection> sqlCns, Dictionary<string, object> parms)
         {
             var startTime = DateTime.Now.ToLocalTime();

@@ -87,6 +87,23 @@ namespace CGServicesHV.ItemSvc
             return response;
         }
 
+        public static ProcessResponse DownloadItemBalances(Plant plant, BusinessSystemSession session, Dictionary<string, SqlConnection> sqlCns, Dictionary<string, object> parms)
+        {
+            var response = new ProcessResponse($"Item Balance Download Processor", plant);
+            try
+            {
+                var timeSpan = Data.UnboxParm.To(parms, "TimeSpan", new TimeSpan());
+                var useHighWaterMark = Data.UnboxParm.To(parms, "HighWaterMark", false);
+                response.ProcessResponses.Add(ItemBalanceDownloadManager.Process(session, sqlCns, plant, timeSpan, useHighWaterMark));
+            }
+            catch (Exception e)
+            {
+                response.Errors.Add(new Error(e));
+            }
+            response.Close();
+            return response;
+        }
+
         public static ProcessResponse DownloadItemCosts(Plant plant, BusinessSystemSession session, Dictionary<string, SqlConnection> sqlCns, Dictionary<string, object> parms)
         {
             var response = new ProcessResponse($"Item Cost Processor", plant);

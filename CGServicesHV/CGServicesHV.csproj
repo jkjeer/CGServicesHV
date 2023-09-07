@@ -122,6 +122,7 @@
     <Compile Include="Common\Managers\Process\CustomerShipPreferenceDownloadManager.cs" />
     <Compile Include="Common\Managers\Process\GlassItemMetricDownloadManager.cs" />
     <Compile Include="Common\Managers\Process\HighWaterMarkInitManager.cs" />
+    <Compile Include="Common\Managers\Process\ItemBalanceDownloadManager.cs" />
     <Compile Include="Common\Managers\Process\ItemCostDownloadManager.cs" />
     <Compile Include="Common\Managers\Process\ItemMetricDownloadManager.cs" />
     <Compile Include="Common\Managers\Process\ItemUOMDownloadManager.cs" />
@@ -190,6 +191,7 @@
     <Compile Include="Common\Managers\Process\SalesLineMessageDownloadManager.cs" />
     <Compile Include="Common\Managers\Process\ScheduleBackoutUploadManager.cs" />
     <Compile Include="Common\Managers\Process\ScheduleEventDownloadManager.cs" />
+    <Compile Include="Common\Managers\Process\ScheduleHeaderDownloadManager.cs" />
     <Compile Include="Common\Managers\Process\ShipmentPlanningDownloadManager.cs" />
     <Compile Include="Common\Managers\Process\ShipmentSummaryDownloadManager.cs" />
     <Compile Include="Common\Managers\Process\SpecUnitMtoDownloadManager.cs" />
@@ -355,6 +357,7 @@
     <Compile Include="Common\Types\ShopFloor\HvTrimItem.cs" />
     <Compile Include="Common\Types\ShopFloor\HvWoIssueItem.cs" />
     <Compile Include="Common\Types\ShopFloor\InventoryLocationTable.cs" />
+    <Compile Include="Common\Types\ShopFloor\ItemBalanceTable.cs" />
     <Compile Include="Common\Types\ShopFloor\ItemCostTable.cs" />
     <Compile Include="Common\Types\ShopFloor\ItemMetricTable.cs" />
     <Compile Include="Common\Types\ShopFloor\ItemTable.cs" />
@@ -389,6 +392,7 @@
     <Compile Include="Common\Types\ShopFloor\SalesAttributeTable.cs" />
     <Compile Include="Common\Types\ShopFloor\SalesLineMessageTable.cs" />
     <Compile Include="Common\Types\ShopFloor\SalesLineTable.cs" />
+    <Compile Include="Common\Types\ShopFloor\ScheduleHeaderTable.cs" />
     <Compile Include="Common\Types\ShopFloor\ScheduleLineTable.cs" />
     <Compile Include="Common\Types\ShopFloor\ScheduleTable.cs" />
     <Compile Include="Common\Types\ShopFloor\ShipmentPlanningTable.cs" />
