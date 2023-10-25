@@ -10,6 +10,12 @@ namespace CGServicesHV.OrderSvc
     public interface IOrderService
     {
         [OperationContract, OperationInvokerLogger]
+        ProcessResponse DownloadConfiguredOrders(string plant, TimeSpan timeSpan, TimeSpan timeSpanEnd, bool useHighWaterMark = false, bool parallel = false);
+
+        [OperationContract, OperationInvokerLogger]
+        ProcessResponse DownloadConfiguredAttributes(string plants, TimeSpan timeSpan, TimeSpan timeSpanEnd, bool useHighWaterMark = false, bool parallel = false, decimal configurationId = 0, string rackStatusCodes = null, bool archived = false, bool missing = false);
+
+        [OperationContract, OperationInvokerLogger]
         ProcessResponse DownloadSalesLines(string plant, TimeSpan timeSpan, bool useHighWaterMark = false, bool parallel = false, decimal workOrderNum = 0, string nextStatusCodes = null, string orderTypes = null);
 
         [OperationContract, OperationInvokerLogger]
@@ -41,6 +47,14 @@ namespace CGServicesHV.OrderSvc
     [ServiceContract]
     public interface IOrderRestService
     {
+        [OperationContract, OperationInvokerLogger]
+        [WebGet(UriTemplate = "/DownloadConfiguredOrders?Plant={plant}&TimeSpan={timeSpan}&TimeSpanEnd={timeSpanEnd}&HighWaterMark={useHighWaterMark}&Parallel={parallel}")]
+        ProcessResponse DownloadConfiguredOrders(string plant, TimeSpan timeSpan, TimeSpan timeSpanEnd, bool useHighWaterMark, bool parallel);
+
+        [OperationContract, OperationInvokerLogger]
+        [WebGet(UriTemplate = "/DownloadConfiguredAttributes?Plant={plantCode}&TimeSpan={timeSpan}&TimeSpanEnd={timeSpanEnd}&HighWaterMark={useHighWaterMark}&Parallel={parallel}&ConfigurationId={configurationId}&RackStatusCodes={rackStatusCodes}&Archived={archived}&Missing={missing}")]
+        ProcessResponse DownloadConfiguredAttributes(string plantCode, TimeSpan timeSpan, TimeSpan timeSpanEnd, bool useHighWaterMark, bool parallel, decimal configurationId, string rackStatusCodes, bool archived, bool missing);
+
         [OperationContract, OperationInvokerLogger]
         [WebGet(UriTemplate = "/DownloadSalesLines?Plant={plant}&TimeSpan={timeSpan}&HighWaterMark={useHighWaterMark}&Parallel={parallel}&SalesOrderNum={workOrderNum}&NextStatusCode={nextStatusCodes}&OrderType={orderTypes}")]
         ProcessResponse DownloadSalesLines(string plant, TimeSpan timeSpan, bool useHighWaterMark, bool parallel, decimal workOrderNum, string nextStatusCodes, string orderTypes);

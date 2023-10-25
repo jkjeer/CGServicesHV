@@ -10,6 +10,67 @@ namespace CGServicesHV.ItemSvc
     public class ItemService : IItemService
     {
 
+        public ProcessResponse DownloadItemAttributes(string plants, TimeSpan timeSpan, bool useHighWaterMark, bool parallel, decimal itemNum)
+        {
+            if (string.IsNullOrEmpty(plants))
+            {
+                throw new Exception("Plant Code is REQUIRED");
+            }
+            try
+            {
+                var parms = new Dictionary<string, object>();
+                parms.Add("TimeSpan", timeSpan);
+                parms.Add("HighWaterMark", useHighWaterMark);
+                parms.Add("ItemNum", itemNum);
+                var resources = new List<string> { "PLANT.SHOPFLOOR", "PLANT.INTEGRATION" };
+                return BusinessSystemTransferProcessor.Invoke(plants, ItemProcessor.DownloadItemAttributes, parallel, parms, resources);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
+        public ProcessResponse DownloadItemAttributeMaster(string plants, TimeSpan timeSpan, bool useHighWaterMark, bool parallel)
+        {
+            if (string.IsNullOrEmpty(plants))
+            {
+                throw new Exception("Plant Code is REQUIRED");
+            }
+            try
+            {
+                var parms = new Dictionary<string, object>();
+                parms.Add("TimeSpan", timeSpan);
+                parms.Add("HighWaterMark", useHighWaterMark);
+                var resources = new List<string> { "PLANT.SHOPFLOOR", "PLANT.INTEGRATION" };
+                return BusinessSystemTransferProcessor.Invoke(plants, ItemProcessor.DownloadItemAttributeMaster, parallel, parms, resources);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
+        public ProcessResponse DownloadBillOfMaterials(string plants, TimeSpan timeSpan, bool useHighWaterMark, bool parallel)
+        {
+            if (string.IsNullOrEmpty(plants))
+            {
+                throw new Exception("Plant Code is REQUIRED");
+            }
+            try
+            {
+                var parms = new Dictionary<string, object>();
+                parms.Add("TimeSpan", timeSpan);
+                parms.Add("HighWaterMark", useHighWaterMark);
+                var resources = new List<string> { "PLANT.SHOPFLOOR", "PLANT.INTEGRATION" };
+                return BusinessSystemTransferProcessor.Invoke(plants, ItemProcessor.DownloadBillOfMaterials, parallel, parms, resources);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
         public ProcessResponse DownloadAccountBalances(string plants, TimeSpan timeSpan, bool useHighWaterMark, bool parallel, int century, int year)
         {
             if (string.IsNullOrEmpty(plants))
@@ -298,6 +359,67 @@ namespace CGServicesHV.ItemSvc
 
     public class ItemRestService : IItemRestService
     {
+
+        public ProcessResponse DownloadItemAttributes(string plants, TimeSpan timeSpan, bool useHighWaterMark, bool parallel, decimal itemNum)
+        {
+            if (string.IsNullOrEmpty(plants))
+            {
+                throw new Exception("Plant Code is REQUIRED");
+            }
+            try
+            {
+                var parms = new Dictionary<string, object>();
+                parms.Add("TimeSpan", timeSpan);
+                parms.Add("HighWaterMark", useHighWaterMark);
+                parms.Add("ItemNum", itemNum);
+                var resources = new List<string> { "PLANT.SHOPFLOOR", "PLANT.INTEGRATION" };
+                return BusinessSystemTransferProcessor.Invoke(plants, ItemProcessor.DownloadItemAttributes, parallel, parms, resources);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
+        public ProcessResponse DownloadItemAttributeMaster(string plants, TimeSpan timeSpan, bool useHighWaterMark, bool parallel)
+        {
+            if (string.IsNullOrEmpty(plants))
+            {
+                throw new Exception("Plant Code is REQUIRED");
+            }
+            try
+            {
+                var parms = new Dictionary<string, object>();
+                parms.Add("TimeSpan", timeSpan);
+                parms.Add("HighWaterMark", useHighWaterMark);
+                var resources = new List<string> { "PLANT.SHOPFLOOR", "PLANT.INTEGRATION" };
+                return BusinessSystemTransferProcessor.Invoke(plants, ItemProcessor.DownloadItemAttributeMaster, parallel, parms, resources);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
+        public ProcessResponse DownloadBillOfMaterials(string plants, TimeSpan timeSpan, bool useHighWaterMark, bool parallel)
+        {
+            if (string.IsNullOrEmpty(plants))
+            {
+                throw new Exception("Plant Code is REQUIRED");
+            }
+            try
+            {
+                var parms = new Dictionary<string, object>();
+                parms.Add("TimeSpan", timeSpan);
+                parms.Add("HighWaterMark", useHighWaterMark);
+                var resources = new List<string> { "PLANT.SHOPFLOOR", "PLANT.INTEGRATION" };
+                return BusinessSystemTransferProcessor.Invoke(plants, ItemProcessor.DownloadBillOfMaterials, parallel, parms, resources);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
 
         public ProcessResponse DownloadAccountBalances(string plants, TimeSpan timeSpan, bool useHighWaterMark, bool parallel, int century, int year)
         {

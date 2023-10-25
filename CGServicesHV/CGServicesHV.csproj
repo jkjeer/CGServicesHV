@@ -64,6 +64,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\Managers\E1\BusinessSystemSessionManager.cs" />
+    <Compile Include="Common\Managers\E1\DiscreteItemAttributeManager.cs" />
     <Compile Include="Common\Managers\E1\E1DimensionManager.cs" />
     <Compile Include="Common\Managers\E1\E1TimeManager.cs" />
     <Compile Include="Common\Managers\E1\F3111Manager.cs" />
@@ -114,14 +115,19 @@
     <Compile Include="Common\Managers\Enterprise\UdcItemManager.cs" />
     <Compile Include="Common\Managers\Process\AccountBalanceDownloadManager.cs" />
     <Compile Include="Common\Managers\Process\AccountDownloadManager.cs" />
+    <Compile Include="Common\Managers\Process\BillOfMaterialDownloadManager.cs" />
     <Compile Include="Common\Managers\Process\BusinessSystemTransferProcessor.cs" />
     <Compile Include="Common\Managers\Process\BusinessUnitDownloadManager.cs" />
     <Compile Include="Common\Managers\Process\CalendarDownloadManager.cs" />
     <Compile Include="Common\Managers\Process\CardinalProductTypeDownloadManager.cs" />
+    <Compile Include="Common\Managers\Process\ConfiguredAttributeDownloadManager.cs" />
+    <Compile Include="Common\Managers\Process\ConfiguredOrderDownloadManager.cs" />
     <Compile Include="Common\Managers\Process\CustomerHierarcyDownloadManager.cs" />
     <Compile Include="Common\Managers\Process\CustomerShipPreferenceDownloadManager.cs" />
     <Compile Include="Common\Managers\Process\GlassItemMetricDownloadManager.cs" />
     <Compile Include="Common\Managers\Process\HighWaterMarkInitManager.cs" />
+    <Compile Include="Common\Managers\Process\ItemAttributeDownloadManager.cs" />
+    <Compile Include="Common\Managers\Process\ItemAttributeMasterDownloadManager.cs" />
     <Compile Include="Common\Managers\Process\ItemBalanceDownloadManager.cs" />
     <Compile Include="Common\Managers\Process\ItemCostDownloadManager.cs" />
     <Compile Include="Common\Managers\Process\ItemMetricDownloadManager.cs" />
@@ -335,11 +341,14 @@
     <Compile Include="Common\Types\ShopFloor\AccountTable.cs" />
     <Compile Include="Common\Types\ShopFloor\AddressBookItem.cs" />
     <Compile Include="Common\Types\ShopFloor\AddressBookTable.cs" />
+    <Compile Include="Common\Types\ShopFloor\BillOfMaterialTable.cs" />
     <Compile Include="Common\Types\ShopFloor\BusinessUnitTable.cs" />
     <Compile Include="Common\Types\ShopFloor\CalendarTable.cs" />
     <Compile Include="Common\Types\ShopFloor\CardinalProductTypeTable.cs" />
     <Compile Include="Common\Types\ShopFloor\ConfiguratorPartTable.cs" />
     <Compile Include="Common\Types\ShopFloor\ConfiguratorRuleTable.cs" />
+    <Compile Include="Common\Types\ShopFloor\ConfiguredAttributeTable.cs" />
+    <Compile Include="Common\Types\ShopFloor\ConfiguredOrderTable.cs" />
     <Compile Include="Common\Types\ShopFloor\ConsumedStoceItem.cs" />
     <Compile Include="Common\Types\ShopFloor\CustomerHierarchyTable.cs" />
     <Compile Include="Common\Types\ShopFloor\CustomerShipPreferenceTable.cs" />
@@ -357,6 +366,8 @@
     <Compile Include="Common\Types\ShopFloor\HvTrimItem.cs" />
     <Compile Include="Common\Types\ShopFloor\HvWoIssueItem.cs" />
     <Compile Include="Common\Types\ShopFloor\InventoryLocationTable.cs" />
+    <Compile Include="Common\Types\ShopFloor\ItemAttributeMasterTable.cs" />
+    <Compile Include="Common\Types\ShopFloor\ItemAttributeTable.cs" />
     <Compile Include="Common\Types\ShopFloor\ItemBalanceTable.cs" />
     <Compile Include="Common\Types\ShopFloor\ItemCostTable.cs" />
     <Compile Include="Common\Types\ShopFloor\ItemMetricTable.cs" />
@@ -415,6 +426,7 @@
     <Compile Include="Common\Utilities\CollectionUtils.cs" />
     <Compile Include="Common\Utilities\Common.cs" />
     <Compile Include="Common\Utilities\Data.cs" />
+    <Compile Include="Common\Utilities\DataRecordExtension.cs" />
     <Compile Include="Common\Utilities\E1DateParms.cs" />
     <Compile Include="Common\Utilities\E1TimeSpan.cs" />
     <Compile Include="Common\Utilities\EnumValidator.cs" />

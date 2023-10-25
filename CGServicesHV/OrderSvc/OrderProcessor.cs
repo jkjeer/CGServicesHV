@@ -16,6 +16,46 @@ namespace CGServicesHV.OrderSvc
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
+        public static ProcessResponse DownloadConfiguredOrders(Plant plant, BusinessSystemSession session, Dictionary<string, SqlConnection> sqlCns, Dictionary<string, object> parms)
+        {
+            var response = new ProcessResponse($"Work Order Download Processor", plant);
+            try
+            {
+                var timeSpan = Data.UnboxParm.To(parms, "TimeSpan", new TimeSpan());
+                var timeSpanEnd = Data.UnboxParm.To(parms, "TimeSpanEnd", new TimeSpan());
+                var useHighWaterMark = Data.UnboxParm.To(parms, "HighWaterMark", false);
+                response.ProcessResponses.Add(ConfiguredOrderDownloadManager.Process(session, sqlCns, plant, timeSpan, timeSpanEnd, useHighWaterMark));
+            }
+            catch (Exception e)
+            {
+                response.Errors.Add(new Error(e));
+            }
+            response.Close();
+            return response;
+        }
+
+        public static ProcessResponse DownloadConfiguredAttributes(Plant plant, BusinessSystemSession session, Dictionary<string, SqlConnection> sqlCns, Dictionary<string, object> parms)
+        {
+            var response = new ProcessResponse($"Configured Attribute Download Processor", plant);
+            try
+            {
+                var timeSpan = Data.UnboxParm.To(parms, "TimeSpan", new TimeSpan());
+                var timeSpanEnd = Data.UnboxParm.To(parms, "TimeSpanEnd", new TimeSpan());
+                var useHighWaterMark = Data.UnboxParm.To(parms, "HighWaterMark", false);
+                var configurationId = Data.UnboxParm.To<decimal>(parms, "ConfigurationId", 0);
+                var rackStatusCodes = Data.UnboxParm.To(parms, "RackStatusCodes", new List<string>());
+                var archived = Data.UnboxParm.To<bool>(parms, "Archived", false);
+                var missing = Data.UnboxParm.To<bool>(parms, "Missing", false);
+                response.ProcessResponses.Add(ConfiguredAttributeDownloadManager.Process(session, sqlCns, plant, timeSpan, timeSpanEnd, useHighWaterMark, configurationId, rackStatusCodes, archived, missing));
+            }
+            catch (Exception e)
+            {
+                response.Errors.Add(new Error(e));
+            }
+            response.Close();
+            return response;
+        }
+
         public static ProcessResponse DownloadPurchaseOrders(Plant plant, BusinessSystemSession session, Dictionary<string, SqlConnection> sqlCns, Dictionary<string, object> parms)
         {
             var response = new ProcessResponse($"{plant.PlantCode} Purchase Order Download Manager");

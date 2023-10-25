@@ -10,6 +10,15 @@ namespace CGServicesHV.ItemSvc
     public interface IItemService
     {
         [OperationContract, OperationInvokerLogger]
+        ProcessResponse DownloadBillOfMaterials(string plants, TimeSpan timeSpan, bool useHighWaterMark, bool parallel);
+
+        [OperationContract, OperationInvokerLogger]
+        ProcessResponse DownloadItemAttributes(string plantCode, TimeSpan timeSpan, bool useHighWaterMark, bool parallel = false, decimal itemNum = 0);
+
+        [OperationContract, OperationInvokerLogger]
+        ProcessResponse DownloadItemAttributeMaster(string plants, TimeSpan timeSpan, bool useHighWaterMark = false, bool parallel = false);
+
+        [OperationContract, OperationInvokerLogger]
         ProcessResponse DownloadItemBalances(string plants, TimeSpan timeSpan, bool useHighWaterMark = false, bool parallel = false);
 
         [OperationContract, OperationInvokerLogger]
@@ -53,6 +62,18 @@ namespace CGServicesHV.ItemSvc
     [ServiceContract]
     public interface IItemRestService
     {
+        [OperationContract, OperationInvokerLogger]
+        [WebGet(UriTemplate = "/DownloadBillOfMaterials?Plant={plants}&TimeSpan={timeSpan}&HighWaterMark={useHighWaterMark}&Parallel={parallel}")]
+        ProcessResponse DownloadBillOfMaterials(string plants, TimeSpan timeSpan, bool useHighWaterMark, bool parallel);
+
+        [OperationContract, OperationInvokerLogger]
+        [WebGet(UriTemplate = "/DownloadItemAttributes?Plant={plantCode}&TimeSpan={timeSpan}&HighWaterMark={useHighWaterMark}&Parallel={parallel}&ItemNum={itemNum}")]
+        ProcessResponse DownloadItemAttributes(string plantCode, TimeSpan timeSpan, bool useHighWaterMark, bool parallel, decimal itemNum);
+
+        [OperationContract, OperationInvokerLogger]
+        [WebGet(UriTemplate = "/DownloadItemAttributeMaster?Plant={plantCode}&TimeSpan={timeSpan}&HighWaterMark={useHighWaterMark}&Parallel={parallel}")]
+        ProcessResponse DownloadItemAttributeMaster(string plantCode, TimeSpan timeSpan, bool useHighWaterMark, bool parallel);
+
         [OperationContract, OperationInvokerLogger]
         [WebGet(UriTemplate = "/DownloadItemBalances?Plant={plantCode}&TimeSpan={timeSpan}&HighWaterMark={useHighWaterMark}&Parallel={parallel}")]
         ProcessResponse DownloadItemBalances(string plantCode, TimeSpan timeSpan, bool useHighWaterMark, bool parallel);

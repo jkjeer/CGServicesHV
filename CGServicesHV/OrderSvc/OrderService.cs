@@ -10,6 +10,52 @@ namespace CGServicesHV.OrderSvc
     [ParameterInspectorLogger, CGIErrorHandler]
     public class OrderService : IOrderService
     {
+        public ProcessResponse DownloadConfiguredOrders(string plants, TimeSpan timeSpan, TimeSpan timeSpanEnd, bool useHighWaterMark, bool parallel)
+        {
+            if (string.IsNullOrEmpty(plants))
+            {
+                throw new Exception("Plant Code is REQUIRED.");
+            }
+            try
+            {
+                var parms = new Dictionary<string, object>();
+                parms.Add("TimeSpan", timeSpan);
+                parms.Add("TimeSpanEnd", timeSpanEnd);
+                parms.Add("HighWaterMark", useHighWaterMark);
+                var resources = new List<string> { "PLANT.SHOPFLOOR", "PLANT.INTEGRATION" };
+                return BusinessSystemTransferProcessor.Invoke(plants, OrderProcessor.DownloadConfiguredOrders, parallel, parms, resources);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.ToString());
+            }
+        }
+
+        public ProcessResponse DownloadConfiguredAttributes(string plants, TimeSpan timeSpan, TimeSpan timeSpanEnd, bool useHighWaterMark, bool parallel, decimal configurationId, string rackStatusCodes, bool archived, bool missing)
+        {
+            if (string.IsNullOrEmpty(plants))
+            {
+                throw new Exception("Plant Code is REQUIRED");
+            }
+            try
+            {
+                var parms = new Dictionary<string, object>();
+                parms.Add("TimeSpan", timeSpan);
+                parms.Add("TimeSpanEnd", timeSpanEnd);
+                parms.Add("HighWaterMark", useHighWaterMark);
+                parms.Add("ConfigurationId", configurationId);
+                parms.Add("RackStatusCodes", rackStatusCodes?.Split(',').ToList());
+                parms.Add("Archived", archived);
+                parms.Add("Missing", missing);
+                var resources = new List<string> { "PLANT.SHOPFLOOR", "PLANT.INTEGRATION" };
+                return BusinessSystemTransferProcessor.Invoke(plants, OrderProcessor.DownloadConfiguredAttributes, parallel, parms, resources);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
         public ProcessResponse DownloadSalesLines(string plants, TimeSpan timeSpan, bool useHighWaterMark, bool parallel, decimal salesOrderNum = 0, string nextStatusCodes = null, string orderTypes = null)
         {
             if (string.IsNullOrEmpty(plants))
@@ -212,6 +258,52 @@ namespace CGServicesHV.OrderSvc
     [ParameterInspectorLogger, CGIErrorHandler]
     public class OrderRestService : IOrderRestService
     {
+        public ProcessResponse DownloadConfiguredOrders(string plants, TimeSpan timeSpan, TimeSpan timeSpanEnd, bool useHighWaterMark, bool parallel)
+        {
+            if (string.IsNullOrEmpty(plants))
+            {
+                throw new Exception("Plant Code is REQUIRED.");
+            }
+            try
+            {
+                var parms = new Dictionary<string, object>();
+                parms.Add("TimeSpan", timeSpan);
+                parms.Add("TimeSpanEnd", timeSpanEnd);
+                parms.Add("HighWaterMark", useHighWaterMark);
+                var resources = new List<string> { "PLANT.SHOPFLOOR", "PLANT.INTEGRATION" };
+                return BusinessSystemTransferProcessor.Invoke(plants, OrderProcessor.DownloadConfiguredOrders, parallel, parms, resources);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.ToString());
+            }
+        }
+
+        public ProcessResponse DownloadConfiguredAttributes(string plants, TimeSpan timeSpan, TimeSpan timeSpanEnd, bool useHighWaterMark, bool parallel, decimal configurationId, string rackStatusCodes, bool archived, bool missing)
+        {
+            if (string.IsNullOrEmpty(plants))
+            {
+                throw new Exception("Plant Code is REQUIRED");
+            }
+            try
+            {
+                var parms = new Dictionary<string, object>();
+                parms.Add("TimeSpan", timeSpan);
+                parms.Add("TimeSpanEnd", timeSpanEnd);
+                parms.Add("HighWaterMark", useHighWaterMark);
+                parms.Add("ConfigurationId", configurationId);
+                parms.Add("RackStatusCodes", rackStatusCodes?.Split(',').ToList());
+                parms.Add("Archived", archived);
+                parms.Add("Missing", missing);
+                var resources = new List<string> { "PLANT.SHOPFLOOR", "PLANT.INTEGRATION" };
+                return BusinessSystemTransferProcessor.Invoke(plants, OrderProcessor.DownloadConfiguredAttributes, parallel, parms, resources);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
         public ProcessResponse DownloadSalesLines(string plants, TimeSpan timeSpan, bool useHighWaterMark, bool parallel, decimal salesOrderNum = 0, string nextStatusCodes = null, string orderTypes = null)
         {
             if (string.IsNullOrEmpty(plants))

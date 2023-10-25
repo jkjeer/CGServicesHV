@@ -14,7 +14,7 @@ namespace CGServicesHV.Common.Managers.Enterprise
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
-        public static SqlBulkCopyResponse BulkTable(string tableName, DataTable dt, SqlConnection cn, SqlTransaction txn = null)
+        public static SqlBulkCopyResponse BulkTable(string tableName, DataTable dt, SqlConnection cn, SqlTransaction txn = null, int batchSize = 0)
         {
             var response = new SqlBulkCopyResponse
             {
@@ -28,7 +28,7 @@ namespace CGServicesHV.Common.Managers.Enterprise
                 {
                     DestinationTableName = tableName,
                     BulkCopyTimeout = ConfigurationManager.AppSettings["BulkCopyTimeout"] != null ? Convert.ToInt32(ConfigurationManager.AppSettings["BulkCopyTimeout"]) : 300,
-                    BatchSize = 25000
+                    BatchSize = (batchSize > 0) ? batchSize : 25000
                 };
                 try
                 {
@@ -65,13 +65,12 @@ namespace CGServicesHV.Common.Managers.Enterprise
             return response;
         }
 
-        public static SqlBulkCopyResponse BulkReader(string tableName, IDataReader dr, SqlConnection cn)
+        public static SqlBulkCopyResponse BulkReader(string tableName, IDataReader dr, SqlConnection cn, int batchSize = 0)
         {
             var response = new SqlBulkCopyResponse
             {
                 ConnectionString = cn.ConnectionString,
                 TableName = tableName,
-                //HasErrors = false,
                 StartTime = DateTime.Now
             };
             try
@@ -80,7 +79,8 @@ namespace CGServicesHV.Common.Managers.Enterprise
                 {
                     DestinationTableName = tableName,
                     BulkCopyTimeout = ConfigurationManager.AppSettings["BulkCopyTimeout"] != null ? Convert.ToInt32(ConfigurationManager.AppSettings["BulkCopyTimeout"]) : 300,
-                    BatchSize = 25000
+                    BatchSize = batchSize,
+                    EnableStreaming = false
                 };
                 var columnName = "";
                 try
@@ -110,7 +110,6 @@ namespace CGServicesHV.Common.Managers.Enterprise
             }
             catch (Exception e)
             {
-                //response.HasErrors = true;
                 response.Errors.Add(new Error(e));
                 response.Message = e.ToString();
                 Logger.Error("ERROR: " + cn.ConnectionString + e.Message + ": " + e.StackTrace);
@@ -126,7 +125,6 @@ namespace CGServicesHV.Common.Managers.Enterprise
             {
                 ConnectionString = cn.ConnectionString,
                 TableName = tableName,
-                //HasErrors = false,
                 StartTime = DateTime.Now
             };
             try
@@ -166,7 +164,6 @@ namespace CGServicesHV.Common.Managers.Enterprise
             }
             catch (Exception e)
             {
-                //response.HasErrors = true;
                 response.Errors.Add(new Error(e));
                 response.Message = e.ToString();
                 Logger.Error("ERROR: " + cn.ConnectionString + e.Message + ": " + e.StackTrace);

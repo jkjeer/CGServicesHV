@@ -83,15 +83,49 @@ namespace CGServicesHV.Common.Types.Enterprise
     [DataContract(Namespace = "")]
     public class ItemAttribute
     {
-        [DataMember(Order = 10, EmitDefaultValue = false)]
+        [DataMember(Order = 2)]
+        public decimal ItemNum { get; set; }
+
+        [DataMember(Order = 10)]
         public string Name { get; set; }
+
+        [DataMember(Order = 12, EmitDefaultValue = false)]
+        public decimal Pel { get; set; }
+
         [DataMember(Order = 20, EmitDefaultValue = false)]
-        public string Value { get; set; }
+        public string NameDesc { get; set; }
+
         [DataMember(Order = 30, EmitDefaultValue = false)]
+        public string DataType { get; set; }
+
+        [DataMember(Order = 32, EmitDefaultValue = false)]
+        public decimal Precision { get; set; }
+
+        [DataMember(Order = 34, EmitDefaultValue = false)]
+        public string Scale { get; set; }
+
+        [DataMember(Order = 36, EmitDefaultValue = false)]
+        public string Numeric { get; set; }
+
+        [DataMember(Order = 50)]
+        public string Value { get; set; }
+
+        [DataMember(Order = 60, EmitDefaultValue = false)]
+        public string Udc1 { get; set; }
+
+        [DataMember(Order = 61, EmitDefaultValue = false)]
+        public string Udc2 { get; set; }
+
+        [DataMember(Order = 60, EmitDefaultValue = false)]
         public string Desc1 { get; set; }
-        [DataMember(Order = 40, EmitDefaultValue = false)]
+
+        [DataMember(Order = 62, EmitDefaultValue = false)]
         public string Desc2 { get; set; }
-        [DataMember(Order = 50, EmitDefaultValue = false)]
+
+        [DataMember(Order = 64, EmitDefaultValue = false)]
         public string Desc3 { get; set; }
+
+        [DataMember(Order = 70)]
+        public DateTime TransactionDate { get; set; }
     }
 }

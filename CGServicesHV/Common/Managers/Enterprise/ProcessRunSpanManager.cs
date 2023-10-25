@@ -57,5 +57,40 @@ namespace CGServicesHV.Common.Managers.Enterprise
             return span;
         }
 
+        public static ProcessRunSpan GetRunSpan(HighWaterMark mark, TimeSpan timeSpanStart, TimeSpan timeSpanEnd)
+        {
+            var span = new ProcessRunSpan();
+            try
+            {
+                if (mark != null && mark.Exists)
+                {
+                    span.HighWaterMark = mark;
+                    span.StartDateTime = mark.EnterpriseDateTime;
+                    span.BusinessStartDateTime = mark.EnterpriseDateTime;
+                    span.LocalStartDateTime = mark.LocalDateTime;
+                    span.EndDateTime = (DateTime.Now - timeSpanEnd).AddSeconds(-mark.LookbackSeconds);
+                    span.BusinessEndDateTime = (DateTime.Now - timeSpanEnd).AddSeconds(-mark.LookbackSeconds);
+                    span.LocalEndDateTime = (DateTime.Now - timeSpanEnd).AddSeconds(-mark.LookbackSeconds);
+                    span.E1TimeIdSpan = E1TimeManager.GetE1TimeIdSpan(span.StartDateTime, span.EndDateTime);
+                    span.IsEmpty = false;
+                }
+                else
+                {
+                    if (timeSpanStart != TimeSpan.Zero)
+                    {
+                        span.HighWaterMark = new HighWaterMark();
+                        span.StartDateTime = DateTime.Now - timeSpanStart;
+                        span.EndDateTime = DateTime.Now - timeSpanEnd;
+                        span.E1TimeIdSpan = E1TimeManager.GetE1TimeIdSpan(span.StartDateTime, span.EndDateTime);
+                        span.IsEmpty = false;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            return span;
+        }
     }
 }

@@ -17,8 +17,20 @@ namespace CGServicesHV.Common.Types.Enterprise
         [DataMember(Order = 10)]
         public DateTime StartDateTime { get; set; }
 
+        [DataMember(Order = 12)]
+        public DateTime BusinessStartDateTime { get; set; }
+
+        [DataMember(Order = 14)]
+        public DateTime LocalStartDateTime { get; set; }
+
         [DataMember(Order = 20)]
         public DateTime EndDateTime { get; set; }
+
+        [DataMember(Order = 22)]
+        public DateTime BusinessEndDateTime { get; set; }
+
+        [DataMember(Order = 24)]
+        public DateTime LocalEndDateTime { get; set; }
 
         [DataMember(Order = 50)]
         public E1TimeIdSpan E1TimeIdSpan { get; set; }
