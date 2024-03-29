@@ -21,8 +21,8 @@ namespace CGServicesHV.Common.Types.ShopFloor
         {
             ExtendedProperties.Add("Target", "[EBS].[ItemAttributeLedger]");
             Columns.Add("ItemNum", typeof(decimal));
-            Columns.Add("Name", typeof(string));
-            Columns.Add("Value", typeof(string));
+            Columns.Add("AttributeName", typeof(string));
+            Columns.Add("AttributeValue", typeof(string));
             Columns.Add("Numeric", typeof(string));
             Columns.Add("Udc1", typeof(string));
             Columns.Add("Udc2", typeof(string));
@@ -37,8 +37,8 @@ namespace CGServicesHV.Common.Types.ShopFloor
                 {
                     var dr = NewRow();
                     dr["ItemNum"] = attribute.ItemNum;
-                    dr["Name"] = attribute.Name;
-                    dr["Value"] = attribute.Value;
+                    dr["AttributeName"] = attribute.Name;
+                    dr["AttributeValue"] = attribute.Value;
                     dr["Numeric"] = attribute.Numeric;
                     dr["Udc1"] = attribute.Udc1;
                     dr["Udc2"] = attribute.Udc2;

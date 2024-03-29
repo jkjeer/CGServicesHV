@@ -13,12 +13,9 @@ namespace CGServicesHV.ScheduleSvc
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
-        public ProcessResponse DownloadScheduleHeader(string plants, TimeSpan timeSpan, bool useHighWaterMark, bool parallel)
+        public ProcessResponse DownloadScheduleHeader(string plantCode, TimeSpan timeSpan, bool useHighWaterMark, bool parallel)
         {
-            if (string.IsNullOrEmpty(plants))
-            {
-                throw new Exception("Plant Code is REQUIRED.");
-            }
+            if (string.IsNullOrEmpty(plantCode)) throw new Exception("Plant Code is REQUIRED.");
             try
             {
                 var parms = new Dictionary<string, object>
@@ -27,7 +24,7 @@ namespace CGServicesHV.ScheduleSvc
                     {"HighWaterMark", useHighWaterMark},
                 };
                 var resources = new List<string> { "PLANT.SHOPFLOOR", "PLANT.INTEGRATION", "E1.HA" };
-                return BusinessSystemTransferProcessor.Invoke(plants, ScheduleProcessor.DownloadScheduleHeader, parallel, parms, resources);
+                return BusinessSystemTransferProcessor.Invoke(plantCode, ScheduleProcessor.DownloadScheduleHeader, parallel, parms, resources);
             }
             catch (Exception e)
             {
@@ -37,10 +34,7 @@ namespace CGServicesHV.ScheduleSvc
 
         public MTSScheduleEvents GetUnprocessedMTSScheduleEvents(string plantCode)
         {
-            if (string.IsNullOrEmpty(plantCode) || plantCode.Length < 4)
-            {
-                throw new ApplicationException("4 letter Plant Code is REQUIRED.");
-            }
+            if (string.IsNullOrEmpty(plantCode)) throw new Exception("Plant Code is REQUIRED.");
             try
             {
                 return MTSScheduleProcessor.GetUnprocessedMTSScheduleEvents(plantCode);
@@ -53,10 +47,7 @@ namespace CGServicesHV.ScheduleSvc
 
         public MTSScheduleEvents GetUnprocessedOutsideMTSScheduleEvents(string plantCode)
         {
-            if (string.IsNullOrEmpty(plantCode) || plantCode.Length < 4)
-            {
-                throw new ApplicationException("4 letter Plant Code is REQUIRED.");
-            }
+            if (string.IsNullOrEmpty(plantCode)) throw new Exception("Plant Code is REQUIRED.");
             try
             {
                 return OutsideMTSScheduleProcessor.GetUnprocessedOutsideMTSScheduleEvents(plantCode);
@@ -69,10 +60,7 @@ namespace CGServicesHV.ScheduleSvc
 
         public ProcessResponse BackoutSchedule(string plantCode, string schedulePlantNum, decimal scheduleNum)
         {
-            if (string.IsNullOrEmpty(plantCode) || plantCode.Length < 4)
-            {
-                throw new ApplicationException("4 letter Plant Code is REQUIRED.");
-            }
+            if (string.IsNullOrEmpty(plantCode)) throw new Exception("Plant Code is REQUIRED.");
             if (string.IsNullOrEmpty(schedulePlantNum) || schedulePlantNum.Length < 2)
             {
                 throw new ApplicationException($"2 digit Schedule Plant Num is REQUIRED.");

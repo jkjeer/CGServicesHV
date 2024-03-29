@@ -232,21 +232,22 @@ namespace CGServicesHV.Common.Managers.Process
             {
                 CommandType = CommandType.Text,
                 CommandText = $@"
-                SELECT
-	                A.PlantName,
-                    B.NumericCode AS PlantCode,
-                    A.TransactionDate,
-                    A.WorkCenterName,
-                    A.PayCode,
-                    A.TotalHours,
-                    A.TotalAmt
-                FROM
-	                PROD.UKG_PRODUCTION_LABOR			 A WITH (NOLOCK)
-	                INNER JOIN PROD.UKG_PLANT_MAP B WITH (NOLOCK)
-	                ON B.PlantName = A.PlantName
-                WHERE
-                    {filterString}
-                ORDER BY 1,2,3"
+                    SELECT
+	                    A.PLANT_NAME AS PlantName,
+                        B.NumericCode AS PlantCode,
+                        A.TRANSACTION_DT AS TransactionDate,
+                        A.WORK_CENTER_NAME AS WorkCenterName,
+                        A.PAY_CODE_NAME AS PayCode,
+                        A.TOTAL_HOURS AS TotalHours,
+                        A.TOTAL_AMOUNT AS TotalAmt
+                    FROM
+	                    DW_SOURCE.UKG.PRODUCTION_LABOR			 A WITH (NOLOCK)
+	                    INNER JOIN PSBI_WH_PROD.PROD.UKG_PLANT_MAP B WITH (NOLOCK)
+	                    ON B.PlantName = A.PLANT_NAME
+                    WHERE
+                        {filterString}
+                    ORDER BY 1,2,3
+                "
             };
             return cmd;
         }
@@ -262,7 +263,7 @@ namespace CGServicesHV.Common.Managers.Process
                 parameters.Add(new SqlParameter("@PlantNum", SqlDbType.VarChar, 12));
                 parameters.Last().Value = plant.PlantNum;
 
-                filters.Add("A.TransactionDate BETWEEN @StartDate AND @EndDate \r\n");
+                filters.Add("A.TRANSACTION_DT BETWEEN @StartDate AND @EndDate \r\n");
                 parameters.Add(new SqlParameter("@StartDate", SqlDbType.DateTime));
                 parameters.Last().Value = new DateTime(processRunSpan.StartDateTime.Year, processRunSpan.StartDateTime.Month, 1);
                 parameters.Add(new SqlParameter("@EndDate", SqlDbType.DateTime));

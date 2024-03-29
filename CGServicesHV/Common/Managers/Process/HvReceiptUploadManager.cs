@@ -296,7 +296,7 @@ namespace CGServicesHV.Common.Managers.Process
                         Logger.Info("Serialized Process: " + serializedXml);
                         var xslOutput = XsltManager.Transform(serializedXml, "CGServicesHV.Common.Xslt.HvReceiptUploadReport.xslt", Encoding.UTF8);
                         Logger.Info("Report XML: " + xslOutput);
-                        Mail.SendHtmlAsync(ConfigurationManager.AppSettings["SmtpHost"], ConfigurationManager.AppSettings["MailFromAddress"], ConfigurationManager.AppSettings["MailBizToAddress"], null, plant.PlantCode + " [" + ConfigurationManager.AppSettings["PrimaryEnvironment"] + "] " + "HV Receipt Upload ", xslOutput);
+                        //Mail.SendHtmlAsync(ConfigurationManager.AppSettings["SmtpHost"], ConfigurationManager.AppSettings["MailFromAddress"], ConfigurationManager.AppSettings["MailBizToAddress"], null, plant.PlantCode + " [" + ConfigurationManager.AppSettings["PrimaryEnvironment"] + "] " + "HV Receipt Upload ", xslOutput);
                     }
                     catch (Exception e)
                     {

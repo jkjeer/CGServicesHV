@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.IO;
@@ -279,7 +280,22 @@ namespace CGServicesHV.Common.Managers.Process
                         Logger.Info("Serialized Process: " + serializedXml);
                         var xslOutput = XsltManager.Transform(serializedXml, "CGServicesHV.Common.Xslt.ConsumedStoceUploadReport.xslt", Encoding.UTF8);
                         Logger.Info("Report XML: " + xslOutput);
-                        Mail.SendHtmlAsync(System.Configuration.ConfigurationManager.AppSettings["SmtpHost"], System.Configuration.ConfigurationManager.AppSettings["MailFromAddress"], System.Configuration.ConfigurationManager.AppSettings["MailBizToAddress"], null, plant.PlantCode + " [" + System.Configuration.ConfigurationManager.AppSettings["PrimaryEnvironment"] + "] " + "Consumed Stoce Upload ", xslOutput);
+
+                        var subject = plant.PlantCode + " [" + System.Configuration.ConfigurationManager.AppSettings["PrimaryEnvironment"] + "] " + "Consumed Stoce Upload ";
+
+                        var plantPathName = $@"{ConfigurationManager.AppSettings["ProcessResponseFilePath"]}\{response.Plant.PlantCode}";
+                        Directory.CreateDirectory(plantPathName);
+                        var fileName = $@"{plantPathName}\{subject} {DateTime.Now:hhmmss}.htm";
+                        File.Delete(fileName);
+                        File.WriteAllText(fileName, xslOutput);
+
+                        //Mail.SendHtmlAsync(System.Configuration.ConfigurationManager.AppSettings["SmtpHost"],
+                        //    System.Configuration.ConfigurationManager.AppSettings["MailFromAddress"],
+                        //    System.Configuration.ConfigurationManager.AppSettings["MailBizToAddress"],
+                        //    null,
+                        //    plant.PlantCode + " [" + System.Configuration.ConfigurationManager.AppSettings["PrimaryEnvironment"] + "] " + "Consumed Stoce Upload ",
+                        //    xslOutput);
+                        //plant.PlantCode + " [" + System.Configuration.ConfigurationManager.AppSettings["PrimaryEnvironment"] + "] " + "Consumed Stoce Upload ",
                     }
                     catch (Exception e)
                     {

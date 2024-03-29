@@ -21,6 +21,8 @@ namespace CGServicesHV.Common.Types.ShopFloor
         {
             ExtendedProperties.Add("Target", "[EBS].[ItemLedger]");
             Columns.Add("ItemNum", typeof(decimal));
+            Columns.Add("LongItem", typeof(string));
+            Columns.Add("ItemNum3", typeof(string));
             Columns.Add("StockType", typeof(string));
             Columns.Add("GlCategory", typeof(string));
             Columns.Add("Description1", typeof(string));
@@ -46,6 +48,8 @@ namespace CGServicesHV.Common.Types.ShopFloor
                 {
                     DataRow dr = this.NewRow();
                     dr["ItemNum"] = Data.CastDbNull.To<decimal>(reader["IMITM"], 0);
+                    dr["LongItem"] = Data.CastDbNull.To<string>(reader["IBLITM"], "");
+                    dr["ItemNum3"] = Data.CastDbNull.To<string>(reader["IBAITM"], "");
                     dr["StockType"] = CastDbNull.To<string>(reader["IMSTKT"], String.Empty).Trim();
                     dr["GlCategory"] = CastDbNull.To<string>(reader["IMGLPT"], String.Empty).Trim();
                     dr["Description1"] = CastDbNull.To<string>(reader["IMDSC1"], String.Empty).Trim();

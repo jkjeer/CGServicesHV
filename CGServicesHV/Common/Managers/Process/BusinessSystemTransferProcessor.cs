@@ -25,6 +25,7 @@ namespace CGServicesHV.Common.Managers.Process
 
         public class InvocationObject
         {
+            public string SubscriptionTypeCode { get; set; }
             public ProcessDelegate Processor { get; set; }
             public Dictionary<string, object> Parms { get; set; }
             public List<string> Resources { get; set; }
@@ -101,6 +102,7 @@ namespace CGServicesHV.Common.Managers.Process
                         Logger.Trace($"Adding Subscription {plant.PlantCode} {subscriptionType.SubscriptionTypeCode}");
                         var invocation = new InvocationObject
                         {
+                            SubscriptionTypeCode = subscriptionType.SubscriptionTypeCode,
                             Processor = subscriptionType.DelegateMethod,
                             Parms = parms,
                             Resources = subscriptionType.ResourceList,
@@ -117,7 +119,6 @@ namespace CGServicesHV.Common.Managers.Process
                     else
                     {
                         Logger.Trace($"WARNING: Plant {plant.PlantCode} Subscription {subscriptionType.SubscriptionTypeCode} is INACTIVE");
-                        //auxResponse.Errors.Add(new Error($"WARNING: Plant {plant.PlantCode} Subscription {subscriptionType.SubscriptionTypeCode} is INACTIVE"));
                     }
                 }
                 if (invocations.Any())
@@ -176,23 +177,9 @@ namespace CGServicesHV.Common.Managers.Process
                     var sqlCns = new Dictionary<string, SqlConnection>();
                     try
                     {
-                        //var step1 = new ProcessStep($"Resolve Plant {kvp.Key.PlantCode}");
-                        //try
-                        //{
-                        //    response.Plant = kvp.Key;
-                        //}
-                        //catch (Exception e)
-                        //{
-                        //    //Logger.Error($"ERROR: {e.Message}: {e.StackTrace}");
-                        //    step1.Errors.Add(new Error(e));
-                        //}
-                        //step1.Done();
-                        //response.AddStep(step1);
-
                         var step2 = new ProcessStep($"Get {kvp.Key.PlantCode} Database Connections");
                         try
                         {
-                            // Biz Session
                             if (kvp.Value.Any(x => x.Resources.Contains("E1.PD")))
                             {
                                 session = BusinessSystemSessionManager.GetBusinessSession(ConfigurationManager.AppSettings["PrimaryEnvironment"]);
@@ -205,42 +192,36 @@ namespace CGServicesHV.Common.Managers.Process
                             {
                                 session = BusinessSystemSessionManager.GetBusinessSession(ConfigurationManager.AppSettings["ReplicationEnvironment"]);
                             }
-                            // Plant Integration Connection
                             if (kvp.Value.Any(x => x.Resources.Contains("PLANT.INTEGRATION")))
                             {
                                 var cnPlantInt = ConnectionManager.GetSqlConnectionFromKey(kvp.Key.PlantCode + ".INTEGRATION");
                                 cnPlantInt.Open();
                                 sqlCns.Add("PLANT.INTEGRATION", cnPlantInt);
                             }
-                            // Plant Shop Floor Connection
                             if (kvp.Value.Any(x => x.Resources.Contains("PLANT.SHOPFLOOR")))
                             {
                                 var cnPlantSf = ConnectionManager.GetSqlConnectionFromKey(kvp.Key.PlantCode + ".SHOPFLOOR", false);
                                 cnPlantSf.Open();
                                 sqlCns.Add("PLANT.SHOPFLOOR", cnPlantSf);
                             }
-                            // Plant Shop Floor Scheduling Connection
                             if (kvp.Value.Any(x => x.Resources.Contains("PLANT.SHOPFLOORSCHEDULING")))
                             {
                                 var cnPlantSfSched = ConnectionManager.GetSqlConnectionFromKey(kvp.Key.PlantCode + ".SHOPFLOORSCHEDULING", false);
                                 cnPlantSfSched.Open();
                                 sqlCns.Add("PLANT.SHOPFLOORSCHEDULING", cnPlantSfSched);
                             }
-                            // Plant Clear Path Connection
                             if (kvp.Value.Any(x => x.Resources.Contains("PLANT.CLEARPATH")))
                             {
                                 var cnPlantCp = ConnectionManager.GetSqlConnectionFromKey(kvp.Key.PlantCode + ".CLEARPATH", false);
                                 cnPlantCp.Open();
                                 sqlCns.Add("PLANT.CLEARPATH", cnPlantCp);
                             }
-                            // Corporate Integration Connection
                             if (kvp.Value.Any(x => x.Resources.Contains("CORP.INTEGRATION")))
                             {
                                 var cnCorpInt = ConnectionManager.GetSqlConnectionFromKey("CORP.INTEGRATION");
                                 cnCorpInt.Open();
                                 sqlCns.Add("CORP.INTEGRATION", cnCorpInt);
                             }
-                            // Corporate Data Warehouse Connection
                             if (kvp.Value.Any(x => x.Resources.Contains("CORP.WAREHOUSE")))
                             {
                                 var cnCorpDW = ConnectionManager.GetSqlConnectionFromKey("CORP.WAREHOUSE");
@@ -295,7 +276,7 @@ namespace CGServicesHV.Common.Managers.Process
                                     }
                                     else
                                     {
-                                        Logger.Error("Invocation.Processor is NULL");
+                                        Logger.Error($@"Invocation.Processor is NULL for {invocation.SubscriptionTypeCode}");
                                     }
                                 }
                             }
@@ -353,70 +334,51 @@ namespace CGServicesHV.Common.Managers.Process
                     var session = new BusinessSystemSession();
                     try
                     {
-                        //var step1 = new ProcessStep($"Resolve Plant {kvp.Key.PlantCode}");
-                        //try
-                        //{
-                        //    response.Plant = kvp.Key;
-                        //}
-                        //catch (Exception e)
-                        //{
-                        //    Logger.Error($"ERROR: {e.Message}: {e.StackTrace}");
-                        //    step1.Errors.Add(new Error(e));
-                        //}
-                        //step1.Done();
-                        //response.AddStep(step1);
-
                         var step2 = new ProcessStep($"Get {kvp.Key.PlantCode} Database Connections");
                         try
                         {
-                            // Biz Session
-                            if (kvp.Value[0].Resources.Contains("E1.HA"))
+                            if (kvp.Value.Any(x => x.Resources.Contains("E1.PD")))
                             {
-                                session = BusinessSystemSessionManager.GetBusinessSession(
-                                    ConfigurationManager.AppSettings["ReplicationEnvironment"]);
+                                session = BusinessSystemSessionManager.GetBusinessSession(ConfigurationManager.AppSettings["PrimaryEnvironment"]);
+                                if (kvp.Value.Any(x => x.Resources.Contains("E1.HA")))
+                                {
+                                    //Throw warning for mixed resources
+                                }
                             }
                             else
                             {
-                                session = BusinessSystemSessionManager.GetBusinessSession(
-                                    ConfigurationManager.AppSettings["PrimaryEnvironment"]);
+                                session = BusinessSystemSessionManager.GetBusinessSession(ConfigurationManager.AppSettings["ReplicationEnvironment"]);
                             }
-
-                            // Plant Integration Connection
                             if (kvp.Value.Any(x => x.Resources.Contains("PLANT.INTEGRATION")))
                             {
                                 var cnPlantInt = ConnectionManager.GetSqlConnectionFromKey(kvp.Key.PlantCode + ".INTEGRATION");
                                 cnPlantInt.Open();
                                 sqlCns.Add("PLANT.INTEGRATION", cnPlantInt);
                             }
-                            // Plant Shop Floor Connection
                             if (kvp.Value.Any(x => x.Resources.Contains("PLANT.SHOPFLOOR")))
                             {
                                 var cnPlantSf = ConnectionManager.GetSqlConnectionFromKey(kvp.Key.PlantCode + ".SHOPFLOOR", false);
                                 cnPlantSf.Open();
                                 sqlCns.Add("PLANT.SHOPFLOOR", cnPlantSf);
                             }
-                            // Plant Shop Floor Scheduling Connection
                             if (kvp.Value.Any(x => x.Resources.Contains("PLANT.SHOPFLOORSCHEDULING")))
                             {
                                 var cnPlantSfSched = ConnectionManager.GetSqlConnectionFromKey(kvp.Key.PlantCode + ".SHOPFLOORSCHEDULING", false);
                                 cnPlantSfSched.Open();
                                 sqlCns.Add("PLANT.SHOPFLOORSCHEDULING", cnPlantSfSched);
                             }
-                            // Plant Clear Path Connection
                             if (kvp.Value.Any(x => x.Resources.Contains("PLANT.CLEARPATH")))
                             {
                                 var cnPlantCp = ConnectionManager.GetSqlConnectionFromKey(kvp.Key.PlantCode + ".CLEARPATH", false);
                                 cnPlantCp.Open();
                                 sqlCns.Add("PLANT.CLEARPATH", cnPlantCp);
                             }
-                            // Corporate Integration Connection
                             if (kvp.Value.Any(x => x.Resources.Contains("CORP.INTEGRATION")))
                             {
                                 var cnCorpInt = ConnectionManager.GetSqlConnectionFromKey("CORP.INTEGRATION");
                                 cnCorpInt.Open();
                                 sqlCns.Add("CORP.INTEGRATION", cnCorpInt);
                             }
-                            // Corporate Data Warehouse Connection
                             if (kvp.Value.Any(x => x.Resources.Contains("CORP.WAREHOUSE")))
                             {
                                 var cnCorpDW = ConnectionManager.GetSqlConnectionFromKey("CORP.WAREHOUSE");
@@ -447,21 +409,28 @@ namespace CGServicesHV.Common.Managers.Process
                                 }
                                 if (connectionState)
                                 {
-                                    Logger.Trace($"Synchronous Call {kvp.Key.PlantCode} {invocation.Processor.Method.Name} Processor");
-                                    var step3 = new ProcessStep($"Call {kvp.Key.PlantCode} {invocation.Processor.Method.Name} Processor");
-                                    try
+                                    if (invocation.Processor != null)
                                     {
-                                        step3.ProcessResponses.Add(invocation.Processor(kvp.Key, session, sqlCns, invocation.Parms));
+                                        Logger.Trace($"Synchronous Call {kvp.Key.PlantCode} {invocation.Processor.Method.Name} Processor");
+                                        var step3 = new ProcessStep($"Call {kvp.Key.PlantCode} {invocation.Processor.Method.Name} Processor");
+                                        try
+                                        {
+                                            step3.ProcessResponses.Add(invocation.Processor(kvp.Key, session, sqlCns, invocation.Parms));
+                                        }
+                                        catch (Exception e)
+                                        {
+                                            Logger.Error($"ERROR: {e.Message}: {e.StackTrace}");
+                                            step3.Errors.Add(new Error(e));
+                                        }
+                                        finally
+                                        {
+                                            step3.Done();
+                                            response.AddStep(step3);
+                                        }
                                     }
-                                    catch (Exception e)
+                                    else
                                     {
-                                        Logger.Error($"ERROR: {e.Message}: {e.StackTrace}");
-                                        step3.Errors.Add(new Error(e));
-                                    }
-                                    finally
-                                    {
-                                        step3.Done();
-                                        response.AddStep(step3);
+                                        Logger.Error($@"Invocation.Processor is NULL for {invocation.SubscriptionTypeCode}");
                                     }
                                 }
                             }

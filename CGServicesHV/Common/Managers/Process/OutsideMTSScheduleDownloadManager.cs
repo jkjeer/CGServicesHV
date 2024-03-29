@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.ServiceModel;
 using System.Text;
@@ -343,13 +344,21 @@ namespace CGServicesHV.Common.Managers.Process
             try
             {
                 var toConfigAddresses = ConfigurationManager.AppSettings["MailConfirmToAddress"];
-                if (string.Equals(ConfigurationManager.AppSettings["SendPlantMail"], "true", StringComparison.CurrentCultureIgnoreCase)) toConfigAddresses += $",{response.Plant.PlantCode}{ConfigurationManager.AppSettings["PlantEmailFormat"]}";
+                //if (string.Equals(ConfigurationManager.AppSettings["SendPlantMail"], "true", StringComparison.CurrentCultureIgnoreCase)) toConfigAddresses += $",{response.Plant.PlantCode}{ConfigurationManager.AppSettings["PlantEmailFormat"]}";
                 var serializedXml = response.Serialize();
                 Logger.Info($@"Serialized Process: {serializedXml}");
                 var xslOutput = XsltManager.Transform(serializedXml, "CGServicesHV.Common.Xslt.OutsideMTSScheduleDownloadResponseBody.xslt", Encoding.UTF8);
                 Logger.Info($@"Report XML: {xslOutput}");
-                var subject = $@"{response.Plant.PlantCode} [{ConfigurationManager.AppSettings["PrimaryEnvironment"]}] Schedule Downloads - Outside MTS Schedule {mtsSchedule.ScheduleNum}";
+
+                var subject = $@"{response.Plant.PlantCode} [{ConfigurationManager.AppSettings["PrimaryEnvironment"]}] Outside HV Schedule {mtsSchedule.ScheduleNum} Download";
                 if (response.HasErrors() || mtsSchedule.ValidationErrors.Any()) subject = $@"Error - {subject}";
+
+                var plantPathName = $@"{ConfigurationManager.AppSettings["ProcessResponseFilePath"]}\{response.Plant.PlantCode}";
+                Directory.CreateDirectory(plantPathName);
+                var fileName = $@"{plantPathName}\{subject} {DateTime.Now:hhmmss}.htm";
+                File.Delete(fileName);
+                File.WriteAllText(fileName, xslOutput);
+
                 Mail.SendHtmlAsync(ConfigurationManager.AppSettings["SmtpHost"],
                     ConfigurationManager.AppSettings["MailFromAddress"],
                     toConfigAddresses,

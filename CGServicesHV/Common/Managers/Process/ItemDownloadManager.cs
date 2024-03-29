@@ -156,33 +156,35 @@ namespace CGServicesHV.Common.Managers.Process
             {
                 CommandType = CommandType.Text,
                 CommandText = $@"
-	            SELECT 
-                    IMITM,
-                    COALESCE(IBSTKT, IMSTKT) AS IMSTKT,
-                    COALESCE(IBGLPT, IMGLPT) AS IMGLPT,
-                    IMDSC1,
-                    IMDSC2,
-                    COALESCE(IBPRP1, IMPRP1) AS IMPRP1,
-                    COALESCE(IBPRP2, IMPRP2) AS IMPRP2,
-                    COALESCE(IBPRP3, IMPRP3) AS IMPRP3,
-                    COALESCE(IBPRP4, IMPRP4) AS IMPRP4,
-                    COALESCE(IBSRP1, IMSRP1) AS IMSRP1,
-                    COALESCE(IBSRP2, IMSRP2) AS IMSRP2,
-                    COALESCE(IBSRP3, IMSRP3) AS IMSRP3,
-                    COALESCE(IBSRP4, IMSRP4) AS IMSRP4,
-                    COALESCE(IBROPI, 0) AS IMROPI,
-                    IMUOM1,
-                    IMUOM2,
-                    IMUPMJ,
-                    IMTDAY
-                FROM
-                    F4101
-                    LEFT OUTER JOIN F4102
-                    ON  IBITM = IMITM and
-                        IBMCU = ?
-                WHERE
-                    {filterString}
-                    1=1"
+	                SELECT 
+                        IMITM,
+                        IBLITM,
+                        IBAITM,
+                        COALESCE(IBSTKT, IMSTKT) AS IMSTKT,
+                        COALESCE(IBGLPT, IMGLPT) AS IMGLPT,
+                        IMDSC1,
+                        IMDSC2,
+                        COALESCE(IBPRP1, IMPRP1) AS IMPRP1,
+                        COALESCE(IBPRP2, IMPRP2) AS IMPRP2,
+                        COALESCE(IBPRP3, IMPRP3) AS IMPRP3,
+                        COALESCE(IBPRP4, IMPRP4) AS IMPRP4,
+                        COALESCE(IBSRP1, IMSRP1) AS IMSRP1,
+                        COALESCE(IBSRP2, IMSRP2) AS IMSRP2,
+                        COALESCE(IBSRP3, IMSRP3) AS IMSRP3,
+                        COALESCE(IBSRP4, IMSRP4) AS IMSRP4,
+                        COALESCE(IBROPI, 0) AS IMROPI,
+                        IMUOM1,
+                        IMUOM2,
+                        IMUPMJ,
+                        IMTDAY
+                    FROM
+                        F4102
+                        LEFT OUTER JOIN F4101
+                        ON  IMITM = IBITM 
+                    WHERE
+                        {filterString}
+                        1=1
+                "
             };
             cmd.Parameters.Add(new iDB2Parameter("MCU", iDB2DbType.iDB2Graphic, 12));
             return cmd;
@@ -194,6 +196,10 @@ namespace CGServicesHV.Common.Managers.Process
             var parameters = new List<iDB2Parameter>();
             try
             {
+                filters.Add("IBMCU = ? AND \r\n");
+                parameters.Add(new iDB2Parameter("MCU", iDB2DbType.iDB2Graphic, 12));
+                parameters.Last().Value = plant.PlantNum.PadLeft(12);
+
                 // StockingTypes
                 if (stockTypes.Any())
                 {
@@ -214,7 +220,7 @@ namespace CGServicesHV.Common.Managers.Process
                     foreach (var glCategory in glCategories)
                     {
                         strInClause = strInClause + "?,";
-                        parameters.Add(new iDB2Parameter("StockingTypes", iDB2DbType.iDB2Graphic, 4));
+                        parameters.Add(new iDB2Parameter("GLCategories", iDB2DbType.iDB2Graphic, 4));
                         parameters.Last().Value = glCategory;
                     }
                     filters.Add("IMGLPT IN (" + strInClause.Substring(0, strInClause.Length - 1) + ") AND \r\n");

@@ -11,13 +11,32 @@ using CGServicesHV.Common.Types.Response;
 using CGServicesHV.Common.Utilities;
 using NLog;
 
-// ReSharper disable InconsistentNaming
-
 namespace CGServicesHV.ScheduleSvc
 {
     public class ScheduleProcessor
     {
         private static Logger Logger = LogManager.GetCurrentClassLogger();
+
+        public static ProcessResponse DownloadMTSSchedule(Plant plant, BusinessSystemSession session, Dictionary<string, SqlConnection> sqlCns, Dictionary<string, object> parms)
+        {
+            // Called by MTS_SCHEDULE subscription
+            var parallel = Data.UnboxParm.To(parms, "Parallel", false);
+            var serviceContext = Data.UnboxParm.To<ServiceContext>(parms, "ServiceContext", null);
+            var response = MTSScheduleDownloadManager.DownloadMTSIncomingOrders(session, sqlCns, plant, serviceContext, parallel);
+            response.Close();
+            return response;
+        }
+
+        public static ProcessResponse DownloadOutsideMTSSchedule(Plant plant, BusinessSystemSession session, Dictionary<string, SqlConnection> sqlCns, Dictionary<string, object> parms)
+        {
+            // Called by OUTSIDE_MTS_SCHEDULE subscription
+            var parallel = Data.UnboxParm.To(parms, "Parallel", false);
+            var serviceContext = Data.UnboxParm.To<ServiceContext>(parms, "ServiceContext", null);
+            var response = OutsideMTSScheduleDownloadManager.DownloadOutsideMTSSchedule(session, sqlCns, plant, serviceContext, parallel);
+            response.Close();
+            return response;
+        }
+
 
         public static ProcessResponse DownloadScheduleHeader(Plant plant, BusinessSystemSession session, Dictionary<string, SqlConnection> sqlCns, Dictionary<string, object> parms)
         {

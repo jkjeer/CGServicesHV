@@ -100,7 +100,7 @@ namespace CGServicesHV.Common.Managers.Process
                             LMPZON,
                             LMUPMJ,
                             LMTDAY,
-                            ROW_NUMBER() OVER ( PARTITION BY LMLOCN ORDER BY LMUPMJ desc, LMTDAY desc ) AS RowNumber
+                            ROW_NUMBER() OVER ( PARTITION BY LMMCU, LMLOCN ORDER BY LMUPMJ desc, LMTDAY desc ) AS RowNumber
                         FROM
                             F4100
                         WHERE

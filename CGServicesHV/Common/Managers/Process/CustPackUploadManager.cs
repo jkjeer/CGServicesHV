@@ -344,14 +344,15 @@ namespace CGServicesHV.Common.Managers.Process
                         var xslOutput = XsltManager.Transform(serializedXml,
                             "CGServicesHV.Common.Xslt.CustPackUploadReport.xslt", Encoding.UTF8);
                         Logger.Info("Report XML: " + xslOutput);
-                        Mail.SendHtmlAsync(System.Configuration.ConfigurationManager.AppSettings["SmtpHost"],
-                            System.Configuration.ConfigurationManager.AppSettings["MailFromAddress"],
-                            System.Configuration.ConfigurationManager.AppSettings["MailCustPackAddress"],
-                            null,
-                            plant.PlantCode + " [" +
-                            System.Configuration.ConfigurationManager.AppSettings["PrimaryEnvironment"] + "] " +
-                            "Cust Pack Upload ",
-                            xslOutput);
+
+                        //Mail.SendHtmlAsync(System.Configuration.ConfigurationManager.AppSettings["SmtpHost"],
+                        //    System.Configuration.ConfigurationManager.AppSettings["MailFromAddress"],
+                        //    System.Configuration.ConfigurationManager.AppSettings["MailCustPackAddress"],
+                        //    null,
+                        //    plant.PlantCode + " [" +
+                        //    System.Configuration.ConfigurationManager.AppSettings["PrimaryEnvironment"] + "] " +
+                        //    "Cust Pack Upload ",
+                        //    xslOutput);
                     }
                     catch (Exception e)
                     {

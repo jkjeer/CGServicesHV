@@ -296,13 +296,13 @@ namespace CGServicesHV.Common.Managers.Process
                             Logger.Info("Serialized Process: " + serializedXml);
                             var xslOutput = XsltManager.Transform(serializedXml, "CGServicesHV.Common.Xslt.HvIssueUploadReport.xslt", Encoding.UTF8);
                             Logger.Info("Report XML: " + xslOutput);
-                            Mail.SendHtmlAsync(System.Configuration.ConfigurationManager.AppSettings["SmtpHost"],
-                                System.Configuration.ConfigurationManager.AppSettings["MailFromAddress"],
-                                System.Configuration.ConfigurationManager.AppSettings["MailBizToAddress"],
-                                null,
-                                plant.PlantCode + " [" + System.Configuration.ConfigurationManager.AppSettings["PrimaryEnvironment"] + "] " +
-                                "HV Issue Upload ",
-                                xslOutput);
+                            //Mail.SendHtmlAsync(System.Configuration.ConfigurationManager.AppSettings["SmtpHost"],
+                            //    System.Configuration.ConfigurationManager.AppSettings["MailFromAddress"],
+                            //    System.Configuration.ConfigurationManager.AppSettings["MailBizToAddress"],
+                            //    null,
+                            //    plant.PlantCode + " [" + System.Configuration.ConfigurationManager.AppSettings["PrimaryEnvironment"] + "] " +
+                            //    "HV Issue Upload ",
+                            //    xslOutput);
                     }
                     catch (Exception e)
                     {
