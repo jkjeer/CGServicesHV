@@ -175,6 +175,8 @@ namespace CGServicesHV.Common.Managers.Process
                         COALESCE(IBROPI, 0) AS IMROPI,
                         IMUOM1,
                         IMUOM2,
+                        IBUPMJ,
+                        IBTDAY,
                         IMUPMJ,
                         IMTDAY
                     FROM
@@ -239,7 +241,9 @@ namespace CGServicesHV.Common.Managers.Process
                 // Process Run Span
                 if (!processRunSpan.IsEmpty)
                 {
-                    filters.Add(E1TimeManager.GetE1DateTimeQueryString("IMUPMJ", "IMTDAY", processRunSpan.E1TimeIdSpan) + " AND \r\n");
+                    var queryString1 = E1TimeManager.GetE1DateTimeQueryString("IBUPMJ", "IBTDAY", processRunSpan.E1TimeIdSpan);
+                    var queryString2 = E1TimeManager.GetE1DateTimeQueryString("IMUPMJ", "IMTDAY", processRunSpan.E1TimeIdSpan);
+                    filters.Add("(" + queryString1 + " OR " + queryString2 + ")" + " AND \r\n");
                 }
 
                 // Command

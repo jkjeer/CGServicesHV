@@ -234,7 +234,7 @@ namespace CGServicesHV.RackSvc
                     {"RackId", rackId},
                     {"StatusCodes", statusCodes?.Split(',').ToList()}
                 };
-                var resources = new List<string> { "PLANT.SHOPFLOOR", "PLANT.INTEGRATION", "E1.PD" };
+                var resources = new List<string> { "PLANT.SHOPFLOOR", "PLANT.INTEGRATION", "E1.HA" };
                 return BusinessSystemTransferProcessor.Invoke(plants, RackProcessor.DownloadRackItems, parallel, parms, resources);
             }
             catch (Exception e)

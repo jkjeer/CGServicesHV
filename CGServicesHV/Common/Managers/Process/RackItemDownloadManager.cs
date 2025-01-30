@@ -265,7 +265,7 @@ namespace CGServicesHV.Common.Managers.Process
 
                 cmd.Connection = session.DbConnection;
                 cmd.CommandTimeout = 0;
-                Logger.Debug(Logging.DbCmdString(cmd));
+                Logger.Trace(Logging.DbCmdString(cmd));
                 return cmd.ExecuteReader(CommandBehavior.SingleResult);
             }
             catch (Exception e)

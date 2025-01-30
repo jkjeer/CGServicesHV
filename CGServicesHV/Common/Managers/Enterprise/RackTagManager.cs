@@ -141,6 +141,7 @@ namespace CGServicesHV.Common.Managers.Enterprise
                             ATDOCO > 0
                         LEFT OUTER JOIN F5834A11
                         ON  S5MCU = RDMCU AND
+    						S5Z58SCN = RHZ58SCN AND
                             S5DOCO = RDDOC1
                         LEFT OUTER JOIN F5834A01
                         ON  S1MCU = S5MCU AND
@@ -288,6 +289,7 @@ namespace CGServicesHV.Common.Managers.Enterprise
                         ATDOCO > 0
                     LEFT OUTER JOIN F5834A11
                     ON  S5MCU = DLMCU AND
+						S5Z58SCN = HLZ58SCN AND
                         S5DOCO = DLDOC1
                     LEFT OUTER JOIN F5834A01
                     ON  S1MCU = S5MCU AND

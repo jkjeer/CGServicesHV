@@ -230,8 +230,9 @@ namespace CGServicesHV.Common.Managers.Process
 		                ON IAITM = IBITM
 	                WHERE 
                         IBMCU IN (?,?,?,?) AND 
-                        ((IAUPMJ = ? AND IATDAY > ? AND IATDAY <= ?) OR (IAUPMJ >= ? AND IAUPMJ <= ?) OR (IAUPMJ = ? AND IATDAY <= ?)) AND
-                        IBSTKT != 'C' AND
+                        (((IAUPMJ = ? AND IATDAY > ? AND IATDAY <= ?) OR (IAUPMJ >= ? AND IAUPMJ <= ?) OR (IAUPMJ = ? AND IATDAY <= ?)) OR
+                         ((IBUPMJ = ? AND IBTDAY > ? AND IBTDAY <= ?) OR (IBUPMJ >= ? AND IBUPMJ <= ?) OR (IBUPMJ = ? AND IBTDAY <= ?))) AND
+                        --IBSTKT != 'C' AND
                         IBGLPT IN ('GLAS','GLAF','GLAX','GLAZ','COMA','GLAC')) A
                 WHERE
 	                A.ROWNUM = 1
@@ -241,27 +242,50 @@ namespace CGServicesHV.Common.Managers.Process
             cmd.Parameters.Add(new iDB2Parameter("MCU2", iDB2DbType.iDB2Graphic, 12));
             cmd.Parameters.Add(new iDB2Parameter("MCU3", iDB2DbType.iDB2Graphic, 12));
             cmd.Parameters.Add(new iDB2Parameter("MCU4", iDB2DbType.iDB2Graphic, 12));
-            cmd.Parameters.Add(new iDB2Parameter("DT1", iDB2DbType.iDB2Decimal));
-            cmd.Parameters["DT1"].Precision = 6;
-            cmd.Parameters["DT1"].Scale = 0;
-            cmd.Parameters.Add(new iDB2Parameter("TM1", iDB2DbType.iDB2Decimal));
-            cmd.Parameters["TM1"].Precision = 6;
-            cmd.Parameters["TM1"].Scale = 0;
-            cmd.Parameters.Add(new iDB2Parameter("TM2", iDB2DbType.iDB2Decimal));
-            cmd.Parameters["TM2"].Precision = 6;
-            cmd.Parameters["TM2"].Scale = 0;
-            cmd.Parameters.Add(new iDB2Parameter("DT2", iDB2DbType.iDB2Decimal));
-            cmd.Parameters["DT2"].Precision = 6;
-            cmd.Parameters["DT2"].Scale = 0;
-            cmd.Parameters.Add(new iDB2Parameter("DT3", iDB2DbType.iDB2Decimal));
-            cmd.Parameters["DT3"].Precision = 6;
-            cmd.Parameters["DT3"].Scale = 0;
-            cmd.Parameters.Add(new iDB2Parameter("DT4", iDB2DbType.iDB2Decimal));
-            cmd.Parameters["DT4"].Precision = 6;
-            cmd.Parameters["DT4"].Scale = 0;
-            cmd.Parameters.Add(new iDB2Parameter("TM3", iDB2DbType.iDB2Decimal));
-            cmd.Parameters["TM3"].Precision = 6;
-            cmd.Parameters["TM3"].Scale = 0;
+            cmd.Parameters.Add(new iDB2Parameter("DT1A", iDB2DbType.iDB2Decimal));
+            cmd.Parameters["DT1A"].Precision = 6;
+            cmd.Parameters["DT1A"].Scale = 0;
+            cmd.Parameters.Add(new iDB2Parameter("TM1A", iDB2DbType.iDB2Decimal));
+            cmd.Parameters["TM1A"].Precision = 6;
+            cmd.Parameters["TM1A"].Scale = 0;
+            cmd.Parameters.Add(new iDB2Parameter("TM2A", iDB2DbType.iDB2Decimal));
+            cmd.Parameters["TM2A"].Precision = 6;
+            cmd.Parameters["TM2A"].Scale = 0;
+            cmd.Parameters.Add(new iDB2Parameter("DT2A", iDB2DbType.iDB2Decimal));
+            cmd.Parameters["DT2A"].Precision = 6;
+            cmd.Parameters["DT2A"].Scale = 0;
+            cmd.Parameters.Add(new iDB2Parameter("DT3A", iDB2DbType.iDB2Decimal));
+            cmd.Parameters["DT3A"].Precision = 6;
+            cmd.Parameters["DT3A"].Scale = 0;
+            cmd.Parameters.Add(new iDB2Parameter("DT4A", iDB2DbType.iDB2Decimal));
+            cmd.Parameters["DT4A"].Precision = 6;
+            cmd.Parameters["DT4A"].Scale = 0;
+            cmd.Parameters.Add(new iDB2Parameter("TM3A", iDB2DbType.iDB2Decimal));
+            cmd.Parameters["TM3A"].Precision = 6;
+            cmd.Parameters["TM3A"].Scale = 0;
+
+            cmd.Parameters.Add(new iDB2Parameter("DT1B", iDB2DbType.iDB2Decimal));
+            cmd.Parameters["DT1B"].Precision = 6;
+            cmd.Parameters["DT1B"].Scale = 0;
+            cmd.Parameters.Add(new iDB2Parameter("TM1B", iDB2DbType.iDB2Decimal));
+            cmd.Parameters["TM1B"].Precision = 6;
+            cmd.Parameters["TM1B"].Scale = 0;
+            cmd.Parameters.Add(new iDB2Parameter("TM2B", iDB2DbType.iDB2Decimal));
+            cmd.Parameters["TM2B"].Precision = 6;
+            cmd.Parameters["TM2B"].Scale = 0;
+            cmd.Parameters.Add(new iDB2Parameter("DT2B", iDB2DbType.iDB2Decimal));
+            cmd.Parameters["DT2B"].Precision = 6;
+            cmd.Parameters["DT2B"].Scale = 0;
+            cmd.Parameters.Add(new iDB2Parameter("DT3B", iDB2DbType.iDB2Decimal));
+            cmd.Parameters["DT3B"].Precision = 6;
+            cmd.Parameters["DT3B"].Scale = 0;
+            cmd.Parameters.Add(new iDB2Parameter("DT4B", iDB2DbType.iDB2Decimal));
+            cmd.Parameters["DT4B"].Precision = 6;
+            cmd.Parameters["DT4B"].Scale = 0;
+            cmd.Parameters.Add(new iDB2Parameter("TM3B", iDB2DbType.iDB2Decimal));
+            cmd.Parameters["TM3B"].Precision = 6;
+            cmd.Parameters["TM3B"].Scale = 0;
+
             return cmd;
         }
 
@@ -278,13 +302,21 @@ namespace CGServicesHV.Common.Managers.Process
                 cmd.Parameters["MCU3"].Value = (plant.PlantCode == "MZCG") ? "04".PadLeft(12) : plant.PlantNum.PadLeft(12);
                 cmd.Parameters["MCU4"].Value = (plant.PlantCode == "MZCG") ? "08".PadLeft(12) : plant.PlantNum.PadLeft(12);
                 var e1Timestamps = E1TimeManager.GetE1TimeIdSpan(processRunSpan.StartDateTime, processRunSpan.EndDateTime);
-                cmd.Parameters["DT1"].Value = e1Timestamps.StartDateId;
-                cmd.Parameters["TM1"].Value = e1Timestamps.StartTimeId1;
-                cmd.Parameters["TM2"].Value = e1Timestamps.StartTimeId2;
-                cmd.Parameters["DT2"].Value = e1Timestamps.MidDateId1;
-                cmd.Parameters["DT3"].Value = e1Timestamps.MidDateId2;
-                cmd.Parameters["DT4"].Value = e1Timestamps.EndDateId;
-                cmd.Parameters["TM3"].Value = e1Timestamps.EndTimeId;
+                cmd.Parameters["DT1A"].Value = e1Timestamps.StartDateId;
+                cmd.Parameters["TM1A"].Value = e1Timestamps.StartTimeId1;
+                cmd.Parameters["TM2A"].Value = e1Timestamps.StartTimeId2;
+                cmd.Parameters["DT2A"].Value = e1Timestamps.MidDateId1;
+                cmd.Parameters["DT3A"].Value = e1Timestamps.MidDateId2;
+                cmd.Parameters["DT4A"].Value = e1Timestamps.EndDateId;
+                cmd.Parameters["TM3A"].Value = e1Timestamps.EndTimeId;
+
+                cmd.Parameters["DT1B"].Value = e1Timestamps.StartDateId;
+                cmd.Parameters["TM1B"].Value = e1Timestamps.StartTimeId1;
+                cmd.Parameters["TM2B"].Value = e1Timestamps.StartTimeId2;
+                cmd.Parameters["DT2B"].Value = e1Timestamps.MidDateId1;
+                cmd.Parameters["DT3B"].Value = e1Timestamps.MidDateId2;
+                cmd.Parameters["DT4B"].Value = e1Timestamps.EndDateId;
+                cmd.Parameters["TM3B"].Value = e1Timestamps.EndTimeId;
 
                 cmd.Connection = e1Session.DbConnection;
                 Logger.Debug(Logging.DbCmdString(cmd));
@@ -348,7 +380,7 @@ namespace CGServicesHV.Common.Managers.Process
 		                ON IAITM = IBITM
 	                WHERE 
                         {filterString}
-                        IBSTKT != 'C' AND
+                        --IBSTKT != 'C' AND
                         IBGLPT IN ('GLAS','GLAF','GLAX','GLAZ','COMA','GLAC')) A
                 WHERE
 	                A.ROWNUM = 1
@@ -381,10 +413,10 @@ namespace CGServicesHV.Common.Managers.Process
                 // Run Span
                 if (!span.IsEmpty)
                 {
-                    //var queryString1 = E1TimeManager.GetE1DateTimeQueryString("IBUPMJ", "IBTDAY", span.E1TimeIdSpan);
-                    //var queryString2 = E1TimeManager.GetE1DateTimeQueryString("IAUPMJ", "IATDAY", span.E1TimeIdSpan);
-                    //filters.Add("(" + queryString1 + " OR " + queryString2 + ")" + " AND \r\n");
-                    filters.Add(E1TimeManager.GetE1DateTimeQueryString("IAUPMJ", "IATDAY", span.E1TimeIdSpan) + " AND \r\n");
+                    var queryString1 = E1TimeManager.GetE1DateTimeQueryString("IBUPMJ", "IBTDAY", span.E1TimeIdSpan);
+                    var queryString2 = E1TimeManager.GetE1DateTimeQueryString("IAUPMJ", "IATDAY", span.E1TimeIdSpan);
+                    filters.Add("(" + queryString1 + " OR " + queryString2 + ")" + " AND \r\n");
+                    //filters.Add(E1TimeManager.GetE1DateTimeQueryString("IAUPMJ", "IATDAY", span.E1TimeIdSpan) + " AND \r\n");
                 }
 
                 // Item Num

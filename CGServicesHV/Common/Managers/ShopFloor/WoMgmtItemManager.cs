@@ -93,7 +93,7 @@ namespace CGServicesHV.Common.Managers.ShopFloor
 					 , wo.PlantID
 					 , COALESCE(wo.PlantID, ord.S7MCU, '32') AS S7MCU
                 from dbo.WOManagement             wo
-                    left outer join dbo.HVQue ord
+                    inner join dbo.HVQue ord
                         on ord.WOrderNum = wo.WONumber
                 where wo.WODocType in ( 'RE', 'BO' ) AND
                     isnull(wo.Transferred,0) = 0 AND 
@@ -314,10 +314,10 @@ namespace CGServicesHV.Common.Managers.ShopFloor
                         UPDATE wo
                         set Transferred = 1, TransferredDate = GETDATE() 
                         from dbo.WoManagement wo
-                        left outer join EBS.FuseOrder ord
+                        left outer join [HVShopfloor].[dbo].[HVQue] ord
                             on ord.WOrderNum = wo.WONumber
-                               and ord.IsCurrentVersion = 1
-                        where ord.ScheduleNum = {record.ScheduleNum}
+                           and ord.[DueDate] > getdate()-90
+                        where ord.E1Schedule = {record.ScheduleNum}
                             and isnull(wo.Transferred,0) = 0
                     ";
                     cmdStringBldr.Append(cmdStatement);
@@ -370,10 +370,10 @@ namespace CGServicesHV.Common.Managers.ShopFloor
                     UPDATE wo
                     set Transferred = 1, TransferredDate = GETDATE(), E1BatchID =  {item.E1BatchID}
                     from dbo.WoManagement wo
-                    left outer join EBS.FuseOrder ord
+                    left outer join [HVShopfloor].[dbo].[HVQue] ord
                         on ord.WOrderNum = wo.WONumber
-                           and ord.IsCurrentVersion = 1
-                    where ord.ScheduleNum = {item.ScheduleNum}
+                           and ord.[DueDate] > getdate()-90
+                    where ord.[E1Schedule] = {item.ScheduleNum}
                         and isnull(wo.Transferred,0) = 0
                 ";
                 dmlResponse.Init(cmd);

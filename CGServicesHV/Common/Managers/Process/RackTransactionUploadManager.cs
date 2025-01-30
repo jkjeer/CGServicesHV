@@ -106,7 +106,7 @@ namespace CGServicesHV.Common.Managers.Process
 
                 long sfedbt = 0;
                 // Assign Ids
-                if (items.Count > 0 && !response.HasErrors())
+                if (items.Count > 0 ) // && !response.HasErrors())
                 {
                     var stepSequences = new ProcessStep("Sequences");
                     long qaukid = 0;

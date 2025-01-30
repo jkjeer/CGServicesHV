@@ -3,12 +3,34 @@ using System.Collections.Generic;
 using System.Linq;
 using CGServicesHV.Common.Managers.Process;
 using CGServicesHV.Common.Types.Response;
+using CGServicesHV.Common.Utilities;
+using CGServicesHV.RackSvc;
 
 namespace CGServicesHV.ItemSvc
 {
     //[ParameterInspectorLogger, CGIErrorHandler]
     public class ItemService : IItemService
     {
+
+        public ProcessResponse RunSpecUnitAudit(string plants, bool sendReport)
+        {
+            if (string.IsNullOrEmpty(plants))
+            {
+                throw new Exception("Plant Code is REQUIRED.");
+            }
+            try
+            {
+                bool parallel = false;
+                var parms = new Dictionary<string, object>();
+                parms.Add("SendReport", sendReport);
+                var resources = new List<string> { "PLANT.SHOPFLOOR", "CORP.INTEGRATION"};
+                return BusinessSystemTransferProcessor.Invoke(plants, ItemProcessor.RunSpecUnitAudit, parallel, parms, resources);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.ToString());
+            }
+        }
 
         public ProcessResponse DownloadItemAttributes(string plants, TimeSpan timeSpan, bool useHighWaterMark, bool parallel, decimal itemNum)
         {
@@ -360,6 +382,26 @@ namespace CGServicesHV.ItemSvc
     public class ItemRestService : IItemRestService
     {
 
+        public ProcessResponse RunSpecUnitAudit(string plants, bool sendReport)
+        {
+            if (string.IsNullOrEmpty(plants))
+            {
+                throw new Exception("Plant Code is REQUIRED.");
+            }
+            try
+            {
+                bool parallel = false;
+                var parms = new Dictionary<string, object>();
+                parms.Add("SendReport", sendReport);
+                var resources = new List<string> { "PLANT.SHOPFLOOR", "CORP.INTEGRATION" };
+                return BusinessSystemTransferProcessor.Invoke(plants, ItemProcessor.RunSpecUnitAudit, parallel, parms, resources);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.ToString());
+            }
+        }
+
         public ProcessResponse DownloadItemAttributes(string plants, TimeSpan timeSpan, bool useHighWaterMark, bool parallel, decimal itemNum)
         {
             if (string.IsNullOrEmpty(plants))
@@ -372,7 +414,7 @@ namespace CGServicesHV.ItemSvc
                 parms.Add("TimeSpan", timeSpan);
                 parms.Add("HighWaterMark", useHighWaterMark);
                 parms.Add("ItemNum", itemNum);
-                var resources = new List<string> { "PLANT.SHOPFLOOR", "PLANT.INTEGRATION" };
+                var resources = new List<string> { "PLANT.SHOPFLOOR", "CORP.INTEGRATION" };
                 return BusinessSystemTransferProcessor.Invoke(plants, ItemProcessor.DownloadItemAttributes, parallel, parms, resources);
             }
             catch (Exception e)

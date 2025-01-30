@@ -64,9 +64,14 @@ namespace CGServicesHV.Common.Types.ShopFloor
                     dr["PurchCode2"] = CastDbNull.To<string>(reader["IMPRP2"], String.Empty).Trim();
                     dr["PurchCode3"] = CastDbNull.To<string>(reader["IMPRP3"], String.Empty).Trim();
                     dr["PurchCode4"] = CastDbNull.To<string>(reader["IMPRP4"], String.Empty).Trim();
-                    var tranDateId = Data.CastDbNull.To<decimal>(reader["IMUPMJ"], 0);
-                    var tranTimeId = Data.CastDbNull.To<decimal>(reader["IMTDAY"], 0);
-                    dr["TransactionDate"] = E1TimeManager.CastToDateTime(tranDateId, tranTimeId).AddMinutes(plant.BusinessSystemOffset);
+                    var updateDateId1 = CastDbNull.To<decimal>(reader["IBUPMJ"], 0);
+                    var updateTimeId1 = CastDbNull.To<decimal>(reader["IBTDAY"], 0);
+                    var updateDateId2 = CastDbNull.To<decimal>(reader["IMUPMJ"], 0);
+                    var updateTimeId2 = CastDbNull.To<decimal>(reader["IMTDAY"], 0);
+                    var updateDate1 = Utilities.Common.CastToDateTime(updateDateId1, updateTimeId1);
+                    var updateDate2 = Utilities.Common.CastToDateTime(updateDateId2, updateTimeId2);
+                    var updateDate = new[] { updateDate1, updateDate2 }.Max();
+                    dr["TransactionDate"] = updateDate.AddHours(plant.TimeOffset);
                     this.Rows.Add(dr);
                 }
                 reader.Close();

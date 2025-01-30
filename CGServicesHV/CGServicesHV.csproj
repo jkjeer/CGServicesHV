@@ -138,6 +138,7 @@
     <Compile Include="Common\Managers\Process\LoadDownloadManager.cs" />
     <Compile Include="Common\Managers\Process\LoadHeaderDownloadManager.cs" />
     <Compile Include="Common\Managers\Process\MTSScheduleDownloadManager.cs" />
+    <Compile Include="Common\Managers\Process\SpecUnitAuditManager.cs" />
     <Compile Include="Common\Managers\Process\OutsideMTSScheduleDownloadManager.cs" />
     <Compile Include="Common\Managers\Process\OutsideRackAuditManager.cs" />
     <Compile Include="Common\Managers\Process\OutsideRackDetailAuditManager.cs" />
@@ -519,6 +520,9 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Common\Xslt\RawTagsAuditReport.xslt" />
+    <EmbeddedResource Include="Common\Xslt\SpecUnitAuditReport.xslt">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <Content Include="NLog.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

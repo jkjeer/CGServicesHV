@@ -14,6 +14,23 @@ namespace CGServicesHV.ItemSvc
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
+        public static ProcessResponse RunSpecUnitAudit(Plant plant, BusinessSystemSession session, Dictionary<string, SqlConnection> sqlCns, Dictionary<string, object> parms)
+        {
+            var response = new ProcessResponse($"Rack Detail Audit Processor", plant);
+            try
+            {
+                var sendReport = Data.UnboxParm.To(parms, "SendReport", false);
+                var mgr = new SpecUnitAuditManager();
+                response.ProcessResponses.Add(mgr.Process(plant, sqlCns, sendReport));
+            }
+            catch (Exception e)
+            {
+                response.Errors.Add(new Error(e));
+            }
+            response.Close();
+            return response;
+        }
+
         public static ProcessResponse DownloadItemAttributes(Plant plant, BusinessSystemSession session, Dictionary<string, SqlConnection> sqlCns, Dictionary<string, object> parms)
         {
             var response = new ProcessResponse($"Item Attribute Download Processor", plant);

@@ -655,7 +655,7 @@ namespace CGServicesHV.Common.Managers.Process
                         var serializedXml = response.Serialize();
                         Logger.Info("Serialized Process: " + serializedXml);
                         var xslOutput = XsltManager.Transform(serializedXml,
-                            "CGServices.Common.Xslt.WoMgmtUploadReport.xslt", Encoding.UTF8);
+                            "CGServicesHV.Common.Xslt.WoMgmtUploadReport.xslt", Encoding.UTF8);
                         Logger.Info("Report XML: " + xslOutput);
 
                         var recipients = new List<string>();

@@ -46,6 +46,9 @@ namespace CGServicesHV.ItemSvc
         ProcessResponse DownloadMtsSpecUnits(string plant, TimeSpan timeSpan, bool useHighWaterMark = false, bool parallel = false, decimal itemNum = 0);
 
         [OperationContract, OperationInvokerLogger]
+        ProcessResponse RunSpecUnitAudit(string plant, bool sendReport = false);
+
+        [OperationContract, OperationInvokerLogger]
         ProcessResponse DownloadMtoSpecUnits(string plant, TimeSpan timeSpan, bool useHighWaterMark = false, bool parallel = false, string rackStatusCodes = null, decimal rackId = 0, decimal configId = 0, decimal documentNum = 0, string documentType = null, string woStatusCodes = null, decimal itemNum = 0);
 
         [OperationContract, OperationInvokerLogger]
@@ -119,13 +122,16 @@ namespace CGServicesHV.ItemSvc
         ProcessResponse DownloadMtsSpecUnits(string plant, TimeSpan timeSpan, bool useHighWaterMark, bool parallel, decimal itemNum);
 
         [OperationContract, OperationInvokerLogger]
+        [WebGet(UriTemplate = "/RunSpecUnitAudit?Plant={plant}&SendReport={sendReport}")]
+        ProcessResponse RunSpecUnitAudit(string plant, bool sendReport = false);
+
+        [OperationContract, OperationInvokerLogger]
         [WebGet(UriTemplate = "/DownloadMtoSpecUnits?Plant={plant}&TimeSpan={timeSpan}&HighWaterMark={useHighWaterMark}&Parallel={parallel}&RackStatusCodes={rackStatusCodes}&RackId={rackId}&ConfigId={configId}&DocumentNum={documentNum}&DocumentType={documentType}&WOStatusCodes={woStatusCodes}&ItemNum={itemNum}")]
         ProcessResponse DownloadMtoSpecUnits(string plant, TimeSpan timeSpan, bool useHighWaterMark, bool parallel, string rackStatusCodes, decimal rackId, decimal configId, decimal documentNum, string documentType, string woStatusCodes, decimal itemNum);
 
         [OperationContract, OperationInvokerLogger]
         [WebGet(UriTemplate = "/DownloadSpecUnits?Plant={plant}&TimeSpan={timeSpan}&HighWaterMark={useHighWaterMark}&Parallel={parallel}&ItemNum={itemNum}")]
         ProcessResponse DownloadSpecUnits(string plant, TimeSpan timeSpan, bool useHighWaterMark, bool parallel, decimal itemNum);
-
 
         [OperationContract, OperationInvokerLogger]
         [WebGet(UriTemplate = "/DownloadAccountBalances?Plant={plant}&TimeSpan={timeSpan}&HighWaterMark={useHighWaterMark}&Parallel={parallel}&Century={century}&Year={year}")]

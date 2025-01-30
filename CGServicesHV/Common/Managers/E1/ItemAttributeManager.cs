@@ -55,7 +55,9 @@ namespace CGServicesHV.Common.Managers.E1
                             A.DRRT = IART AND
                             TRIM(A.DRKY) = IADVAL  
                     WHERE
-	                    IAITM = ?"
+	                    IAITM = ?
+    				FOR READ ONLY
+                "
             };
             cmd.Parameters.Add(new iDB2Parameter("ItemNum", iDB2DbType.iDB2Decimal));
             cmd.Parameters["ItemNum"].Precision = 8;
@@ -106,7 +108,8 @@ namespace CGServicesHV.Common.Managers.E1
                         CM.CMDCTO = ? AND
                         CM.CMLNID = ? AND
                         CM.CMPID != 'P580150'
-                    "
+    				FOR READ ONLY
+                "
             };
             cmd.Parameters.Add(new iDB2Parameter("CompanyNum", iDB2DbType.iDB2Graphic, 5));
             cmd.Parameters.Add(new iDB2Parameter("OrderNum", iDB2DbType.iDB2Decimal));

@@ -22,6 +22,10 @@ namespace CGServicesHV.Common.Types.Enterprise
         public string GLCategory { get; set; }
         [DataMember(Order = 5)]
         public string PlantNum { get; set; }
+        [DataMember(Order = 6)]
+        public decimal ConfigId { get; set; }
+        [DataMember(Order = 4)]
+        public string StockCode { get; set; }
 
         [DataMember(Order = 10)]
         public string Side { get; set; }
@@ -40,7 +44,13 @@ namespace CGServicesHV.Common.Types.Enterprise
         public Item Item { get; set; }
         [DataMember(Order = 32)]
         public string LotNum { get; set; }
+        [DataMember(Order = 33)]
+        public string Location { get; set; }
+        [DataMember(Order = 34)]
+        public decimal ScheduleNum { get; set; }
         [DataMember(Order = 40)]
+        public string StatusCode { get; set; }
+        [DataMember(Order = 41)]
         public string DetailStatus { get; set; }
         [DataMember(Order = 42)]
         public decimal Quantity { get; set; }
