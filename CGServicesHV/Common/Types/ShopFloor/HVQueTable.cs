@@ -121,6 +121,8 @@ namespace CGServicesHV.Common.Types.ShopFloor
             Columns.Add("RawItem", typeof(string));
             Columns.Add("GlassWeightSqftLbs", typeof(decimal));
             Columns.Add("EdgeDeleteWidth", typeof(string));
+            Columns.Add("Comment1", typeof(string));
+            Columns.Add("Comment2", typeof(string));
             //Columns.Add("RemakeFlag", typeof(string));
         }
 
@@ -230,6 +232,8 @@ namespace CGServicesHV.Common.Types.ShopFloor
                     dr["RawItem"] = incomingOrderLine.RawItem;
                     dr["GlassWeightSqftLbs"] = incomingOrderLine.GlassWeightSqftLbs;
                     dr["EdgeDeleteWidth"] = incomingOrderLine.EdgeDeleteWidth;
+                    dr["Comment1"] = incomingOrderLine.Comment1;
+                    dr["Comment2"] = incomingOrderLine.Comment2;
                     //dr["RemakeFlag"] = incomingOrderLine.RemakeFlag;
                     Rows.Add(dr);
                 }

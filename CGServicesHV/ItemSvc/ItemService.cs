@@ -12,7 +12,7 @@ namespace CGServicesHV.ItemSvc
     public class ItemService : IItemService
     {
 
-        public ProcessResponse RunSpecUnitAudit(string plants, bool sendReport)
+        public ProcessResponse RunSpecUnitAudit(string plants, int lookbackDays, bool sendReport)
         {
             if (string.IsNullOrEmpty(plants))
             {
@@ -22,6 +22,7 @@ namespace CGServicesHV.ItemSvc
             {
                 bool parallel = false;
                 var parms = new Dictionary<string, object>();
+                parms.Add("LookbackDays", lookbackDays);
                 parms.Add("SendReport", sendReport);
                 var resources = new List<string> { "PLANT.SHOPFLOOR", "CORP.INTEGRATION"};
                 return BusinessSystemTransferProcessor.Invoke(plants, ItemProcessor.RunSpecUnitAudit, parallel, parms, resources);
@@ -169,6 +170,48 @@ namespace CGServicesHV.ItemSvc
                 parms.Add("ItemNum", itemNum);
                 var resources = new List<string> { "PLANT.SHOPFLOOR", "PLANT.INTEGRATION" };
                 return BusinessSystemTransferProcessor.Invoke(plants, ItemProcessor.DownloadItemCosts, parallel, parms, resources);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
+        public ProcessResponse DownloadItemCostComponents(string plants, TimeSpan timeSpan, bool useHighWaterMark, bool parallel, decimal itemNum)
+        {
+            if (string.IsNullOrEmpty(plants))
+            {
+                throw new Exception("Plant Code is REQUIRED");
+            }
+            try
+            {
+                var parms = new Dictionary<string, object>();
+                parms.Add("TimeSpan", timeSpan);
+                parms.Add("HighWaterMark", useHighWaterMark);
+                parms.Add("ItemNum", itemNum);
+                var resources = new List<string> { "PLANT.SHOPFLOOR", "PLANT.INTEGRATION" };
+                return BusinessSystemTransferProcessor.Invoke(plants, ItemProcessor.DownloadItemCostComponents, parallel, parms, resources);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
+        public ProcessResponse DownloadItemCostArchive(string plants, TimeSpan timeSpan, bool useHighWaterMark, bool parallel, decimal itemNum)
+        {
+            if (string.IsNullOrEmpty(plants))
+            {
+                throw new Exception("Plant Code is REQUIRED");
+            }
+            try
+            {
+                var parms = new Dictionary<string, object>();
+                parms.Add("TimeSpan", timeSpan);
+                parms.Add("HighWaterMark", useHighWaterMark);
+                parms.Add("ItemNum", itemNum);
+                var resources = new List<string> { "PLANT.SHOPFLOOR", "PLANT.INTEGRATION" };
+                return BusinessSystemTransferProcessor.Invoke(plants, ItemProcessor.DownloadItemCostArchive, parallel, parms, resources);
             }
             catch (Exception e)
             {
@@ -382,7 +425,7 @@ namespace CGServicesHV.ItemSvc
     public class ItemRestService : IItemRestService
     {
 
-        public ProcessResponse RunSpecUnitAudit(string plants, bool sendReport)
+        public ProcessResponse RunSpecUnitAudit(string plants, int lookbackDays, bool sendReport)
         {
             if (string.IsNullOrEmpty(plants))
             {
@@ -392,6 +435,7 @@ namespace CGServicesHV.ItemSvc
             {
                 bool parallel = false;
                 var parms = new Dictionary<string, object>();
+                parms.Add("LookbackDays", lookbackDays);
                 parms.Add("SendReport", sendReport);
                 var resources = new List<string> { "PLANT.SHOPFLOOR", "CORP.INTEGRATION" };
                 return BusinessSystemTransferProcessor.Invoke(plants, ItemProcessor.RunSpecUnitAudit, parallel, parms, resources);
@@ -582,6 +626,48 @@ namespace CGServicesHV.ItemSvc
                 parms.Add("ItemNum", itemNum);
                 var resources = new List<string> { "PLANT.SHOPFLOOR", "PLANT.INTEGRATION" };
                 return BusinessSystemTransferProcessor.Invoke(plants, ItemProcessor.DownloadItemCosts, parallel, parms, resources);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
+        public ProcessResponse DownloadItemCostComponents(string plants, TimeSpan timeSpan, bool useHighWaterMark, bool parallel, decimal itemNum)
+        {
+            if (string.IsNullOrEmpty(plants))
+            {
+                throw new Exception("Plant Code is REQUIRED");
+            }
+            try
+            {
+                var parms = new Dictionary<string, object>();
+                parms.Add("TimeSpan", timeSpan);
+                parms.Add("HighWaterMark", useHighWaterMark);
+                parms.Add("ItemNum", itemNum);
+                var resources = new List<string> { "PLANT.SHOPFLOOR", "PLANT.INTEGRATION" };
+                return BusinessSystemTransferProcessor.Invoke(plants, ItemProcessor.DownloadItemCostComponents, parallel, parms, resources);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
+        public ProcessResponse DownloadItemCostArchive(string plants, TimeSpan timeSpan, bool useHighWaterMark, bool parallel, decimal itemNum)
+        {
+            if (string.IsNullOrEmpty(plants))
+            {
+                throw new Exception("Plant Code is REQUIRED");
+            }
+            try
+            {
+                var parms = new Dictionary<string, object>();
+                parms.Add("TimeSpan", timeSpan);
+                parms.Add("HighWaterMark", useHighWaterMark);
+                parms.Add("ItemNum", itemNum);
+                var resources = new List<string> { "PLANT.SHOPFLOOR", "PLANT.INTEGRATION" };
+                return BusinessSystemTransferProcessor.Invoke(plants, ItemProcessor.DownloadItemCostArchive, parallel, parms, resources);
             }
             catch (Exception e)
             {

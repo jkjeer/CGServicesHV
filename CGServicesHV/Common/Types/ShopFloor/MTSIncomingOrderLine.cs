@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using System.Xml.Linq;
 // ReSharper disable InconsistentNaming
 
 namespace CGServicesHV.Common.Types.ShopFloor
@@ -115,6 +116,8 @@ namespace CGServicesHV.Common.Types.ShopFloor
             RemakeFlag = "";
             GlassWeightSqftLbs = 0;
             RawItem = "";
+            Comment1 = "";
+            Comment2 = "";
         }
 
         [DataMember(Order = 2, EmitDefaultValue = false)]
@@ -415,5 +418,10 @@ namespace CGServicesHV.Common.Types.ShopFloor
         public decimal GlassWeightSqftLbs { get; set; }
         [DataMember(Order = 98, EmitDefaultValue = false)]
         public string RawItem { get; set; }
+
+        [DataMember(Order = 110, EmitDefaultValue = false)]
+        public string Comment1 { get; set; }
+        [DataMember(Order = 120, EmitDefaultValue = false)]
+        public string Comment2 { get; set; }
     }
 }

@@ -53,7 +53,7 @@ namespace CGServicesHV.Common.Managers.Enterprise
                         LEFT OUTER JOIN {ConfigurationManager.AppSettings["ControlLib"]}.F0005 A
                         ON A.DRSY = IASY AND
                             A.DRRT = IART AND
-                            TRIM(A.DRKY) = IADVAL  
+                            TRIM(A.DRKY) = TRIM(IADVAL)  
                     WHERE
 	                    IAITM = ?"
             };
@@ -97,7 +97,7 @@ namespace CGServicesHV.Common.Managers.Enterprise
                         LEFT OUTER JOIN {ConfigurationManager.AppSettings["ControlLib"]}.F0005 U
                         ON U.DRSY = C.AMSY AND
                             U.DRRT = C.AMRT AND
-                            TRIM(U.DRKY) = A.KZSGVL  
+                            TRIM(U.DRKY) = TRIM(A.KZSGVL)
                     WHERE
                         A.KZSGVL <> '' AND
                         NOT (C.AMCNUM = 'Y' and A.KZSGVL IN ('0', '0.0', '0.00', '0.000','0.0000','.0','.00','.000','.0000')) AND
@@ -203,7 +203,7 @@ namespace CGServicesHV.Common.Managers.Enterprise
                     LEFT OUTER JOIN {ConfigurationManager.AppSettings["ControlLib"]}.F0005 U2
                     ON  U2.DRSY = A.AMSY AND
                         U2.DRRT = A.AMRT AND
-                        U2.DRKY = A.SGVL
+                        TRIM(U2.DRKY) = TRIM(A.SGVL)
                 WHERE 
 	                A.ROWNUM = 1 
                 ORDER BY 1";

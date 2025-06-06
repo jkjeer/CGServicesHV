@@ -29,7 +29,7 @@ namespace CGServicesHV.Common.Managers.Process
         /********************************************************************************
         * PROCESS
         ********************************************************************************/
-        public ProcessResponse Process(Plant plant, Dictionary<string, SqlConnection> sqlCns, bool sendReport)
+        public ProcessResponse Process(Plant plant, Dictionary<string, SqlConnection> sqlCns, int lookbackDays, bool sendReport)
         {
             var response = new ProcessResponse("Spec Unit Audit Manager");
             response.Plant = plant;
@@ -41,14 +41,14 @@ namespace CGServicesHV.Common.Managers.Process
             try
             {
                 var stepPlantData = new ProcessStep("Get Plant Rack Data");
-                var rackItems = GetPlantRackItems(sqlCns["PLANT.SHOPFLOOR"]);
+                var rackItems = GetPlantRackItems(sqlCns["PLANT.SHOPFLOOR"], lookbackDays);
                 stepPlantData.RowsAffected = rackItems.Count();
                 stepPlantData.Done();
                 response.AddStep(stepPlantData);
                 if (rackItems.Any() || sendReport) 
                 {
                     response.Done();
-                    SummarizeMissingSpecUnits(response, rackItems, plant);
+                    SummarizeMissingSpecUnits(response, rackItems, plant, lookbackDays);
                     NotifyMissingSpecUnits(response, rackItems, plant, sqlCns["CORP.INTEGRATION"]);
                 }
             }
@@ -61,7 +61,7 @@ namespace CGServicesHV.Common.Managers.Process
             return response;
         }
 
-        public static void SummarizeMissingSpecUnits(ProcessResponse response, RackItems rackItems, Plant plant)
+        public static void SummarizeMissingSpecUnits(ProcessResponse response, RackItems rackItems, Plant plant, int lookbackDays)
         {
             var stepSummarizeDownload = new ProcessStep("Summary Collections");
             try
@@ -72,6 +72,7 @@ namespace CGServicesHV.Common.Managers.Process
                 var headerSummary = new
                 {
                     Location = $"{plant.PlantCode} - {plant.PlantNum}",
+                    LookbackDays = lookbackDays,
                     MissingSpecUnits = rackItemLines.Count,
                     StartDate = response.ProcessSteps.Min(x => x.StartDate),
                     StartDateString = response.ProcessSteps.Min(x => x.StartDate).ToString("M/dd/yyyy hh:mm:ss tt", CultureInfo.CreateSpecificCulture("en-US")),
@@ -138,14 +139,14 @@ namespace CGServicesHV.Common.Managers.Process
         /********************************************************************************
         * Plant Racks
         ********************************************************************************/
-        public static RackItems GetPlantRackItems(SqlConnection cn)
+        public static RackItems GetPlantRackItems(SqlConnection cn, int lookbackDays)
         {
             var startTime = DateTime.Now.ToLocalTime();
             Logger.Info($"BEGIN: {DateTime.Now.ToLocalTime()}");
             var rackItems = new RackItems();
             try
             {
-                var cmd = GetPlantRackItems();
+                var cmd = GetPlantRackItems(lookbackDays);
                 cmd.Connection = cn;
                 Logger.Info(Logging.DbCmdString(cmd));
                 using (IDataReader reader = cmd.ExecuteReader(CommandBehavior.SingleResult))
@@ -172,7 +173,7 @@ namespace CGServicesHV.Common.Managers.Process
                     }
                     reader.Close();
                 }
-                Logger.Trace($"ROWS: {rackItems.Count}");
+                Logger.Info($"ROWS: {rackItems.Count}");
             }
             catch (Exception e)
             {
@@ -185,7 +186,7 @@ namespace CGServicesHV.Common.Managers.Process
             return rackItems;
         }
 
-        private static SqlCommand GetPlantRackItems()
+        private static SqlCommand GetPlantRackItems(int lookbackDays)
         {
             var cmd = new SqlCommand
             {
@@ -214,7 +215,8 @@ namespace CGServicesHV.Common.Managers.Process
                     WHERE su.SpecUnitId IS NULL
                         --AND rd.ConfigId > 0
                         AND r.StatusCode IN ('1','2','3','4','5','6','7','9','W','P')
-                        AND rd.TransactionDate > GETDATE()-365                
+                        AND r.TransactionDate > GETDATE()-{lookbackDays}   
+                    ORDER BY r.TransactionDate DESC
                 "
             };
             return cmd;

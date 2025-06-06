@@ -35,6 +35,7 @@ namespace CGServicesHV.Common.Types.ShopFloor
             Columns.Add("PutawayZone", typeof(string));
             Columns.Add("StagingFlag", typeof(string));
             Columns.Add("StagLoc", typeof(string));
+            Columns.Add("UserReservedCode", typeof(string));
             Columns.Add("UpdateDate", typeof(DateTime));
         }
 
@@ -62,6 +63,7 @@ namespace CGServicesHV.Common.Types.ShopFloor
                         dr["PutawayZone"] = putawayZone;
                         dr["StagingFlag"] = putawayZone == "1" ? "Y" : "N";
                         dr["StagLoc"] = CastDbNull.To(reader["LMSTAG"], string.Empty).Trim();
+                        dr["UserReservedCode"] = CastDbNull.To(reader["LMURCD"], string.Empty).Trim();
                         var updateDateId = CastDbNull.To<decimal>(reader["LMUPMJ"], 0);
                         var updateTimeId = CastDbNull.To<decimal>(reader["LMTDAY"], 0);
                         dr["UpdateDate"] = Utilities.Common.CastToDateTime(updateDateId, updateTimeId).AddHours(plant.TimeOffset);

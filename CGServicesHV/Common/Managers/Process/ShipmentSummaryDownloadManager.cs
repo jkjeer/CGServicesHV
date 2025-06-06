@@ -159,7 +159,7 @@ namespace CGServicesHV.Common.Managers.Process
                 cmd.Parameters["UKID"].Value = processRunSpan.HighWaterMark.UniqueID;
                 cmd.Parameters["MCU"].Value = plant.PlantNum.PadLeft(12);
                 cmd.Connection = e1Session.DbConnection;
-                Logger.Trace(Logging.DbCmdString(cmd));
+                Logger.Debug(Logging.DbCmdString(cmd));
                 return cmd.ExecuteReader(CommandBehavior.SingleResult);
             }
             catch (Exception e)

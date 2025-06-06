@@ -79,6 +79,24 @@ namespace CGServicesHV.Common.Types.ShopFloor
             Columns.Add("MTransactionDate", typeof(DateTime));
             Columns.Add("CreateDate", typeof(DateTime));
             Columns.Add("RackLocation", typeof(string));
+
+            Columns.Add("IGLine", typeof(string));
+            Columns.Add("EverestEventPoint01", typeof(string));
+            Columns.Add("EverestEventPoint02", typeof(string));
+            Columns.Add("EverestEventPoint03", typeof(string));
+            Columns.Add("DateFuture01", typeof(decimal));
+            Columns.Add("DateFuture02", typeof(decimal));
+            Columns.Add("DateFuture03", typeof(decimal));
+            Columns.Add("AddressNumberUserReserved01", typeof(decimal));
+            Columns.Add("AddressNumberUserReserved02", typeof(decimal));
+            Columns.Add("AddressNumberUserReserved03", typeof(decimal));
+            Columns.Add("MathNumeric01", typeof(decimal));
+            Columns.Add("MathNumeric02", typeof(decimal));
+            Columns.Add("MathNumeric03", typeof(decimal));
+            Columns.Add("ReferenceNumber1", typeof(string));
+            Columns.Add("ReferenceNumber2", typeof(string));
+            Columns.Add("ReferenceNumber3", typeof(string));
+
         }
 
         public void Add(IDataReader reader, Plant plant)
@@ -152,6 +170,24 @@ namespace CGServicesHV.Common.Types.ShopFloor
                         var updateTimeIdM = Data.CastDbNull.To<decimal>(reader["PLMUPT"], 0);
                         dr["MTransactionDate"] = E1TimeManager.CastToDateTime(updateDateIdM, updateTimeIdM).AddHours(plant.TimeOffset);
                         dr["RackLocation"] = CastDbNull.To(reader["RHLOCN"], string.Empty).Trim();
+
+                        dr["IGLine"] = CastDbNull.To(reader["PLZ58IGLN"], string.Empty).Trim();
+                        dr["EverestEventPoint01"] = CastDbNull.To(reader["PLEV01"], string.Empty).Trim();
+                        dr["EverestEventPoint02"] = CastDbNull.To(reader["PLEV02"], string.Empty).Trim();
+                        dr["EverestEventPoint03"] = CastDbNull.To(reader["PLEV03"], string.Empty).Trim();
+                        dr["DateFuture01"] = CastDbNull.To<decimal>(reader["PLDATF01"], 0);
+                        dr["DateFuture02"] = CastDbNull.To<decimal>(reader["PLDATF02"], 0);
+                        dr["DateFuture03"] = CastDbNull.To<decimal>(reader["PLDATF03"], 0);
+                        dr["AddressNumberUserReserved01"] = CastDbNull.To<decimal>(reader["PLAN8UR01"], 0);
+                        dr["AddressNumberUserReserved02"] = CastDbNull.To<decimal>(reader["PLAN8UR02"], 0);
+                        dr["AddressNumberUserReserved03"] = CastDbNull.To<decimal>(reader["PLAN8UR03"], 0);
+                        dr["MathNumeric01"] = CastDbNull.To<decimal>(reader["PLMATH01"], 0);
+                        dr["MathNumeric02"] = CastDbNull.To<decimal>(reader["PLMATH02"], 0);
+                        dr["MathNumeric03"] = CastDbNull.To<decimal>(reader["PLMATH03"], 0);
+                        dr["ReferenceNumber1"] = CastDbNull.To(reader["PLRF1"], string.Empty).Trim();
+                        dr["ReferenceNumber2"] = CastDbNull.To(reader["PLRF2"], string.Empty).Trim();
+                        dr["ReferenceNumber3"] = CastDbNull.To(reader["PLRF3"], string.Empty).Trim();
+
                         this.Rows.Add(dr);
                     }
 

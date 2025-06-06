@@ -154,34 +154,39 @@ namespace CGServicesHV.Common.Managers.Process
                 CommandType = CommandType.Text,
                 CommandTimeout = 0,
                 CommandText = $@"
-                SELECT 
-                    COITM,
-                    COMCU,
-                    COLOCN,
-                    COLOTN,
-                    COLOTG,
-                    COLEDG,
-                    COUNCS,
-                    COCSPO,
-                    COCSIN,
-                    COURCD,
-                    COURDT,
-                    COURAT,
-                    COURAB,
-                    COURRF,
-                    COUSER,
-                    COPID,
-                    COJOBN,
-                    COUPMJ,
-                    COTDAY,
-                    COCCFL,
-                    COCRCS,
-                    COOSTC,
-                    COSTOC
-                FROM 
-                    F4105
-                WHERE
-                    {filterString} COLOTN = ''"
+                    SELECT 
+                        COITM,
+                        COMCU,
+                        COLOCN,
+                        COLOTN,
+                        COLOTG,
+                        COLEDG,
+                        COUNCS,
+                        COCSPO,
+                        COCSIN,
+                        COURCD,
+                        COURDT,
+                        COURAT,
+                        COURAB,
+                        COURRF,
+                        COUSER,
+                        COPID,
+                        COJOBN,
+                        COUPMJ,
+                        COTDAY,
+                        COCCFL,
+                        COCRCS,
+                        COOSTC,
+                        COSTOC
+                    FROM 
+                        F4105
+                     INNER JOIN F4101
+                         ON IMITM = COITM                
+                    WHERE
+                        IMSTKT <> 'C' AND
+                        {filterString} 
+                	FOR READ ONLY
+                "
             };
             return cmd;
         }
@@ -192,7 +197,6 @@ namespace CGServicesHV.Common.Managers.Process
             var parameters = new List<iDB2Parameter>();
             try
             {
-
                 // Plant
                 filters.Add("COMCU = ? AND \r\n");
                 parameters.Add(new iDB2Parameter("MCU", iDB2DbType.iDB2Graphic));
@@ -201,7 +205,7 @@ namespace CGServicesHV.Common.Managers.Process
                 // Process Run Span
                 if (!processRunSpan.IsEmpty)
                 {
-                    filters.Add(E1TimeManager.GetE1DateTimeQueryString("COUPMJ", "COTDAY", processRunSpan.E1TimeIdSpan) + " AND \r\n");
+                    filters.Add(E1TimeManager.GetE1DateTimeQueryString("COUPMJ", "COTDAY", processRunSpan.E1TimeIdSpan));
                 }
 
                 // Command

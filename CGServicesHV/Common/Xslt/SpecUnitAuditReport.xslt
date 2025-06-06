@@ -48,6 +48,7 @@
 				<table class="defaultTable">
 					<tr class="head">
 						<td align="left">Location</td>
+						<td align="left">Lookback Days</td>
 						<td align="left">Rack Items Missing Spec Units</td>
 						<td align="left">Start Time</td>
 						<td align="left">Elapsed Seconds</td>
@@ -177,6 +178,9 @@
 		<tr>
 			<td>
 				<xsl:value-of select="Location"/>
+			</td>
+			<td>
+				<xsl:value-of select="LookbackDays"/>
 			</td>
 			<td>
 				<xsl:value-of select="MissingSpecUnits"/>

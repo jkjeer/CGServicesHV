@@ -19,9 +19,10 @@ namespace CGServicesHV.ItemSvc
             var response = new ProcessResponse($"Rack Detail Audit Processor", plant);
             try
             {
+                var lookbackDays = Data.UnboxParm.To(parms, "LookbackDays", 30);
                 var sendReport = Data.UnboxParm.To(parms, "SendReport", false);
                 var mgr = new SpecUnitAuditManager();
-                response.ProcessResponses.Add(mgr.Process(plant, sqlCns, sendReport));
+                response.ProcessResponses.Add(mgr.Process(plant, sqlCns, lookbackDays, sendReport));
             }
             catch (Exception e)
             {
@@ -183,6 +184,43 @@ namespace CGServicesHV.ItemSvc
                 var itemNum = Data.UnboxParm.To<decimal>(parms, "ItemNum", 0);
                 var mgr = new ItemCostDownloadManager(session);
                 response.ProcessResponses.Add(mgr.Process(session, sqlCns, plant, timeSpan, useHighWaterMark, itemNum));
+            }
+            catch (Exception e)
+            {
+                response.Errors.Add(new Error(e));
+            }
+            response.Close();
+            return response;
+        }
+
+        public static ProcessResponse DownloadItemCostComponents(Plant plant, BusinessSystemSession session, Dictionary<string, SqlConnection> sqlCns, Dictionary<string, object> parms)
+        {
+            var response = new ProcessResponse($"Item Cost Component Processor", plant);
+            try
+            {
+                var timeSpan = Data.UnboxParm.To(parms, "TimeSpan", new TimeSpan());
+                var useHighWaterMark = Data.UnboxParm.To(parms, "HighWaterMark", false);
+                var itemNum = Data.UnboxParm.To<decimal>(parms, "ItemNum", 0);
+                var mgr = new ItemCostComponentDownloadManager(session);
+                response.ProcessResponses.Add(mgr.Process(session, sqlCns, plant, timeSpan, useHighWaterMark, itemNum));
+            }
+            catch (Exception e)
+            {
+                response.Errors.Add(new Error(e));
+            }
+            response.Close();
+            return response;
+        }
+
+        public static ProcessResponse DownloadItemCostArchive(Plant plant, BusinessSystemSession session, Dictionary<string, SqlConnection> sqlCns, Dictionary<string, object> parms)
+        {
+            var response = new ProcessResponse($"Item Cost Archive Processor", plant);
+            try
+            {
+                var timeSpan = Data.UnboxParm.To(parms, "TimeSpan", new TimeSpan());
+                var useHighWaterMark = Data.UnboxParm.To(parms, "HighWaterMark", false);
+                var itemNum = Data.UnboxParm.To<decimal>(parms, "ItemNum", 0);
+                response.ProcessResponses.Add(ItemCostArchiveDownloadManager.Process(session, sqlCns, plant, timeSpan, useHighWaterMark, itemNum));
             }
             catch (Exception e)
             {

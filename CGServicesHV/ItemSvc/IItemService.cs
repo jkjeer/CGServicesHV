@@ -28,6 +28,12 @@ namespace CGServicesHV.ItemSvc
         ProcessResponse DownloadItemCosts(string plants, TimeSpan timeSpan, bool useHighWaterMark = false, bool parallel = false, decimal itemNum = 0);
 
         [OperationContract, OperationInvokerLogger]
+        ProcessResponse DownloadItemCostComponents(string plants, TimeSpan timeSpan, bool useHighWaterMark = false, bool parallel = false, decimal itemNum = 0);
+
+        [OperationContract, OperationInvokerLogger]
+        ProcessResponse DownloadItemCostArchive(string plants, TimeSpan timeSpan, bool useHighWaterMark = false, bool parallel = false, decimal itemNum = 0);
+
+        [OperationContract, OperationInvokerLogger]
         ProcessResponse DownloadItemUOMs(string plants, TimeSpan timeSpan, bool useHighWaterMark = false, bool parallel = false, decimal itemNum = 0);
 
         [OperationContract, OperationInvokerLogger]
@@ -46,7 +52,7 @@ namespace CGServicesHV.ItemSvc
         ProcessResponse DownloadMtsSpecUnits(string plant, TimeSpan timeSpan, bool useHighWaterMark = false, bool parallel = false, decimal itemNum = 0);
 
         [OperationContract, OperationInvokerLogger]
-        ProcessResponse RunSpecUnitAudit(string plant, bool sendReport = false);
+        ProcessResponse RunSpecUnitAudit(string plant, int lookbackDays, bool sendReport = false);
 
         [OperationContract, OperationInvokerLogger]
         ProcessResponse DownloadMtoSpecUnits(string plant, TimeSpan timeSpan, bool useHighWaterMark = false, bool parallel = false, string rackStatusCodes = null, decimal rackId = 0, decimal configId = 0, decimal documentNum = 0, string documentType = null, string woStatusCodes = null, decimal itemNum = 0);
@@ -90,6 +96,14 @@ namespace CGServicesHV.ItemSvc
         ProcessResponse DownloadItemCosts(string plants, TimeSpan timeSpan, bool useHighWaterMark, bool parallel, decimal itemNum);
 
         [OperationContract, OperationInvokerLogger]
+        [WebGet(UriTemplate = "/DownloadItemCostComponents?Plant={plants}&TimeSpan={timeSpan}&HighWaterMark={useHighWaterMark}&Parallel={parallel}&ItemNum={itemNum}")]
+        ProcessResponse DownloadItemCostComponents(string plants, TimeSpan timeSpan, bool useHighWaterMark, bool parallel, decimal itemNum);
+
+        [OperationContract, OperationInvokerLogger]
+        [WebGet(UriTemplate = "/DownloadItemCostArchive?Plant={plants}&TimeSpan={timeSpan}&HighWaterMark={useHighWaterMark}&Parallel={parallel}&ItemNum={itemNum}")]
+        ProcessResponse DownloadItemCostArchive(string plants, TimeSpan timeSpan, bool useHighWaterMark, bool parallel, decimal itemNum);
+
+        [OperationContract, OperationInvokerLogger]
         [WebGet(UriTemplate = "/DownloadItemUOMs?Plant={plants}&TimeSpan={timeSpan}&HighWaterMark={useHighWaterMark}&Parallel={parallel}&ItemNum={itemNum}")]
         ProcessResponse DownloadItemUOMs(string plants, TimeSpan timeSpan, bool useHighWaterMark, bool parallel, decimal itemNum);
 
@@ -122,8 +136,8 @@ namespace CGServicesHV.ItemSvc
         ProcessResponse DownloadMtsSpecUnits(string plant, TimeSpan timeSpan, bool useHighWaterMark, bool parallel, decimal itemNum);
 
         [OperationContract, OperationInvokerLogger]
-        [WebGet(UriTemplate = "/RunSpecUnitAudit?Plant={plant}&SendReport={sendReport}")]
-        ProcessResponse RunSpecUnitAudit(string plant, bool sendReport = false);
+        [WebGet(UriTemplate = "/RunSpecUnitAudit?Plant={plant}&LookbackDays={lookbackDays}&SendReport={sendReport}")]
+        ProcessResponse RunSpecUnitAudit(string plant, int lookbackDays, bool sendReport = false);
 
         [OperationContract, OperationInvokerLogger]
         [WebGet(UriTemplate = "/DownloadMtoSpecUnits?Plant={plant}&TimeSpan={timeSpan}&HighWaterMark={useHighWaterMark}&Parallel={parallel}&RackStatusCodes={rackStatusCodes}&RackId={rackId}&ConfigId={configId}&DocumentNum={documentNum}&DocumentType={documentType}&WOStatusCodes={woStatusCodes}&ItemNum={itemNum}")]

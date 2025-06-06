@@ -1650,6 +1650,8 @@ namespace CGServicesHV.Common.Managers.Enterprise
                         rackTag.ScheduleNum = CastDbNull.To<decimal>(reader["S1Z58SCN"], 0);
                         rackTag.ShopFloorSystem = CastDbNull.To(reader["S1Z58SFS"], string.Empty).Trim();
                         rackTag.ConfigId = CastDbNull.To<decimal>(reader["CMCFGID"], 0);
+                        rackTag.Comment1 = CastDbNull.To(reader["S5Z58CMT1"], string.Empty).Trim();
+                        rackTag.Comment2 = CastDbNull.To(reader["S5Z58CMT2"], string.Empty).Trim();
 
                         rackTagE1Current = rackTag;
                         Logger.Trace($"Rack Id [{rackTagE1Current.RackId}] 1 row found");
@@ -1756,6 +1758,8 @@ namespace CGServicesHV.Common.Managers.Enterprise
                         rackTag.ScheduleNum = CastDbNull.To<decimal>(reader["S1Z58SCN"], 0);
                         rackTag.ShopFloorSystem = CastDbNull.To(reader["S1Z58SFS"], string.Empty).Trim();
                         rackTag.ConfigId = CastDbNull.To<decimal>(reader["CMCFGID"], 0);
+                        rackTag.Comment1 = CastDbNull.To(reader["S5Z58CMT1"], string.Empty).Trim();
+                        rackTag.Comment2 = CastDbNull.To(reader["S5Z58CMT2"], string.Empty).Trim();
 
                         rackTagE1Mfg = rackTag;
                         Logger.Trace($"Rack Id [{rackTagE1Mfg.RackId}] 1 row found");
@@ -1859,6 +1863,8 @@ namespace CGServicesHV.Common.Managers.Enterprise
                         rackTag.ScheduleNum = CastDbNull.To<decimal>(reader["S1Z58SCN"], 0);
                         rackTag.ShopFloorSystem = CastDbNull.To(reader["S1Z58SFS"], string.Empty).Trim();
                         rackTag.ConfigId = CastDbNull.To<decimal>(reader["CMCFGID"], 0);
+                        rackTag.Comment1 = CastDbNull.To(reader["S5Z58CMT1"], string.Empty).Trim();
+                        rackTag.Comment2 = CastDbNull.To(reader["S5Z58CMT2"], string.Empty).Trim();
 
                         rackTagE1Requesting = rackTag;
                         Logger.Trace($"Rack Id [{rackTagE1Requesting.RackId}] 1 row found");
@@ -1915,6 +1921,8 @@ namespace CGServicesHV.Common.Managers.Enterprise
                         ATZ5899011,
                         ATZ5899012,
                         ATZ58PT,
+ATZ5800520,
+ATZ5899010,
                         SHDRQJ,
                         SDDRQJ,
                         SDUORG,
@@ -1924,6 +1932,8 @@ namespace CGServicesHV.Common.Managers.Enterprise
                         S1Z58SFS,
                         S1Z58SCDDJ,
                         S1Z58SCTYP,
+				S5Z58CMT1,
+				S5Z58CMT2,
                         COALESCE(BIZ58IGLN,'0') AS BIZ58IGLN,
                         RDKCOO,
                         RDDOCO,
@@ -2053,6 +2063,8 @@ namespace CGServicesHV.Common.Managers.Enterprise
                             ATZ5899011,
                             ATZ5899012,
                             ATZ58PT,
+ATZ5800520,
+ATZ5899010,
                             SHDRQJ,
                             SDDRQJ,
                             SDUORG,
@@ -2062,6 +2074,8 @@ namespace CGServicesHV.Common.Managers.Enterprise
                             S1Z58SFS,
                             S1Z58SCDDJ,
                             S1Z58SCTYP,
+				S5Z58CMT1,
+				S5Z58CMT2,
                             COALESCE(BIZ58IGLN,'0') AS BIZ58IGLN,
                             DLKCOO AS RDKCOO,
                             DLDOCO AS RDDOCO,

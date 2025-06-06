@@ -130,6 +130,7 @@
     <Compile Include="Common\Managers\Process\ItemAttributeDownloadManager.cs" />
     <Compile Include="Common\Managers\Process\ItemAttributeMasterDownloadManager.cs" />
     <Compile Include="Common\Managers\Process\ItemBalanceDownloadManager.cs" />
+    <Compile Include="Common\Managers\Process\ItemCostComponentDownloadManager.cs" />
     <Compile Include="Common\Managers\Process\ItemCostDownloadManager.cs" />
     <Compile Include="Common\Managers\Process\ItemMetricDownloadManager.cs" />
     <Compile Include="Common\Managers\Process\ItemUOMDownloadManager.cs" />
@@ -215,6 +216,7 @@
     <Compile Include="Common\Managers\ShopFloor\ConsumedStoceItemManager.cs" />
     <Compile Include="Common\Managers\ShopFloor\CustPackItemManager.cs" />
     <Compile Include="Common\Managers\Process\EdiMessageDownloadManager.cs" />
+    <Compile Include="Common\Managers\ShopFloor\ItemCostArchiveDownloadManager.cs" />
     <Compile Include="Common\Managers\ShopFloor\MTSIncomingOrderManager.cs" />
     <Compile Include="Common\Managers\ShopFloor\RackAssetTransactionItemManager.cs" />
     <Compile Include="Common\Managers\ShopFloor\ScheduleEventLedgerManager.cs" />
@@ -371,6 +373,8 @@
     <Compile Include="Common\Types\ShopFloor\ItemAttributeMasterTable.cs" />
     <Compile Include="Common\Types\ShopFloor\ItemAttributeTable.cs" />
     <Compile Include="Common\Types\ShopFloor\ItemBalanceTable.cs" />
+    <Compile Include="Common\Types\ShopFloor\ItemCostArchiveTable.cs" />
+    <Compile Include="Common\Types\ShopFloor\ItemCostComponentTable.cs" />
     <Compile Include="Common\Types\ShopFloor\ItemCostTable.cs" />
     <Compile Include="Common\Types\ShopFloor\ItemMetricTable.cs" />
     <Compile Include="Common\Types\ShopFloor\ItemTable.cs" />

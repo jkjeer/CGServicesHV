@@ -207,6 +207,9 @@ namespace CGServicesHV.Common.Types.Enterprise
             Target = "";
             FreeLiteQuantity = 0;
             FreeLiteUnitWeightLbs = 0;
+
+            Comment1 = "";
+            Comment2 = "";
         }
 
         [DataMember(EmitDefaultValue = true)]
@@ -623,6 +626,11 @@ namespace CGServicesHV.Common.Types.Enterprise
 
         [DataMember(EmitDefaultValue = true)]
         public decimal FreeLiteUnitWeightLbs { get; set; }
+
+        [DataMember(EmitDefaultValue = true)]
+        public string Comment1 { get; set; }
+        [DataMember(EmitDefaultValue = true)]
+        public string Comment2 { get; set; }
 
         //[DataMember(EmitDefaultValue = true)]
         //public Plant ActualMfgPlant { get; set; }

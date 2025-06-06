@@ -143,6 +143,7 @@ namespace CGServicesHV.Common.Managers.Process
 	            LILOTS,
 	            LILRCJ,
 	            LIPQOH,
+                LIPREQ,
 	            LIUSER,
 	            LIPID,
 	            LIUPMJ,

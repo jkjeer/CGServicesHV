@@ -1,5 +1,4 @@
 ﻿using System;
-using CGServicesHV.Common.Types.Enterprise;
 using CGServicesHV.Common.Managers.E1;
 using CGServicesHV.Common.Types.E1;
 using CGServicesHV.Common.Types.ShopFloor;
@@ -123,8 +122,10 @@ namespace CGServicesHV.Common.Managers.ShopFloor
                             RemakeFlag = f580024.S8TRNT,
                             RawItem = f3111Mgr.GetRawItem(e1Session, f580021.S7MCU, f580021.S7DOCO),
                             GlassWeightSqftLbs = f580024.S8Z58GLWT / 1000,
-                            EdgeDeleteWidth = f580024.S8Z5805680
-                    };
+                            EdgeDeleteWidth = f580024.S8Z5805680,
+                            Comment1 = f580021.S7Z58CMT1,
+                            Comment2 = f580021.S7Z58CMT2
+                        };
                     incomingOrderLine.DisplayCustomer = incomingOrderLine.CustName.Length == 0 ? f580021.ABALPH : incomingOrderLine.CustName;
                     if (incomingOrderLine.S7MCU == "05") incomingOrderLine.TinInTinOut = (incomingOrderLine.TinInTinOut.ToUpper() == "Q") ? "Q" : "";
                     incomingOrderLines.Add(incomingOrderLine);

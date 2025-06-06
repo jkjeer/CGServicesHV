@@ -33,6 +33,7 @@ namespace CGServicesHV.Common.Types.ShopFloor
             Columns.Add("GLCategoryCode", typeof(string));
             Columns.Add("LastReceiptDate", typeof(DateTime));
             Columns.Add("Quantity", typeof(decimal));
+            Columns.Add("QuantityOnOrder", typeof(decimal));
             Columns.Add("UserId", typeof(string));
             Columns.Add("ProgramId", typeof(string));
             Columns.Add("TransactionDate", typeof(DateTime));
@@ -55,6 +56,7 @@ namespace CGServicesHV.Common.Types.ShopFloor
                     dr["GLCategoryCode"] = reader.Get<string>("LIGLPT");
                     dr["LastReceiptDate"] = E1TimeManager.CastToNullableDate(reader.Get<decimal>("LILRCJ")) ?? (object)DBNull.Value;
                     dr["Quantity"] = reader.Get<decimal>("LIPQOH") / 1000;
+                    dr["QuantityOnOrder"] = reader.Get<decimal>("LIPREQ") / 1000;
                     dr["UserId"] = reader.Get<string>("LIUSER");
                     dr["ProgramId"] = reader.Get<string>("LIPID");
                     var liDate = E1TimeManager.CastToDateTime(reader.Get<decimal>("LIUPMJ"), reader.Get<decimal>("LITDAY"));

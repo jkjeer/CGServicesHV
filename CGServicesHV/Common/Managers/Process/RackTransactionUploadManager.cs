@@ -106,7 +106,7 @@ namespace CGServicesHV.Common.Managers.Process
 
                 long sfedbt = 0;
                 // Assign Ids
-                if (items.Count > 0 ) // && !response.HasErrors())
+                if (items.Count > 0) 
                 {
                     var stepSequences = new ProcessStep("Sequences");
                     long qaukid = 0;
@@ -153,84 +153,80 @@ namespace CGServicesHV.Common.Managers.Process
 
                     // Build E1 Interface Records
                     var f580030s = new F580030s();
-                    if (!response.HasErrors())
+                    var step4 = new ProcessStep("Build Objects");
+                    try
                     {
-                        var step4 = new ProcessStep("Build Objects");
+                        f580030s = sfManager.Transform(items);
+                        step4.RowsAffected = f580030s.Count;
+                        response.RowsAffected = f580030s.Count;
+                        response.Messages.Add(new Message("E1 F580030 Records", f580030s.Count.ToString()));
+                        response.SerializedObjects.Add("F580030s", f580030s);
+                    }
+                    catch (Exception e)
+                    {
+                        Logger.Error($@"ERROR:{e.Message}: {e.StackTrace}");
+                        step4.Errors.Add(new Error(e));
+                    }
+                    finally
+                    {
+                        step4.Done();
+                        response.ProcessSteps.Add(step4);
+                    }
+
+                    // Save to E1
+                    if (items.Count > 0 )
+                    {
+                        var step5 = new ProcessStep("Save F580030 Records to E1");
+                        var e1Trans = session.DbConnection.BeginTransaction(IsolationLevel.RepeatableRead);
                         try
                         {
-                            f580030s = sfManager.Transform(items);
-                            step4.RowsAffected = f580030s.Count;
+                            step5.SqlDmlResponses.AddRange(f580030Mgr.Save(session, e1Trans, f580030s));
+                            step5.RowsAffected = f580030s.Count;
                             response.RowsAffected = f580030s.Count;
-                            response.Messages.Add(new Message("E1 F580030 Records", f580030s.Count.ToString()));
-                            response.SerializedObjects.Add("F580030s", f580030s);
                         }
                         catch (Exception e)
                         {
-                            Logger.Error($@"ERROR:{e.Message}: {e.StackTrace}");
-                            step4.Errors.Add(new Error(e));
+                            e1Trans.Rollback();
+                            Logger.Error($@"ERROR: {e.Message}: {e.StackTrace}");
+                            step5.Errors.Add(new Error(e));
                         }
                         finally
                         {
-                            step4.Done();
-                            response.ProcessSteps.Add(step4);
+                            step5.Done();
+                            response.ProcessSteps.Add(step5);
                         }
 
-                        // Save to E1
-                        if (items.Count > 0 && !response.HasErrors())
+                        // Submit E1 processing record
+                        if (items.Count > 0 )
                         {
-                            var step5 = new ProcessStep("Save F580030 Records to E1");
-                            var e1Trans = session.DbConnection.BeginTransaction(IsolationLevel.RepeatableRead);
+                            var step6 = new ProcessStep("Submit E1 F580030A Trigger Processing Record");
                             try
                             {
-                                step5.SqlDmlResponses.AddRange(f580030Mgr.Save(session, e1Trans, f580030s));
-                                step5.RowsAffected = f580030s.Count;
-                                response.RowsAffected = f580030s.Count;
+                                foreach (var f580030A in f580030As)
+                                {
+                                    step6.SqlDmlResponses.Add(f580030AMgr.Save(session, e1Trans, f580030A));
+                                    step6.RowsAffected += 1;
+                                }
+
+                                e1Trans.Commit();
                             }
                             catch (Exception e)
                             {
                                 e1Trans.Rollback();
-                                Logger.Error($@"ERROR: {e.Message}: {e.StackTrace}");
-                                step5.Errors.Add(new Error(e));
+                                Logger.Error($@"ERROR:{e.Message}: {e.StackTrace}");
+                                step6.Errors.Add(new Error(e));
                             }
                             finally
                             {
-                                step5.Done();
-                                response.ProcessSteps.Add(step5);
-                            }
-
-                            // Submit E1 processing record
-                            if (items.Count > 0 && !response.HasErrors())
-                            {
-                                var step6 = new ProcessStep("Submit E1 F580030A Trigger Processing Record");
-                                try
-                                {
-                                    foreach (var f580030A in f580030As)
-                                    {
-                                        step6.SqlDmlResponses.Add(f580030AMgr.Save(session, e1Trans, f580030A));
-                                        step6.RowsAffected += 1;
-                                    }
-
-                                    e1Trans.Commit();
-                                }
-                                catch (Exception e)
-                                {
-                                    e1Trans.Rollback();
-                                    Logger.Error($@"ERROR:{e.Message}: {e.StackTrace}");
-                                    step6.Errors.Add(new Error(e));
-                                }
-                                finally
-                                {
-                                    step6.Done();
-                                    response.ProcessSteps.Add(step6);
-                                }
+                                step6.Done();
+                                response.ProcessSteps.Add(step6);
                             }
                         }
-
                     }
                 }
 
                 // Update Shop Floor Completed
-                if ((items.Count > 0 || validationItems.Count > 0) && !response.HasErrors())
+                if (items.Count > 0 || validationItems.Count > 0 )
                 {
                     var step7 = new ProcessStep("Set Shop Floor Status");
                     try

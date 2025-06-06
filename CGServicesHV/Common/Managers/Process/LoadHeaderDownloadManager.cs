@@ -171,7 +171,7 @@ namespace CGServicesHV.Common.Managers.Process
                     cmd.Parameters.Add(parameter);
                 }
                 cmd.Connection = e1Session.DbConnection;
-                Logger.Trace(Logging.DbCmdString(cmd));
+                Logger.Debug(Logging.DbCmdString(cmd));
                 return cmd.ExecuteReader(CommandBehavior.SingleResult);
             }
             catch (Exception e)
@@ -204,7 +204,10 @@ namespace CGServicesHV.Common.Managers.Process
 		                LHTDAY,
 		                LHZ58VLOC,
 		                LHMCU2,
-		                LHUSER
+		                LHUSER,
+						LHZ58CMT1,
+                        LHZ58CMT2,
+                        LHZ58CMT3
                     FROM
                         F580150
                     WHERE

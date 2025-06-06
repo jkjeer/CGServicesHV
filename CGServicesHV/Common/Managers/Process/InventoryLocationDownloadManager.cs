@@ -98,6 +98,7 @@ namespace CGServicesHV.Common.Managers.Process
                             LMLLDL,
                             LMSTAG,
                             LMPZON,
+                            LMURCD,
                             LMUPMJ,
                             LMTDAY,
                             ROW_NUMBER() OVER ( PARTITION BY LMMCU, LMLOCN ORDER BY LMUPMJ desc, LMTDAY desc ) AS RowNumber

@@ -48,6 +48,9 @@ namespace CGServicesHV.Common.Types.ShopFloor
             Columns.Add("MTransactionDate", typeof(DateTime));
             Columns.Add("CreateDate", typeof(DateTime));
             Columns.Add("UserName", typeof(string));
+            Columns.Add("Comment1", typeof(string));
+            Columns.Add("Comment2", typeof(string));
+            Columns.Add("Comment3", typeof(string));
         }
 
         public void Add(IDataReader reader, Plant plant)
@@ -88,6 +91,9 @@ namespace CGServicesHV.Common.Types.ShopFloor
                         //var updateDateIdM = Data.CastDbNull.To<decimal>(reader["LHUPMJ"], 0);
                         //var updateTimeIdM = Data.CastDbNull.To<decimal>(reader["LHTDAY"], 0);
                         //dr["MTransactionDate"] = E1TimeManager.CastToDateTime(updateDateIdM, updateTimeIdM).AddHours(plant.TimeOffset);
+                        dr["Comment1"] = reader.Get<string>("LHZ58CMT1");
+                        dr["Comment2"] = reader.Get<string>("LHZ58CMT2");
+                        dr["Comment3"] = reader.Get<string>("LHZ58CMT3");
                         this.Rows.Add(dr);
                     }
 

@@ -34,7 +34,6 @@ namespace CGServicesHV.Common.Managers.ShopFloor
         /**********************************************************************
         * Get Cust Pack Records
         **********************************************************************/
-
         public SqlCommand Extract(List<string> filters)
         {
             var filterString = new StringBuilder();
@@ -67,11 +66,12 @@ namespace CGServicesHV.Common.Managers.ShopFloor
                     tr.[DefaultSN],
 	                rt.ItemNum
                 FROM	
-	                E1RackingTransactions tr
+	                dbo.E1RackingTransactions tr
 	                LEFT OUTER JOIN Rawtags rt
 	                ON	rt.SerialNum = tr.SerialNumber
 	            WHERE 
-                    ISNULL(Transferred,0) = 0";
+                    ISNULL(Transferred,0) = 0
+            ";
             return cmd;
         }
 

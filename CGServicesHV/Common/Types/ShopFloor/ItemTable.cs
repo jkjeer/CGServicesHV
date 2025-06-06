@@ -29,6 +29,7 @@ namespace CGServicesHV.Common.Types.ShopFloor
             Columns.Add("Description2", typeof(string));
             Columns.Add("PrimaryUOM", typeof(string));
             Columns.Add("SecondaryUOM", typeof(string));
+            Columns.Add("UOM3", typeof(string));
             Columns.Add("SalesCode1", typeof(string));
             Columns.Add("SalesCode2", typeof(string));
             Columns.Add("SalesCode3", typeof(string));
@@ -37,6 +38,11 @@ namespace CGServicesHV.Common.Types.ShopFloor
             Columns.Add("PurchCode2", typeof(string));
             Columns.Add("PurchCode3", typeof(string));
             Columns.Add("PurchCode4", typeof(string));
+            Columns.Add("ReorderPoint", typeof(decimal));
+            Columns.Add("ReorderQuantity", typeof(decimal));
+            Columns.Add("VendorNum", typeof(decimal));
+            Columns.Add("PlannerNum", typeof(decimal));
+            Columns.Add("BuyerNum", typeof(decimal));
             Columns.Add("TransactionDate", typeof(DateTime));
         }
 
@@ -56,6 +62,7 @@ namespace CGServicesHV.Common.Types.ShopFloor
                     dr["Description2"] = CastDbNull.To<string>(reader["IMDSC2"], String.Empty).Trim();
                     dr["PrimaryUOM"] = CastDbNull.To<string>(reader["IMUOM1"], String.Empty).Trim();
                     dr["SecondaryUOM"] = CastDbNull.To<string>(reader["IMUOM2"], String.Empty).Trim();
+                    dr["UOM3"] = reader.Get<string>("IMUOM3");
                     dr["SalesCode1"] = CastDbNull.To<string>(reader["IMSRP1"], String.Empty).Trim();
                     dr["SalesCode2"] = CastDbNull.To<string>(reader["IMSRP2"], String.Empty).Trim();
                     dr["SalesCode3"] = CastDbNull.To<string>(reader["IMSRP3"], String.Empty).Trim();
@@ -64,6 +71,11 @@ namespace CGServicesHV.Common.Types.ShopFloor
                     dr["PurchCode2"] = CastDbNull.To<string>(reader["IMPRP2"], String.Empty).Trim();
                     dr["PurchCode3"] = CastDbNull.To<string>(reader["IMPRP3"], String.Empty).Trim();
                     dr["PurchCode4"] = CastDbNull.To<string>(reader["IMPRP4"], String.Empty).Trim();
+                    dr["ReorderPoint"] = reader.Get<decimal>("IBROPI") / 1000;
+                    dr["ReorderQuantity"] = reader.Get<decimal>("IBROQI") / 1000;
+                    dr["VendorNum"] = reader.Get<decimal>("IBVEND");
+                    dr["PlannerNum"] = reader.Get<decimal>("IBANPL");
+                    dr["BuyerNum"] = reader.Get<decimal>("IBBUYR");
                     var updateDateId1 = CastDbNull.To<decimal>(reader["IBUPMJ"], 0);
                     var updateTimeId1 = CastDbNull.To<decimal>(reader["IBTDAY"], 0);
                     var updateDateId2 = CastDbNull.To<decimal>(reader["IMUPMJ"], 0);
