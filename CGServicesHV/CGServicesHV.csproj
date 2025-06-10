@@ -45,9 +45,8 @@
       <HintPath>..\..\SoaCore\SoaCore\bin\Debug\IBM.Data.DB2.iSeries.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="SoaCore, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\SoaCore2\SoaCore\bin\Debug\SoaCore.dll</HintPath>
+    <Reference Include="SoaCore">
+      <HintPath>..\..\SoaCore\SoaCore\bin\Debug\SoaCore.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
