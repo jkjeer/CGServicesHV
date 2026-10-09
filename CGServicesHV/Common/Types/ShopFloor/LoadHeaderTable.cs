@@ -78,11 +78,11 @@ namespace CGServicesHV.Common.Types.ShopFloor
                         var updateDateId = Data.CastDbNull.To<decimal>(reader["LHUPMJ"], 0);
                         var updateTimeId = Data.CastDbNull.To<decimal>(reader["LHTDAY"], 0);
                         dr["TransactionDate"] = E1TimeManager.CastToDateTime(updateDateId, updateTimeId).AddHours(plant.TimeOffset);
-                        //dr["TransactionID"] = CastDbNull.To<decimal>(reader["LHUKID"], 0);
-                        dr["UserName"] = CastDbNull.To(reader["LHUSER"], string.Empty).Trim();
-                        //dr["MJobName"] = CastDbNull.To(reader["LHJBNM"], string.Empty).Trim();
-                        //dr["MJobNumber"] = CastDbNull.To(reader["LHJOB"], string.Empty).Trim();
-                        //var operationCd = CastDbNull.To(reader["LHIOPR"], string.Empty).Trim();
+                        //dr["TransactionID"] = Data.CastDbNull.To<decimal>(reader["LHUKID"], 0);
+                        dr["UserName"] = Data.CastDbNull.To(reader["LHUSER"], string.Empty).Trim();
+                        //dr["MJobName"] = Data.CastDbNull.To(reader["LHJBNM"], string.Empty).Trim();
+                        //dr["MJobNumber"] = Data.CastDbNull.To(reader["LHJOB"], string.Empty).Trim();
+                        //var operationCd = Data.CastDbNull.To(reader["LHIOPR"], string.Empty).Trim();
                         //dr["InternalOperation"] = operationCd;
                         //if (operationCd == "Insert")
                         //{

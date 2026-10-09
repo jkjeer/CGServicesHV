@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.Linq;
 using System.Linq.Dynamic;
 using CGServicesHV.Common.Managers.E1;
@@ -11,7 +11,6 @@ using CGServicesHV.Common.Types.Enums;
 using CGServicesHV.Common.Types.Response;
 using CGServicesHV.Common.Utilities;
 using NLog;
-// ReSharper disable InconsistentNaming
 
 namespace CGServicesHV.RackTagSvc
 {

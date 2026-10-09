@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Data;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using CGServicesHV.Common.Utilities;
 using NLog;
 
-namespace CGServicesHV.Common.Managers.Enterprise
+namespace CGServicesHV.Common.Utilities
 {
     public class SequenceManager
     {
@@ -30,7 +30,7 @@ namespace CGServicesHV.Common.Managers.Enterprise
                 cmd.Parameters.Add(firstValueInRange);
                 Logger.Info(Logging.DbCmdString(cmd));
                 cmd.ExecuteNonQuery();
-                firstUkid = CastDbNull.To<long>(firstValueInRange.Value, 0);
+                firstUkid = Data.CastDbNull.To<long>(firstValueInRange.Value, 0);
                 Logger.Info($"firstUkid = {firstUkid}");
             }
             catch (Exception e)
@@ -56,7 +56,7 @@ namespace CGServicesHV.Common.Managers.Enterprise
                 {
                     while (reader.Read())
                     {
-                        nextVal = CastDbNull.To<long>(reader["VAL"], 0);
+                        nextVal = Data.CastDbNull.To<long>(reader["VAL"], 0);
                     }
 
                     reader.Close();

@@ -44,14 +44,14 @@ namespace CGServicesHV.Common.Types.ShopFloor
                     while (reader.Read())
                     {
                         DataRow dr = NewRow();
-                        dr["EntityNum"] = CastDbNull.To<decimal>(reader["IVAN8"], 0);
-                        dr["XrefType"] = CastDbNull.To(reader["IVXRT"], String.Empty).Trim();
-                        dr["ItemNum"] = CastDbNull.To<decimal>(reader["IVITM"], 0);
-                        dr["PlantCode"] = CastDbNull.To(reader["IVMCU"], String.Empty).Trim();
-                        dr["EntityPartCode"] = CastDbNull.To(reader["IVCITM"], String.Empty).Trim();
-                        dr["Description1"] = CastDbNull.To(reader["IVDSC1"], String.Empty).Trim();
-                        dr["Description2"] = CastDbNull.To(reader["IVDSC2"], String.Empty).Trim();
-                        dr["SearchText"] = CastDbNull.To(reader["IVALN"], String.Empty).Trim();
+                        dr["EntityNum"] = Data.CastDbNull.To<decimal>(reader["IVAN8"], 0);
+                        dr["XrefType"] = Data.CastDbNull.To(reader["IVXRT"], String.Empty).Trim();
+                        dr["ItemNum"] = Data.CastDbNull.To<decimal>(reader["IVITM"], 0);
+                        dr["PlantCode"] = Data.CastDbNull.To(reader["IVMCU"], String.Empty).Trim();
+                        dr["EntityPartCode"] = Data.CastDbNull.To(reader["IVCITM"], String.Empty).Trim();
+                        dr["Description1"] = Data.CastDbNull.To(reader["IVDSC1"], String.Empty).Trim();
+                        dr["Description2"] = Data.CastDbNull.To(reader["IVDSC2"], String.Empty).Trim();
+                        dr["SearchText"] = Data.CastDbNull.To(reader["IVALN"], String.Empty).Trim();
                         dr["EffectiveDate1"] = Timestamp.CastToDateTime(Data.CastDbNull.To<decimal>(reader["IVEFTJ"], 0));
                         dr["EffectiveDate2"] = Timestamp.CastToDateTime(Data.CastDbNull.To<decimal>(reader["IVEXDJ"], 0));
                         dr["TransactionDate"] = Timestamp.CastToDateTime(Data.CastDbNull.To<decimal>(reader["IVUPMJ"], 0), Data.CastDbNull.To<decimal>(reader["IVTDAY"], 0)).AddHours(plant.TimeOffset);

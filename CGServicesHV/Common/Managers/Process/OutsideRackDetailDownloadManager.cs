@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using IBM.Data.DB2.iSeries;
@@ -236,7 +236,8 @@ namespace CGServicesHV.Common.Managers.Process
                         HLUKID >= ? AND
                         DLMCU IN ('          05', '          04', '          08') AND
                         DLZ58RID IN (SELECT DISTINCT HLZ58RID FROM F580559 WHERE HLMCU IN ('          05', '          04', '          08') AND HLLOCN LIKE 'MZ%')
-                    FOR READ ONLY"
+                    FOR READ ONLY
+                "
             };
             cmd.Parameters.Add(new iDB2Parameter("UKID", iDB2DbType.iDB2Decimal));
             cmd.Parameters["UKID"].Precision = 15;
@@ -259,10 +260,10 @@ namespace CGServicesHV.Common.Managers.Process
             try
             {
                 // Cannot run wide Open
-                if (!statusCodes.Any() && processRunSpan.IsEmpty && rackId == 0)
-                {
-                    filters.Add("0 = 1 AND \r\n");
-                }
+                //if (!statusCodes.Any() && processRunSpan.IsEmpty && rackId == 0)
+                //{
+                //    filters.Add("0 = 1 AND \r\n");
+                //}
 
                 // Plant - Required
                 filters.Add("RDMCU IN ('          05', '          04', '          08') AND \r\n");
@@ -386,7 +387,8 @@ namespace CGServicesHV.Common.Managers.Process
                                 DLIOPR = 'Insert'
 	                    WHERE
                             {filterString}
-                    FOR READ ONLY"
+                    FOR READ ONLY
+                "
             };
             return cmd;
         }

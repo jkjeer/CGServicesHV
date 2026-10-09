@@ -112,9 +112,9 @@ namespace CGServicesHV.Common.Managers.Enterprise
                     while (reader.Read())
                     {
                         var schedule = new Schedule();
-                        schedule.ScheduleNum = CastDbNull.To<Decimal>(reader["S1Z58SCN"], 0);
+                        schedule.ScheduleNum = Data.CastDbNull.To<Decimal>(reader["S1Z58SCN"], 0);
                         schedule.Plant = plant;
-                        var scheduleDateId = CastDbNull.To<Decimal>(reader["S1Z58SCD"], 0);
+                        var scheduleDateId = Data.CastDbNull.To<Decimal>(reader["S1Z58SCD"], 0);
                         schedule.ScheduleDate = Utilities.Common.CastToDateTime(scheduleDateId, 0);
                         schedules.Add(schedule);
                     }

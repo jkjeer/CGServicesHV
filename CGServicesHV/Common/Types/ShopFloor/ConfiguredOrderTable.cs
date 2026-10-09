@@ -22,6 +22,7 @@ namespace CGServicesHV.Common.Types.ShopFloor
             ExtendedProperties.Add("Target", "[EBS].[ConfiguredOrderLedger]");
             ExtendedProperties.Add("BatchSize", "50000");
             Columns.Add("ConfigurationId", typeof(decimal));
+            Columns.Add("ItemNum", typeof(decimal));
             Columns.Add("OrderNum", typeof(decimal));
             Columns.Add("OrderType", typeof(string));
             Columns.Add("OrderLineNum", typeof(decimal));
@@ -39,6 +40,7 @@ namespace CGServicesHV.Common.Types.ShopFloor
             {
                 var dr = NewRow();
                 dr["ConfigurationId"] = record.Get<decimal>("CMCFGID");
+                dr["ItemNum"] = record.Get<decimal>("CCITM");
                 dr["OrderNum"] = record.Get<decimal>("CMDOCO");
                 dr["OrderType"] = record.Get<string>("CMDCTO");
                 dr["OrderLineNum"] = record.Get<decimal>("CMLNID") / 1000;
@@ -47,8 +49,7 @@ namespace CGServicesHV.Common.Types.ShopFloor
                 dr["CustomerShipNum"] = record.Get<decimal>("CMSHAN");
                 dr["UserId"] = record.Get<string>("CMUSER");
                 dr["ProgramId"] = record.Get<string>("CMPID");
-                dr["TransactionDate"] = E1TimeManager.CastToDateTime(record.Get<decimal>("CMUPMJ"), record.Get<decimal>("CMTDAY")).AddMinutes(plant.BusinessSystemOffset);
-                Rows.Add(dr);
+                dr["TransactionDate"] = E1TimeManager.CastToDateTime(record.Get<decimal>("CMUPMJ"), record.Get<decimal>("CMTDAY")).AddMinutes(plant.BusinessSystemOffset); Rows.Add(dr);
             }
             catch (Exception e)
             {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.Linq;
 using System.ServiceModel;
 using System.Text;
@@ -251,6 +251,9 @@ namespace CGServicesHV.Common.Managers.Enterprise
                 Logger.Info($"Report XML: {xslOutput}");
                 var subject = $"{response.Plant.PlantCode} [{ConfigurationManager.AppSettings["PrimaryEnvironment"]}] Get MTS Schedule - Schedule {mtsSchedule.ScheduleNum}";
                 if (response.HasErrors() || mtsSchedule.ValidationErrors.Any()) subject = "Error - " + subject;
+
+                Mail.StoreResponse($@"{ConfigurationManager.AppSettings["ProcessResponseFilePath"]}\{response.Plant.PlantCode}", subject, xslOutput);
+
                 Mail.SendHtmlAsync(ConfigurationManager.AppSettings["SmtpHost"],
                     ConfigurationManager.AppSettings["MailFromAddress"],
                     toConfigAddresses,
@@ -428,24 +431,24 @@ namespace CGServicesHV.Common.Managers.Enterprise
                     {
                         var line = new MTSScheduleLine
                         {
-                            WorkOrderNum = CastDbNull.To<decimal>(reader["S5DOCO"], 0),
-                            ScheduleSeqNum = CastDbNull.To<decimal>(reader["S5Z58SCSN"], 0),
-                            Quantity = CastDbNull.To<decimal>(reader["S5Z58QTY"], 0),
-                            IgLine = CastDbNull.To(reader["S5Z58IGLN"], string.Empty).Trim(),
-                            BoxPriority = CastDbNull.To(reader["S5Z58BOXP"], string.Empty).Trim(),
-                            Bungee = CastDbNull.To(reader["S5Z58BGEE"], string.Empty).Trim(),
-                            BungeeSize = CastDbNull.To<decimal>(reader["S5Z58BGSZ"], 0),
-                            SchedulerMsg1 = CastDbNull.To(reader["S5Z58MSG1"], string.Empty).Trim(),
-                            SchedulerMsg2 = CastDbNull.To(reader["S5Z58MSG2"], string.Empty).Trim(),
-                            Comment1 = CastDbNull.To(reader["S5Z58CMT1"], string.Empty).Trim(),
-                            Comment2 = CastDbNull.To(reader["S5Z58CMT2"], string.Empty).Trim(),
+                            WorkOrderNum = Data.CastDbNull.To<decimal>(reader["S5DOCO"], 0),
+                            ScheduleSeqNum = Data.CastDbNull.To<decimal>(reader["S5Z58SCSN"], 0),
+                            Quantity = Data.CastDbNull.To<decimal>(reader["S5Z58QTY"], 0),
+                            IgLine = Data.CastDbNull.To(reader["S5Z58IGLN"], string.Empty).Trim(),
+                            BoxPriority = Data.CastDbNull.To(reader["S5Z58BOXP"], string.Empty).Trim(),
+                            Bungee = Data.CastDbNull.To(reader["S5Z58BGEE"], string.Empty).Trim(),
+                            BungeeSize = Data.CastDbNull.To<decimal>(reader["S5Z58BGSZ"], 0),
+                            SchedulerMsg1 = Data.CastDbNull.To(reader["S5Z58MSG1"], string.Empty).Trim(),
+                            SchedulerMsg2 = Data.CastDbNull.To(reader["S5Z58MSG2"], string.Empty).Trim(),
+                            Comment1 = Data.CastDbNull.To(reader["S5Z58CMT1"], string.Empty).Trim(),
+                            Comment2 = Data.CastDbNull.To(reader["S5Z58CMT2"], string.Empty).Trim(),
                             Comment3 = "",
-                            ReleaseDate = Utilities.Common.CastToDateTime(CastDbNull.To<decimal>(reader["S5RSDJ"], 0)),
-                            RequestedDate = Utilities.Common.CastToDateTime(CastDbNull.To<decimal>(reader["S5DRQJ"], 0)),
-                            Value01 = CastDbNull.To(reader["BDZ58CCV01"], string.Empty).Trim(),
-                            Value02 = CastDbNull.To(reader["BDZ58CCV02"], string.Empty).Trim(),
-                            Value03 = CastDbNull.To(reader["BDZ58CCV03"], string.Empty).Trim(),
-                            ShipToCustNum = CastDbNull.To<decimal>(reader["S5SHAN"], 0),
+                            ReleaseDate = Utilities.Common.CastToDateTime(Data.CastDbNull.To<decimal>(reader["S5RSDJ"], 0)),
+                            RequestedDate = Utilities.Common.CastToDateTime(Data.CastDbNull.To<decimal>(reader["S5DRQJ"], 0)),
+                            Value01 = Data.CastDbNull.To(reader["BDZ58CCV01"], string.Empty).Trim(),
+                            Value02 = Data.CastDbNull.To(reader["BDZ58CCV02"], string.Empty).Trim(),
+                            Value03 = Data.CastDbNull.To(reader["BDZ58CCV03"], string.Empty).Trim(),
+                            ShipToCustNum = Data.CastDbNull.To<decimal>(reader["S5SHAN"], 0),
                         };
                         lines.Add(line);
                     }
@@ -488,26 +491,26 @@ namespace CGServicesHV.Common.Managers.Enterprise
                     {
                         var line = new MTSScheduleLine
                         {
-                            WorkOrderNum = CastDbNull.To<decimal>(reader["S5DOCO"], 0),
-                            ScheduleSeqNum = CastDbNull.To<decimal>(reader["S5Z58SCSN"], 0),
-                            Quantity = CastDbNull.To<decimal>(reader["S5Z58QTY"], 0),
-                            IgLine = CastDbNull.To(reader["S5Z58IGLN"], string.Empty).Trim(),
-                            BoxPriority = CastDbNull.To(reader["S5Z58BOXP"], string.Empty).Trim(),
-                            Bungee = CastDbNull.To(reader["S5Z58BGEE"], string.Empty).Trim(),
-                            BungeeSize = CastDbNull.To<decimal>(reader["S5Z58BGSZ"], 0),
-                            SchedulerMsg1 = CastDbNull.To(reader["S5Z58MSG1"], string.Empty).Trim(),
-                            SchedulerMsg2 = CastDbNull.To(reader["S5Z58MSG2"], string.Empty).Trim(),
-                            Comment1 = CastDbNull.To(reader["S5Z58CMT1"], string.Empty).Trim(),
-                            Comment2 = CastDbNull.To(reader["S5Z58CMT2"], string.Empty).Trim()
+                            WorkOrderNum = Data.CastDbNull.To<decimal>(reader["S5DOCO"], 0),
+                            ScheduleSeqNum = Data.CastDbNull.To<decimal>(reader["S5Z58SCSN"], 0),
+                            Quantity = Data.CastDbNull.To<decimal>(reader["S5Z58QTY"], 0),
+                            IgLine = Data.CastDbNull.To(reader["S5Z58IGLN"], string.Empty).Trim(),
+                            BoxPriority = Data.CastDbNull.To(reader["S5Z58BOXP"], string.Empty).Trim(),
+                            Bungee = Data.CastDbNull.To(reader["S5Z58BGEE"], string.Empty).Trim(),
+                            BungeeSize = Data.CastDbNull.To<decimal>(reader["S5Z58BGSZ"], 0),
+                            SchedulerMsg1 = Data.CastDbNull.To(reader["S5Z58MSG1"], string.Empty).Trim(),
+                            SchedulerMsg2 = Data.CastDbNull.To(reader["S5Z58MSG2"], string.Empty).Trim(),
+                            Comment1 = Data.CastDbNull.To(reader["S5Z58CMT1"], string.Empty).Trim(),
+                            Comment2 = Data.CastDbNull.To(reader["S5Z58CMT2"], string.Empty).Trim()
                         };
-                        var releaseDateId = CastDbNull.To<decimal>(reader["S5RSDJ"], 0);
+                        var releaseDateId = Data.CastDbNull.To<decimal>(reader["S5RSDJ"], 0);
                         line.ReleaseDate = Utilities.Common.CastToDateTime(releaseDateId);
-                        var requestedDateId = CastDbNull.To<decimal>(reader["S5DRQJ"], 0);
+                        var requestedDateId = Data.CastDbNull.To<decimal>(reader["S5DRQJ"], 0);
                         line.RequestedDate = Utilities.Common.CastToDateTime(requestedDateId);
-                        line.Value01 = CastDbNull.To(reader["BDZ58CCV01"], string.Empty).Trim();
-                        line.Value02 = CastDbNull.To(reader["BDZ58CCV02"], string.Empty).Trim();
-                        line.Value03 = CastDbNull.To(reader["BDZ58CCV03"], string.Empty).Trim();
-                        var shipCustomerNum = CastDbNull.To<decimal>(reader["S5SHAN"], 0);
+                        line.Value01 = Data.CastDbNull.To(reader["BDZ58CCV01"], string.Empty).Trim();
+                        line.Value02 = Data.CastDbNull.To(reader["BDZ58CCV02"], string.Empty).Trim();
+                        line.Value03 = Data.CastDbNull.To(reader["BDZ58CCV03"], string.Empty).Trim();
+                        var shipCustomerNum = Data.CastDbNull.To<decimal>(reader["S5SHAN"], 0);
                         line.ShipToCustomer = customerMgr.GetCustomer(e1Session, shipCustomerNum);
                         lines.Add(line);
                     }
@@ -631,7 +634,7 @@ namespace CGServicesHV.Common.Managers.Enterprise
                 {
                     while (reader.Read())
                     {
-                        hvqueCount = CastDbNull.To(reader["RECS"], 0);
+                        hvqueCount = Data.CastDbNull.To(reader["RECS"], 0);
                     }
 
                     reader.Close();
@@ -730,14 +733,14 @@ namespace CGServicesHV.Common.Managers.Enterprise
                     while (reader.Read())
                     {
                         mtsSchedule.PlantNum = plantNum;
-                        mtsSchedule.ScheduleNum = CastDbNull.To<decimal>(reader["S1Z58SCN"], 0);
-                        mtsSchedule.ScheduleDateE1 = CastDbNull.To<decimal>(reader["S1Z58SCD"], 0);
-                        mtsSchedule.ScheduleDate = Utilities.Common.CastToDateTime(CastDbNull.To<decimal>(reader["S1Z58SCD"], 0));
-                        mtsSchedule.DueDate = Utilities.Common.CastToDateTime(CastDbNull.To<decimal>(reader["S1Z58SCDDJ"], 0));
-                        mtsSchedule.ShopFloorCode = CastDbNull.To(reader["S1Z58SFS"], string.Empty).Trim();
-                        mtsSchedule.ShopFloorName = CastDbNull.To(reader["DRDL01"], string.Empty).Trim();
-                        mtsSchedule.ScheduleStatus = CastDbNull.To(reader["S1Z58SCSTS"], string.Empty).Trim();
-                        mtsSchedule.ScheduleType = CastDbNull.To(reader["S1Z58SCTYP"], string.Empty).Trim();
+                        mtsSchedule.ScheduleNum = Data.CastDbNull.To<decimal>(reader["S1Z58SCN"], 0);
+                        mtsSchedule.ScheduleDateE1 = Data.CastDbNull.To<decimal>(reader["S1Z58SCD"], 0);
+                        mtsSchedule.ScheduleDate = Utilities.Common.CastToDateTime(Data.CastDbNull.To<decimal>(reader["S1Z58SCD"], 0));
+                        mtsSchedule.DueDate = Utilities.Common.CastToDateTime(Data.CastDbNull.To<decimal>(reader["S1Z58SCDDJ"], 0));
+                        mtsSchedule.ShopFloorCode = Data.CastDbNull.To(reader["S1Z58SFS"], string.Empty).Trim();
+                        mtsSchedule.ShopFloorName = Data.CastDbNull.To(reader["DRDL01"], string.Empty).Trim();
+                        mtsSchedule.ScheduleStatus = Data.CastDbNull.To(reader["S1Z58SCSTS"], string.Empty).Trim();
+                        mtsSchedule.ScheduleType = Data.CastDbNull.To(reader["S1Z58SCTYP"], string.Empty).Trim();
                         rowCount++;
                     }
 

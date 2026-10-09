@@ -83,8 +83,8 @@ namespace CGServicesHV.Common.Managers.E1
                     var i = 0;
                     while (reader.Read())
                     {
-                        //rawItem = CastDbNull.To<decimal>(reader["WMCPIT"], 0);
-                        rawItem = CastDbNull.To(reader["WMCPIL"], string.Empty).Trim();
+                        //rawItem = Data.CastDbNull.To<decimal>(reader["WMCPIT"], 0);
+                        rawItem = Data.CastDbNull.To(reader["WMCPIL"], string.Empty).Trim();
                         i++;
                         if (i > 1)
                         {
@@ -124,15 +124,15 @@ namespace CGServicesHV.Common.Managers.E1
                     {
                         var f = new F3111
                         {
-                            WMDOCO = CastDbNull.To<decimal>(reader["WMDOCO"], 0),
-                            WMFORQ = CastDbNull.To(reader["WMFORQ"], string.Empty).Trim(),
-                            WMCPIT = CastDbNull.To<decimal>(reader["WMCPIT"], 0),
-                            WMCPIL = CastDbNull.To(reader["WMCMCU"], string.Empty).Trim(),
-                            WMCPIA = CastDbNull.To(reader["WMCMCU"], string.Empty).Trim(),
-                            WMCMCU = CastDbNull.To(reader["WMCMCU"], string.Empty).Trim(),
-                            WMDSC1 = CastDbNull.To(reader["WMDSC1"], string.Empty).Trim(),
-                            WMDSC2 = CastDbNull.To(reader["WMDSC2"], string.Empty).Trim(),
-                            WMUORG = CastDbNull.To<decimal>(reader["WMUORG"], 0)
+                            WMDOCO = Data.CastDbNull.To<decimal>(reader["WMDOCO"], 0),
+                            WMFORQ = Data.CastDbNull.To(reader["WMFORQ"], string.Empty).Trim(),
+                            WMCPIT = Data.CastDbNull.To<decimal>(reader["WMCPIT"], 0),
+                            WMCPIL = Data.CastDbNull.To(reader["WMCMCU"], string.Empty).Trim(),
+                            WMCPIA = Data.CastDbNull.To(reader["WMCMCU"], string.Empty).Trim(),
+                            WMCMCU = Data.CastDbNull.To(reader["WMCMCU"], string.Empty).Trim(),
+                            WMDSC1 = Data.CastDbNull.To(reader["WMDSC1"], string.Empty).Trim(),
+                            WMDSC2 = Data.CastDbNull.To(reader["WMDSC2"], string.Empty).Trim(),
+                            WMUORG = Data.CastDbNull.To<decimal>(reader["WMUORG"], 0)
                         };
                         f3111 = f;
                         i++;

@@ -60,13 +60,13 @@ namespace CGServicesHV.RackSvc
         ProcessResponse DownloadOutsideRackDetails(string plant, TimeSpan timeSpan, bool useHighWaterMark = false, bool parallel = false, decimal rackId = 0, string statusCodes = null);
 
         [OperationContract, OperationInvokerLogger]
-        ProcessResponse RunRackAudit(string plant, bool showPlantOnly = false, bool isDelete = false, short maxDeletes = 100, short retentionMinutes = 90);
+        ProcessResponse RunRackAudit(string plant, bool showPlantOnly = false, bool isDelete = false, short maxDeletes = 100, short retentionMinutes = 90, bool sendReport = false);
 
         [OperationContract, OperationInvokerLogger]
-        ProcessResponse RunRackDetailAudit(string plant, bool showPlantOnly = false, bool isDelete = false, short maxDeletes = 0, short retentionMinutes = 0);
+        ProcessResponse RunRackDetailAudit(string plant, bool showPlantOnly = false, bool isDelete = false, short maxDeletes = 0, short retentionMinutes = 0, bool sendReport = false);
 
         [OperationContract, OperationInvokerLogger]
-        ProcessResponse RunRawTagsAudit(string plant, bool showPlantOnly = false, bool isDelete = false, short maxDeletes = 100, short retentionMinutes = 90);
+        ProcessResponse RunRawTagsAudit(string plant, bool showPlantOnly = false, bool isDelete = false, short maxDeletes = 100, short retentionMinutes = 90, bool sendReport = false);
 
         [OperationContract, OperationInvokerLogger]
         ProcessResponse DownloadRackEvents(string plant, TimeSpan timeSpan, bool useHighWaterMark = false, bool parallel = false, decimal rackId = 0, string statusCodes = null);
@@ -147,16 +147,16 @@ namespace CGServicesHV.RackSvc
         ProcessResponse DownloadOutsideRackDetails(string plant, TimeSpan timeSpan, bool useHighWaterMark, bool parallel, decimal rackId, string statusCodes);
 
         [OperationContract, OperationInvokerLogger]
-        [WebGet(UriTemplate = "/RunRackAudit?Plant={plant}&ShowPlantOnly={showPlantOnly}&IsDelete={isDelete}&maxDeletes={MaxDeletes}&RetentionMinutes={retentionMinutes}")]
-        ProcessResponse RunRackAudit(string plant, bool showPlantOnly = false, bool isDelete = false, short maxDeletes = 100, short retentionMinutes = 90);
+        [WebGet(UriTemplate = "/RunRackAudit?Plant={plant}&ShowPlantOnly={showPlantOnly}&IsDelete={isDelete}&maxDeletes={MaxDeletes}&RetentionMinutes={retentionMinutes}&SendReport={sendReport}")]
+        ProcessResponse RunRackAudit(string plant, bool showPlantOnly = false, bool isDelete = false, short maxDeletes = 100, short retentionMinutes = 90, bool sendReport = false);
 
         [OperationContract, OperationInvokerLogger]
-        [WebGet(UriTemplate = "/RunRackDetailAudit?Plant={plant}&ShowPlantOnly={showPlantOnly}&IsDelete={isDelete}&maxDeletes={MaxDeletes}&RetentionMinutes={retentionMinutes}")]
-        ProcessResponse RunRackDetailAudit(string plant, bool showPlantOnly = false, bool isDelete = false, short maxDeletes = 0, short retentionMinutes = 0);
+        [WebGet(UriTemplate = "/RunRackDetailAudit?Plant={plant}&ShowPlantOnly={showPlantOnly}&IsDelete={isDelete}&maxDeletes={MaxDeletes}&RetentionMinutes={retentionMinutes}&SendReport={sendReport}")]
+        ProcessResponse RunRackDetailAudit(string plant, bool showPlantOnly = false, bool isDelete = false, short maxDeletes = 0, short retentionMinutes = 0, bool sendReport = false);
 
         [OperationContract, OperationInvokerLogger]
-        [WebGet(UriTemplate = "/RunRawTagsAudit?Plant={plant}&ShowPlantOnly={showPlantOnly}&IsDelete={isDelete}&maxDeletes={MaxDeletes}&RetentionMinutes={retentionMinutes}")]
-        ProcessResponse RunRawTagsAudit(string plant, bool showPlantOnly = false, bool isDelete = false, short maxDeletes = 100, short retentionMinutes = 90);
+        [WebGet(UriTemplate = "/RunRawTagsAudit?Plant={plant}&ShowPlantOnly={showPlantOnly}&IsDelete={isDelete}&maxDeletes={MaxDeletes}&RetentionMinutes={retentionMinutes}&SendReport={sendReport}")]
+        ProcessResponse RunRawTagsAudit(string plant, bool showPlantOnly = false, bool isDelete = false, short maxDeletes = 100, short retentionMinutes = 90, bool sendReport = false);
 
         [OperationContract, OperationInvokerLogger]
         [WebGet(UriTemplate = "/DownloadRackEvents?Plant={plant}&TimeSpan={timeSpan}&HighWaterMark={useHighWaterMark}&Parallel={parallel}&RackId={rackId}&StatusCodes={statusCodes}")]

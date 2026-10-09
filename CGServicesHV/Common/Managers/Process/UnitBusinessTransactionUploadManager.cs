@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using IBM.Data.DB2.iSeries;
-using CGServicesHV.Common.Managers.E1;
+﻿using CGServicesHV.Common.Managers.E1;
 using CGServicesHV.Common.Managers.Enterprise;
 using CGServicesHV.Common.Managers.ShopFloor;
 using CGServicesHV.Common.Types.E1;
@@ -13,7 +6,15 @@ using CGServicesHV.Common.Types.Enterprise;
 using CGServicesHV.Common.Types.Response;
 using CGServicesHV.Common.Types.ShopFloor;
 using CGServicesHV.Common.Utilities;
+using IBM.Data.DB2.iSeries;
 using NLog;
+using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
+using Microsoft.Data.SqlClient;
+using System.Linq;
+using System.Text;
 // ReSharper disable InconsistentNaming
 
 namespace CGServicesHV.Common.Managers.Process
@@ -315,31 +316,30 @@ namespace CGServicesHV.Common.Managers.Process
                     Logger.Info("Report XML: " + xslOutput);
 
                     var recipients = new List<string>();
-                    recipients.AddRange(Mail.GetRecipients(sqlCns["CORP.INTEGRATION"], "LG_PRODUCTION", "ADMIN", null,
-                        null));
-                    recipients.AddRange(Mail.GetRecipients(sqlCns["CORP.INTEGRATION"], "LG_PRODUCTION", "PUBLIC",
-                        plant.PlantCode, null));
-                    recipients.AddRange(Mail.GetRecipients(sqlCns["CORP.INTEGRATION"], "LG_PRODUCTION", "USER",
-                        plant.PlantCode, null));
+                    recipients.AddRange(Mail.GetRecipients(sqlCns["CORP.INTEGRATION"], "LG_PRODUCTION", "ADMIN", null, null));
+                    recipients.AddRange(Mail.GetRecipients(sqlCns["CORP.INTEGRATION"], "LG_PRODUCTION", "PUBLIC", plant.PlantCode, null));
+                    recipients.AddRange(Mail.GetRecipients(sqlCns["CORP.INTEGRATION"], "LG_PRODUCTION", "USER", plant.PlantCode, null));
+                    string mailPrefix = "";
+                    if (response.HasErrors() || items.Any(x => x.ProcessingStatus.TransferStatus == ProcessingStatus.TransferStatusCode.Error))
+                    {
+                        mailPrefix = "ERROR - ";
+                    }
+                    else
+                    {
+                        if (items.Any(x => x.ProcessingStatus.ValidationStatus == ProcessingStatus.ValidationStatusCode.Failure))
+                            mailPrefix = "WARNING - ";
+                    }
+                    var subject = $"{mailPrefix}{plant.PlantCode} [{System.Configuration.ConfigurationManager.AppSettings["PrimaryEnvironment"]}] Unit Transactions [{sfedbt}]";
+
+                    Mail.StoreResponse($@"{ConfigurationManager.AppSettings["ProcessResponseFilePath"]}\{response.Plant.PlantCode}", subject, xslOutput);
 
                     if (recipients.Count > 0)
                     {
-                        string mailPrefix = "";
-                        if (response.HasErrors() || items.Any(x => x.ProcessingStatus.TransferStatus == ProcessingStatus.TransferStatusCode.Error))
-                        {
-                            mailPrefix = "ERROR - ";
-                        }
-                        else
-                        {
-                            if (items.Any(x => x.ProcessingStatus.ValidationStatus == ProcessingStatus.ValidationStatusCode.Failure))
-                                mailPrefix = "WARNING - ";
-                        }
-
                         Mail.SendHtmlAsync(System.Configuration.ConfigurationManager.AppSettings["SmtpHost"],
                             System.Configuration.ConfigurationManager.AppSettings["MailFromAddress"],
                             recipients,
                             null,
-                            $"{mailPrefix}{plant.PlantCode} [{System.Configuration.ConfigurationManager.AppSettings["PrimaryEnvironment"]}] Unit Transactions [{sfedbt}]",
+                            subject,
                             xslOutput);
                     }
                 }

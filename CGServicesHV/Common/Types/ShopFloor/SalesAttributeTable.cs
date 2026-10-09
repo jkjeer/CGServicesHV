@@ -49,23 +49,23 @@ namespace CGServicesHV.Common.Types.ShopFloor
                     while (reader.Read())
                     {
                         DataRow dr = this.NewRow();
-                        dr["ORDER_NUM"] = CastDbNull.To<decimal>(reader["ATDOCO"], 0);
-                        dr["ORDER_TYPE_CD"] = CastDbNull.To<string>(reader["ATDCTO"], String.Empty).Trim();
-                        dr["ORDER_LINE_NUM"] = CastDbNull.To<decimal>(reader["ATLNID"], 0) / 1000;
-                        dr["PRODUCT_TYPE_CD"] = CastDbNull.To<string>(reader["ATZ58PT"], String.Empty).Trim();
-                        dr["CUSTOMER_PART1"] = CastDbNull.To<string>(reader["ATZ58CP2"], String.Empty).Trim();
-                        dr["CUSTOMER_PART2"] = CastDbNull.To<string>(reader["ATZ58CP3"], String.Empty).Trim();
-                        dr["CUSTOMER_PART3"] = CastDbNull.To<string>(reader["ATZ58CP4"], String.Empty).Trim();
-                        dr["CUSTOMER_SEQ_NUM"] = CastDbNull.To<string>(reader["ATZ58CSQNO"], String.Empty).Trim();
-                        dr["GENERIC_SEQ_NUM"] = CastDbNull.To<string>(reader["ATZ58GSQNO"], String.Empty).Trim();
-                        dr["VOLUME_CD"] = CastDbNull.To<string>(reader["ATZ5840460"], String.Empty).Trim();
-                        dr["MESSAGE1"] = CastDbNull.To<string>(reader["ATZ5899009"], String.Empty).Trim();
-                        dr["MESSAGE2"] = CastDbNull.To<string>(reader["ATZ5899010"], String.Empty).Trim();
-                        dr["PICK_NOTES"] = CastDbNull.To<string>(reader["ATZ5899011"], String.Empty).Trim();
-                        dr["PACK_NOTES"] = CastDbNull.To<string>(reader["ATZ5899012"], String.Empty).Trim();
-                        dr["CUSTOMER_ORIG_PART"] = CastDbNull.To<string>(reader["ATZ5899076"], String.Empty).Trim();
+                        dr["ORDER_NUM"] = Data.CastDbNull.To<decimal>(reader["ATDOCO"], 0);
+                        dr["ORDER_TYPE_CD"] = Data.CastDbNull.To<string>(reader["ATDCTO"], String.Empty).Trim();
+                        dr["ORDER_LINE_NUM"] = Data.CastDbNull.To<decimal>(reader["ATLNID"], 0) / 1000;
+                        dr["PRODUCT_TYPE_CD"] = Data.CastDbNull.To<string>(reader["ATZ58PT"], String.Empty).Trim();
+                        dr["CUSTOMER_PART1"] = Data.CastDbNull.To<string>(reader["ATZ58CP2"], String.Empty).Trim();
+                        dr["CUSTOMER_PART2"] = Data.CastDbNull.To<string>(reader["ATZ58CP3"], String.Empty).Trim();
+                        dr["CUSTOMER_PART3"] = Data.CastDbNull.To<string>(reader["ATZ58CP4"], String.Empty).Trim();
+                        dr["CUSTOMER_SEQ_NUM"] = Data.CastDbNull.To<string>(reader["ATZ58CSQNO"], String.Empty).Trim();
+                        dr["GENERIC_SEQ_NUM"] = Data.CastDbNull.To<string>(reader["ATZ58GSQNO"], String.Empty).Trim();
+                        dr["VOLUME_CD"] = Data.CastDbNull.To<string>(reader["ATZ5840460"], String.Empty).Trim();
+                        dr["MESSAGE1"] = Data.CastDbNull.To<string>(reader["ATZ5899009"], String.Empty).Trim();
+                        dr["MESSAGE2"] = Data.CastDbNull.To<string>(reader["ATZ5899010"], String.Empty).Trim();
+                        dr["PICK_NOTES"] = Data.CastDbNull.To<string>(reader["ATZ5899011"], String.Empty).Trim();
+                        dr["PACK_NOTES"] = Data.CastDbNull.To<string>(reader["ATZ5899012"], String.Empty).Trim();
+                        dr["CUSTOMER_ORIG_PART"] = Data.CastDbNull.To<string>(reader["ATZ5899076"], String.Empty).Trim();
                         dr["CUSTOMER_PO"] = "";
-                        dr["CUSTOMER_ORIG_PO"] = CastDbNull.To<string>(reader["ATZ5899074"], String.Empty).Trim();
+                        dr["CUSTOMER_ORIG_PO"] = Data.CastDbNull.To<string>(reader["ATZ5899074"], String.Empty).Trim();
                         dr["UPDATE_DATE"] = Timestamp.CastToDateTime(Data.CastDbNull.To<decimal>(reader["ATUPMJ"], 0),
                             Data.CastDbNull.To<decimal>(reader["ATTDAY"], 0));
                         this.Rows.Add(dr);

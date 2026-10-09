@@ -77,15 +77,15 @@ namespace CGServicesHV.Common.Managers.E1
                 {
                     while (reader.Read())
                     {
-                        f5834A01.S1MCU = CastDbNull.To(reader["S1MCU"], string.Empty).Trim();
-                        f5834A01.S1Z58SCN = CastDbNull.To<decimal>(reader["S1Z58SCN"], 0);
-                        f5834A01.S1Z58SCSTS = CastDbNull.To(reader["S1Z58SCSTS"], string.Empty).Trim();
-                        f5834A01.S1Z58SCD = CastDbNull.To<decimal>(reader["S1Z58SCD"], 0);
-                        f5834A01.S1Z58SCTYP = CastDbNull.To(reader["S1Z58SCTYP"], string.Empty).Trim();
-                        f5834A01.S1Z58SFS = CastDbNull.To(reader["S1Z58SFS"], string.Empty).Trim();
-                        f5834A01.S1Z58SCDDJ = CastDbNull.To<decimal>(reader["S1Z58SCDDJ"], 0);
-                        f5834A01.S1UPMJ = CastDbNull.To<decimal>(reader["S1UPMJ"], 0);
-                        f5834A01.S1TDAY = CastDbNull.To<decimal>(reader["S1TDAY"], 0);
+                        f5834A01.S1MCU = Data.CastDbNull.To(reader["S1MCU"], string.Empty).Trim();
+                        f5834A01.S1Z58SCN = Data.CastDbNull.To<decimal>(reader["S1Z58SCN"], 0);
+                        f5834A01.S1Z58SCSTS = Data.CastDbNull.To(reader["S1Z58SCSTS"], string.Empty).Trim();
+                        f5834A01.S1Z58SCD = Data.CastDbNull.To<decimal>(reader["S1Z58SCD"], 0);
+                        f5834A01.S1Z58SCTYP = Data.CastDbNull.To(reader["S1Z58SCTYP"], string.Empty).Trim();
+                        f5834A01.S1Z58SFS = Data.CastDbNull.To(reader["S1Z58SFS"], string.Empty).Trim();
+                        f5834A01.S1Z58SCDDJ = Data.CastDbNull.To<decimal>(reader["S1Z58SCDDJ"], 0);
+                        f5834A01.S1UPMJ = Data.CastDbNull.To<decimal>(reader["S1UPMJ"], 0);
+                        f5834A01.S1TDAY = Data.CastDbNull.To<decimal>(reader["S1TDAY"], 0);
                     }
 
                     reader.Close();

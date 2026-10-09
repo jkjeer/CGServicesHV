@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using CGServicesHV.Common.Managers.Process;
 using CGServicesHV.Common.Types.Response;
-using CGServicesHV.ShippingSvc;
+using CGServicesHV.Common.Utilities;
 using SoaCore.Wcf;
 
 namespace CGServicesHV.ShippingSvc

@@ -45,8 +45,8 @@ namespace CGServicesHV.Common.Types.ShopFloor
                     dr["ParentName"] = reader.Get<string>("PARENT_NAME");
                     dr["ParentType"] = reader.Get<string>("PARENT_TYPE_CD");
                     dr["SortKey"] = reader.Get<string>("SORT_KEY");
-                    var updateDateId = CastDbNull.To<decimal>(reader["E1_DATE_ID"], 0);
-                    var updateTimeId = CastDbNull.To<decimal>(reader["E1_TIME_ID"], 0);
+                    var updateDateId = Data.CastDbNull.To<decimal>(reader["E1_DATE_ID"], 0);
+                    var updateTimeId = Data.CastDbNull.To<decimal>(reader["E1_TIME_ID"], 0);
                     dr["TransactionDate"] = Utilities.Common.CastToDateTime(updateDateId, updateTimeId).AddMinutes(plant.BusinessSystemOffset);
                     Rows.Add(dr);
                 }

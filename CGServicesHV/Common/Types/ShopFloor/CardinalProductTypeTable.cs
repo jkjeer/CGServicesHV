@@ -35,13 +35,13 @@ namespace CGServicesHV.Common.Types.ShopFloor
                 while (reader.Read())
                 {
                     var dr = NewRow();
-                    dr["CustomerShipToNum"] = CastDbNull.To<decimal>(reader["PTSHAN"], 0);
-                    dr["ProductType1"] = CastDbNull.To<string>(reader["PTZ5895154"], String.Empty).Trim();
-                    dr["ProductType2"] = CastDbNull.To<string>(reader["PTZ58PT"], String.Empty).Trim();
-                    dr["CardinalProductType"] = CastDbNull.To<string>(reader["PTZ5840310"], String.Empty).Trim();
-                    dr["UserId"] = CastDbNull.To<string>(reader["PTUSER"], String.Empty).Trim();
-                    dr["ProgramId"] = CastDbNull.To<string>(reader["PTPID"], String.Empty).Trim();
-                    dr["TransactionDate"] = Utilities.Common.CastToDateTime(CastDbNull.To<decimal>(reader["PTUPMJ"], 0), CastDbNull.To<decimal>(reader["PTUPMT"], 0)).AddMinutes(plant.BusinessSystemOffset);
+                    dr["CustomerShipToNum"] = Data.CastDbNull.To<decimal>(reader["PTSHAN"], 0);
+                    dr["ProductType1"] = Data.CastDbNull.To<string>(reader["PTZ5895154"], String.Empty).Trim();
+                    dr["ProductType2"] = Data.CastDbNull.To<string>(reader["PTZ58PT"], String.Empty).Trim();
+                    dr["CardinalProductType"] = Data.CastDbNull.To<string>(reader["PTZ5840310"], String.Empty).Trim();
+                    dr["UserId"] = Data.CastDbNull.To<string>(reader["PTUSER"], String.Empty).Trim();
+                    dr["ProgramId"] = Data.CastDbNull.To<string>(reader["PTPID"], String.Empty).Trim();
+                    dr["TransactionDate"] = Utilities.Common.CastToDateTime(Data.CastDbNull.To<decimal>(reader["PTUPMJ"], 0), Data.CastDbNull.To<decimal>(reader["PTUPMT"], 0)).AddMinutes(plant.BusinessSystemOffset);
                     Rows.Add(dr);
                 }
                 reader.Close();

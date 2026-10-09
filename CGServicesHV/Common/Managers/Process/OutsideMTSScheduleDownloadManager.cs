@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -353,11 +353,7 @@ namespace CGServicesHV.Common.Managers.Process
                 var subject = $@"{response.Plant.PlantCode} [{ConfigurationManager.AppSettings["PrimaryEnvironment"]}] Outside HV Schedule {mtsSchedule.ScheduleNum} Download";
                 if (response.HasErrors() || mtsSchedule.ValidationErrors.Any()) subject = $@"Error - {subject}";
 
-                var plantPathName = $@"{ConfigurationManager.AppSettings["ProcessResponseFilePath"]}\{response.Plant.PlantCode}";
-                Directory.CreateDirectory(plantPathName);
-                var fileName = $@"{plantPathName}\{subject} {DateTime.Now:hhmmss}.htm";
-                File.Delete(fileName);
-                File.WriteAllText(fileName, xslOutput);
+                Mail.StoreResponse($@"{ConfigurationManager.AppSettings["ProcessResponseFilePath"]}\{response.Plant.PlantCode}", subject, xslOutput);
 
                 Mail.SendHtmlAsync(ConfigurationManager.AppSettings["SmtpHost"],
                     ConfigurationManager.AppSettings["MailFromAddress"],

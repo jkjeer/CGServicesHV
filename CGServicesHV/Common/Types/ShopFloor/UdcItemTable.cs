@@ -43,18 +43,18 @@ namespace CGServicesHV.Common.Types.ShopFloor
                     while (reader.Read())
                     {
                         var dr = NewRow();
-                        dr["ProductCode"] = CastDbNull.To(reader["DRSY"], string.Empty).Trim();
-                        dr["UserCode"] = CastDbNull.To(reader["DRRT"], string.Empty).Trim();
-                        //dr["UserCodeType"] = CastDbNull.To(reader["DTDL01"], string.Empty).Trim();
-                        dr["UserValue"] = CastDbNull.To(reader["DRKY"], string.Empty).Trim();
-                        dr["Description1"] = CastDbNull.To(reader["DRDL01"], string.Empty).Trim();
-                        dr["Description2"] = CastDbNull.To(reader["DRDL02"], string.Empty).Trim();
-                        dr["HandlingCode"] = CastDbNull.To(reader["DRSPHD"], string.Empty).Trim();
-                        var updateDateId = CastDbNull.To<decimal>(reader["DRUPMJ"], 0);
-                        var updateTimeId = CastDbNull.To<decimal>(reader["DRUPMT"], 0);
+                        dr["ProductCode"] = Data.CastDbNull.To(reader["DRSY"], string.Empty).Trim();
+                        dr["UserCode"] = Data.CastDbNull.To(reader["DRRT"], string.Empty).Trim();
+                        //dr["UserCodeType"] = Data.CastDbNull.To(reader["DTDL01"], string.Empty).Trim();
+                        dr["UserValue"] = Data.CastDbNull.To(reader["DRKY"], string.Empty).Trim();
+                        dr["Description1"] = Data.CastDbNull.To(reader["DRDL01"], string.Empty).Trim();
+                        dr["Description2"] = Data.CastDbNull.To(reader["DRDL02"], string.Empty).Trim();
+                        dr["HandlingCode"] = Data.CastDbNull.To(reader["DRSPHD"], string.Empty).Trim();
+                        var updateDateId = Data.CastDbNull.To<decimal>(reader["DRUPMJ"], 0);
+                        var updateTimeId = Data.CastDbNull.To<decimal>(reader["DRUPMT"], 0);
                         dr["UpdateDate"] = Utilities.Common.CastToDateTime(updateDateId, updateTimeId).AddHours(plant.TimeOffset);
-                        dr["SpecDescription1"] = CastDbNull.To(reader["SPECDESC1"], string.Empty).Trim();
-                        dr["SpecDescription2"] = CastDbNull.To(reader["SPECDESC2"], string.Empty).Trim();
+                        dr["SpecDescription1"] = Data.CastDbNull.To(reader["SPECDESC1"], string.Empty).Trim();
+                        dr["SpecDescription2"] = Data.CastDbNull.To(reader["SPECDESC2"], string.Empty).Trim();
                         Rows.Add(dr);
                     }
 

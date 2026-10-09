@@ -8,8 +8,6 @@ using CGServicesHV.Common.Types.Response;
 using CGServicesHV.Common.Utilities;
 using IBM.Data.DB2.iSeries;
 using NLog;
-// ReSharper disable InconsistentNaming
-
 
 namespace CGServicesHV.Common.Managers.E1
 {
@@ -431,7 +429,8 @@ namespace CGServicesHV.Common.Managers.E1
             WHERE
                 SFMMCU = ? AND
                 SFZ58UID = ? AND
-                SFEDCT = ?";
+                SFEDCT = ?
+            ";
             cmd.Parameters.Add(new iDB2Parameter("MCU", iDB2DbType.iDB2Graphic, 12));
             cmd.Parameters.Add(new iDB2Parameter("UID", iDB2DbType.iDB2Graphic, 14));
             cmd.Parameters.Add(new iDB2Parameter("EDCT", iDB2DbType.iDB2Graphic, 2));
@@ -453,7 +452,7 @@ namespace CGServicesHV.Common.Managers.E1
                 {
                     while (reader.Read())
                     {
-                        if (CastDbNull.To(reader["RECS"], 0) > 0)
+                        if (Data.CastDbNull.To(reader["RECS"], 0) > 0)
                         {
                             val = true;
                         }
@@ -500,7 +499,7 @@ namespace CGServicesHV.Common.Managers.E1
                 {
                     while (reader.Read())
                     {
-                        if (CastDbNull.To(reader["RECS"], 0) > 0)
+                        if (Data.CastDbNull.To(reader["RECS"], 0) > 0)
                         {
                             val = true;
                         }

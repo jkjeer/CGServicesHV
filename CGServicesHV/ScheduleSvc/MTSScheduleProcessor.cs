@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.Text;
 using CGServicesHV.Common.Managers.E1;
 using CGServicesHV.Common.Managers.Enterprise;
@@ -237,6 +237,9 @@ namespace CGServicesHV.ScheduleSvc
                 Logger.Info($@"Report XML: {xslOutput}");
                 var subject = $@"{response.Plant.PlantCode} [{ConfigurationManager.AppSettings["PrimaryEnvironment"]}] Schedule Cancel - MTS Schedule {scheduleNum}";
                 if (response.HasErrors()) subject = $@"Error - {subject}";
+
+                Mail.StoreResponse($@"{ConfigurationManager.AppSettings["ProcessResponseFilePath"]}\{response.Plant.PlantCode}", subject, xslOutput);
+
                 Mail.SendHtmlAsync(ConfigurationManager.AppSettings["SmtpHost"],
                     ConfigurationManager.AppSettings["MailFromAddress"],
                     toConfigAddresses,
@@ -269,6 +272,9 @@ namespace CGServicesHV.ScheduleSvc
                 Logger.Info($@"Report XML: {xslOutput}");
                 var subject = $@"{response.Plant.PlantCode} [{ConfigurationManager.AppSettings["PrimaryEnvironment"]}] Schedule Cancel - MTS Schedule {scheduleNum}";
                 if (response.HasErrors()) subject = $@"Error - {subject}";
+
+                Mail.StoreResponse($@"{ConfigurationManager.AppSettings["ProcessResponseFilePath"]}\{response.Plant.PlantCode}", subject, xslOutput);
+
                 Mail.SendHtmlAsync(ConfigurationManager.AppSettings["SmtpHost"],
                     ConfigurationManager.AppSettings["MailFromAddress"],
                     toConfigAddresses,
@@ -301,6 +307,9 @@ namespace CGServicesHV.ScheduleSvc
                 Logger.Info($@"Report XML: {xslOutput}");
                 var subject = $@"{response.Plant.PlantCode} [{ConfigurationManager.AppSettings["PrimaryEnvironment"]}] Schedule Reset - MTS Schedule {scheduleNum}";
                 if (response.HasErrors()) subject = $@"Error - {subject}";
+
+                Mail.StoreResponse($@"{ConfigurationManager.AppSettings["ProcessResponseFilePath"]}\{response.Plant.PlantCode}", subject, xslOutput);
+
                 Mail.SendHtmlAsync(ConfigurationManager.AppSettings["SmtpHost"],
                     ConfigurationManager.AppSettings["MailFromAddress"],
                     toConfigAddresses,
@@ -333,6 +342,9 @@ namespace CGServicesHV.ScheduleSvc
                 Logger.Info($@"Report XML: {xslOutput}");
                 var subject = $@"{response.Plant.PlantCode} [{ConfigurationManager.AppSettings["PrimaryEnvironment"]}] Schedule Reset - Outside MTS Schedule {scheduleNum}";
                 if (response.HasErrors()) subject = $@"Error - {subject}";
+
+                Mail.StoreResponse($@"{ConfigurationManager.AppSettings["ProcessResponseFilePath"]}\{response.Plant.PlantCode}", subject, xslOutput);
+
                 Mail.SendHtmlAsync(ConfigurationManager.AppSettings["SmtpHost"],
                     ConfigurationManager.AppSettings["MailFromAddress"],
                     toConfigAddresses,
@@ -365,6 +377,9 @@ namespace CGServicesHV.ScheduleSvc
                 Logger.Info($@"Report XML: {xslOutput}");
                 var subject = $@"{response.Plant.PlantCode} [{ConfigurationManager.AppSettings["PrimaryEnvironment"]}] Schedule Success - MTS Schedule {scheduleNum}";
                 if (response.HasErrors()) subject = $@"Error - {subject}";
+
+                Mail.StoreResponse($@"{ConfigurationManager.AppSettings["ProcessResponseFilePath"]}\{response.Plant.PlantCode}", subject, xslOutput);
+
                 Mail.SendHtmlAsync(ConfigurationManager.AppSettings["SmtpHost"],
                     ConfigurationManager.AppSettings["MailFromAddress"],
                     toConfigAddresses,
@@ -397,6 +412,9 @@ namespace CGServicesHV.ScheduleSvc
                 Logger.Info($@"Report XML: {xslOutput}");
                 var subject = $@"{response.Plant.PlantCode} [{ConfigurationManager.AppSettings["PrimaryEnvironment"]}] Schedule Complete - MTS Schedule {scheduleNum}";
                 if (response.HasErrors()) subject = $@"Error - {subject}";
+
+                Mail.StoreResponse($@"{ConfigurationManager.AppSettings["ProcessResponseFilePath"]}\{response.Plant.PlantCode}", subject, xslOutput);
+
                 Mail.SendHtmlAsync(ConfigurationManager.AppSettings["SmtpHost"],
                     ConfigurationManager.AppSettings["MailFromAddress"],
                     toConfigAddresses,

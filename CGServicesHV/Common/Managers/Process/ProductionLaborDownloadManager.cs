@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using CGServicesHV.Common.Managers.E1;
@@ -18,21 +18,6 @@ namespace CGServicesHV.Common.Managers.Process
     public class ProductionLaborDownloadManager
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-
-        /********************************************************************************
-        * CONSTRUCTOR
-        ********************************************************************************/
-        //public EmployeeDownloadManager(BusinessSystemSession e1Session)
-        //{
-        //    var hash = new Dictionary<string, iDB2Command>
-        //    {
-        //        //{"UdcItemDownloadManager.GetUdcItem", GetUdcItem()}
-        //    };
-        //    foreach (var keyName in hash.Keys.Where(keyName => !e1Session.DbCommands.ContainsKey(keyName)))
-        //    {
-        //        e1Session.DbCommands.Add(keyName, hash[keyName]);
-        //    }
-        //}
 
         /********************************************************************************
         * PROCESS
@@ -73,7 +58,7 @@ namespace CGServicesHV.Common.Managers.Process
             if (!response.HasErrors())
             {
                 /********************************************************/
-                var step2 = new ProcessStep("Get Source Data");
+                var step2 = new ProcessStep("Get UKG Data");
                 try
                 {
                     var reader = GetUKG(sqlCns["CORP.WAREHOUSE"], processRunSpan, plant);
@@ -141,86 +126,9 @@ namespace CGServicesHV.Common.Managers.Process
             return response;
         }
 
-
-
         /********************************************************************************
         * EVENTS
         ********************************************************************************/
-        private static SqlCommand GetAOD(IReadOnlyCollection<string> filters)
-        {
-            var filterString = new StringBuilder();
-            foreach (var filter in filters)
-            {
-                filterString.Append(filter);
-            }
-            var cmd = new SqlCommand
-            {
-                CommandType = CommandType.Text,
-                CommandText = $@"
-                SELECT
-	                PL.PLANT_NO AS Plant,
-	                CAST(PL.EVENT_DATE AS DATE) AS TransactionDate,
-	                PL.WG1_NAME AS WorkGroup1,
-	                PL.WG2_NAME AS WorkGroup2,
-	                PL.WG3_NAME AS WorkGroup3,
-	                PL.PAYLINE_TYPE_CD AS PayTypeCode,
-	                PL.PAY_TYPE_DESC AS PayTypeDesc,
-                    SUM(Hours) AS Hours,
-	                SUM(Hours * Rate) AS Amount
-                FROM
-	                PROD.AOD_PAYLINE			 PL WITH (NOLOCK)
-	                INNER JOIN PROD.AOD_EMPLOYEE EP WITH (NOLOCK)
-	                ON EP.EMPLOYEE_ID = PL.EMPLOYEE_ID
-                WHERE
-                    {filterString}
-                GROUP BY
-	                PL.PLANT_NO,
-                    CAST(PL.EVENT_DATE AS DATE),
-	                PL.WG1_NAME,
-	                PL.WG2_NAME,
-	                PL.WG3_NAME,
-	                PL.PAYLINE_TYPE_CD,
-	                PL.PAY_TYPE_DESC
-                ORDER BY 1,2,3"
-            };
-            return cmd;
-        }
-
-        public static IDataReader GetAOD(SqlConnection cn, ProcessRunSpan processRunSpan, Plant plant)
-        {
-            var filters = new List<string>();
-            var parameters = new List<SqlParameter>();
-            try
-            {
-
-                filters.Add("PL.PLANT_NO = @PlantNum AND \r\n");
-                parameters.Add(new SqlParameter("@PlantNum", SqlDbType.VarChar, 12));
-                parameters.Last().Value = plant.PlantNum;
-
-                filters.Add("PL.EVENT_DATE BETWEEN @StartDate AND @EndDate \r\n");
-                parameters.Add(new SqlParameter("@StartDate", SqlDbType.DateTime));
-                parameters.Last().Value = new DateTime(processRunSpan.StartDateTime.Year, processRunSpan.StartDateTime.Month, 1);
-                parameters.Add(new SqlParameter("@EndDate", SqlDbType.DateTime));
-                parameters.Last().Value = new DateTime(processRunSpan.EndDateTime.AddMonths(1).Year, processRunSpan.EndDateTime.AddMonths(1).Month, 1);
-
-                // Command
-                var cmd = GetAOD(filters);
-                foreach (SqlParameter parameter in parameters)
-                {
-                    cmd.Parameters.Add(parameter);
-                }
-                cmd.Connection = cn;
-                Logger.Debug(Logging.DbCmdString(cmd));
-                // Reader
-                return cmd.ExecuteReader(CommandBehavior.SingleResult);
-            }
-            catch (Exception e)
-            {
-                Logger.Error($"ERROR: {e.Message}: {e.StackTrace}");
-                throw new Exception(e.Message);
-            }
-        }
-
         private static SqlCommand GetUKG(IReadOnlyCollection<string> filters)
         {
             var filterString = new StringBuilder();
@@ -232,22 +140,25 @@ namespace CGServicesHV.Common.Managers.Process
             {
                 CommandType = CommandType.Text,
                 CommandText = $@"
-                    SELECT
-	                    A.PLANT_NAME AS PlantName,
-                        B.NumericCode AS PlantCode,
-                        A.TRANSACTION_DT AS TransactionDate,
-                        A.WORK_CENTER_NAME AS WorkCenterName,
-                        A.PAY_CODE_NAME AS PayCode,
-                        A.TOTAL_HOURS AS TotalHours,
-                        A.TOTAL_AMOUNT AS TotalAmt
-                    FROM
-	                    DW_SOURCE.UKG.PRODUCTION_LABOR			 A WITH (NOLOCK)
-	                    INNER JOIN PSBI_WH_PROD.PROD.UKG_PLANT_MAP B WITH (NOLOCK)
-	                    ON B.PlantName = A.PLANT_NAME
-                    WHERE
-                        {filterString}
-                    ORDER BY 1,2,3
-                "
+                SELECT
+                      A.PLANT_NAME AS PlantName,
+                    B.NumericCode AS PlantCode,
+                    A.TRANSACTION_DT AS TransactionDate,
+                    A.WORK_CENTER_NAME AS WorkCenterName,
+                    A.PAY_CODE_NAME AS PayCode,
+                    A.TOTAL_HOURS AS TotalHours,
+                    A.TOTAL_AMOUNT AS TotalAmt,
+                    A.BI_INSERT_DTTM AS SourceInsertDate,
+                    A.BI_UPDATE_DTTM AS SourceUpdateDate,
+                      A.IS_DELETED AS IsDeleted,
+                    A.SHIFT_NAME AS ShiftName
+                FROM
+                      DW_SOURCE.UKG.PRODUCTION_LABOR              A WITH (NOLOCK)
+                      INNER JOIN PSBI_WH_PROD.PROD.UKG_PLANT_MAP B WITH (NOLOCK)
+                      ON B.PlantName = A.PLANT_NAME
+                WHERE
+                    {filterString}
+                ORDER BY 1,2,3"
             };
             return cmd;
         }
@@ -263,11 +174,15 @@ namespace CGServicesHV.Common.Managers.Process
                 parameters.Add(new SqlParameter("@PlantNum", SqlDbType.VarChar, 12));
                 parameters.Last().Value = plant.PlantNum;
 
-                filters.Add("A.TRANSACTION_DT BETWEEN @StartDate AND @EndDate \r\n");
-                parameters.Add(new SqlParameter("@StartDate", SqlDbType.DateTime));
-                parameters.Last().Value = new DateTime(processRunSpan.StartDateTime.Year, processRunSpan.StartDateTime.Month, 1);
-                parameters.Add(new SqlParameter("@EndDate", SqlDbType.DateTime));
-                parameters.Last().Value = new DateTime(processRunSpan.EndDateTime.AddMonths(1).Year, processRunSpan.EndDateTime.AddMonths(1).Month, 1);
+                filters.Add("A.BI_INSERT_DTTM > @UpdateDate \r\n");
+                parameters.Add(new SqlParameter("@UpdateDate", SqlDbType.DateTime));
+                parameters.Last().Value = processRunSpan.StartDateTime;
+
+                //filters.Add("A.TRANSACTION_DT BETWEEN @StartDate AND @EndDate \r\n");
+                //parameters.Add(new SqlParameter("@StartDate", SqlDbType.DateTime));
+                //parameters.Last().Value = new DateTime(processRunSpan.StartDateTime.Year, processRunSpan.StartDateTime.Month, 1);
+                //parameters.Add(new SqlParameter("@EndDate", SqlDbType.DateTime));
+                //parameters.Last().Value = new DateTime(processRunSpan.EndDateTime.AddMonths(1).Year, processRunSpan.EndDateTime.AddMonths(1).Month, 1);
 
                 // Command
                 var cmd = GetUKG(filters);

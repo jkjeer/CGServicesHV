@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using CGServicesHV.Common.Managers.E1;
@@ -215,7 +215,7 @@ namespace CGServicesHV.Common.Managers.Process
                 {
                     filters.Add("AMZ58RID = ? AND \r\n");
                     parameters.Add(new iDB2Parameter("RID", iDB2DbType.iDB2Decimal));
-                    parameters.Last().Precision = 8;
+                    parameters.Last().Precision = 15;
                     parameters.Last().Scale = 0;
                     parameters.Last().Value = rackId;
                 }
@@ -273,12 +273,10 @@ namespace CGServicesHV.Common.Managers.Process
                     filterString.Append(filter);
                 }
             }
-
             var cmd = new iDB2Command
             {
                 CommandType = CommandType.Text,
                 CommandText = $@"
-                    SELECT * FROM (
                         SELECT 
                             ALZ58AID,
                             ALMCU,
@@ -296,16 +294,59 @@ namespace CGServicesHV.Common.Managers.Process
                             ALMUPM,
                             ALTDAY,
                             ALUKID,
-                            ALIOPR,
-                            ROW_NUMBER() OVER (PARTITION BY ALZ58AID ORDER BY ALUKID DESC) AS RN
+                            ALIOPR
                         FROM 
 	                        F5812019
-                        {filterString}) A
-                    WHERE A.RN = 1
-                    FOR READ ONLY"
+                        {filterString}
+                    FOR READ ONLY
+                "
             };
             return cmd;
         }
+
+        //private static iDB2Command GetRackAssetLedger(IReadOnlyCollection<string> filters)
+        //{
+        //    var filterString = new StringBuilder();
+        //    if (filters.Any())
+        //    {
+        //        filterString.Append("WHERE ");
+        //        foreach (var filter in filters)
+        //        {
+        //            filterString.Append(filter);
+        //        }
+        //    }
+        //    var cmd = new iDB2Command
+        //    {
+        //        CommandType = CommandType.Text,
+        //        CommandText = $@"
+        //            SELECT * FROM (
+        //                SELECT 
+        //                    ALZ58AID,
+        //                    ALMCU,
+        //                    ALLOCN,
+        //                    ALZ58AST,
+        //                    ALAN8,
+        //                    ALSHAN,
+        //                    ALZ58ATY,
+        //                    ALZ58RT,
+        //                    ALZ58RID,
+        //                    ALZ58ACD,
+        //                    ALZ58RDT,
+        //                    ALSHPJ,
+        //                    ALRCDJ,
+        //                    ALMUPM,
+        //                    ALTDAY,
+        //                    ALUKID,
+        //                    ALIOPR,
+        //                    ROW_NUMBER() OVER (PARTITION BY ALZ58AID ORDER BY ALUKID DESC) AS RN
+        //                FROM 
+        //                 F5812019
+        //                {filterString}) A
+        //            WHERE A.RN = 1
+        //            FOR READ ONLY"
+        //    };
+        //    return cmd;
+        //}
 
         public static IDataReader GetRackAssetLedger(BusinessSystemSession session, ProcessRunSpan processRunSpan, string plantNum, decimal rackId, List<string> statusCodes)
         {

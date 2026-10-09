@@ -1,21 +1,21 @@
-﻿using System;
+﻿using CGServicesHV.Common.Managers.Enterprise;
+using CGServicesHV.Common.Types.E1;
+using CGServicesHV.Common.Types.Enterprise;
+using CGServicesHV.Common.Utilities;
+using IBM.Data.DB2.iSeries;
+using NLog;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Linq;
-using IBM.Data.DB2.iSeries;
-using CGServicesHV.Common.Managers.Enterprise;
-using CGServicesHV.Common.Types.E1;
-using CGServicesHV.Common.Types.Enterprise;
-using CGServicesHV.Common.Utilities;
-using NLog;
 
 namespace CGServicesHV.Common.Managers.E1
 {
     public class ItemAttributeManager
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-        private UdcItemManager _udcItemManager;
+        //private UdcItemManager _udcItemManager;
 
         public ItemAttributeManager(BusinessSystemSession session)
         {
@@ -454,7 +454,8 @@ namespace CGServicesHV.Common.Managers.E1
                                 var sgvl = reader["SGVL"].ToString().Trim();
                                 if (amsy == "57" && amrt == "BR")
                                 {
-                                    var udcItem = _udcItemManager.GetUdcItem(session, "57", "BR", sgvl.PadLeft(5, '0'));
+                                    var mgr = new UdcItemManager(session);
+                                    var udcItem = mgr.GetUdcItem(session, "57", "BR", sgvl.PadLeft(5, '0'));
                                     attribute.Name = name;
                                     attribute.Value = reader["SGVL"].ToString().Trim();
                                     attribute.Desc1 = udcItem.Description1;
@@ -463,7 +464,8 @@ namespace CGServicesHV.Common.Managers.E1
                                 }
                                 else if (amsy == "57" && amrt == "MP")
                                 {
-                                    var udcItem = _udcItemManager.GetUdcItem(session, "57", "MP", sgvl);
+                                    var mgr = new UdcItemManager(session);
+                                    var udcItem = mgr.GetUdcItem(session, "57", "MP", sgvl);
                                     attribute.Name = name;
                                     attribute.Value = sgvl;
                                     attribute.Desc1 = udcItem.Description1;
@@ -515,7 +517,7 @@ namespace CGServicesHV.Common.Managers.E1
                 IDataReader reader = cmd.ExecuteReader(CommandBehavior.SingleRow);
                 while (reader.Read())
                 {
-                    val = CastDbNull.To<decimal>(reader["CMCFGID"], 0);
+                    val = Data.CastDbNull.To<decimal>(reader["CMCFGID"], 0);
                 }
                 reader.Close();
             }

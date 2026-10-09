@@ -1,14 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlClient;
-using System.IO;
-using System.Linq;
-using System.ServiceModel;
-using System.Text;
-using System.Xml.Linq;
-using CGServicesHV.Common.Managers.E1;
-using CGServicesHV.Common.Managers.Enterprise;
+﻿using CGServicesHV.Common.Managers.E1;
 using CGServicesHV.Common.Managers.ShopFloor;
 using CGServicesHV.Common.Types.E1;
 using CGServicesHV.Common.Types.Enterprise;
@@ -16,9 +6,17 @@ using CGServicesHV.Common.Types.Response;
 using CGServicesHV.Common.Types.ShopFloor;
 using CGServicesHV.Common.Utilities;
 using IBM.Data.DB2.iSeries;
+using Microsoft.Data.SqlClient;
 using NLog;
-
-// ReSharper disable InconsistentNaming
+using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
+using System.IO;
+using System.Linq;
+using System.ServiceModel;
+using System.Text;
+using System.Xml.Linq;
 
 namespace CGServicesHV.Common.Managers.Process
 {
@@ -40,6 +38,7 @@ namespace CGServicesHV.Common.Managers.Process
         {
             var response = new ProcessResponse("Rack Transaction Upload Manager", plant);
             response.ConnectionStrings.Add(new ConnectionString("E1", session.DbConnection.ConnectionString));
+
             foreach (var sqlCn in sqlCns)
             {
                 response.ConnectionStrings.Add(new ConnectionString(sqlCn.Key, sqlCn.Value.ConnectionString));
@@ -83,7 +82,7 @@ namespace CGServicesHV.Common.Managers.Process
                             {
                                 item.Transferred = true;
                                 item.TransferStatus = "E";
-                                item.TransferMessage = "Previously Uploaded to F580030";
+                                item.TransferMessage = $"Previously Uploaded to F580030 SFZ58UID: {item.E1RackingTransactionId.ToString()}";
                                 stepValidate.Errors.Add(new Error("Previously Uploaded to F580030"));
                             }
                         }
@@ -285,21 +284,27 @@ namespace CGServicesHV.Common.Managers.Process
                     try
                     {
                         XElement root = new XElement("root", XElement.Load(new StringReader(XmlSerializationUtility.SerializeObject(Encoding.UTF8, response))));
-                            foreach (var serializedObject in response.SerializedObjects)
-                            {
-                                root.Add(XElement.Load(new StringReader(serializedObject.Value)));
-                            }
-                            var serializedXml = root.ToString();
-                            Logger.Info("Serialized Process: " + serializedXml);
-                            var xslOutput = XsltManager.Transform(serializedXml, "CGServicesHV.Common.Xslt.RackTransactionUploadReport.xslt", Encoding.UTF8);
-                            Logger.Info("Report XML: " + xslOutput);
-                            //Mail.SendHtmlAsync(System.Configuration.ConfigurationManager.AppSettings["SmtpHost"],
-                            //    System.Configuration.ConfigurationManager.AppSettings["MailFromAddress"],
-                            //    System.Configuration.ConfigurationManager.AppSettings["MailBizToAddress"],
-                            //    null,
-                            //    plant.PlantCode + " [" + System.Configuration.ConfigurationManager.AppSettings["PrimaryEnvironment"] + "] " +
-                            //    "Rack Transaction Upload ",
-                            //    xslOutput);
+                        foreach (var serializedObject in response.SerializedObjects)
+                        {
+                            root.Add(XElement.Load(new StringReader(serializedObject.Value)));
+                        }
+                        var serializedXml = root.ToString();
+                        Logger.Info("Serialized Process: " + serializedXml);
+                        var xslOutput = XsltManager.Transform(serializedXml, "CGServicesHV.Common.Xslt.RackTransactionUploadReport.xslt", Encoding.UTF8);
+                        Logger.Info("Report XML: " + xslOutput);
+
+                        var subject = plant.PlantCode + " [" + System.Configuration.ConfigurationManager.AppSettings["PrimaryEnvironment"] + "] " + "Rack Transaction Upload ";
+                        Mail.StoreResponse($@"{ConfigurationManager.AppSettings["ProcessResponseFilePath"]}\{response.Plant.PlantCode}", subject, xslOutput);
+
+                        if (response.HasErrors())
+                        { 
+                            Mail.SendHtmlAsync(System.Configuration.ConfigurationManager.AppSettings["SmtpHost"],
+                                System.Configuration.ConfigurationManager.AppSettings["MailFromAddress"],
+                                System.Configuration.ConfigurationManager.AppSettings["MailBizToAddress"],
+                                null,
+                                subject,
+                                xslOutput);
+                        }
                     }
                     catch (Exception e)
                     {

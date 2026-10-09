@@ -241,10 +241,10 @@ namespace CGServicesHV.Common.Managers.E1
                 {
                     while (reader.Read())
                     {
-                        dict.Add("FDZ58DECE", CastDbNull.To<Decimal>(reader["FDZ58DECE"], 0) / 1000000);
-                        dict.Add("FDZ58FRAC", CastDbNull.To<String>(reader["FDZ58FRAC"], String.Empty).Trim());
-                        dict.Add("FDZ58NUMR", CastDbNull.To<Decimal>(reader["FDZ58NUMR"], 0));
-                        dict.Add("FDZ58DENM", CastDbNull.To<Decimal>(reader["FDZ58DENM"], 0));
+                        dict.Add("FDZ58DECE", Data.CastDbNull.To<Decimal>(reader["FDZ58DECE"], 0) / 1000000);
+                        dict.Add("FDZ58FRAC", Data.CastDbNull.To<String>(reader["FDZ58FRAC"], String.Empty).Trim());
+                        dict.Add("FDZ58NUMR", Data.CastDbNull.To<Decimal>(reader["FDZ58NUMR"], 0));
+                        dict.Add("FDZ58DENM", Data.CastDbNull.To<Decimal>(reader["FDZ58DENM"], 0));
                     }
 
                     reader.Close();
@@ -297,10 +297,10 @@ namespace CGServicesHV.Common.Managers.E1
                 {
                     while (reader.Read())
                     {
-                        dict.Add("FDZ58DECE", CastDbNull.To<Decimal>(reader["FDZ58DECE"], 0) / 1000000);
-                        dict.Add("FDZ58FRAC", CastDbNull.To<String>(reader["FDZ58FRAC"], String.Empty).Trim());
-                        dict.Add("FDZ58NUMR", CastDbNull.To<Decimal>(reader["FDZ58NUMR"], 0));
-                        dict.Add("FDZ58DENM", CastDbNull.To<Decimal>(reader["FDZ58DENM"], 0));
+                        dict.Add("FDZ58DECE", Data.CastDbNull.To<Decimal>(reader["FDZ58DECE"], 0) / 1000000);
+                        dict.Add("FDZ58FRAC", Data.CastDbNull.To<String>(reader["FDZ58FRAC"], String.Empty).Trim());
+                        dict.Add("FDZ58NUMR", Data.CastDbNull.To<Decimal>(reader["FDZ58NUMR"], 0));
+                        dict.Add("FDZ58DENM", Data.CastDbNull.To<Decimal>(reader["FDZ58DENM"], 0));
                     }
 
                     reader.Close();
@@ -347,9 +347,9 @@ namespace CGServicesHV.Common.Managers.E1
                     while (reader.Read())
                     {
                         dict.Add("FDZ58DECE", Data.CastDbNull.To<Decimal>(reader["FDZ58DECE"], 0) / 1000000);
-                        dict.Add("FDZ58FRAC", CastDbNull.To<String>(reader["FDZ58FRAC"], String.Empty).Trim());
-                        dict.Add("FDZ58NUMR", CastDbNull.To<Decimal>(reader["FDZ58NUMR"], 0));
-                        dict.Add("FDZ58DENM", CastDbNull.To<Decimal>(reader["FDZ58DENM"], 0));
+                        dict.Add("FDZ58FRAC", Data.CastDbNull.To<String>(reader["FDZ58FRAC"], String.Empty).Trim());
+                        dict.Add("FDZ58NUMR", Data.CastDbNull.To<Decimal>(reader["FDZ58NUMR"], 0));
+                        dict.Add("FDZ58DENM", Data.CastDbNull.To<Decimal>(reader["FDZ58DENM"], 0));
                     }
 
                     reader.Close();

@@ -647,16 +647,16 @@ namespace CGServicesHV.Common.Managers.E1
                     {
                         var f580020 = new F580020
                         {
-                            S6EDBT = CastDbNull.To(reader["S6EDBT"], string.Empty).Trim(),
-                            S6MCU = CastDbNull.To(reader["S6MCU"], string.Empty).Trim(),
-                            S6Z58SCN = CastDbNull.To<decimal>(reader["S6Z58SCN"], 0),
-                            S6Z58SCD = CastDbNull.To<decimal>(reader["S6Z58SCD"], 0),
-                            S6Z58SFS = CastDbNull.To(reader["S6Z58SFS"], string.Empty).Trim(),
-                            S6TSC = CastDbNull.To(reader["S6TSC"], string.Empty).Trim(),
-                            S6EDSP = CastDbNull.To(reader["S6EDSP"], string.Empty).Trim(),
-                            S6MATH06 = CastDbNull.To<decimal>(reader["S6MATH06"], 0),
-                            S6WOPST = CastDbNull.To(reader["S6WOPST"], string.Empty).Trim(),
-                            S6DS50 = CastDbNull.To(reader["S6DS50"], string.Empty).Trim()
+                            S6EDBT = Data.CastDbNull.To(reader["S6EDBT"], string.Empty).Trim(),
+                            S6MCU = Data.CastDbNull.To(reader["S6MCU"], string.Empty).Trim(),
+                            S6Z58SCN = Data.CastDbNull.To<decimal>(reader["S6Z58SCN"], 0),
+                            S6Z58SCD = Data.CastDbNull.To<decimal>(reader["S6Z58SCD"], 0),
+                            S6Z58SFS = Data.CastDbNull.To(reader["S6Z58SFS"], string.Empty).Trim(),
+                            S6TSC = Data.CastDbNull.To(reader["S6TSC"], string.Empty).Trim(),
+                            S6EDSP = Data.CastDbNull.To(reader["S6EDSP"], string.Empty).Trim(),
+                            S6MATH06 = Data.CastDbNull.To<decimal>(reader["S6MATH06"], 0),
+                            S6WOPST = Data.CastDbNull.To(reader["S6WOPST"], string.Empty).Trim(),
+                            S6DS50 = Data.CastDbNull.To(reader["S6DS50"], string.Empty).Trim()
                         };
                         f580020s.Add(f580020);
                     }
@@ -709,16 +709,16 @@ namespace CGServicesHV.Common.Managers.E1
                     {
                         var f580020 = new F580020
                         {
-                            S6EDBT = CastDbNull.To(reader["S6EDBT"], string.Empty).Trim(),
-                            S6MCU = CastDbNull.To(reader["S6MCU"], string.Empty).Trim(),
-                            S6Z58SCN = CastDbNull.To<decimal>(reader["S6Z58SCN"], 0),
-                            S6Z58SCD = CastDbNull.To<decimal>(reader["S6Z58SCD"], 0),
-                            S6Z58SFS = CastDbNull.To(reader["S6Z58SFS"], string.Empty).Trim(),
-                            S6TSC = CastDbNull.To(reader["S6TSC"], string.Empty).Trim(),
-                            S6EDSP = CastDbNull.To(reader["S6EDSP"], string.Empty).Trim(),
-                            S6MATH06 = CastDbNull.To<decimal>(reader["S6MATH06"], 0),
-                            S6WOPST = CastDbNull.To(reader["S6WOPST"], string.Empty).Trim(),
-                            S6DS50 = CastDbNull.To(reader["S6DS50"], string.Empty).Trim()
+                            S6EDBT = Data.CastDbNull.To(reader["S6EDBT"], string.Empty).Trim(),
+                            S6MCU = Data.CastDbNull.To(reader["S6MCU"], string.Empty).Trim(),
+                            S6Z58SCN = Data.CastDbNull.To<decimal>(reader["S6Z58SCN"], 0),
+                            S6Z58SCD = Data.CastDbNull.To<decimal>(reader["S6Z58SCD"], 0),
+                            S6Z58SFS = Data.CastDbNull.To(reader["S6Z58SFS"], string.Empty).Trim(),
+                            S6TSC = Data.CastDbNull.To(reader["S6TSC"], string.Empty).Trim(),
+                            S6EDSP = Data.CastDbNull.To(reader["S6EDSP"], string.Empty).Trim(),
+                            S6MATH06 = Data.CastDbNull.To<decimal>(reader["S6MATH06"], 0),
+                            S6WOPST = Data.CastDbNull.To(reader["S6WOPST"], string.Empty).Trim(),
+                            S6DS50 = Data.CastDbNull.To(reader["S6DS50"], string.Empty).Trim()
                         };
                         f580020s.Add(f580020);
                     }
@@ -780,16 +780,16 @@ namespace CGServicesHV.Common.Managers.E1
                     {
                         var f580020 = new F580020
                         {
-                            S6EDBT = CastDbNull.To(reader["S6EDBT"], string.Empty).Trim(),
-                            S6MCU = CastDbNull.To(reader["S6MCU"], string.Empty).Trim(),
-                            S6Z58SCN = CastDbNull.To<decimal>(reader["S6Z58SCN"], 0),
-                            S6Z58SCD = CastDbNull.To<decimal>(reader["S6Z58SCD"], 0),
-                            S6Z58SFS = CastDbNull.To(reader["S6Z58SFS"], string.Empty).Trim(),
-                            S6TSC = CastDbNull.To(reader["S6TSC"], string.Empty).Trim(),
-                            S6EDSP = CastDbNull.To(reader["S6EDSP"], string.Empty).Trim(),
-                            S6MATH06 = CastDbNull.To<decimal>(reader["S6MATH06"], 0),
-                            S6WOPST = CastDbNull.To(reader["S6WOPST"], string.Empty).Trim(),
-                            S6DS50 = CastDbNull.To(reader["S6DS50"], string.Empty).Trim()
+                            S6EDBT = Data.CastDbNull.To(reader["S6EDBT"], string.Empty).Trim(),
+                            S6MCU = Data.CastDbNull.To(reader["S6MCU"], string.Empty).Trim(),
+                            S6Z58SCN = Data.CastDbNull.To<decimal>(reader["S6Z58SCN"], 0),
+                            S6Z58SCD = Data.CastDbNull.To<decimal>(reader["S6Z58SCD"], 0),
+                            S6Z58SFS = Data.CastDbNull.To(reader["S6Z58SFS"], string.Empty).Trim(),
+                            S6TSC = Data.CastDbNull.To(reader["S6TSC"], string.Empty).Trim(),
+                            S6EDSP = Data.CastDbNull.To(reader["S6EDSP"], string.Empty).Trim(),
+                            S6MATH06 = Data.CastDbNull.To<decimal>(reader["S6MATH06"], 0),
+                            S6WOPST = Data.CastDbNull.To(reader["S6WOPST"], string.Empty).Trim(),
+                            S6DS50 = Data.CastDbNull.To(reader["S6DS50"], string.Empty).Trim()
                         };
                         f580020s.Add(f580020);
                     }
@@ -849,16 +849,16 @@ namespace CGServicesHV.Common.Managers.E1
                     {
                         var f580020 = new F580020
                         {
-                            S6EDBT = CastDbNull.To(reader["S6EDBT"], string.Empty).Trim(),
-                            S6MCU = CastDbNull.To(reader["S6MCU"], string.Empty).Trim(),
-                            S6Z58SCN = CastDbNull.To<decimal>(reader["S6Z58SCN"], 0),
-                            S6Z58SCD = CastDbNull.To<decimal>(reader["S6Z58SCD"], 0),
-                            S6Z58SFS = CastDbNull.To(reader["S6Z58SFS"], string.Empty).Trim(),
-                            S6TSC = CastDbNull.To(reader["S6TSC"], string.Empty).Trim(),
-                            S6EDSP = CastDbNull.To(reader["S6EDSP"], string.Empty).Trim(),
-                            S6MATH06 = CastDbNull.To<decimal>(reader["S6MATH06"], 0),
-                            S6WOPST = CastDbNull.To(reader["S6WOPST"], string.Empty).Trim(),
-                            S6DS50 = CastDbNull.To(reader["S6DS50"], string.Empty).Trim()
+                            S6EDBT = Data.CastDbNull.To(reader["S6EDBT"], string.Empty).Trim(),
+                            S6MCU = Data.CastDbNull.To(reader["S6MCU"], string.Empty).Trim(),
+                            S6Z58SCN = Data.CastDbNull.To<decimal>(reader["S6Z58SCN"], 0),
+                            S6Z58SCD = Data.CastDbNull.To<decimal>(reader["S6Z58SCD"], 0),
+                            S6Z58SFS = Data.CastDbNull.To(reader["S6Z58SFS"], string.Empty).Trim(),
+                            S6TSC = Data.CastDbNull.To(reader["S6TSC"], string.Empty).Trim(),
+                            S6EDSP = Data.CastDbNull.To(reader["S6EDSP"], string.Empty).Trim(),
+                            S6MATH06 = Data.CastDbNull.To<decimal>(reader["S6MATH06"], 0),
+                            S6WOPST = Data.CastDbNull.To(reader["S6WOPST"], string.Empty).Trim(),
+                            S6DS50 = Data.CastDbNull.To(reader["S6DS50"], string.Empty).Trim()
                         };
                         f580020s.Add(f580020);
                     }
@@ -1568,7 +1568,7 @@ namespace CGServicesHV.Common.Managers.E1
                 {
                     while (reader.Read())
                     {
-                        batchNum = CastDbNull.To(reader["S6EDBT"], String.Empty);
+                        batchNum = Data.CastDbNull.To(reader["S6EDBT"], String.Empty);
                     }
 
                     reader.Close();
@@ -1623,7 +1623,7 @@ namespace CGServicesHV.Common.Managers.E1
                     var rowCount = 0;
                     while (reader.Read())
                     {
-                        recentScheduleDateE1 = CastDbNull.To<decimal>(reader["S6Z58SCD"], 0);
+                        recentScheduleDateE1 = Data.CastDbNull.To<decimal>(reader["S6Z58SCD"], 0);
                         rowCount++;
                     }
 
@@ -1687,7 +1687,7 @@ namespace CGServicesHV.Common.Managers.E1
                     var rowCount = 0;
                     while (reader.Read())
                     {
-                        batchNum = CastDbNull.To(reader["S6EDBT"], string.Empty).Trim();
+                        batchNum = Data.CastDbNull.To(reader["S6EDBT"], string.Empty).Trim();
                         rowCount++;
                     }
 
@@ -1776,17 +1776,17 @@ namespace CGServicesHV.Common.Managers.E1
                     var rowCount = 0;
                     while (reader.Read())
                     {
-                        f580020.S6EDBT = CastDbNull.To(reader["S6EDBT"], string.Empty).Trim();
-                        f580020.S6MCU = CastDbNull.To(reader["S6MCU"], string.Empty).Trim();
-                        f580020.S6Z58SCN = CastDbNull.To<decimal>(reader["S6Z58SCN"], 0);
-                        f580020.S6Z58SCD = CastDbNull.To<decimal>(reader["S6Z58SCD"], 0);
-                        f580020.S6Z58SFS = CastDbNull.To(reader["S6Z58SFS"], string.Empty).Trim();
-                        f580020.S6Z58SFS_NAME = CastDbNull.To(reader["DRDL01"], string.Empty).Trim();
-                        f580020.S6TSC = CastDbNull.To(reader["S6TSC"], string.Empty).Trim();
-                        f580020.S6EDSP = CastDbNull.To(reader["S6EDSP"], string.Empty).Trim();
-                        f580020.S6MATH06 = CastDbNull.To<decimal>(reader["S6MATH06"], 0);
-                        f580020.S6WOPST = CastDbNull.To(reader["S6WOPST"], string.Empty).Trim();
-                        f580020.S6DS50 = CastDbNull.To(reader["S6DS50"], string.Empty).Trim();
+                        f580020.S6EDBT = Data.CastDbNull.To(reader["S6EDBT"], string.Empty).Trim();
+                        f580020.S6MCU = Data.CastDbNull.To(reader["S6MCU"], string.Empty).Trim();
+                        f580020.S6Z58SCN = Data.CastDbNull.To<decimal>(reader["S6Z58SCN"], 0);
+                        f580020.S6Z58SCD = Data.CastDbNull.To<decimal>(reader["S6Z58SCD"], 0);
+                        f580020.S6Z58SFS = Data.CastDbNull.To(reader["S6Z58SFS"], string.Empty).Trim();
+                        f580020.S6Z58SFS_NAME = Data.CastDbNull.To(reader["DRDL01"], string.Empty).Trim();
+                        f580020.S6TSC = Data.CastDbNull.To(reader["S6TSC"], string.Empty).Trim();
+                        f580020.S6EDSP = Data.CastDbNull.To(reader["S6EDSP"], string.Empty).Trim();
+                        f580020.S6MATH06 = Data.CastDbNull.To<decimal>(reader["S6MATH06"], 0);
+                        f580020.S6WOPST = Data.CastDbNull.To(reader["S6WOPST"], string.Empty).Trim();
+                        f580020.S6DS50 = Data.CastDbNull.To(reader["S6DS50"], string.Empty).Trim();
                         rowCount++;
                     }
 

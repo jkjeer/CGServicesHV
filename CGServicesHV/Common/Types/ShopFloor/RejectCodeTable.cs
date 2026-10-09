@@ -45,17 +45,17 @@ namespace CGServicesHV.Common.Types.ShopFloor
                     while (reader.Read())
                     {
                         var dr = NewRow();
-                        dr["RejectCode"] = CastDbNull.To(reader["RCKY"], string.Empty).Trim();
-                        dr["RejectType"] = CastDbNull.To(reader["RCDL01"], string.Empty).Trim();
-                        dr["Description"] = CastDbNull.To(reader["DRDL01"], string.Empty).Trim();
-                        dr["ProductCode"] = CastDbNull.To(reader["RCSY"], string.Empty).Trim();
-                        dr["UserCode"] = CastDbNull.To(reader["RCRT"], string.Empty).Trim();
-                        dr["Workcenter"] = CastDbNull.To(reader["RCMCU"], string.Empty).Trim();
-                        dr["PlantNum"] = CastDbNull.To(reader["MCRP01"], string.Empty).Trim();
-                        var updateDateId = CastDbNull.To<decimal>(reader["DRUPMJ"], 0);
-                        var updateTimeId = CastDbNull.To<decimal>(reader["DRUPMT"], 0);
+                        dr["RejectCode"] = Data.CastDbNull.To(reader["RCKY"], string.Empty).Trim();
+                        dr["RejectType"] = Data.CastDbNull.To(reader["RCDL01"], string.Empty).Trim();
+                        dr["Description"] = Data.CastDbNull.To(reader["DRDL01"], string.Empty).Trim();
+                        dr["ProductCode"] = Data.CastDbNull.To(reader["RCSY"], string.Empty).Trim();
+                        dr["UserCode"] = Data.CastDbNull.To(reader["RCRT"], string.Empty).Trim();
+                        dr["Workcenter"] = Data.CastDbNull.To(reader["RCMCU"], string.Empty).Trim();
+                        dr["PlantNum"] = Data.CastDbNull.To(reader["MCRP01"], string.Empty).Trim();
+                        var updateDateId = Data.CastDbNull.To<decimal>(reader["DRUPMJ"], 0);
+                        var updateTimeId = Data.CastDbNull.To<decimal>(reader["DRUPMT"], 0);
                         dr["UpdateDate"] = Utilities.Common.CastToDateTime(updateDateId, updateTimeId).AddHours(plant.TimeOffset);
-                        dr["PlantID"] = CastDbNull.To(reader["MCRP01"], string.Empty).Trim();
+                        dr["PlantID"] = Data.CastDbNull.To(reader["MCRP01"], string.Empty).Trim();
                         Rows.Add(dr);
                     }
 

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.Text;
-using CGServicesHV.Common.Managers.Enterprise;
 using CGServicesHV.Common.Types.E1;
 using CGServicesHV.Common.Types.Enterprise;
 using CGServicesHV.Common.Types.Response;
@@ -26,6 +26,7 @@ namespace CGServicesHV.Common.Managers.Process
             var response = new ProcessResponse("Inventory Location Download Manager");
             response.Plant = plant;
             response.ConnectionStrings.Add(new ConnectionString("E1", session.DbConnection.ConnectionString));
+
             foreach (var sqlCn in sqlCns)
             {
                 response.ConnectionStrings.Add(new ConnectionString(sqlCn.Key, sqlCn.Value.ConnectionString));
@@ -120,6 +121,7 @@ namespace CGServicesHV.Common.Managers.Process
             try
             {
                 filters.Add("TRIM(LMLOCN) <> '' AND \r\n");
+                filters.Add("LMLLDL <> '2' AND \r\n");
                 filters.Add("(LMMCU = '          32' OR (TRIM(LMLOCN) IN ('MZRAW','MZFIN','MZSHP') AND LMMCU IN ('          05', '          04', '          08'))) \r\n");
                 var cmd = GetReader(filters);
                 foreach (iDB2Parameter parameter in parameters)

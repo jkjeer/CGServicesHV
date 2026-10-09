@@ -115,7 +115,7 @@
 
 				<xsl:if test="ActionLinks/ArrayOfActionLink/ActionLink">
 					<br/>
-					<div class="title">Schedule Actions</div>
+					<div class="title">Actions</div>
 					<ul>
 						<xsl:apply-templates select="ActionLinks/ArrayOfActionLink/ActionLink">
 						</xsl:apply-templates>

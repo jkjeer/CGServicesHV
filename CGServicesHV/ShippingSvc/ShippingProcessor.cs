@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using CGServicesHV.Common.Managers.Process;
 using CGServicesHV.Common.Types.E1;
 using CGServicesHV.Common.Types.Enterprise;

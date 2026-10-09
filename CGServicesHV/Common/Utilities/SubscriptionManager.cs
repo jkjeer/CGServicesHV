@@ -2,19 +2,16 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.Globalization;
 using System.Linq;
 using System.Runtime.Caching;
 using System.Text;
-using CGServicesHV.Common.Managers.Process;
 using CGServicesHV.Common.Types.Enterprise;
 using CGServicesHV.Common.Types.Response;
-using CGServicesHV.Common.Utilities;
 using NLog;
-using Plant = CGServicesHV.Common.Types.Enterprise.Plant;
 
-namespace CGServicesHV.Common.Managers.Enterprise
+namespace CGServicesHV.Common.Utilities
 {
     public class SubscriptionManager
     {
@@ -35,7 +32,7 @@ namespace CGServicesHV.Common.Managers.Enterprise
         public static ProcessSteps SetSubscription(SqlConnection cnInt, string plantString, string subscriptionTypeString, bool isActive, bool isEnabled)
         {
             var startTime = DateTime.Now.ToLocalTime();
-            Logger.Trace($"BEGIN: {DateTime.Now.ToLocalTime()}");
+            Logger.Debug($"BEGIN: {DateTime.Now.ToLocalTime()}");
             var steps = new ProcessSteps();
             var step = new ProcessStep($@"Step. Update Plant ({plantString})");
             try
@@ -53,9 +50,9 @@ namespace CGServicesHV.Common.Managers.Enterprise
                                AND s.[SUBSCRIPTION_TYPE_CD] IN ( {subscriptionTypeString} ) 
                     "
                 };
-                Logger.Trace(Logging.DbCmdString(cmd));
+                Logger.Debug(Logging.DbCmdString(cmd));
                 var rowCount = cmd.ExecuteNonQuery();
-                Logger.Trace($"ROWS: {rowCount}");
+                Logger.Debug($"ROWS: {rowCount}");
                 step.RowsAffected = rowCount;
                 steps.Add(step);
             }
@@ -66,7 +63,7 @@ namespace CGServicesHV.Common.Managers.Enterprise
             }
             finally
             {
-                Logger.Trace($"END: {Convert.ToDecimal((DateTime.Now.ToLocalTime() - startTime).TotalSeconds)} SECONDS");
+                Logger.Debug($"END: {Convert.ToDecimal((DateTime.Now.ToLocalTime() - startTime).TotalSeconds)} SECONDS");
             }
             return steps;
         }
@@ -125,12 +122,12 @@ namespace CGServicesHV.Common.Managers.Enterprise
                 var cmd = GetMTOScheduleEnvironment();
                 cmd.Parameters["@PLANT_CODE"].Value = plant.PlantCode;
                 cmd.Connection = cnInt;
-                Logger.Trace(Logging.DbCmdString(cmd));
+                Logger.Debug(Logging.DbCmdString(cmd));
                 using (IDataReader reader = cmd.ExecuteReader(CommandBehavior.SingleResult))
                 {
                     while (reader.Read())
                     {
-                        environ = CastDbNull.To(reader["SUBSCRIPTION_TYPE_CD"], string.Empty).Trim();
+                        environ = Data.CastDbNull.To(reader["SUBSCRIPTION_TYPE_CD"], string.Empty).Trim();
                     }
 
                     reader.Close();
@@ -156,18 +153,18 @@ namespace CGServicesHV.Common.Managers.Enterprise
                 var cmd = GetSubscriptionList();
                 cmd.Parameters["@PLANT_ALPHA_CD"].Value = plant.PlantCode;
                 cmd.Connection = cn;
-                Logger.Trace(Logging.DbCmdString(cmd));
+                Logger.Debug(Logging.DbCmdString(cmd));
                 using (IDataReader reader = cmd.ExecuteReader(CommandBehavior.SingleResult))
                 {
                     while (reader.Read())
                     {
-                        subscriptions.Add(CastDbNull.To(reader["SUBSCRIPTION_TYPE_CD"], string.Empty).Trim());
-                        Logger.Trace(CastDbNull.To(reader["SUBSCRIPTION_TYPE_CD"], string.Empty).Trim());
+                        subscriptions.Add(Data.CastDbNull.To(reader["SUBSCRIPTION_TYPE_CD"], string.Empty).Trim());
+                        Logger.Debug(Data.CastDbNull.To(reader["SUBSCRIPTION_TYPE_CD"], string.Empty).Trim());
                     }
 
                     reader.Close();
                 }
-                Logger.Trace($@"Rows: {subscriptions.Count}");
+                Logger.Debug($@"Rows: {subscriptions.Count}");
             }
             catch (Exception e)
             {
@@ -190,12 +187,12 @@ namespace CGServicesHV.Common.Managers.Enterprise
                 var cmd = GetSubscriptionList();
                 cmd.Parameters["@PLANT_ALPHA_CD"].Value = plant.PlantCode;
                 cmd.Connection = cn;
-                Logger.Trace(Logging.DbCmdString(cmd));
+                Logger.Debug(Logging.DbCmdString(cmd));
                 using (IDataReader reader = cmd.ExecuteReader(CommandBehavior.SingleResult))
                 {
                     while (reader.Read())
                     {
-                        subscriptions.Add(CastDbNull.To(reader["SUBSCRIPTION_TYPE_CD"], string.Empty).Trim());
+                        subscriptions.Add(Data.CastDbNull.To(reader["SUBSCRIPTION_TYPE_CD"], string.Empty).Trim());
                     }
 
                     reader.Close();
@@ -364,34 +361,34 @@ namespace CGServicesHV.Common.Managers.Enterprise
             {
                 var cmd = GetSubscriptionTypeItems();
                 cmd.Connection = cn;
-                Logger.Trace(Logging.DbCmdString(cmd));
+                Logger.Debug(Logging.DbCmdString(cmd));
                 using (IDataReader reader = cmd.ExecuteReader(CommandBehavior.SingleResult))
                 {
                     while (reader.Read())
                     {
                         var subscriptionTypeItem = new SubscriptionTypeItem();
-                        subscriptionTypeItem.GroupCode = CastDbNull.To(reader["GROUP_CD"], string.Empty).Trim();
+                        subscriptionTypeItem.GroupCode = Data.CastDbNull.To(reader["GROUP_CD"], string.Empty).Trim();
                         var subscriptionType = new SubscriptionType();
-                        subscriptionType.SubscriptionTypeCode = CastDbNull.To(reader["SUBSCRIPTION_TYPE_CD"], string.Empty).Trim();
-                        //subscriptionType.NamespaceName = CastDbNull.To(reader["NAMESPACE_NAME"], string.Empty).Trim();
-                        //subscriptionType.TypeName = CastDbNull.To(reader["TYPE_NAME"], string.Empty).Trim();
-                        subscriptionType.MethodName = CastDbNull.To(reader["METHOD_NAME"], string.Empty).Trim();
-                        subscriptionType.ClassName = CastDbNull.To(reader["CLASS_NAME"], string.Empty).Trim();
-                        subscriptionType.Arguments = CastDbNull.To(reader["ARGUMENTS"], string.Empty).Trim();
+                        subscriptionType.SubscriptionTypeCode = Data.CastDbNull.To(reader["SUBSCRIPTION_TYPE_CD"], string.Empty).Trim();
+                        //subscriptionType.NamespaceName = Data.CastDbNull.To(reader["NAMESPACE_NAME"], string.Empty).Trim();
+                        //subscriptionType.TypeName = Data.CastDbNull.To(reader["TYPE_NAME"], string.Empty).Trim();
+                        subscriptionType.MethodName = Data.CastDbNull.To(reader["METHOD_NAME"], string.Empty).Trim();
+                        subscriptionType.ClassName = Data.CastDbNull.To(reader["CLASS_NAME"], string.Empty).Trim();
+                        subscriptionType.Arguments = Data.CastDbNull.To(reader["ARGUMENTS"], string.Empty).Trim();
                         subscriptionType.ArgumentsHash = GetArgumentsHash(subscriptionType.Arguments);
-                        Logger.Trace($"SubscriptionTypeCode={subscriptionType.SubscriptionTypeCode} ");
+                        Logger.Debug($"SubscriptionTypeCode={subscriptionType.SubscriptionTypeCode} ");
                         subscriptionType.DelegateMethod = GetDownloadDelegate(subscriptionType.ClassName, subscriptionType.MethodName);
                         if (subscriptionType.DelegateMethod == null)
                         {
                             if (!subscriptionType.SubscriptionTypeCode.Equals("*ALL*"))
                             {
-                                Logger.Trace(subscriptionType.MethodName);
+                                Logger.Debug(subscriptionType.MethodName);
                                 //auxResponse.Errors.Add(new Error($"{subscriptionType.SubscriptionTypeCode} - {subscriptionType.ClassName}.{subscriptionType.MethodName} NOT Found in Delegate Lookup"));
                                 //var x = new Error($"{subscriptionType.SubscriptionTypeCode} {subscriptionType.MethodName} {subscriptionType.ClassName} NOT Found in Delegate Lookup");
                             }
                         }
 
-                        subscriptionType.Resources = CastDbNull.To(reader["RESOURCES"], string.Empty).Trim();
+                        subscriptionType.Resources = Data.CastDbNull.To(reader["RESOURCES"], string.Empty).Trim();
                         subscriptionType.ResourceList = subscriptionType.Resources.Split(',').Select(p => p.Trim()).ToList();
                         subscriptionTypeItem.SubscriptionType = subscriptionType;
                         subscriptionTypeItems.Add(subscriptionTypeItem);
@@ -468,19 +465,19 @@ namespace CGServicesHV.Common.Managers.Enterprise
             {
                 var cmd = GetSubscriptionTypesCmd();
                 cmd.Connection = cn;
-                Logger.Trace(Logging.DbCmdString(cmd));
+                Logger.Debug(Logging.DbCmdString(cmd));
                 using (IDataReader reader = cmd.ExecuteReader(CommandBehavior.SingleResult))
                 {
                     while (reader.Read())
                     {
                         var subscriptionType = new SubscriptionType();
-                        subscriptionType.SubscriptionTypeCode = CastDbNull.To(reader["SUBSCRIPTION_TYPE_CD"], string.Empty).Trim();
-                        subscriptionType.ClassName = CastDbNull.To(reader["CLASS_NAME"], string.Empty).Trim();
-                        //subscriptionType.NamespaceName = CastDbNull.To(reader["NAMESPACE_NAME"], string.Empty).Trim();
-                        //subscriptionType.TypeName = CastDbNull.To(reader["TYPE_NAME"], string.Empty).Trim();
-                        subscriptionType.MethodName = CastDbNull.To(reader["METHOD_NAME"], string.Empty).Trim();
-                        subscriptionType.Arguments = CastDbNull.To(reader["ARGUMENTS"], string.Empty).Trim();
-                        subscriptionType.Resources = CastDbNull.To(reader["RESOURCES"], string.Empty).Trim();
+                        subscriptionType.SubscriptionTypeCode = Data.CastDbNull.To(reader["SUBSCRIPTION_TYPE_CD"], string.Empty).Trim();
+                        subscriptionType.ClassName = Data.CastDbNull.To(reader["CLASS_NAME"], string.Empty).Trim();
+                        //subscriptionType.NamespaceName = Data.CastDbNull.To(reader["NAMESPACE_NAME"], string.Empty).Trim();
+                        //subscriptionType.TypeName = Data.CastDbNull.To(reader["TYPE_NAME"], string.Empty).Trim();
+                        subscriptionType.MethodName = Data.CastDbNull.To(reader["METHOD_NAME"], string.Empty).Trim();
+                        subscriptionType.Arguments = Data.CastDbNull.To(reader["ARGUMENTS"], string.Empty).Trim();
+                        subscriptionType.Resources = Data.CastDbNull.To(reader["RESOURCES"], string.Empty).Trim();
                         subscriptionType.ResourceList = subscriptionType.Resources.Split(',').Select(p => p.Trim()).ToList();
                         subscriptionTypes.Add(subscriptionType);
                     }
@@ -502,11 +499,11 @@ namespace CGServicesHV.Common.Managers.Enterprise
         {
             try
             {
-                Logger.Trace($"GetDelegateDynamic CGServicesHV.{className} {methodName}");
+                Logger.Debug($"GetDelegateDynamic CGServicesHV.{className} {methodName}");
                 Type t = Type.GetType($"CGServicesHV.{className}");
                 //ReSharper disable once AssignNullToNotNullAttribute
                 var d = (BusinessSystemTransferProcessor.ProcessDelegate)Delegate.CreateDelegate(typeof(BusinessSystemTransferProcessor.ProcessDelegate), t, methodName);
-                Logger.Trace($"GetDelegateDynamic OK - {d.Method}");
+                Logger.Debug($"GetDelegateDynamic OK - {d.Method}");
                 return d;
             }
             catch (Exception)
@@ -555,7 +552,7 @@ namespace CGServicesHV.Common.Managers.Enterprise
                 // Store data in the cache
                 CacheItemPolicy cacheItemPolicy = new CacheItemPolicy();
                 cache.Add("SubscriptionTypeItems", subscriptionTypeItems, cacheItemPolicy);
-                Logger.Trace(XmlSerializationUtility.SerializeObject(Encoding.UTF8, (SubscriptionTypeItems)cache.Get("SubscriptionTypeItems"), true));
+                Logger.Debug(XmlSerializationUtility.SerializeObject(Encoding.UTF8, (SubscriptionTypeItems)cache.Get("SubscriptionTypeItems"), true));
             }
             catch (Exception e)
             {
@@ -611,11 +608,14 @@ namespace CGServicesHV.Common.Managers.Enterprise
             {
                 var toConfigAddresses = ConfigurationManager.AppSettings["MailErrorToAddress"];
                 var serializedXml = response.Serialize();
-                Logger.Trace($"Serialized Process: {serializedXml}");
+                Logger.Debug($"Serialized Process: {serializedXml}");
                 var xslOutput = XsltManager.Transform(serializedXml, "CGServicesHV.Common.Xslt.RunSubscriptionType.xslt", Encoding.UTF8);
-                Logger.Trace($"Report XML: {xslOutput}");
+                Logger.Debug($"Report XML: {xslOutput}");
                 var subject = $@"Run Subscription Type [{ConfigurationManager.AppSettings["PrimaryEnvironment"]}]";
                 if (response.HasErrors()) subject = $"Error - {subject}";
+
+                Mail.StoreResponse($@"{ConfigurationManager.AppSettings["ProcessResponseFilePath"]}\{response.Plant.PlantCode}", subject, xslOutput);
+
                 Mail.SendHtmlAsync(ConfigurationManager.AppSettings["SmtpHost"],
                     ConfigurationManager.AppSettings["MailFromAddress"],
                     toConfigAddresses,

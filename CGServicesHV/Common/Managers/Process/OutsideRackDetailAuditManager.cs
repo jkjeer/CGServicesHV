@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Design;
 using System.Configuration;
 using System.Data;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Net.Sockets;
@@ -258,6 +258,9 @@ namespace CGServicesHV.Common.Managers.Process
                     xslOutput = XsltManager.Transform(serializedXml, "CGServicesHV.Common.Xslt.RackDetailAuditReport.xslt", Encoding.UTF8);
                     Logger.Info("Report XML: " + xslOutput);
 
+                    var subject = $"{(response.HasErrors() ? "ERROR - " : string.Empty)}{plant.PlantCode} [{System.Configuration.ConfigurationManager.AppSettings["PrimaryEnvironment"]}] Rack Detail Audit";
+                    Mail.StoreResponse($@"{ConfigurationManager.AppSettings["ProcessResponseFilePath"]}\{response.Plant.PlantCode}", subject, xslOutput);
+
                     var recipients = ConfigurationManager.AppSettings["MailConfirmToAddress"];
                     //var recipients = new List<string>();
                     //recipients.AddRange(Mail.GetRecipients(sqlCns["CORP.INTEGRATION"], "IG_RACK_AUDIT", "ADMIN", null, null));
@@ -268,7 +271,7 @@ namespace CGServicesHV.Common.Managers.Process
                         System.Configuration.ConfigurationManager.AppSettings["MailFromAddress"],
                         recipients,
                         null,
-                        $"{(response.HasErrors() ? "ERROR - " : string.Empty)}{plant.PlantCode} [{System.Configuration.ConfigurationManager.AppSettings["PrimaryEnvironment"]}] Rack Detail Audit",
+                        subject,
                         xslOutput);
                 }
                 catch (Exception e)

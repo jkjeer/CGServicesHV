@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.Linq;
 using System.Runtime.Serialization;
 using CGServicesHV.Common.Types.Response;
 using NLog;
 
-namespace CGServicesHV.Common.Managers.Enterprise
+namespace CGServicesHV.Common.Utilities
 {
     [DataContract(Namespace = "")]
     public class SqlBulkCopyManager

@@ -107,26 +107,26 @@ namespace CGServicesHV.Common.Managers.E1
                         {
                             var f584715 = new F584715
                             {
-                                ZDEDBT = CastDbNull.To(reader["ZDEDBT"], string.Empty).Trim(),
-                                ZDEDLN = CastDbNull.To<decimal>(reader["ZDEDLN"], 0),
-                                ZDMCU = CastDbNull.To(reader["ZDMCU"], string.Empty).Trim(),
-                                ZDZ58SCN = CastDbNull.To<decimal>(reader["ZDZ58SCN"], 0),
-                                ZDZ58SCSN = CastDbNull.To<decimal>(reader["ZDZ58SCSN"], 0),
-                                ZDEDTY = CastDbNull.To(reader["ZDEDTY"], string.Empty).Trim(),
-                                ZDKCOO = CastDbNull.To(reader["ZDKCOO"], string.Empty).Trim(),
-                                ZDDOCO = CastDbNull.To<decimal>(reader["ZDDOCO"], 0),
-                                ZDDCTO = CastDbNull.To(reader["ZDDCTO"], string.Empty).Trim(),
-                                ZDLNID = CastDbNull.To<decimal>(reader["ZDLNID"], 0),
-                                ZDZ58TX01 = CastDbNull.To(reader["ZDZ58TX01"], string.Empty).Trim(),
-                                ZDZ58TX02 = CastDbNull.To(reader["ZDZ58TX02"], string.Empty).Trim(),
-                                ZDZ58TX03 = CastDbNull.To(reader["ZDZ58TX03"], string.Empty).Trim(),
-                                ZDZ58TX04 = CastDbNull.To(reader["ZDZ58TX04"], string.Empty).Trim(),
-                                ZDZ58TX05 = CastDbNull.To(reader["ZDZ58TX05"], string.Empty).Trim(),
-                                ZDUSER = CastDbNull.To(reader["ZDUSER"], string.Empty).Trim(),
-                                ZDPID = CastDbNull.To(reader["ZDPID"], string.Empty).Trim(),
-                                ZDJOBN = CastDbNull.To(reader["ZDJOBN"], string.Empty).Trim(),
-                                ZDUPMJ = CastDbNull.To<decimal>(reader["ZDUPMJ"], 0),
-                                ZDTDAY = CastDbNull.To<decimal>(reader["ZDTDAY"], 0)
+                                ZDEDBT = Data.CastDbNull.To(reader["ZDEDBT"], string.Empty).Trim(),
+                                ZDEDLN = Data.CastDbNull.To<decimal>(reader["ZDEDLN"], 0),
+                                ZDMCU = Data.CastDbNull.To(reader["ZDMCU"], string.Empty).Trim(),
+                                ZDZ58SCN = Data.CastDbNull.To<decimal>(reader["ZDZ58SCN"], 0),
+                                ZDZ58SCSN = Data.CastDbNull.To<decimal>(reader["ZDZ58SCSN"], 0),
+                                ZDEDTY = Data.CastDbNull.To(reader["ZDEDTY"], string.Empty).Trim(),
+                                ZDKCOO = Data.CastDbNull.To(reader["ZDKCOO"], string.Empty).Trim(),
+                                ZDDOCO = Data.CastDbNull.To<decimal>(reader["ZDDOCO"], 0),
+                                ZDDCTO = Data.CastDbNull.To(reader["ZDDCTO"], string.Empty).Trim(),
+                                ZDLNID = Data.CastDbNull.To<decimal>(reader["ZDLNID"], 0),
+                                ZDZ58TX01 = Data.CastDbNull.To(reader["ZDZ58TX01"], string.Empty).Trim(),
+                                ZDZ58TX02 = Data.CastDbNull.To(reader["ZDZ58TX02"], string.Empty).Trim(),
+                                ZDZ58TX03 = Data.CastDbNull.To(reader["ZDZ58TX03"], string.Empty).Trim(),
+                                ZDZ58TX04 = Data.CastDbNull.To(reader["ZDZ58TX04"], string.Empty).Trim(),
+                                ZDZ58TX05 = Data.CastDbNull.To(reader["ZDZ58TX05"], string.Empty).Trim(),
+                                ZDUSER = Data.CastDbNull.To(reader["ZDUSER"], string.Empty).Trim(),
+                                ZDPID = Data.CastDbNull.To(reader["ZDPID"], string.Empty).Trim(),
+                                ZDJOBN = Data.CastDbNull.To(reader["ZDJOBN"], string.Empty).Trim(),
+                                ZDUPMJ = Data.CastDbNull.To<decimal>(reader["ZDUPMJ"], 0),
+                                ZDTDAY = Data.CastDbNull.To<decimal>(reader["ZDTDAY"], 0)
                             };
                             f584715Ls.Add(f584715);
                         }
@@ -198,26 +198,26 @@ namespace CGServicesHV.Common.Managers.E1
                         {
                             var f584715 = new F584715
                             {
-                                ZDEDBT = CastDbNull.To(reader["ZDEDBT"], string.Empty).Trim(),
-                                ZDEDLN = CastDbNull.To<decimal>(reader["ZDEDLN"], 0),
-                                ZDMCU = CastDbNull.To(reader["ZDMCU"], string.Empty).Trim(),
-                                ZDZ58SCN = CastDbNull.To<decimal>(reader["ZDZ58SCN"], 0),
-                                ZDZ58SCSN = CastDbNull.To<decimal>(reader["ZDZ58SCSN"], 0),
-                                ZDEDTY = CastDbNull.To(reader["ZDEDTY"], string.Empty).Trim(),
-                                ZDKCOO = CastDbNull.To(reader["ZDKCOO"], string.Empty).Trim(),
-                                ZDDOCO = CastDbNull.To<decimal>(reader["ZDDOCO"], 0),
-                                ZDDCTO = CastDbNull.To(reader["ZDDCTO"], string.Empty).Trim(),
-                                ZDLNID = CastDbNull.To<decimal>(reader["ZDLNID"], 0),
-                                ZDZ58TX01 = CastDbNull.To(reader["ZDZ58TX01"], string.Empty).Trim(),
-                                ZDZ58TX02 = CastDbNull.To(reader["ZDZ58TX02"], string.Empty).Trim(),
-                                ZDZ58TX03 = CastDbNull.To(reader["ZDZ58TX03"], string.Empty).Trim(),
-                                ZDZ58TX04 = CastDbNull.To(reader["ZDZ58TX04"], string.Empty).Trim(),
-                                ZDZ58TX05 = CastDbNull.To(reader["ZDZ58TX05"], string.Empty).Trim(),
-                                ZDUSER = CastDbNull.To(reader["ZDUSER"], string.Empty).Trim(),
-                                ZDPID = CastDbNull.To(reader["ZDPID"], string.Empty).Trim(),
-                                ZDJOBN = CastDbNull.To(reader["ZDJOBN"], string.Empty).Trim(),
-                                ZDUPMJ = CastDbNull.To<decimal>(reader["ZDUPMJ"], 0),
-                                ZDTDAY = CastDbNull.To<decimal>(reader["ZDTDAY"], 0)
+                                ZDEDBT = Data.CastDbNull.To(reader["ZDEDBT"], string.Empty).Trim(),
+                                ZDEDLN = Data.CastDbNull.To<decimal>(reader["ZDEDLN"], 0),
+                                ZDMCU = Data.CastDbNull.To(reader["ZDMCU"], string.Empty).Trim(),
+                                ZDZ58SCN = Data.CastDbNull.To<decimal>(reader["ZDZ58SCN"], 0),
+                                ZDZ58SCSN = Data.CastDbNull.To<decimal>(reader["ZDZ58SCSN"], 0),
+                                ZDEDTY = Data.CastDbNull.To(reader["ZDEDTY"], string.Empty).Trim(),
+                                ZDKCOO = Data.CastDbNull.To(reader["ZDKCOO"], string.Empty).Trim(),
+                                ZDDOCO = Data.CastDbNull.To<decimal>(reader["ZDDOCO"], 0),
+                                ZDDCTO = Data.CastDbNull.To(reader["ZDDCTO"], string.Empty).Trim(),
+                                ZDLNID = Data.CastDbNull.To<decimal>(reader["ZDLNID"], 0),
+                                ZDZ58TX01 = Data.CastDbNull.To(reader["ZDZ58TX01"], string.Empty).Trim(),
+                                ZDZ58TX02 = Data.CastDbNull.To(reader["ZDZ58TX02"], string.Empty).Trim(),
+                                ZDZ58TX03 = Data.CastDbNull.To(reader["ZDZ58TX03"], string.Empty).Trim(),
+                                ZDZ58TX04 = Data.CastDbNull.To(reader["ZDZ58TX04"], string.Empty).Trim(),
+                                ZDZ58TX05 = Data.CastDbNull.To(reader["ZDZ58TX05"], string.Empty).Trim(),
+                                ZDUSER = Data.CastDbNull.To(reader["ZDUSER"], string.Empty).Trim(),
+                                ZDPID = Data.CastDbNull.To(reader["ZDPID"], string.Empty).Trim(),
+                                ZDJOBN = Data.CastDbNull.To(reader["ZDJOBN"], string.Empty).Trim(),
+                                ZDUPMJ = Data.CastDbNull.To<decimal>(reader["ZDUPMJ"], 0),
+                                ZDTDAY = Data.CastDbNull.To<decimal>(reader["ZDTDAY"], 0)
                             };
                             f584715Es.Add(f584715);
                         }

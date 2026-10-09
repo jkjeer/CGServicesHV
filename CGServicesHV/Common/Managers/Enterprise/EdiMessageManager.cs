@@ -85,9 +85,9 @@ namespace CGServicesHV.Common.Managers.Enterprise
                     {
                         var message = new EdiMessage
                         {
-                            EdiType = CastDbNull.To(reader["ZDEDTY"], string.Empty).Trim(),
-                            EdiSeqNum = CastDbNull.To<decimal>(reader["ZDEDSQ"], 0),
-                            Message = CastDbNull.To(reader["ZDTXLN"], string.Empty).Trim()
+                            EdiType = Data.CastDbNull.To(reader["ZDEDTY"], string.Empty).Trim(),
+                            EdiSeqNum = Data.CastDbNull.To<decimal>(reader["ZDEDSQ"], 0),
+                            Message = Data.CastDbNull.To(reader["ZDTXLN"], string.Empty).Trim()
                         };
                         messages.Add(message);
                     }

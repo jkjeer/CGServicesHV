@@ -1,18 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using IBM.Data.DB2.iSeries;
-using CGServicesHV.Common.Managers.E1;
+﻿using CGServicesHV.Common.Managers.E1;
 using CGServicesHV.Common.Managers.Enterprise;
 using CGServicesHV.Common.Types.E1;
 using CGServicesHV.Common.Types.Enterprise;
 using CGServicesHV.Common.Types.Response;
 using CGServicesHV.Common.Types.ShopFloor;
 using CGServicesHV.Common.Utilities;
+using IBM.Data.DB2.iSeries;
 using NLog;
+using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
+using Microsoft.Data.SqlClient;
+using System.Linq;
+using System.Text;
 
 namespace CGServicesHV.Common.Managers.Process
 {
@@ -36,6 +37,7 @@ namespace CGServicesHV.Common.Managers.Process
             var response = new ProcessResponse("High Water Mark Init Manager");
             response.Plant = plant;
             response.ConnectionStrings.Add(new ConnectionString("E1", session.DbConnection.ConnectionString));
+
             foreach (var sqlCn in sqlCns)
             {
                 response.ConnectionStrings.Add(new ConnectionString(sqlCn.Key, sqlCn.Value.ConnectionString));
@@ -158,6 +160,9 @@ namespace CGServicesHV.Common.Managers.Process
                     recipients.AddRange(Mail.GetRecipients(sqlCns["CORP.INTEGRATION"], "CG_HIGH_WATER_MARK", "ADMIN", null, null));
                     recipients.AddRange(Mail.GetRecipients(sqlCns["CORP.INTEGRATION"], "CG_HIGH_WATER_MARK", "PUBLIC", plant.PlantCode, null));
                     recipients.AddRange(Mail.GetRecipients(sqlCns["CORP.INTEGRATION"], "CG_HIGH_WATER_MARK", "USER", plant.PlantCode, null));
+                    var subject = $"{(response.HasErrors() ? "ERROR - " : string.Empty)}{plant.PlantCode} [{System.Configuration.ConfigurationManager.AppSettings["PrimaryEnvironment"]}] High Water Mark Init";
+
+                    Mail.StoreResponse($@"{ConfigurationManager.AppSettings["ProcessResponseFilePath"]}\{response.Plant.PlantCode}", subject, xslOutput);
 
                     if (recipients.Count > 0)
                     {
@@ -167,7 +172,7 @@ namespace CGServicesHV.Common.Managers.Process
                             System.Configuration.ConfigurationManager.AppSettings["MailFromAddress"],
                             recipients,
                             null,
-                            $"{(response.HasErrors() ? "ERROR - " : string.Empty)}{plant.PlantCode} [{System.Configuration.ConfigurationManager.AppSettings["PrimaryEnvironment"]}] High Water Mark Init",
+                            subject,
                             xslOutput);
                     }
                 }

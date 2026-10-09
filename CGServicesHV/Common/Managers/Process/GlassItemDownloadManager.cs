@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using CGServicesHV.Common.Managers.E1;
-using CGServicesHV.Common.Managers.Enterprise;
 using CGServicesHV.Common.Types.E1;
 using CGServicesHV.Common.Types.Enterprise;
 using CGServicesHV.Common.Types.Response;
@@ -43,6 +43,7 @@ namespace CGServicesHV.Common.Managers.Process
 
             response.Plant = plant;
             response.ConnectionStrings.Add(new ConnectionString("E1", session.DbConnection.ConnectionString));
+
             foreach (var sqlCn in sqlCns)
             {
                 response.ConnectionStrings.Add(new ConnectionString(sqlCn.Key, sqlCn.Value.ConnectionString));
@@ -178,9 +179,7 @@ namespace CGServicesHV.Common.Managers.Process
                     {
                         if (table.Rows.Count > 0)
                         {
-                            bulkResponse =
-                                BulkCopyManager.BulkTable(table.ExtendedProperties["Target"].ToString(),
-                                    table, sqlCns["PLANT.INTEGRATION"]);
+                            bulkResponse = BulkCopyManager.BulkTable(table.ExtendedProperties["Target"].ToString(), table, sqlCns["PLANT.INTEGRATION"]);
                         }
                     }
                     catch (Exception e)
@@ -209,8 +208,7 @@ namespace CGServicesHV.Common.Managers.Process
                             {
                                 table.MaxDate = processRunSpan.EndDateTime;
                             }
-                            step4.SqlDmlResponses.Add(HighWaterMarkManager.SaveHighWaterMarkDate(sqlCns["PLANT.INTEGRATION"],
-                                plant, highWaterMark, table.MaxDate.AddMinutes(-plant.BusinessSystemOffset)));
+                            step4.SqlDmlResponses.Add(HighWaterMarkManager.SaveHighWaterMarkDate(sqlCns["PLANT.INTEGRATION"], plant, highWaterMark, table.MaxDate.AddMinutes(-plant.BusinessSystemOffset)));
                         }
                     }
                     catch (Exception e)
@@ -243,39 +241,41 @@ namespace CGServicesHV.Common.Managers.Process
             cmd.CommandType = CommandType.Text;
             cmd.CommandTimeout = 0;
             cmd.CommandText = String.Format(@"
-            SELECT * FROM (
-            SELECT 
-	            IBMCU,
-	            IBITM,
-                IBUPMJ,
-                IBTDAY,                
-                IMUPMJ,
-                IMTDAY,
-                COALESCE(IEUPMJ, 0) AS IEUPMJ,
-                COALESCE(IETDAY, 0) AS IETDAY,
-                COALESCE(UMUPMJ, 0) AS UMUPMJ,
-                COALESCE(UMTDAY, 0) AS UMTDAY,
-                COALESCE(IVUPMJ, 0) AS IVUPMJ,
-                COALESCE(IVTDAY, 0) AS IVTDAY,
-                ROW_NUMBER() OVER (PARTITION BY IBMCU, IBITM ORDER BY IBUPMJ DESC, IBTDAY DESC) AS RN
-            FROM 
-                F4102
-	            INNER JOIN F4101 
-	            ON	IMITM = IBITM
-	            LEFT OUTER JOIN F30026
-	            ON	IEITM = IBITM AND
-		            IEMMCU = IBMCU
-	            LEFT OUTER JOIN F41002
-	            ON	UMITM = IBITM AND
-                    UMMCU = IBMCU
-	            LEFT OUTER JOIN F4104
-	            ON	IVXRT = 'C' AND
-                    IVITM = IBITM AND
-                    IVAN8 = IBANPL
-            WHERE 
-                {0} IBGLPT IN ('GLAS','GLAF','GLAX','GLAZ','COMA')) A
-            WHERE A.RN = 1
-            FOR READ ONLY", filterString);
+                SELECT * FROM (
+                    SELECT 
+	                    IBMCU,
+	                    IBITM,
+                        IBUPMJ,
+                        IBTDAY,                
+                        IMUPMJ,
+                        IMTDAY,
+                        COALESCE(IEUPMJ, 0) AS IEUPMJ,
+                        COALESCE(IETDAY, 0) AS IETDAY,
+                        COALESCE(UMUPMJ, 0) AS UMUPMJ,
+                        COALESCE(UMTDAY, 0) AS UMTDAY,
+                        COALESCE(IVUPMJ, 0) AS IVUPMJ,
+                        COALESCE(IVTDAY, 0) AS IVTDAY,
+                        ROW_NUMBER() OVER (PARTITION BY IBMCU, IBITM ORDER BY IBUPMJ DESC, IBTDAY DESC) AS RN
+                    FROM 
+                        F4102
+	                    INNER JOIN F4101 
+	                    ON	IMITM = IBITM
+	                    LEFT OUTER JOIN F30026
+	                    ON	IEITM = IBITM AND
+		                    IEMMCU = IBMCU
+	                    LEFT OUTER JOIN F41002
+	                    ON	UMITM = IBITM AND
+                            UMMCU = IBMCU
+	                    LEFT OUTER JOIN F4104
+	                    ON	IVXRT = 'C' AND
+                            IVITM = IBITM AND
+                            IVAN8 = IBANPL
+                    WHERE 
+                        {0} 
+                        IBGLPT IN ('GLAS','GLAF','GLAX','GLAZ','COMA')) A
+                WHERE A.RN = 1
+                FOR READ ONLY
+            ", filterString);
             return cmd;
         }
 
@@ -341,18 +341,18 @@ namespace CGServicesHV.Common.Managers.Process
                 while (reader.Read())
                 {
                     DataRow dr = table.NewRow();
-                    dr["ItemNum"] = CastDbNull.To<decimal>(reader["IBITM"], 0);
-                    dr["IMDate"] = E1TimeManager.CastToDateTime(CastDbNull.To<decimal>(reader["IMUPMJ"], 0), CastDbNull.To<decimal>(reader["IMTDAY"], 0));
-                    var ibdate = E1TimeManager.CastToDateTime(CastDbNull.To<decimal>(reader["IBUPMJ"], 0),
-                        CastDbNull.To<decimal>(reader["IBTDAY"], 0)).AddMinutes(plant.BusinessSystemOffset);
-                    var imdate = E1TimeManager.CastToDateTime(CastDbNull.To<decimal>(reader["IMUPMJ"], 0),
-                        CastDbNull.To<decimal>(reader["IMTDAY"], 0)).AddMinutes(plant.BusinessSystemOffset);
-                    var iedate = E1TimeManager.CastToDateTime(CastDbNull.To<decimal>(reader["IEUPMJ"], 0),
-                        CastDbNull.To<decimal>(reader["IETDAY"], 0)).AddMinutes(plant.BusinessSystemOffset);
-                    var umdate = E1TimeManager.CastToDateTime(CastDbNull.To<decimal>(reader["UMUPMJ"], 0),
-                        CastDbNull.To<decimal>(reader["UMTDAY"], 0)).AddMinutes(plant.BusinessSystemOffset);
-                    var ivdate = E1TimeManager.CastToDateTime(CastDbNull.To<decimal>(reader["IVUPMJ"], 0),
-                        CastDbNull.To<decimal>(reader["IVTDAY"], 0)).AddMinutes(plant.BusinessSystemOffset);
+                    dr["ItemNum"] = Data.CastDbNull.To<decimal>(reader["IBITM"], 0);
+                    dr["IMDate"] = E1TimeManager.CastToDateTime(Data.CastDbNull.To<decimal>(reader["IMUPMJ"], 0), Data.CastDbNull.To<decimal>(reader["IMTDAY"], 0));
+                    var ibdate = E1TimeManager.CastToDateTime(Data.CastDbNull.To<decimal>(reader["IBUPMJ"], 0),
+                        Data.CastDbNull.To<decimal>(reader["IBTDAY"], 0)).AddMinutes(plant.BusinessSystemOffset);
+                    var imdate = E1TimeManager.CastToDateTime(Data.CastDbNull.To<decimal>(reader["IMUPMJ"], 0),
+                        Data.CastDbNull.To<decimal>(reader["IMTDAY"], 0)).AddMinutes(plant.BusinessSystemOffset);
+                    var iedate = E1TimeManager.CastToDateTime(Data.CastDbNull.To<decimal>(reader["IEUPMJ"], 0),
+                        Data.CastDbNull.To<decimal>(reader["IETDAY"], 0)).AddMinutes(plant.BusinessSystemOffset);
+                    var umdate = E1TimeManager.CastToDateTime(Data.CastDbNull.To<decimal>(reader["UMUPMJ"], 0),
+                        Data.CastDbNull.To<decimal>(reader["UMTDAY"], 0)).AddMinutes(plant.BusinessSystemOffset);
+                    var ivdate = E1TimeManager.CastToDateTime(Data.CastDbNull.To<decimal>(reader["IVUPMJ"], 0),
+                        Data.CastDbNull.To<decimal>(reader["IVTDAY"], 0)).AddMinutes(plant.BusinessSystemOffset);
                     var maxDate = new DateTime[] { ibdate, imdate, iedate, umdate, ivdate }.Max();
                     dr["TransactionDate"] = maxDate;
                     table.Rows.Add(dr);
@@ -435,7 +435,8 @@ namespace CGServicesHV.Common.Managers.Process
             WHERE
                 IBMCU = ? AND
                 IBITM = ?
-            FOR READ ONLY";
+            FOR READ ONLY
+        ";
             cmd.Parameters.Add(new iDB2Parameter("MCU", iDB2DbType.iDB2Graphic, 12));
             cmd.Parameters.Add(new iDB2Parameter("ITM", iDB2DbType.iDB2Decimal));
             cmd.Parameters["ITM"].Precision = 8;
@@ -457,49 +458,49 @@ namespace CGServicesHV.Common.Managers.Process
                     IDataReader reader = cmd.ExecuteReader(CommandBehavior.SingleRow);
                     while (reader.Read())
                     {
-                        dr["Plant"] = CastDbNull.To(reader["IBMCU"], String.Empty).Trim();
-                        dr["UnitType"] = CastDbNull.To<string>(reader["IMSRP4"], String.Empty).Trim();
-                        dr["Description1"] = CastDbNull.To<string>(reader["IMDSC1"], String.Empty).Trim();
-                        dr["Description2"] = CastDbNull.To<string>(reader["IMDSC2"], String.Empty).Trim();
-                        dr["StockType"] = CastDbNull.To<string>(reader["IBSTKT"], String.Empty).Trim();
-                        dr["GlCategory"] = CastDbNull.To<string>(reader["IBGLPT"], String.Empty).Trim();
-                        dr["MasterPlanningCode"] = CastDbNull.To<string>(reader["IBPRP4"], String.Empty).Trim();
-                        dr["CustomerNum"] = CastDbNull.To<decimal>(reader["IBANPL"], 0);
-                        dr["CustomerName"] = CastDbNull.To<string>(reader["ANPLALPH"], String.Empty).Trim();
-                        dr["PrimaryUom"] = CastDbNull.To<string>(reader["IMUOM1"], String.Empty).Trim();
-                        dr["SupplierNum"] = CastDbNull.To<decimal>(reader["IBVEND"], 0);
-                        dr["SupplierName"] = CastDbNull.To<string>(reader["VENDALPH"], String.Empty).Trim();
-                        dr["ActualSqft"] = Data.ParseStringToDecimal(CastDbNull.To<string>(reader["Z58USF"], String.Empty).Trim(), 4);
-                        dr["BillableSqft"] = Data.ParseStringToDecimal(CastDbNull.To<string>(reader["Z58BSF"], String.Empty).Trim(), 4);
-                        dr["ReorderInputPoint"] = CastDbNull.To<decimal>(reader["IBROPI"], 0) / 1000;
-                        dr["ReorderInputQty"] = CastDbNull.To<decimal>(reader["IBROQI"], 0) / 1000;
-                        dr["ReorderMinQty"] = CastDbNull.To<decimal>(reader["IBRQMN"], 0) / 1000;
-                        dr["ReorderMaxQty"] = CastDbNull.To<decimal>(reader["IBRQMX"], 0) / 1000;
-                        dr["SafetyStockSupply"] = CastDbNull.To<decimal>(reader["IBSAFE"], 0) / 1000;
-                        dr["VendorNum"] = CastDbNull.To<decimal>(reader["IBVEND"], 0);
-                        dr["PlannerNum"] = CastDbNull.To<decimal>(reader["IBANPL"], 0);
-                        dr["BuyerNum"] = CastDbNull.To<decimal>(reader["IBBUYR"], 0);
-                        dr["SRP1Code"] = CastDbNull.To<string>(reader["IBSRP1"], String.Empty).Trim();
-                        dr["SRP2Code"] = CastDbNull.To<string>(reader["IBSRP2"], String.Empty).Trim();
-                        dr["SRP3Code"] = CastDbNull.To<string>(reader["IBSRP3"], String.Empty).Trim();
-                        dr["SRP4Code"] = CastDbNull.To<string>(reader["IBSRP4"], String.Empty).Trim();
-                        dr["SRP5Code"] = CastDbNull.To<string>(reader["IBSRP5"], String.Empty).Trim();
-                        dr["SRP6Code"] = CastDbNull.To<string>(reader["IBSRP6"], String.Empty).Trim();
-                        dr["SRP7Code"] = CastDbNull.To<string>(reader["IBSRP7"], String.Empty).Trim();
-                        dr["SRP8Code"] = CastDbNull.To<string>(reader["IBSRP8"], String.Empty).Trim();
-                        dr["SRP9Code"] = CastDbNull.To<string>(reader["IBSRP9"], String.Empty).Trim();
-                        dr["SRP0Code"] = CastDbNull.To<string>(reader["IBSRP0"], String.Empty).Trim();
-                        dr["PRP1Code"] = CastDbNull.To<string>(reader["IBPRP1"], String.Empty).Trim();
-                        dr["PRP2Code"] = CastDbNull.To<string>(reader["IBPRP2"], String.Empty).Trim();
-                        dr["PRP3Code"] = CastDbNull.To<string>(reader["IBPRP3"], String.Empty).Trim();
-                        dr["PRP4Code"] = CastDbNull.To<string>(reader["IBPRP4"], String.Empty).Trim();
-                        dr["PRP5Code"] = CastDbNull.To<string>(reader["IBPRP5"], String.Empty).Trim();
-                        dr["PRP6Code"] = CastDbNull.To<string>(reader["IBPRP6"], String.Empty).Trim();
-                        dr["PRP7Code"] = CastDbNull.To<string>(reader["IBPRP7"], String.Empty).Trim();
-                        dr["PRP8Code"] = CastDbNull.To<string>(reader["IBPRP8"], String.Empty).Trim();
-                        dr["PRP9Code"] = CastDbNull.To<string>(reader["IBPRP9"], String.Empty).Trim();
-                        dr["PRP0Code"] = CastDbNull.To<string>(reader["IBPRP0"], String.Empty).Trim();
-                        dr["IBDate"] = E1TimeManager.CastToDateTime(CastDbNull.To<decimal>(reader["IBUPMJ"], 0), CastDbNull.To<decimal>(reader["IBTDAY"], 0));
+                        dr["Plant"] = Data.CastDbNull.To(reader["IBMCU"], String.Empty).Trim();
+                        dr["UnitType"] = Data.CastDbNull.To<string>(reader["IMSRP4"], String.Empty).Trim();
+                        dr["Description1"] = Data.CastDbNull.To<string>(reader["IMDSC1"], String.Empty).Trim();
+                        dr["Description2"] = Data.CastDbNull.To<string>(reader["IMDSC2"], String.Empty).Trim();
+                        dr["StockType"] = Data.CastDbNull.To<string>(reader["IBSTKT"], String.Empty).Trim();
+                        dr["GlCategory"] = Data.CastDbNull.To<string>(reader["IBGLPT"], String.Empty).Trim();
+                        dr["MasterPlanningCode"] = Data.CastDbNull.To<string>(reader["IBPRP4"], String.Empty).Trim();
+                        dr["CustomerNum"] = Data.CastDbNull.To<decimal>(reader["IBANPL"], 0);
+                        dr["CustomerName"] = Data.CastDbNull.To<string>(reader["ANPLALPH"], String.Empty).Trim();
+                        dr["PrimaryUom"] = Data.CastDbNull.To<string>(reader["IMUOM1"], String.Empty).Trim();
+                        dr["SupplierNum"] = Data.CastDbNull.To<decimal>(reader["IBVEND"], 0);
+                        dr["SupplierName"] = Data.CastDbNull.To<string>(reader["VENDALPH"], String.Empty).Trim();
+                        dr["ActualSqft"] = Data.ParseStringToDecimal(Data.CastDbNull.To<string>(reader["Z58USF"], String.Empty).Trim(), 4);
+                        dr["BillableSqft"] = Data.ParseStringToDecimal(Data.CastDbNull.To<string>(reader["Z58BSF"], String.Empty).Trim(), 4);
+                        dr["ReorderInputPoint"] = Data.CastDbNull.To<decimal>(reader["IBROPI"], 0) / 1000;
+                        dr["ReorderInputQty"] = Data.CastDbNull.To<decimal>(reader["IBROQI"], 0) / 1000;
+                        dr["ReorderMinQty"] = Data.CastDbNull.To<decimal>(reader["IBRQMN"], 0) / 1000;
+                        dr["ReorderMaxQty"] = Data.CastDbNull.To<decimal>(reader["IBRQMX"], 0) / 1000;
+                        dr["SafetyStockSupply"] = Data.CastDbNull.To<decimal>(reader["IBSAFE"], 0) / 1000;
+                        dr["VendorNum"] = Data.CastDbNull.To<decimal>(reader["IBVEND"], 0);
+                        dr["PlannerNum"] = Data.CastDbNull.To<decimal>(reader["IBANPL"], 0);
+                        dr["BuyerNum"] = Data.CastDbNull.To<decimal>(reader["IBBUYR"], 0);
+                        dr["SRP1Code"] = Data.CastDbNull.To<string>(reader["IBSRP1"], String.Empty).Trim();
+                        dr["SRP2Code"] = Data.CastDbNull.To<string>(reader["IBSRP2"], String.Empty).Trim();
+                        dr["SRP3Code"] = Data.CastDbNull.To<string>(reader["IBSRP3"], String.Empty).Trim();
+                        dr["SRP4Code"] = Data.CastDbNull.To<string>(reader["IBSRP4"], String.Empty).Trim();
+                        dr["SRP5Code"] = Data.CastDbNull.To<string>(reader["IBSRP5"], String.Empty).Trim();
+                        dr["SRP6Code"] = Data.CastDbNull.To<string>(reader["IBSRP6"], String.Empty).Trim();
+                        dr["SRP7Code"] = Data.CastDbNull.To<string>(reader["IBSRP7"], String.Empty).Trim();
+                        dr["SRP8Code"] = Data.CastDbNull.To<string>(reader["IBSRP8"], String.Empty).Trim();
+                        dr["SRP9Code"] = Data.CastDbNull.To<string>(reader["IBSRP9"], String.Empty).Trim();
+                        dr["SRP0Code"] = Data.CastDbNull.To<string>(reader["IBSRP0"], String.Empty).Trim();
+                        dr["PRP1Code"] = Data.CastDbNull.To<string>(reader["IBPRP1"], String.Empty).Trim();
+                        dr["PRP2Code"] = Data.CastDbNull.To<string>(reader["IBPRP2"], String.Empty).Trim();
+                        dr["PRP3Code"] = Data.CastDbNull.To<string>(reader["IBPRP3"], String.Empty).Trim();
+                        dr["PRP4Code"] = Data.CastDbNull.To<string>(reader["IBPRP4"], String.Empty).Trim();
+                        dr["PRP5Code"] = Data.CastDbNull.To<string>(reader["IBPRP5"], String.Empty).Trim();
+                        dr["PRP6Code"] = Data.CastDbNull.To<string>(reader["IBPRP6"], String.Empty).Trim();
+                        dr["PRP7Code"] = Data.CastDbNull.To<string>(reader["IBPRP7"], String.Empty).Trim();
+                        dr["PRP8Code"] = Data.CastDbNull.To<string>(reader["IBPRP8"], String.Empty).Trim();
+                        dr["PRP9Code"] = Data.CastDbNull.To<string>(reader["IBPRP9"], String.Empty).Trim();
+                        dr["PRP0Code"] = Data.CastDbNull.To<string>(reader["IBPRP0"], String.Empty).Trim();
+                        dr["IBDate"] = E1TimeManager.CastToDateTime(Data.CastDbNull.To<decimal>(reader["IBUPMJ"], 0), Data.CastDbNull.To<decimal>(reader["IBTDAY"], 0));
                     }
                     reader.Close();
                 }
@@ -564,8 +565,8 @@ namespace CGServicesHV.Common.Managers.Process
                         IDataReader reader = cmd.ExecuteReader(CommandBehavior.SingleRow);
                         while (reader.Read())
                         {
-                            dr["CustomerPartNum"] = CastDbNull.To<string>(reader["IVCITM"], String.Empty).Trim();
-                            dr["IVDate"] = E1TimeManager.CastToDateTime(CastDbNull.To<decimal>(reader["IVUPMJ"], 0), CastDbNull.To<decimal>(reader["IVTDAY"], 0));
+                            dr["CustomerPartNum"] = Data.CastDbNull.To<string>(reader["IVCITM"], String.Empty).Trim();
+                            dr["IVDate"] = E1TimeManager.CastToDateTime(Data.CastDbNull.To<decimal>(reader["IVUPMJ"], 0), Data.CastDbNull.To<decimal>(reader["IVTDAY"], 0));
                         }
 
                         reader.Close();
@@ -622,9 +623,9 @@ namespace CGServicesHV.Common.Managers.Process
                     IDataReader reader = cmd.ExecuteReader(CommandBehavior.SingleRow);
                     while (reader.Read())
                     {
-                        dr["PrimaryLocation"] = CastDbNull.To<string>(reader["LILOCN"], String.Empty).Trim();
-                        dr["PrimaryLocationFull"] = CastDbNull.To<string>(reader["LILOCN"], String.Empty);
-                        dr["LIDate"] = E1TimeManager.CastToDateTime(CastDbNull.To<decimal>(reader["LIUPMJ"], 0), CastDbNull.To<decimal>(reader["LITDAY"], 0));
+                        dr["PrimaryLocation"] = Data.CastDbNull.To<string>(reader["LILOCN"], String.Empty).Trim();
+                        dr["PrimaryLocationFull"] = Data.CastDbNull.To<string>(reader["LILOCN"], String.Empty);
+                        dr["LIDate"] = E1TimeManager.CastToDateTime(Data.CastDbNull.To<decimal>(reader["LIUPMJ"], 0), Data.CastDbNull.To<decimal>(reader["LITDAY"], 0));
                     }
                     reader.Close();
                 }
@@ -676,7 +677,7 @@ namespace CGServicesHV.Common.Managers.Process
                     IDataReader reader = cmd.ExecuteReader(CommandBehavior.SingleRow);
                     while (reader.Read())
                     {
-                        dr["CostPerEa"] = Math.Round(CastDbNull.To<decimal>(reader["IECSL"], 0), 4);
+                        dr["CostPerEa"] = Math.Round(Data.CastDbNull.To<decimal>(reader["IECSL"], 0), 4);
                     }
                     reader.Close();
                 }
@@ -728,8 +729,8 @@ namespace CGServicesHV.Common.Managers.Process
                     IDataReader reader = cmd.ExecuteReader(CommandBehavior.SingleRow);
                     while (reader.Read())
                     {
-                        dr["LbsPerEa"] = Math.Round(CastDbNull.To<decimal>(reader["UMCONV"], 0), 7);
-                        dr["UMDate"] = E1TimeManager.CastToDateTime(CastDbNull.To<decimal>(reader["UMUPMJ"], 0), CastDbNull.To<decimal>(reader["UMTDAY"], 0));
+                        dr["LbsPerEa"] = Math.Round(Data.CastDbNull.To<decimal>(reader["UMCONV"], 0), 7);
+                        dr["UMDate"] = E1TimeManager.CastToDateTime(Data.CastDbNull.To<decimal>(reader["UMUPMJ"], 0), Data.CastDbNull.To<decimal>(reader["UMTDAY"], 0));
                     }
                     reader.Close();
                 }

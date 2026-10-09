@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using CGServicesHV.Common.Managers.Process;
 using CGServicesHV.Common.Types.E1;
 using CGServicesHV.Common.Types.Enterprise;
@@ -14,6 +14,21 @@ namespace CGServicesHV.ReferenceSvc
         /********************************************************************************
         * METHODS
         ********************************************************************************/
+        public static ProcessResponse DownloadSpecLegLengths(Plant plant, BusinessSystemSession session, Dictionary<string, SqlConnection> sqlCns, Dictionary<string, object> parms)
+        {
+            var response = new ProcessResponse($"Spec Leg Length Download Manager", plant);
+            try
+            {
+                response.ProcessResponses.Add(SpecLegLengthDownloadManager.Process(session, sqlCns, plant));
+            }
+            catch (Exception e)
+            {
+                throw new ApplicationException(e.ToString());
+            }
+            response.Close();
+            return response;
+        }
+
         public static ProcessResponse DownloadInventoryLocations(Plant plant, BusinessSystemSession session, Dictionary<string, SqlConnection> sqlCns, Dictionary<string, object> parms)
         {
             var response = new ProcessResponse($"Inventory Location Download Processor", plant);
@@ -79,7 +94,9 @@ namespace CGServicesHV.ReferenceSvc
             var response = new ProcessResponse($"Configurator Rules Download Manager", plant);
             try
             {
-                response.ProcessResponses.Add(ConfiguratorRuleDownloadManager.Process(session, sqlCns, plant));
+                var timeSpan = Data.UnboxParm.To(parms, "TimeSpan", new TimeSpan());
+                var useHighWaterMark = Data.UnboxParm.To(parms, "HighWaterMark", false);
+                response.ProcessResponses.Add(ConfiguratorRuleDownloadManager.Process(session, sqlCns, plant, timeSpan, useHighWaterMark));
             }
             catch (Exception e)
             {

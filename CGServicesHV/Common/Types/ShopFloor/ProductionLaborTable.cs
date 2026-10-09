@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Data;
 using System.Linq;
-using CGServicesHV.Common.Utilities;
 using CGServicesHV.Common.Types.Enterprise;
+using CGServicesHV.Common.Utilities;
 using NLog;
 
 namespace CGServicesHV.Common.Types.ShopFloor
@@ -15,7 +15,7 @@ namespace CGServicesHV.Common.Types.ShopFloor
 
         public DateTime MaxDate
         {
-            get { return (from a in this.AsEnumerable() select a.Field<DateTime>("TransactionDate")).Max(); }
+            get { return (from a in this.AsEnumerable() select a.Field<DateTime>("SourceUpdateDate")).Max(); }
             set { }
         }
 
@@ -30,6 +30,10 @@ namespace CGServicesHV.Common.Types.ShopFloor
             Columns.Add("PayTypeDesc", typeof(string));
             Columns.Add("Hours", typeof(decimal));
             Columns.Add("Amount", typeof(decimal));
+            Columns.Add("SourceInsertDate", typeof(DateTime));
+            Columns.Add("SourceUpdateDate", typeof(DateTime));
+            Columns.Add("IsDeleted", typeof(bool));
+            Columns.Add("ShiftName", typeof(string));
         }
 
         public void AddUKG(IDataReader reader, Plant plant)
@@ -44,6 +48,10 @@ namespace CGServicesHV.Common.Types.ShopFloor
                     dr["PayTypeDesc"] = reader.Get<String>("PayCode");
                     dr["Hours"] = reader.Get<decimal>("TotalHours");
                     dr["Amount"] = reader.Get<decimal>("TotalAmt");
+                    dr["SourceInsertDate"] = reader.Get<DateTime>("SourceInsertDate");
+                    dr["SourceUpdateDate"] = reader.Get<DateTime>("SourceUpdateDate");
+                    dr["IsDeleted"] = reader.Get<bool>("IsDeleted");
+                    dr["ShiftName"] = reader.Get<String>("ShiftName");
                     Rows.Add(dr);
                 }
                 reader.Close();

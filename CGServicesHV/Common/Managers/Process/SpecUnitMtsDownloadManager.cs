@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using IBM.Data.DB2.iSeries;
@@ -86,8 +86,8 @@ namespace CGServicesHV.Common.Managers.Process
                         Logger.Debug($@"GetMtsItemsDynamic PLANT: {plant.PlantCode}-{plant.PlantNum} BEGIN: {startTime}");
                         specUnits = GetMtsItemsDynamic(session, plant, processRunSpan, itemNum);
                     }
-                    Logger.Info($"Rows: {specUnits.Count}");
-                    Logger.Info($"END: {Convert.ToDecimal((DateTime.Now.ToLocalTime() - startTime).TotalSeconds)} SECONDS");
+                    Logger.Debug($"Rows: {specUnits.Count}");
+                    Logger.Debug($"END: {Convert.ToDecimal((DateTime.Now.ToLocalTime() - startTime).TotalSeconds)} SECONDS");
                 }
                 catch (Exception e)
                 {
@@ -329,9 +329,9 @@ namespace CGServicesHV.Common.Managers.Process
                         specUnit.ItemNum = Data.CastDbNull.To<decimal>(reader["IAITM"], 0);
                         specUnit.StockType = Data.CastDbNull.To<string>(reader["IBSTKT"], String.Empty).Trim();
                         specUnit.UnitType = Data.CastDbNull.To<string>(reader["IBSRP4"], String.Empty).Trim();
-                        specUnit.IADate = E1TimeManager.CastToDateTime(CastDbNull.To<decimal>(reader["IAUPMJ"], 0), CastDbNull.To<decimal>(reader["IATDAY"], 0));
+                        specUnit.IADate = E1TimeManager.CastToDateTime(Data.CastDbNull.To<decimal>(reader["IAUPMJ"], 0), Data.CastDbNull.To<decimal>(reader["IATDAY"], 0));
                         specUnit.TransactionDate = specUnit.IADate.AddHours(plant.TimeOffset);
-                        //specUnit.IBDate = E1TimeManager.CastToDateTime(CastDbNull.To<decimal>(reader["IBUPMJ"], 0), CastDbNull.To<decimal>(reader["IBTDAY"], 0)).AddHours(plant.TimeOffset);
+                        //specUnit.IBDate = E1TimeManager.CastToDateTime(Data.CastDbNull.To<decimal>(reader["IBUPMJ"], 0), Data.CastDbNull.To<decimal>(reader["IBTDAY"], 0)).AddHours(plant.TimeOffset);
                         var itemAtts = _itemAttMgr.GetDiscreteItemAttributes(e1Session, specUnit.ItemNum);
                         specUnit.ItemAttributes = itemAtts;
                         specUnits.Add(specUnit);
@@ -339,7 +339,7 @@ namespace CGServicesHV.Common.Managers.Process
 
                     reader.Close();
                 }
-                Logger.Info($"Rows: {specUnits.Count}");
+                Logger.Debug($"Rows: {specUnits.Count}");
             }
             catch (Exception e)
             {
@@ -348,7 +348,7 @@ namespace CGServicesHV.Common.Managers.Process
             }
             finally
             {
-                Logger.Info($"END: {Convert.ToDecimal((DateTime.Now.ToLocalTime() - startTime).TotalSeconds)} SECONDS");
+                Logger.Debug($"END: {Convert.ToDecimal((DateTime.Now.ToLocalTime() - startTime).TotalSeconds)} SECONDS");
             }
             return specUnits;
         }
@@ -384,14 +384,15 @@ namespace CGServicesHV.Common.Managers.Process
                         IBGLPT IN ('GLAS','GLAF','GLAX','GLAZ','COMA','GLAC')) A
                 WHERE
 	                A.ROWNUM = 1
-                FOR READ ONLY";
+                FOR READ ONLY
+            ";
             return cmd;
         }
 
         public SpecUnits GetMtsItemsDynamic(BusinessSystemSession session, Plant plant, ProcessRunSpan span, decimal itemNum)
         {
             var startTime = DateTime.Now.ToLocalTime();
-            Logger.Info($@"GetMtsItemsDynamic PLANT: {plant.PlantCode}-{plant.PlantNum} BEGIN: {startTime}");
+            Logger.Debug($@"GetMtsItemsDynamic PLANT: {plant.PlantCode}-{plant.PlantNum} BEGIN: {startTime}");
             var specUnits = new SpecUnits();
             var cmd = new iDB2Command();
             List<string> filters = new List<string>();
@@ -436,9 +437,9 @@ namespace CGServicesHV.Common.Managers.Process
                 }
 
                 cmd.Connection = session.DbConnection;
-                Logger.Info(Logging.DbCmdString(cmd));
+                Logger.Debug(Logging.DbCmdString(cmd));
 
-                Logger.Info("Start MTS Units");
+                Logger.Debug("Start MTS Units");
                 using (IDataReader reader = cmd.ExecuteReader(CommandBehavior.SingleResult))
                 {
                     while (reader.Read())
@@ -448,9 +449,9 @@ namespace CGServicesHV.Common.Managers.Process
                         specUnit.ItemNum = Data.CastDbNull.To<decimal>(reader["IAITM"], 0);
                         specUnit.StockType = Data.CastDbNull.To<string>(reader["IBSTKT"], String.Empty).Trim();
                         specUnit.UnitType = Data.CastDbNull.To<string>(reader["IBSRP4"], String.Empty).Trim();
-                        specUnit.IADate = E1TimeManager.CastToDateTime(CastDbNull.To<decimal>(reader["IAUPMJ"], 0), CastDbNull.To<decimal>(reader["IATDAY"], 0));
+                        specUnit.IADate = E1TimeManager.CastToDateTime(Data.CastDbNull.To<decimal>(reader["IAUPMJ"], 0), Data.CastDbNull.To<decimal>(reader["IATDAY"], 0));
                         specUnit.TransactionDate = specUnit.IADate.AddHours(plant.TimeOffset);
-                        //specUnit.IBDate = E1TimeManager.CastToDateTime(CastDbNull.To<decimal>(reader["IBUPMJ"], 0), CastDbNull.To<decimal>(reader["IBTDAY"], 0)).AddHours(plant.TimeOffset);
+                        //specUnit.IBDate = E1TimeManager.CastToDateTime(Data.CastDbNull.To<decimal>(reader["IBUPMJ"], 0), Data.CastDbNull.To<decimal>(reader["IBTDAY"], 0)).AddHours(plant.TimeOffset);
                         var itemAtts = _itemAttMgr.GetDiscreteItemAttributes(session, specUnit.ItemNum);
                         specUnit.ItemAttributes = itemAtts;
                         specUnits.Add(specUnit);
@@ -458,7 +459,7 @@ namespace CGServicesHV.Common.Managers.Process
 
                     reader.Close();
                 }
-                Logger.Info($"Rows: {specUnits.Count}");
+                Logger.Debug($"Rows: {specUnits.Count}");
             }
             catch (Exception e)
             {
@@ -467,7 +468,7 @@ namespace CGServicesHV.Common.Managers.Process
             }
             finally
             {
-                Logger.Info($"END: {Convert.ToDecimal((DateTime.Now.ToLocalTime() - startTime).TotalSeconds)} SECONDS");
+                Logger.Debug($"END: {Convert.ToDecimal((DateTime.Now.ToLocalTime() - startTime).TotalSeconds)} SECONDS");
             }
             return specUnits;
         }
@@ -502,7 +503,7 @@ namespace CGServicesHV.Common.Managers.Process
         public void GetWeightPrepared(BusinessSystemSession session, Plant plant, DataTable dt)
         {
             var startTime = DateTime.Now.ToLocalTime();
-            Logger.Info($@"GetWeightPrepared PLANT: {plant.PlantCode}-{plant.PlantNum} BEGIN: {startTime}");
+            Logger.Debug($@"GetWeightPrepared PLANT: {plant.PlantCode}-{plant.PlantNum} BEGIN: {startTime}");
             try
             {
                 var cmd = session.DbCommands["SpecUnitMtsDownloadManager.GetWeightPrepared"];
@@ -512,19 +513,19 @@ namespace CGServicesHV.Common.Managers.Process
                     //cmd.Parameters["MCU"].Value = plant.PlantNum.PadLeft(12);
                     cmd.Parameters["ITM"].Value = (decimal)dr["ItemNum"];
                     var i = 0;
-                    Logger.Info(Logging.DbCmdString(cmd));
+                    Logger.Debug(Logging.DbCmdString(cmd));
                     using (IDataReader reader = cmd.ExecuteReader(CommandBehavior.SingleRow))
                     {
                         while (reader.Read())
                         {
-                            dr["GlassWeightLbs"] = CastDbNull.To<decimal>(reader["UMCONV"], 0);
+                            dr["GlassWeightLbs"] = Data.CastDbNull.To<decimal>(reader["UMCONV"], 0);
                             i++;
                         }
 
                         reader.Close();
                     }
 
-                    Logger.Info($"Rows: {i}");
+                    Logger.Debug($"Rows: {i}");
                 }
             }
             catch (Exception e)
@@ -534,7 +535,7 @@ namespace CGServicesHV.Common.Managers.Process
             }
             finally
             {
-                Logger.Info($"END: {Convert.ToDecimal((DateTime.Now.ToLocalTime() - startTime).TotalSeconds)} SECONDS");
+                Logger.Debug($"END: {Convert.ToDecimal((DateTime.Now.ToLocalTime() - startTime).TotalSeconds)} SECONDS");
             }
         }
 

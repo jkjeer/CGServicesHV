@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using CGServicesHV.Common.Managers.E1;
-using CGServicesHV.Common.Managers.Enterprise;
 using CGServicesHV.Common.Managers.ShopFloor;
 using CGServicesHV.Common.Types.E1;
 using CGServicesHV.Common.Types.Enterprise;
@@ -287,14 +287,18 @@ namespace CGServicesHV.Common.Managers.Process
                     {
                         var serializedXml = response.Serialize();
                         Logger.Info("Serialized Process: " + serializedXml);
-                        var xslOutput = XsltManager.Transform(serializedXml,
-                            "CGServicesHV.Common.Xslt.RackAssetTransactionUploadReport.xslt", Encoding.UTF8);
+                        var xslOutput = XsltManager.Transform(serializedXml, "CGServicesHV.Common.Xslt.RackAssetTransactionUploadReport.xslt", Encoding.UTF8);
                         Logger.Info("Report XML: " + xslOutput);
+                        var toConfigAddresses = ConfigurationManager.AppSettings["MailConfirmToAddress"];
+
+                        var subject = $"{plant.PlantCode} [{System.Configuration.ConfigurationManager.AppSettings["PrimaryEnvironment"]}] Rack Asset Upload {(validationItems.Count > 0 ? " **REVIEW** " : "")} ";
+                        Mail.StoreResponse($@"{ConfigurationManager.AppSettings["ProcessResponseFilePath"]}\{response.Plant.PlantCode}", subject, xslOutput);
+
                         Mail.SendHtmlAsync(System.Configuration.ConfigurationManager.AppSettings["SmtpHost"],
                             System.Configuration.ConfigurationManager.AppSettings["MailFromAddress"],
-                            "jpjenkin@cardinalcorp.com",
+                            toConfigAddresses,
                             null,
-                            $"{plant.PlantCode} [{System.Configuration.ConfigurationManager.AppSettings["PrimaryEnvironment"]}] Rack Asset Upload {(validationItems.Count > 0 ? " **REVIEW** " : "")} ",
+                            subject,
                             xslOutput);
                     }
                     catch (Exception e)

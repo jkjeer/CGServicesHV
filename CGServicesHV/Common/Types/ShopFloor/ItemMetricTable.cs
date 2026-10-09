@@ -34,13 +34,13 @@ namespace CGServicesHV.Common.Types.ShopFloor
                 {
                     var dr = NewRow();
                     dr["ItemNum"] = Data.CastDbNull.To<decimal>(reader["ILITM"], 0);
-                    dr["CategoryCode"] = CastDbNull.To<string>(reader["ILGLPT"], "");
-                    dr["DocumentTypeCode"] = CastDbNull.To<string>(reader["ILDCT"], "");
-                    dr["TransUom"] = CastDbNull.To<string>(reader["ILTRUM"], "");
-                    dr["PrimaryUom"] = CastDbNull.To<string>(reader["IMUOM1"], "");
-                    dr["MthTransAmt"] = CastDbNull.To<decimal>(reader["ILTRQT1"], 0);
-                    dr["QtrTransAmt"] = CastDbNull.To<decimal>(reader["ILTRQT2"], 0);
-                    dr["YrTransAmt"] = CastDbNull.To<decimal>(reader["ILTRQT3"], 0);
+                    dr["CategoryCode"] = Data.CastDbNull.To<string>(reader["ILGLPT"], "");
+                    dr["DocumentTypeCode"] = Data.CastDbNull.To<string>(reader["ILDCT"], "");
+                    dr["TransUom"] = Data.CastDbNull.To<string>(reader["ILTRUM"], "");
+                    dr["PrimaryUom"] = Data.CastDbNull.To<string>(reader["IMUOM1"], "");
+                    dr["MthTransAmt"] = Data.CastDbNull.To<decimal>(reader["ILTRQT1"], 0);
+                    dr["QtrTransAmt"] = Data.CastDbNull.To<decimal>(reader["ILTRQT2"], 0);
+                    dr["YrTransAmt"] = Data.CastDbNull.To<decimal>(reader["ILTRQT3"], 0);
                     dr["MthPrimaryAmt"] = 0;
                     dr["QtrPrimaryAmt"] = 0;
                     dr["YrPrimaryAmt"] = 0;

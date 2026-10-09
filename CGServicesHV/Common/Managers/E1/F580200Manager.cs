@@ -355,7 +355,7 @@ namespace CGServicesHV.Common.Managers.E1
                 {
                     while (reader.Read())
                     {
-                        if (CastDbNull.To(reader["RECS"], 0) > 0)
+                        if (Data.CastDbNull.To(reader["RECS"], 0) > 0)
                         {
                             val = true;
                         }

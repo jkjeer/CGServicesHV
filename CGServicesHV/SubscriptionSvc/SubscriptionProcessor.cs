@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.Text;
 using CGServicesHV.Common.Managers.Enterprise;
 using CGServicesHV.Common.Managers.Process;
@@ -148,6 +148,8 @@ namespace CGServicesHV.SubscriptionSvc
                 var xslOutput = XsltManager.Transform(serializedXml, "CGServicesHV.Common.Xslt.ScheduleEnvironmentResponseBody.xslt", Encoding.UTF8);
                 Logger.Info($"Report XML: {xslOutput}");
                 var subject = response.Plant.PlantCode + " [" + ConfigurationManager.AppSettings["PrimaryEnvironment"] + "] " + "Schedule Downloads - MTO Schedule ";
+                Mail.StoreResponse($@"{ConfigurationManager.AppSettings["ProcessResponseFilePath"]}\{response.Plant.PlantCode}", subject, xslOutput);
+
                 Mail.SendHtmlAsync(ConfigurationManager.AppSettings["SmtpHost"], ConfigurationManager.AppSettings["MailFromAddress"], toConfigAddresses, null, subject, xslOutput);
             }
             catch (Exception e)

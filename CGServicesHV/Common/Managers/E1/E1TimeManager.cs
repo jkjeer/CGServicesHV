@@ -35,7 +35,7 @@ namespace CGServicesHV.Common.Managers.E1
             //        var counter = 0;
             //        while (reader.Read())
             //        {
-            //            e1Timestamp = CastDbNull.To(reader["T"], DateTime.Now.ToLocalTime());
+            //            e1Timestamp = Data.CastDbNull.To(reader["T"], DateTime.Now.ToLocalTime());
             //            counter++;
             //        }
 
@@ -73,7 +73,7 @@ namespace CGServicesHV.Common.Managers.E1
             //        var counter = 0;
             //        while (reader.Read())
             //        {
-            //            e1Timestamp = CastDbNull.To(reader["T"], "");
+            //            e1Timestamp = Data.CastDbNull.To(reader["T"], "");
             //            counter++;
             //        }
 
@@ -172,7 +172,6 @@ namespace CGServicesHV.Common.Managers.E1
                 }
             }
             Logger.Debug(strReturn);
-
             return strReturn;
         }
 

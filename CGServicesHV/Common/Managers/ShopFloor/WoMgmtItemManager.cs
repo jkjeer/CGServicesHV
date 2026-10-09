@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -144,21 +144,21 @@ namespace CGServicesHV.Common.Managers.ShopFloor
                     while (reader.Read())
                     {
                         var rec = new WoMgmtItem();
-                        rec.PlantID = CastDbNull.To<string>(reader["S7MCU"], plant.PlantNum); 
-                        rec.WOManagementID = CastDbNull.To<int>(reader["WOManagementID"], 0);
-                        rec.WOStatus = CastDbNull.To<string>(reader["WOStatus"], String.Empty).Trim();
-                        rec.ActionDateTime = CastDbNull.To<DateTime>(reader["ActionDateTime"], DateTime.MinValue);
-                        rec.WONumber = CastDbNull.To<decimal>(reader["WONumber"], 0);
-                        rec.WODocType = CastDbNull.To<string>(reader["WODocType"], String.Empty).Trim();
-                        //rec.ScheduleNum = CastDbNull.To<decimal>(reader["ScheduleNum"], 0);
-                        //rec.ScheduleDate = CastDbNull.To<DateTime>(reader["ScheduleDate"], DateTime.MinValue);
-                        //rec.Process = CastDbNull.To<string>(reader["Process"], String.Empty).Trim();
-                        rec.E1BatchID = CastDbNull.To<string>(reader["E1BatchID"], String.Empty).Trim();
-                        rec.UserID = CastDbNull.To<string>(reader["UserID"], String.Empty).Trim();
-                        rec.Workstation = CastDbNull.To<string>(reader["Workstation"], String.Empty).Trim();
-                        rec.DoNotTransfer = CastDbNull.To<bool>(reader["DoNotTransfer"], false);
-                        rec.Transferred = CastDbNull.To<bool>(reader["Transferred"], false);
-                        rec.TransferredDate = CastDbNull.To<DateTime>(reader["TransferredDate"], DateTime.MinValue);
+                        rec.PlantID = Data.CastDbNull.To<string>(reader["S7MCU"], plant.PlantNum); 
+                        rec.WOManagementID = Data.CastDbNull.To<int>(reader["WOManagementID"], 0);
+                        rec.WOStatus = Data.CastDbNull.To<string>(reader["WOStatus"], String.Empty).Trim();
+                        rec.ActionDateTime = Data.CastDbNull.To<DateTime>(reader["ActionDateTime"], DateTime.MinValue);
+                        rec.WONumber = Data.CastDbNull.To<decimal>(reader["WONumber"], 0);
+                        rec.WODocType = Data.CastDbNull.To<string>(reader["WODocType"], String.Empty).Trim();
+                        //rec.ScheduleNum = Data.CastDbNull.To<decimal>(reader["ScheduleNum"], 0);
+                        //rec.ScheduleDate = Data.CastDbNull.To<DateTime>(reader["ScheduleDate"], DateTime.MinValue);
+                        //rec.Process = Data.CastDbNull.To<string>(reader["Process"], String.Empty).Trim();
+                        rec.E1BatchID = Data.CastDbNull.To<string>(reader["E1BatchID"], String.Empty).Trim();
+                        rec.UserID = Data.CastDbNull.To<string>(reader["UserID"], String.Empty).Trim();
+                        rec.Workstation = Data.CastDbNull.To<string>(reader["Workstation"], String.Empty).Trim();
+                        rec.DoNotTransfer = Data.CastDbNull.To<bool>(reader["DoNotTransfer"], false);
+                        rec.Transferred = Data.CastDbNull.To<bool>(reader["Transferred"], false);
+                        rec.TransferredDate = Data.CastDbNull.To<DateTime>(reader["TransferredDate"], DateTime.MinValue);
                         records.Add(rec);
                     }
 
@@ -204,21 +204,21 @@ namespace CGServicesHV.Common.Managers.ShopFloor
                     while (reader.Read())
                     {
                         var rec = new WoMgmtItem();
-                        rec.PlantID = CastDbNull.To<string>(reader["S7MCU"], plant.PlantNum);
-                        rec.WOManagementID = CastDbNull.To<int>(reader["WOManagementID"], 0);
-                        rec.WOStatus = CastDbNull.To<string>(reader["WOStatus"], String.Empty).Trim();
-                        rec.ActionDateTime = CastDbNull.To<DateTime>(reader["ActionDateTime"], DateTime.MinValue);
-                        //rec.WONumber = CastDbNull.To<decimal>(reader["WONumber"], 0);
-                        rec.WODocType = CastDbNull.To<string>(reader["WODocType"], String.Empty).Trim();
-                        rec.ScheduleNum = CastDbNull.To<decimal>(reader["ScheduleNum"], 0);
-                        rec.ScheduleDate = CastDbNull.To<DateTime>(reader["ScheduleDate"], DateTime.MinValue);
-                        //rec.Process = CastDbNull.To<string>(reader["Process"], String.Empty).Trim();
-                        rec.E1BatchID = CastDbNull.To<string>(reader["E1BatchID"], String.Empty).Trim();
-                        rec.UserID = CastDbNull.To<string>(reader["UserID"], String.Empty).Trim();
-                        rec.Workstation = CastDbNull.To<string>(reader["Workstation"], String.Empty).Trim();
-                        rec.DoNotTransfer = CastDbNull.To<bool>(reader["DoNotTransfer"], false);
-                        rec.Transferred = CastDbNull.To<bool>(reader["Transferred"], false);
-                        rec.TransferredDate = CastDbNull.To<DateTime>(reader["TransferredDate"], DateTime.MinValue);
+                        rec.PlantID = Data.CastDbNull.To<string>(reader["S7MCU"], plant.PlantNum);
+                        rec.WOManagementID = Data.CastDbNull.To<int>(reader["WOManagementID"], 0);
+                        rec.WOStatus = Data.CastDbNull.To<string>(reader["WOStatus"], String.Empty).Trim();
+                        rec.ActionDateTime = Data.CastDbNull.To<DateTime>(reader["ActionDateTime"], DateTime.MinValue);
+                        //rec.WONumber = Data.CastDbNull.To<decimal>(reader["WONumber"], 0);
+                        rec.WODocType = Data.CastDbNull.To<string>(reader["WODocType"], String.Empty).Trim();
+                        rec.ScheduleNum = Data.CastDbNull.To<decimal>(reader["ScheduleNum"], 0);
+                        rec.ScheduleDate = Data.CastDbNull.To<DateTime>(reader["ScheduleDate"], DateTime.MinValue);
+                        //rec.Process = Data.CastDbNull.To<string>(reader["Process"], String.Empty).Trim();
+                        rec.E1BatchID = Data.CastDbNull.To<string>(reader["E1BatchID"], String.Empty).Trim();
+                        rec.UserID = Data.CastDbNull.To<string>(reader["UserID"], String.Empty).Trim();
+                        rec.Workstation = Data.CastDbNull.To<string>(reader["Workstation"], String.Empty).Trim();
+                        rec.DoNotTransfer = Data.CastDbNull.To<bool>(reader["DoNotTransfer"], false);
+                        rec.Transferred = Data.CastDbNull.To<bool>(reader["Transferred"], false);
+                        rec.TransferredDate = Data.CastDbNull.To<DateTime>(reader["TransferredDate"], DateTime.MinValue);
                         records.Add(rec);
                     }
 

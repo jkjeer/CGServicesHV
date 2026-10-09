@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.Runtime.Serialization;
 using CGServicesHV.Common.Types.Response;
 using NLog;
 
-namespace CGServicesHV.Common.Managers.Enterprise
+namespace CGServicesHV.Common.Utilities
 {
     [DataContract(Namespace = "")]
     public class BulkCopyManager
@@ -41,7 +41,7 @@ namespace CGServicesHV.Common.Managers.Enterprise
                         bulk.ColumnMappings.Add(map);
                     }
                     bulk.WriteToServer(dt);
-                    var rowsCopiedValue = (int) rowsCopiedField.GetValue(bulk);
+                    var rowsCopiedValue = (long) rowsCopiedField.GetValue(bulk);
                     response.RowsCopied = rowsCopiedValue;
                 }
                 catch (Exception e)
@@ -96,7 +96,7 @@ namespace CGServicesHV.Common.Managers.Enterprise
                             bulk.ColumnMappings.Add(map);
                         }
                     bulk.WriteToServer(dr);
-                    var rowsCopiedValue = (int)rowsCopiedField.GetValue(bulk);
+                    var rowsCopiedValue = (long)rowsCopiedField.GetValue(bulk);
                     response.RowsCopied = rowsCopiedValue;
                 }
                 catch (Exception e)
@@ -150,7 +150,7 @@ namespace CGServicesHV.Common.Managers.Enterprise
                             bulk.ColumnMappings.Add(map);
                         }
                     bulk.WriteToServer(dr);
-                    var rowsCopiedValue = (int)rowsCopiedField.GetValue(bulk);
+                    var rowsCopiedValue = (long)rowsCopiedField.GetValue(bulk);
                     response.RowsCopied = rowsCopiedValue;
                 }
                 catch (Exception e)

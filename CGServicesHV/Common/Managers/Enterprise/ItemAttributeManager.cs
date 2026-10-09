@@ -499,7 +499,7 @@ namespace CGServicesHV.Common.Managers.Enterprise
                 {
                     while (reader.Read())
                     {
-                        val = CastDbNull.To<decimal>(reader["CMCFGID"], 0);
+                        val = Data.CastDbNull.To<decimal>(reader["CMCFGID"], 0);
                         i++;
                     }
 

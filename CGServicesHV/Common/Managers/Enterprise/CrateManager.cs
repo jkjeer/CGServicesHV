@@ -188,16 +188,16 @@ namespace CGServicesHV.Common.Managers.Enterprise
                     {
                         crate = new Crate
                         {
-                            OrderNum = CastDbNull.To<decimal>(reader["CRDOCO"], 0),
-                            OrderType = CastDbNull.To(reader["CRDCTO"], string.Empty).Trim(),
-                            OrderCompany = CastDbNull.To(reader["CRKCOO"], string.Empty).Trim(),
-                            OrderLineNum = CastDbNull.To<decimal>(reader["CRLNID"], 0),
-                            OrderQuantity = CastDbNull.To<decimal>(reader["CRUORG"], 0),
-                            CrateId = CastDbNull.To<decimal>(reader["CRZ58CRID"], 0),
-                            CrateType = CastDbNull.To(reader["CRZ58CRTY"], string.Empty).Trim(),
-                            Quantity = CastDbNull.To<decimal>(reader["CRZ58CRQ"], 0),
-                            Message = CastDbNull.To(reader["CRZ58CRMSG"], string.Empty).Trim(),
-                            Description = CastDbNull.To(reader["DRDL01"], string.Empty).Trim()
+                            OrderNum = Data.CastDbNull.To<decimal>(reader["CRDOCO"], 0),
+                            OrderType = Data.CastDbNull.To(reader["CRDCTO"], string.Empty).Trim(),
+                            OrderCompany = Data.CastDbNull.To(reader["CRKCOO"], string.Empty).Trim(),
+                            OrderLineNum = Data.CastDbNull.To<decimal>(reader["CRLNID"], 0),
+                            OrderQuantity = Data.CastDbNull.To<decimal>(reader["CRUORG"], 0),
+                            CrateId = Data.CastDbNull.To<decimal>(reader["CRZ58CRID"], 0),
+                            CrateType = Data.CastDbNull.To(reader["CRZ58CRTY"], string.Empty).Trim(),
+                            Quantity = Data.CastDbNull.To<decimal>(reader["CRZ58CRQ"], 0),
+                            Message = Data.CastDbNull.To(reader["CRZ58CRMSG"], string.Empty).Trim(),
+                            Description = Data.CastDbNull.To(reader["DRDL01"], string.Empty).Trim()
                         };
                         counter++;
                     }
@@ -239,16 +239,16 @@ namespace CGServicesHV.Common.Managers.Enterprise
         //        {
         //            var f580220 = new F580220
         //            {
-        //                CRDOCO = CastDbNull.To<decimal>(reader["CRDOCO"], 0),
-        //                CRDCTO = CastDbNull.To(reader["CRDCTO"], string.Empty).Trim(),
-        //                CRKCOO = CastDbNull.To(reader["CRKCOO"], string.Empty).Trim(),
-        //                CRLNID = CastDbNull.To<decimal>(reader["CRLNID"], 0),
-        //                CRUORG = CastDbNull.To<decimal>(reader["CRUORG"], 0),
-        //                CRZ58CRID = CastDbNull.To<decimal>(reader["CRZ58CRID"], 0),
-        //                CRZ58CRTY = CastDbNull.To(reader["CRZ58CRTY"], string.Empty).Trim(),
-        //                CRZ58CRQ = CastDbNull.To<decimal>(reader["CRZ58CRQ"], 0),
-        //                CRZ58CRMSG = CastDbNull.To(reader["CRZ58CRMSG"], string.Empty).Trim(),
-        //                DRDL01 = CastDbNull.To(reader["DRDL01"], string.Empty).Trim()
+        //                CRDOCO = Data.CastDbNull.To<decimal>(reader["CRDOCO"], 0),
+        //                CRDCTO = Data.CastDbNull.To(reader["CRDCTO"], string.Empty).Trim(),
+        //                CRKCOO = Data.CastDbNull.To(reader["CRKCOO"], string.Empty).Trim(),
+        //                CRLNID = Data.CastDbNull.To<decimal>(reader["CRLNID"], 0),
+        //                CRUORG = Data.CastDbNull.To<decimal>(reader["CRUORG"], 0),
+        //                CRZ58CRID = Data.CastDbNull.To<decimal>(reader["CRZ58CRID"], 0),
+        //                CRZ58CRTY = Data.CastDbNull.To(reader["CRZ58CRTY"], string.Empty).Trim(),
+        //                CRZ58CRQ = Data.CastDbNull.To<decimal>(reader["CRZ58CRQ"], 0),
+        //                CRZ58CRMSG = Data.CastDbNull.To(reader["CRZ58CRMSG"], string.Empty).Trim(),
+        //                DRDL01 = Data.CastDbNull.To(reader["DRDL01"], string.Empty).Trim()
         //            };
         //            f580220s.Add(f580220);
         //        }

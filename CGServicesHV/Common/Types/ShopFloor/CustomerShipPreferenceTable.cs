@@ -48,26 +48,26 @@ namespace CGServicesHV.Common.Types.ShopFloor
                 while (reader.Read())
                 {
                     var dr = NewRow();
-                    dr["ShipToCustNum"] = CastDbNull.To<decimal>(reader["CPSHAN"], 0);
-                    dr["Code01"] = CastDbNull.To<string>(reader["CPZ58CCV01"], String.Empty).Trim();
-                    dr["Code02"] = CastDbNull.To<string>(reader["CPZ58CCV02"], String.Empty).Trim();
-                    dr["Code03"] = CastDbNull.To<string>(reader["CPZ58CCV03"], String.Empty).Trim();
-                    dr["Code04"] = CastDbNull.To<string>(reader["CPZ58CCV04"], String.Empty).Trim();
-                    dr["Code05"] = CastDbNull.To<string>(reader["CPZ58CCV05"], String.Empty).Trim();
-                    dr["Code06"] = CastDbNull.To<string>(reader["CPZ58CCV06"], String.Empty).Trim();
-                    dr["Code07"] = CastDbNull.To<string>(reader["CPZ58CCV07"], String.Empty).Trim();
-                    dr["Code08"] = CastDbNull.To<string>(reader["CPZ58CCV08"], String.Empty).Trim();
-                    dr["Code09"] = CastDbNull.To<string>(reader["CPZ58CCV09"], String.Empty).Trim();
-                    dr["Code10"] = CastDbNull.To<string>(reader["CPZ58CCV10"], String.Empty).Trim();
-                    dr["Code11"] = CastDbNull.To<string>(reader["CPZ58CCV11"], String.Empty).Trim();
-                    dr["Code12"] = CastDbNull.To<string>(reader["CPZ58CCV12"], String.Empty).Trim();
-                    dr["Code13"] = CastDbNull.To<string>(reader["CPZ58CCV13"], String.Empty).Trim();
-                    dr["Code14"] = CastDbNull.To<string>(reader["CPZ58CCV14"], String.Empty).Trim();
-                    dr["Code15"] = CastDbNull.To<string>(reader["CPZ58CCV15"], String.Empty).Trim();
-                    dr["DeliveryInstruction01"] = CastDbNull.To<string>(reader["CPDEL1"], String.Empty).Trim();
-                    dr["DeliveryInstruction02"] = CastDbNull.To<string>(reader["CPDEL2"], String.Empty).Trim();
-                    dr["UnitType"] = CastDbNull.To<string>(reader["CPZ5860010"], String.Empty).Trim();
-                    dr["TransactionDate"] = Utilities.Common.CastToDateTime(CastDbNull.To<decimal>(reader["CPUPMJ"], 0), CastDbNull.To<decimal>(reader["CPUPMT"], 0)).AddMinutes(plant.BusinessSystemOffset);
+                    dr["ShipToCustNum"] = Data.CastDbNull.To<decimal>(reader["CPSHAN"], 0);
+                    dr["Code01"] = Data.CastDbNull.To<string>(reader["CPZ58CCV01"], String.Empty).Trim();
+                    dr["Code02"] = Data.CastDbNull.To<string>(reader["CPZ58CCV02"], String.Empty).Trim();
+                    dr["Code03"] = Data.CastDbNull.To<string>(reader["CPZ58CCV03"], String.Empty).Trim();
+                    dr["Code04"] = Data.CastDbNull.To<string>(reader["CPZ58CCV04"], String.Empty).Trim();
+                    dr["Code05"] = Data.CastDbNull.To<string>(reader["CPZ58CCV05"], String.Empty).Trim();
+                    dr["Code06"] = Data.CastDbNull.To<string>(reader["CPZ58CCV06"], String.Empty).Trim();
+                    dr["Code07"] = Data.CastDbNull.To<string>(reader["CPZ58CCV07"], String.Empty).Trim();
+                    dr["Code08"] = Data.CastDbNull.To<string>(reader["CPZ58CCV08"], String.Empty).Trim();
+                    dr["Code09"] = Data.CastDbNull.To<string>(reader["CPZ58CCV09"], String.Empty).Trim();
+                    dr["Code10"] = Data.CastDbNull.To<string>(reader["CPZ58CCV10"], String.Empty).Trim();
+                    dr["Code11"] = Data.CastDbNull.To<string>(reader["CPZ58CCV11"], String.Empty).Trim();
+                    dr["Code12"] = Data.CastDbNull.To<string>(reader["CPZ58CCV12"], String.Empty).Trim();
+                    dr["Code13"] = Data.CastDbNull.To<string>(reader["CPZ58CCV13"], String.Empty).Trim();
+                    dr["Code14"] = Data.CastDbNull.To<string>(reader["CPZ58CCV14"], String.Empty).Trim();
+                    dr["Code15"] = Data.CastDbNull.To<string>(reader["CPZ58CCV15"], String.Empty).Trim();
+                    dr["DeliveryInstruction01"] = Data.CastDbNull.To<string>(reader["CPDEL1"], String.Empty).Trim();
+                    dr["DeliveryInstruction02"] = Data.CastDbNull.To<string>(reader["CPDEL2"], String.Empty).Trim();
+                    dr["UnitType"] = Data.CastDbNull.To<string>(reader["CPZ5860010"], String.Empty).Trim();
+                    dr["TransactionDate"] = Utilities.Common.CastToDateTime(Data.CastDbNull.To<decimal>(reader["CPUPMJ"], 0), Data.CastDbNull.To<decimal>(reader["CPUPMT"], 0)).AddMinutes(plant.BusinessSystemOffset);
                     Rows.Add(dr);
                 }
                 reader.Close();

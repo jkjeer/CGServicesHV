@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using CGServicesHV.Common.Managers.E1;
@@ -201,6 +201,7 @@ namespace CGServicesHV.Common.Managers.Process
 	                RORCTO,
 	                RORLLN,
 	                ROEDTR,
+                    COALESCE(SD1.SDVR01, SD2.SDVR01) AS SDVR01,
 	                ROUORG,
 	                ROZ58JBSTS,
 	                ROUPMJ,

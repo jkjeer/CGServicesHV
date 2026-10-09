@@ -45,14 +45,14 @@ namespace CGServicesHV.Common.Types.ShopFloor
                     while (reader.Read())
                     {
                         DataRow dr = this.NewRow();
-                        dr["ScheduleNum"] = CastDbNull.To<decimal>(reader["S1Z58SCN"], 0);
+                        dr["ScheduleNum"] = Data.CastDbNull.To<decimal>(reader["S1Z58SCN"], 0);
                         dr["ScheduleDate"] = Timestamp.CastToDateTime(Data.CastDbNull.To<decimal>(reader["S1Z58SCD"], 0));
                         dr["DueDate"] = Timestamp.CastToDateTime(Data.CastDbNull.To<decimal>(reader["S1Z58SCDDJ"], 0));
-                        dr["BatchNum"] = CastDbNull.To<string>(reader["S6EDBT"], String.Empty).Trim();
-                        dr["SystemCode"] = CastDbNull.To<string>(reader["S1Z58SFS"], String.Empty).Trim();
-                        dr["SystemName"] = CastDbNull.To<string>(reader["S1Z58SFS_DESC"], String.Empty).Trim();
-                        dr["ScheduleType"] = CastDbNull.To<string>(reader["S1Z58SCTYP"], String.Empty).Trim();
-                        dr["Status"] = CastDbNull.To<string>(reader["S1Z58SCSTS"], String.Empty).Trim();
+                        dr["BatchNum"] = Data.CastDbNull.To<string>(reader["S6EDBT"], String.Empty).Trim();
+                        dr["SystemCode"] = Data.CastDbNull.To<string>(reader["S1Z58SFS"], String.Empty).Trim();
+                        dr["SystemName"] = Data.CastDbNull.To<string>(reader["S1Z58SFS_DESC"], String.Empty).Trim();
+                        dr["ScheduleType"] = Data.CastDbNull.To<string>(reader["S1Z58SCTYP"], String.Empty).Trim();
+                        dr["Status"] = Data.CastDbNull.To<string>(reader["S1Z58SCSTS"], String.Empty).Trim();
                         dr["Lines"] = 0;
                         dr["Quantity"] = 0;
                         dr["TransactionDate"] = Timestamp.CastToDateTime(Data.CastDbNull.To<decimal>(reader["S1UPMJ"], 0),

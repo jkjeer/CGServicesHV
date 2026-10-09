@@ -188,26 +188,26 @@ namespace CGServicesHV.Common.Managers.E1
                     {
                         var f580220 = new F580220
                         {
-                            CRZ58CRID = CastDbNull.To<decimal>(reader["CRZ58CRID"], 0),
-                            CRZ58CRTY = CastDbNull.To(reader["CRZ58CRTY"], string.Empty).Trim(),
-                            CRDOCO = CastDbNull.To<decimal>(reader["CRDOCO"], 0),
-                            CRDCTO = CastDbNull.To(reader["CRDCTO"], string.Empty).Trim(),
-                            CRKCOO = CastDbNull.To(reader["CRKCOO"], string.Empty).Trim(),
-                            CRLNID = CastDbNull.To<decimal>(reader["CRLNID"], 0),
-                            CRUORG = CastDbNull.To<decimal>(reader["CRUORG"], 0),
-                            CRZ58CRQ = CastDbNull.To<decimal>(reader["CRZ58CRQ"], 0),
-                            CRZ58CRMSG = CastDbNull.To(reader["CRZ58CRMSG"], string.Empty).Trim(),
-                            CRDOC1 = CastDbNull.To<decimal>(reader["CRDOC1"], 0),
-                            CRRCTO = CastDbNull.To(reader["CRRCTO"], string.Empty).Trim(),
-                            CRRKCO = CastDbNull.To(reader["CRRKCO"], string.Empty).Trim(),
-                            CRRLLN = CastDbNull.To<decimal>(reader["CRRLLN"], 0),
-                            CREV01 = CastDbNull.To(reader["CREV01"], string.Empty).Trim(),
-                            CREV02 = CastDbNull.To(reader["CREV02"], string.Empty).Trim(),
-                            CRUSER = CastDbNull.To(reader["CRUSER"], string.Empty).Trim(),
-                            CRPID = CastDbNull.To(reader["CRPID"], string.Empty).Trim(),
-                            CRJOBN = CastDbNull.To(reader["CRJOBN"], string.Empty).Trim(),
-                            CRUPMJ = CastDbNull.To<decimal>(reader["CRUPMJ"], 0),
-                            CRTDAY = CastDbNull.To<decimal>(reader["CRTDAY"], 0)
+                            CRZ58CRID = Data.CastDbNull.To<decimal>(reader["CRZ58CRID"], 0),
+                            CRZ58CRTY = Data.CastDbNull.To(reader["CRZ58CRTY"], string.Empty).Trim(),
+                            CRDOCO = Data.CastDbNull.To<decimal>(reader["CRDOCO"], 0),
+                            CRDCTO = Data.CastDbNull.To(reader["CRDCTO"], string.Empty).Trim(),
+                            CRKCOO = Data.CastDbNull.To(reader["CRKCOO"], string.Empty).Trim(),
+                            CRLNID = Data.CastDbNull.To<decimal>(reader["CRLNID"], 0),
+                            CRUORG = Data.CastDbNull.To<decimal>(reader["CRUORG"], 0),
+                            CRZ58CRQ = Data.CastDbNull.To<decimal>(reader["CRZ58CRQ"], 0),
+                            CRZ58CRMSG = Data.CastDbNull.To(reader["CRZ58CRMSG"], string.Empty).Trim(),
+                            CRDOC1 = Data.CastDbNull.To<decimal>(reader["CRDOC1"], 0),
+                            CRRCTO = Data.CastDbNull.To(reader["CRRCTO"], string.Empty).Trim(),
+                            CRRKCO = Data.CastDbNull.To(reader["CRRKCO"], string.Empty).Trim(),
+                            CRRLLN = Data.CastDbNull.To<decimal>(reader["CRRLLN"], 0),
+                            CREV01 = Data.CastDbNull.To(reader["CREV01"], string.Empty).Trim(),
+                            CREV02 = Data.CastDbNull.To(reader["CREV02"], string.Empty).Trim(),
+                            CRUSER = Data.CastDbNull.To(reader["CRUSER"], string.Empty).Trim(),
+                            CRPID = Data.CastDbNull.To(reader["CRPID"], string.Empty).Trim(),
+                            CRJOBN = Data.CastDbNull.To(reader["CRJOBN"], string.Empty).Trim(),
+                            CRUPMJ = Data.CastDbNull.To<decimal>(reader["CRUPMJ"], 0),
+                            CRTDAY = Data.CastDbNull.To<decimal>(reader["CRTDAY"], 0)
                         };
                         f580220s.Add(f580220);
                     }
@@ -284,26 +284,26 @@ namespace CGServicesHV.Common.Managers.E1
                         {
                             var f580220 = new F580220
                             {
-                                CRZ58CRID = CastDbNull.To<decimal>(reader["CRZ58CRID"], 0),
-                                CRZ58CRTY = CastDbNull.To(reader["CRZ58CRTY"], string.Empty).Trim(),
-                                CRDOCO = CastDbNull.To<decimal>(reader["CRDOCO"], 0),
-                                CRDCTO = CastDbNull.To(reader["CRDCTO"], string.Empty).Trim(),
-                                CRKCOO = CastDbNull.To(reader["CRKCOO"], string.Empty).Trim(),
-                                CRLNID = CastDbNull.To<decimal>(reader["CRLNID"], 0),
-                                CRUORG = CastDbNull.To<decimal>(reader["CRUORG"], 0),
-                                CRZ58CRQ = CastDbNull.To<decimal>(reader["CRZ58CRQ"], 0),
-                                CRZ58CRMSG = CastDbNull.To(reader["CRZ58CRMSG"], string.Empty).Trim(),
-                                CRDOC1 = CastDbNull.To<decimal>(reader["CRDOC1"], 0),
-                                CRRCTO = CastDbNull.To(reader["CRRCTO"], string.Empty).Trim(),
-                                CRRKCO = CastDbNull.To(reader["CRRKCO"], string.Empty).Trim(),
-                                CRRLLN = CastDbNull.To<decimal>(reader["CRRLLN"], 0),
-                                CREV01 = CastDbNull.To(reader["CREV01"], string.Empty).Trim(),
-                                CREV02 = CastDbNull.To(reader["CREV02"], string.Empty).Trim(),
-                                CRUSER = CastDbNull.To(reader["CRUSER"], string.Empty).Trim(),
-                                CRPID = CastDbNull.To(reader["CRPID"], string.Empty).Trim(),
-                                CRJOBN = CastDbNull.To(reader["CRJOBN"], string.Empty).Trim(),
-                                CRUPMJ = CastDbNull.To<decimal>(reader["CRUPMJ"], 0),
-                                CRTDAY = CastDbNull.To<decimal>(reader["CRTDAY"], 0)
+                                CRZ58CRID = Data.CastDbNull.To<decimal>(reader["CRZ58CRID"], 0),
+                                CRZ58CRTY = Data.CastDbNull.To(reader["CRZ58CRTY"], string.Empty).Trim(),
+                                CRDOCO = Data.CastDbNull.To<decimal>(reader["CRDOCO"], 0),
+                                CRDCTO = Data.CastDbNull.To(reader["CRDCTO"], string.Empty).Trim(),
+                                CRKCOO = Data.CastDbNull.To(reader["CRKCOO"], string.Empty).Trim(),
+                                CRLNID = Data.CastDbNull.To<decimal>(reader["CRLNID"], 0),
+                                CRUORG = Data.CastDbNull.To<decimal>(reader["CRUORG"], 0),
+                                CRZ58CRQ = Data.CastDbNull.To<decimal>(reader["CRZ58CRQ"], 0),
+                                CRZ58CRMSG = Data.CastDbNull.To(reader["CRZ58CRMSG"], string.Empty).Trim(),
+                                CRDOC1 = Data.CastDbNull.To<decimal>(reader["CRDOC1"], 0),
+                                CRRCTO = Data.CastDbNull.To(reader["CRRCTO"], string.Empty).Trim(),
+                                CRRKCO = Data.CastDbNull.To(reader["CRRKCO"], string.Empty).Trim(),
+                                CRRLLN = Data.CastDbNull.To<decimal>(reader["CRRLLN"], 0),
+                                CREV01 = Data.CastDbNull.To(reader["CREV01"], string.Empty).Trim(),
+                                CREV02 = Data.CastDbNull.To(reader["CREV02"], string.Empty).Trim(),
+                                CRUSER = Data.CastDbNull.To(reader["CRUSER"], string.Empty).Trim(),
+                                CRPID = Data.CastDbNull.To(reader["CRPID"], string.Empty).Trim(),
+                                CRJOBN = Data.CastDbNull.To(reader["CRJOBN"], string.Empty).Trim(),
+                                CRUPMJ = Data.CastDbNull.To<decimal>(reader["CRUPMJ"], 0),
+                                CRTDAY = Data.CastDbNull.To<decimal>(reader["CRTDAY"], 0)
                             };
                             f580220s.Add(f580220);
                         }

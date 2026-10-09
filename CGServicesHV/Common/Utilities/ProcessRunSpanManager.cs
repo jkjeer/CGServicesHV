@@ -3,7 +3,7 @@ using CGServicesHV.Common.Managers.E1;
 using CGServicesHV.Common.Types.Enterprise;
 using CGServicesHV.Common.Types.ShopFloor;
 
-namespace CGServicesHV.Common.Managers.Enterprise
+namespace CGServicesHV.Common.Utilities
 {
     public class ProcessRunSpanManager
     {

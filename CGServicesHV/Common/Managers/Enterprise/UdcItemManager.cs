@@ -166,16 +166,16 @@ namespace CGServicesHV.Common.Managers.Enterprise
                     {
                         var udcItem = new UdcItem
                         {
-                            ProductCode = CastDbNull.To(reader["DRSY"], string.Empty).Trim(),
-                            UserCode = CastDbNull.To(reader["DRRT"], string.Empty).Trim(),
-                            UserCodeType = CastDbNull.To(reader["DTDL01"], string.Empty).Trim(),
-                            UserValue = CastDbNull.To(reader["DRKY"], string.Empty).Trim(),
-                            Description1 = CastDbNull.To(reader["DRDL01"], string.Empty).Trim(),
-                            Description2 = CastDbNull.To(reader["DRDL02"], string.Empty).Trim(),
-                            SpecialHandlingCode = CastDbNull.To(reader["DRSPHD"], string.Empty).Trim()
+                            ProductCode = Data.CastDbNull.To(reader["DRSY"], string.Empty).Trim(),
+                            UserCode = Data.CastDbNull.To(reader["DRRT"], string.Empty).Trim(),
+                            UserCodeType = Data.CastDbNull.To(reader["DTDL01"], string.Empty).Trim(),
+                            UserValue = Data.CastDbNull.To(reader["DRKY"], string.Empty).Trim(),
+                            Description1 = Data.CastDbNull.To(reader["DRDL01"], string.Empty).Trim(),
+                            Description2 = Data.CastDbNull.To(reader["DRDL02"], string.Empty).Trim(),
+                            SpecialHandlingCode = Data.CastDbNull.To(reader["DRSPHD"], string.Empty).Trim()
                         };
-                        var updateDateId = CastDbNull.To<decimal>(reader["DRUPMJ"], 0);
-                        var updateTimeId = CastDbNull.To<decimal>(reader["DRUPMT"], 0);
+                        var updateDateId = Data.CastDbNull.To<decimal>(reader["DRUPMJ"], 0);
+                        var updateTimeId = Data.CastDbNull.To<decimal>(reader["DRUPMT"], 0);
                         udcItem.UpdateDateTime = Utilities.Common.CastToDateTime(updateDateId, updateTimeId);
                         udcItems.Add(udcItem);
                     }
@@ -215,16 +215,16 @@ namespace CGServicesHV.Common.Managers.Enterprise
                     {
                         var udcItem = new UdcItem
                         {
-                            ProductCode = CastDbNull.To(reader["DRSY"], string.Empty).Trim(),
-                            UserCode = CastDbNull.To(reader["DRRT"], string.Empty).Trim(),
-                            UserCodeType = CastDbNull.To(reader["DTDL01"], string.Empty).Trim(),
-                            UserValue = CastDbNull.To(reader["DRKY"], string.Empty).Trim(),
-                            Description1 = CastDbNull.To(reader["DRDL01"], string.Empty).Trim(),
-                            Description2 = CastDbNull.To(reader["DRDL02"], string.Empty).Trim(),
-                            SpecialHandlingCode = CastDbNull.To(reader["DRSPHD"], string.Empty).Trim()
+                            ProductCode = Data.CastDbNull.To(reader["DRSY"], string.Empty).Trim(),
+                            UserCode = Data.CastDbNull.To(reader["DRRT"], string.Empty).Trim(),
+                            UserCodeType = Data.CastDbNull.To(reader["DTDL01"], string.Empty).Trim(),
+                            UserValue = Data.CastDbNull.To(reader["DRKY"], string.Empty).Trim(),
+                            Description1 = Data.CastDbNull.To(reader["DRDL01"], string.Empty).Trim(),
+                            Description2 = Data.CastDbNull.To(reader["DRDL02"], string.Empty).Trim(),
+                            SpecialHandlingCode = Data.CastDbNull.To(reader["DRSPHD"], string.Empty).Trim()
                         };
-                        var updateDateId = CastDbNull.To<decimal>(reader["DRUPMJ"], 0);
-                        var updateTimeId = CastDbNull.To<decimal>(reader["DRUPMT"], 0);
+                        var updateDateId = Data.CastDbNull.To<decimal>(reader["DRUPMJ"], 0);
+                        var updateTimeId = Data.CastDbNull.To<decimal>(reader["DRUPMT"], 0);
                         udcItem.UpdateDateTime = Utilities.Common.CastToDateTime(updateDateId, updateTimeId);
                         counter++;
                     }

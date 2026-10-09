@@ -1,7 +1,7 @@
 ﻿using System;
 using CGServicesHV.Common.Types.Response;
 
-namespace CGServicesHV.Common.Managers.Enterprise
+namespace CGServicesHV.Common.Utilities
 {
     public static class ConnectionStringManager
     {

@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlClient;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using CGServicesHV.Common.Managers.E1;
+﻿using CGServicesHV.Common.Managers.E1;
 using CGServicesHV.Common.Managers.Enterprise;
 using CGServicesHV.Common.Managers.ShopFloor;
 using CGServicesHV.Common.Types.E1;
@@ -13,6 +6,14 @@ using CGServicesHV.Common.Types.Enterprise;
 using CGServicesHV.Common.Types.Response;
 using CGServicesHV.Common.Utilities;
 using NLog;
+using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
+using Microsoft.Data.SqlClient;
+using System.Globalization;
+using System.Linq;
+using System.Text;
 // ReSharper disable InconsistentNaming
 
 namespace CGServicesHV.Common.Managers.Process
@@ -272,12 +273,15 @@ namespace CGServicesHV.Common.Managers.Process
                     recipients.AddRange(Mail.GetRecipients(sqlCns["CORP.INTEGRATION"], "CG_SCHEDULE_BACKOUT", "ADMIN", null, null));
                     recipients.AddRange(Mail.GetRecipients(sqlCns["CORP.INTEGRATION"], "CG_SCHEDULE_BACKOUT", "PUBLIC", evt.Plant.PlantCode, null));
                     recipients.AddRange(Mail.GetRecipients(sqlCns["CORP.INTEGRATION"], "CG_SCHEDULE_BACKOUT", "USER", evt.Plant.PlantCode, null));
+                    var subject = $"{(response.HasErrors() ? "ERROR - " : String.Empty)}{evt.Plant.PlantCode} [{System.Configuration.ConfigurationManager.AppSettings["PrimaryEnvironment"]}] Schedule {evt.ScheduleNum} Backout";
+
+                    Mail.StoreResponse($@"{ConfigurationManager.AppSettings["ProcessResponseFilePath"]}\{response.Plant.PlantCode}", subject, xslOutput);
 
                     Mail.SendHtmlAsync(System.Configuration.ConfigurationManager.AppSettings["SmtpHost"],
                         System.Configuration.ConfigurationManager.AppSettings["MailFromAddress"],
                         recipients,
                         null,
-                        $"{(response.HasErrors() ? "ERROR - " : String.Empty)}{evt.Plant.PlantCode} [{System.Configuration.ConfigurationManager.AppSettings["PrimaryEnvironment"]}] Schedule {evt.ScheduleNum} Backout",
+                        subject,
                         xslOutput);
                 }
                 catch (Exception e)

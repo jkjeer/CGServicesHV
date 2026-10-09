@@ -1,13 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Data.SqlClient;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Xml.Linq;
-using CGServicesHV.Common.Managers.E1;
+﻿using CGServicesHV.Common.Managers.E1;
 using CGServicesHV.Common.Managers.Enterprise;
 using CGServicesHV.Common.Managers.ShopFloor;
 using CGServicesHV.Common.Types.E1;
@@ -16,7 +7,17 @@ using CGServicesHV.Common.Types.Response;
 using CGServicesHV.Common.Types.ShopFloor;
 using CGServicesHV.Common.Utilities;
 using IBM.Data.DB2.iSeries;
+using Newtonsoft.Json.Linq;
 using NLog;
+using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
+using Microsoft.Data.SqlClient;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Xml.Linq;
 
 // ReSharper disable InconsistentNaming
 
@@ -40,6 +41,7 @@ namespace CGServicesHV.Common.Managers.Process
         {
             var response = new ProcessResponse("HV Receipt Upload Manager", plant);
             response.ConnectionStrings.Add(new ConnectionString("E1", session.DbConnection.ConnectionString));
+
             foreach (var sqlCn in sqlCns)
             {
                 response.ConnectionStrings.Add(new ConnectionString(sqlCn.Key, sqlCn.Value.ConnectionString));
@@ -296,6 +298,10 @@ namespace CGServicesHV.Common.Managers.Process
                         Logger.Info("Serialized Process: " + serializedXml);
                         var xslOutput = XsltManager.Transform(serializedXml, "CGServicesHV.Common.Xslt.HvReceiptUploadReport.xslt", Encoding.UTF8);
                         Logger.Info("Report XML: " + xslOutput);
+
+                        var subject = $@"{plant.PlantCode} [{ConfigurationManager.AppSettings["PrimaryEnvironment"]}] HV Receipt Upload ";
+                        Mail.StoreResponse($@"{ConfigurationManager.AppSettings["ProcessResponseFilePath"]}\{response.Plant.PlantCode}", subject, xslOutput);
+
                         //Mail.SendHtmlAsync(ConfigurationManager.AppSettings["SmtpHost"], ConfigurationManager.AppSettings["MailFromAddress"], ConfigurationManager.AppSettings["MailBizToAddress"], null, plant.PlantCode + " [" + ConfigurationManager.AppSettings["PrimaryEnvironment"] + "] " + "HV Receipt Upload ", xslOutput);
                     }
                     catch (Exception e)

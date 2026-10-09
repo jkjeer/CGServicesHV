@@ -31,7 +31,7 @@ namespace CGServicesHV.Common.Types.E1
                     {
                         try
                         {
-                            dt = Utilities.CastDbNull.To(reader["TS"], new DateTime(1900, 1, 1));
+                            dt = Utilities.Data.CastDbNull.To(reader["TS"], new DateTime(1900, 1, 1));
                         }
                         catch (Exception e)
                         {

@@ -1,14 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlClient;
-using System.IO;
-using System.Linq;
-using System.ServiceModel;
-using System.Text;
-using System.Xml.Linq;
-using CGServicesHV.Common.Managers.E1;
-using CGServicesHV.Common.Managers.Enterprise;
+﻿using CGServicesHV.Common.Managers.E1;
 using CGServicesHV.Common.Managers.ShopFloor;
 using CGServicesHV.Common.Types.E1;
 using CGServicesHV.Common.Types.Enterprise;
@@ -17,8 +7,13 @@ using CGServicesHV.Common.Types.ShopFloor;
 using CGServicesHV.Common.Utilities;
 using IBM.Data.DB2.iSeries;
 using NLog;
-
-// ReSharper disable InconsistentNaming
+using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
+using Microsoft.Data.SqlClient;
+using System.Linq;
+using System.Text;
 
 namespace CGServicesHV.Common.Managers.Process
 {
@@ -300,12 +295,13 @@ namespace CGServicesHV.Common.Managers.Process
                         recipients.AddRange(Mail.GetRecipients(sqlCns["CORP.INTEGRATION"], "WO_MGMT", "ADMIN"));
                         recipients.AddRange(Mail.GetRecipients(sqlCns["CORP.INTEGRATION"], "WO_MGMT", "PUBLIC", plant.PlantCode));
                         recipients.AddRange(Mail.GetRecipients(sqlCns["CORP.INTEGRATION"], "WO_MGMT", "USER", plant.PlantCode));
-
+                        var subject = $"{(response.HasErrors() ? "ERROR - " : String.Empty)}{plant.PlantCode} [{System.Configuration.ConfigurationManager.AppSettings["PrimaryEnvironment"]}] WO Mgmt Upload {(validationItems.Count > 0 ? "Validation" : "")} ";
+                        Mail.StoreResponse($@"{ConfigurationManager.AppSettings["ProcessResponseFilePath"]}\{response.Plant.PlantCode}", subject, xslOutput);
                         Mail.SendHtmlAsync(System.Configuration.ConfigurationManager.AppSettings["SmtpHost"],
                             System.Configuration.ConfigurationManager.AppSettings["MailFromAddress"],
                             recipients,
                             null,
-                            $"{(response.HasErrors() ? "ERROR - " : String.Empty)}{plant.PlantCode} [{System.Configuration.ConfigurationManager.AppSettings["PrimaryEnvironment"]}] WO Mgmt Upload {(validationItems.Count > 0 ? "Validation" : "")} ",
+                            subject,
                             xslOutput);
                     }
                     catch (Exception e)
@@ -578,12 +574,15 @@ namespace CGServicesHV.Common.Managers.Process
                         recipients.AddRange(Mail.GetRecipients(sqlCns["CORP.INTEGRATION"], "WO_MGMT", "ADMIN"));
                         recipients.AddRange(Mail.GetRecipients(sqlCns["CORP.INTEGRATION"], "WO_MGMT", "PUBLIC", plant.PlantCode));
                         recipients.AddRange(Mail.GetRecipients(sqlCns["CORP.INTEGRATION"], "WO_MGMT", "USER", plant.PlantCode));
+                        var subject = $"{(response.HasErrors() ? "ERROR - " : String.Empty)}{plant.PlantCode} [{System.Configuration.ConfigurationManager.AppSettings["PrimaryEnvironment"]}] WO Mgmt Upload {(validationItems.Count > 0 ? "Validation" : "")} ";
+
+                        Mail.StoreResponse($@"{ConfigurationManager.AppSettings["ProcessResponseFilePath"]}\{response.Plant.PlantCode}", subject, xslOutput);
 
                         Mail.SendHtmlAsync(System.Configuration.ConfigurationManager.AppSettings["SmtpHost"],
                             System.Configuration.ConfigurationManager.AppSettings["MailFromAddress"],
                             recipients,
                             null,
-                            $"{(response.HasErrors() ? "ERROR - " : String.Empty)}{plant.PlantCode} [{System.Configuration.ConfigurationManager.AppSettings["PrimaryEnvironment"]}] WO Mgmt Upload {(validationItems.Count > 0 ? "Validation" : "")} ",
+                            subject,
                             xslOutput);
                     }
                     catch (Exception e)
@@ -654,20 +653,22 @@ namespace CGServicesHV.Common.Managers.Process
                     {
                         var serializedXml = response.Serialize();
                         Logger.Info("Serialized Process: " + serializedXml);
-                        var xslOutput = XsltManager.Transform(serializedXml,
-                            "CGServicesHV.Common.Xslt.WoMgmtUploadReport.xslt", Encoding.UTF8);
+                        var xslOutput = XsltManager.Transform(serializedXml, "CGServicesHV.Common.Xslt.WoMgmtUploadReport.xslt", Encoding.UTF8);
                         Logger.Info("Report XML: " + xslOutput);
 
                         var recipients = new List<string>();
                         recipients.AddRange(Mail.GetRecipients(sqlCns["CORP.INTEGRATION"], "WO_MGMT", "ADMIN"));
                         recipients.AddRange(Mail.GetRecipients(sqlCns["CORP.INTEGRATION"], "WO_MGMT", "PUBLIC", plant.PlantCode));
                         recipients.AddRange(Mail.GetRecipients(sqlCns["CORP.INTEGRATION"], "WO_MGMT", "USER", plant.PlantCode));
+                        var subject = $"{(response.HasErrors() ? "ERROR - " : String.Empty)}{plant.PlantCode} [{System.Configuration.ConfigurationManager.AppSettings["PrimaryEnvironment"]}] WO Mgmt Upload Validation";
+                            
+                        Mail.StoreResponse($@"{ConfigurationManager.AppSettings["ProcessResponseFilePath"]}\{response.Plant.PlantCode}", subject, xslOutput);
 
                         Mail.SendHtmlAsync(System.Configuration.ConfigurationManager.AppSettings["SmtpHost"],
                             System.Configuration.ConfigurationManager.AppSettings["MailFromAddress"],
                             recipients,
                             null,
-                            $"{(response.HasErrors() ? "ERROR - " : String.Empty)}{plant.PlantCode} [{System.Configuration.ConfigurationManager.AppSettings["PrimaryEnvironment"]}] WO Mgmt Upload Validation",
+                            subject,
                             xslOutput);
                     }
                     catch (Exception e)

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using IBM.Data.DB2.iSeries;
@@ -255,10 +255,10 @@ namespace CGServicesHV.Common.Managers.Process
             try
             {
                 // Cannot run wide Open
-                if (!statusCodes.Any() && processRunSpan.IsEmpty && rackId == 0)
-                {
-                    filters.Add("0 = 1 AND \r\n");
-                }
+                //if (!statusCodes.Any() && processRunSpan.IsEmpty && rackId == 0)
+                //{
+                //    filters.Add("0 = 1 AND \r\n");
+                //}
 
                 // Plant - Required
                 filters.Add("RDMCU = ? AND \r\n");

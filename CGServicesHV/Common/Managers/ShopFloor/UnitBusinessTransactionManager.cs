@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -121,38 +121,38 @@ namespace CGServicesHV.Common.Managers.ShopFloor
                 {
                     var rec = new UnitBusinessTransaction();
                     rec.PlantID = plant.PlantNum;
-                    rec.UnitBusinessTransactionId = CastDbNull.To<int>(reader["UnitBusinessTransactionId"], 0);
-                    rec.TransactionId = CastDbNull.To<int>(reader["TransactionId"], 0);
-                    rec.TransactionType = CastDbNull.To<string>(reader["TransactionType"], String.Empty).Trim();
-                    rec.ProdType = CastDbNull.To<string>(reader["ProdType"], String.Empty).Trim();
-                    rec.WOrderNum = CastDbNull.To<decimal>(reader["WOrderNum"], 0);
-                    rec.LotNum = CastDbNull.To<decimal>(reader["WOrderNum"], 0).ToString();
-                    rec.ItemNum = CastDbNull.To<decimal>(reader["ItemNum"], 0);
-                    rec.LocationCode = CastDbNull.To<string>(reader["LocationCode"], String.Empty).Trim();
-                    rec.ScheduleNum = CastDbNull.To<decimal>(reader["ScheduleNum"], 0);
-                    rec.BoxNum = CastDbNull.To<decimal>(reader["BoxNum"], 0);
-                    rec.TransactionDate = CastDbNull.To<DateTime>(reader["TransactionDate"], DateTime.MinValue);
-                    rec.TransactionDateChar = CastDbNull.To<DateTime>(reader["TransactionDate"], DateTime.MinValue)
+                    rec.UnitBusinessTransactionId = Data.CastDbNull.To<int>(reader["UnitBusinessTransactionId"], 0);
+                    rec.TransactionId = Data.CastDbNull.To<int>(reader["TransactionId"], 0);
+                    rec.TransactionType = Data.CastDbNull.To<string>(reader["TransactionType"], String.Empty).Trim();
+                    rec.ProdType = Data.CastDbNull.To<string>(reader["ProdType"], String.Empty).Trim();
+                    rec.WOrderNum = Data.CastDbNull.To<decimal>(reader["WOrderNum"], 0);
+                    rec.LotNum = Data.CastDbNull.To<decimal>(reader["WOrderNum"], 0).ToString();
+                    rec.ItemNum = Data.CastDbNull.To<decimal>(reader["ItemNum"], 0);
+                    rec.LocationCode = Data.CastDbNull.To<string>(reader["LocationCode"], String.Empty).Trim();
+                    rec.ScheduleNum = Data.CastDbNull.To<decimal>(reader["ScheduleNum"], 0);
+                    rec.BoxNum = Data.CastDbNull.To<decimal>(reader["BoxNum"], 0);
+                    rec.TransactionDate = Data.CastDbNull.To<DateTime>(reader["TransactionDate"], DateTime.MinValue);
+                    rec.TransactionDateChar = Data.CastDbNull.To<DateTime>(reader["TransactionDate"], DateTime.MinValue)
                         .ToString("MM/dd/yyyy hh:mm:ss tt");
-                    rec.ProductionDate = CastDbNull.To<DateTime>(reader["ProductionDate"], DateTime.MinValue);
-                    rec.SerialNum = CastDbNull.To<string>(reader["SerialNum"], String.Empty).Trim();
-                    rec.RackId = CastDbNull.To<decimal>(reader["RackId"], 0);
-                    rec.LineTypeCode = CastDbNull.To<string>(reader["LineTypeCode"], String.Empty).Trim();
-                    rec.ProductionLineCode = CastDbNull.To<string>(reader["ProductionLineCode"], String.Empty).Trim();
-                    rec.LineOperationCode = CastDbNull.To<string>(reader["LineOperationCode"], String.Empty).Trim();
-                    rec.LineTransactionCode = CastDbNull.To<string>(reader["LineTransactionCode"], String.Empty).Trim();
-                    rec.LineCurrentStatusCode = CastDbNull.To<int>(reader["LineCurrentStatusCode"], 0);
-                    rec.IsFinalStation = CastDbNull.To<bool>(reader["IsFinalStation"], false);
-                    rec.BusinessRackStatusCode = CastDbNull.To<string>(reader["BusinessRackStatusCode"], String.Empty).Trim();
-                    rec.BusinessRackStationCode = CastDbNull.To<string>(reader["BusinessRackStationCode"], String.Empty).Trim();
-                    rec.E1WorkcenterCode = CastDbNull.To<string>(reader["E1WorkCenterCode"], String.Empty).Trim();
-                    rec.E1OperationCode = CastDbNull.To<string>(reader["E1OperationCode"], String.Empty).Trim();
-                    rec.RejectReason = CastDbNull.To<string>(reader["RejectReason"], String.Empty).Trim();
-                    rec.RejectCode = CastDbNull.To<string>(reader["RejectCode"], String.Empty).Trim();
-                    rec.Quantity = CastDbNull.To<int>(reader["Quantity"], 0);
+                    rec.ProductionDate = Data.CastDbNull.To<DateTime>(reader["ProductionDate"], DateTime.MinValue);
+                    rec.SerialNum = Data.CastDbNull.To<string>(reader["SerialNum"], String.Empty).Trim();
+                    rec.RackId = Data.CastDbNull.To<decimal>(reader["RackId"], 0);
+                    rec.LineTypeCode = Data.CastDbNull.To<string>(reader["LineTypeCode"], String.Empty).Trim();
+                    rec.ProductionLineCode = Data.CastDbNull.To<string>(reader["ProductionLineCode"], String.Empty).Trim();
+                    rec.LineOperationCode = Data.CastDbNull.To<string>(reader["LineOperationCode"], String.Empty).Trim();
+                    rec.LineTransactionCode = Data.CastDbNull.To<string>(reader["LineTransactionCode"], String.Empty).Trim();
+                    rec.LineCurrentStatusCode = Data.CastDbNull.To<int>(reader["LineCurrentStatusCode"], 0);
+                    rec.IsFinalStation = Data.CastDbNull.To<bool>(reader["IsFinalStation"], false);
+                    rec.BusinessRackStatusCode = Data.CastDbNull.To<string>(reader["BusinessRackStatusCode"], String.Empty).Trim();
+                    rec.BusinessRackStationCode = Data.CastDbNull.To<string>(reader["BusinessRackStationCode"], String.Empty).Trim();
+                    rec.E1WorkcenterCode = Data.CastDbNull.To<string>(reader["E1WorkCenterCode"], String.Empty).Trim();
+                    rec.E1OperationCode = Data.CastDbNull.To<string>(reader["E1OperationCode"], String.Empty).Trim();
+                    rec.RejectReason = Data.CastDbNull.To<string>(reader["RejectReason"], String.Empty).Trim();
+                    rec.RejectCode = Data.CastDbNull.To<string>(reader["RejectCode"], String.Empty).Trim();
+                    rec.Quantity = Data.CastDbNull.To<int>(reader["Quantity"], 0);
                     rec.LineTransactionDesc =
                         $"{rec.LineTransactionCode}{(!String.IsNullOrEmpty(rec.RejectReason) ? " [" + rec.RejectReason + "]" : "")}";
-                    rec.RoutingCode = CastDbNull.To<string>(reader["RoutingCode"], String.Empty).Trim();
+                    rec.RoutingCode = Data.CastDbNull.To<string>(reader["RoutingCode"], String.Empty).Trim();
                     rec.ProcessingStatus.TransferStatus = ProcessingStatus.TransferStatusCode.Reserved;
                     records.Add(rec);
                 }

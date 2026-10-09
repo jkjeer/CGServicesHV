@@ -37,10 +37,10 @@ namespace CGServicesHV.Common.Types.ShopFloor
                     while (reader.Read())
                     {
                         var dr = NewRow();
-                        dr["AssetTypeCode"] = CastDbNull.To(reader["DRKY"], string.Empty).Trim();
-                        dr["AssetTypeDesc"] = CastDbNull.To(reader["DRDL01"], string.Empty).Trim();
-                        var updateDateId = CastDbNull.To<decimal>(reader["DRUPMJ"], 0);
-                        var updateTimeId = CastDbNull.To<decimal>(reader["DRUPMT"], 0);
+                        dr["AssetTypeCode"] = Data.CastDbNull.To(reader["DRKY"], string.Empty).Trim();
+                        dr["AssetTypeDesc"] = Data.CastDbNull.To(reader["DRDL01"], string.Empty).Trim();
+                        var updateDateId = Data.CastDbNull.To<decimal>(reader["DRUPMJ"], 0);
+                        var updateTimeId = Data.CastDbNull.To<decimal>(reader["DRUPMT"], 0);
                         dr["TransactionDate"] = Utilities.Common.CastToDateTime(updateDateId, updateTimeId).AddHours(plant.TimeOffset);
                         ;
                         Rows.Add(dr);

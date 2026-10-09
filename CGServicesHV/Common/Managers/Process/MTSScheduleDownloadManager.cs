@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -45,6 +45,7 @@ namespace CGServicesHV.Common.Managers.Process
                 response.ConnectionStrings.Add(new ConnectionString("cnE1", e1Session.DbConnection.ConnectionString));
                 response.ConnectionStrings.Add(new ConnectionString("cnSFInt", cnSFInt.ConnectionString));
                 response.ConnectionStrings.Add(new ConnectionString("cnSF", cnSF.ConnectionString));
+    
                 var step1GetMTSSchedule = new ProcessStep($@"Step {response.ProcessSteps.Count + 1}. Get MTS Schedule ({scheduleNum})");
                 try
                 {
@@ -186,6 +187,7 @@ namespace CGServicesHV.Common.Managers.Process
             response.Plant = plant;
             response.IsParallel = parallel;
             response.ConnectionStrings.Add(new ConnectionString("E1", e1Session.DbConnection.ConnectionString));
+
             foreach (var sqlCn in sqlCns)
             {
                 response.ConnectionStrings.Add(new ConnectionString(sqlCn.Key, sqlCn.Value.ConnectionString));
@@ -261,11 +263,7 @@ namespace CGServicesHV.Common.Managers.Process
                 if (force) subject = $@"Force - {subject}";
                 else if (response.HasErrors() || mtsSchedule.ValidationErrors.Any()) subject = $@"Error - {subject}";
 
-                var plantPathName = $@"{ConfigurationManager.AppSettings["ProcessResponseFilePath"]}\{response.Plant.PlantCode}";
-                Directory.CreateDirectory(plantPathName);
-                var fileName = $@"{plantPathName}\{subject} {DateTime.Now:hhmmss}.htm";
-                File.Delete(fileName);
-                File.WriteAllText(fileName, xslOutput);
+                Mail.StoreResponse($@"{ConfigurationManager.AppSettings["ProcessResponseFilePath"]}\{response.Plant.PlantCode}", subject, xslOutput);
 
                 Mail.SendHtmlAsync(ConfigurationManager.AppSettings["SmtpHost"],
                     ConfigurationManager.AppSettings["MailFromAddress"],

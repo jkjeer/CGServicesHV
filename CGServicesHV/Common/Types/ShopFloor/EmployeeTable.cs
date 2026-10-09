@@ -46,19 +46,19 @@ namespace CGServicesHV.Common.Types.ShopFloor
                     while (reader.Read())
                     {
                         var dr = NewRow();
-                        dr["PlantID"] = CastDbNull.To(reader["MCRP01"], string.Empty).Trim();
-                        dr["AddressNum"] = Convert.ToDouble(CastDbNull.To(reader["ABALKY"], "0"));
-                        dr["AlternateNum"] = CastDbNull.To<decimal>(reader["ABAN8"], 0).ToString();
-                        dr["Name"] = CastDbNull.To(reader["ABALPH"], string.Empty).Trim();
-                        dr["HomeCompany"] = CastDbNull.To(reader["MCCO"], string.Empty).Trim();
-                        dr["HomeCompanyDesc"] = CastDbNull.To(reader["MCDL01"], string.Empty).Trim();
-                        dr["Company"] = CastDbNull.To(reader["MCRP02"], string.Empty).Trim();
-                        dr["HomeCostCenter"] = CastDbNull.To(reader["ABMCU"], string.Empty).Trim();
-                        dr["CostCenter"] = CastDbNull.To(reader["ABMCU"], string.Empty).Trim();
-                        dr["UnionCode"] = CastDbNull.To(reader["MCRP01"], string.Empty).Trim();
-                        dr["PayStatus"] = CastDbNull.To(reader["ABAT1"], string.Empty).Trim();
-                        var updateDateId = CastDbNull.To<decimal>(reader["ABUPMJ"], 0);
-                        var updateTimeId = CastDbNull.To<decimal>(reader["ABUPMT"], 0);
+                        dr["PlantID"] = Data.CastDbNull.To(reader["MCRP01"], string.Empty).Trim();
+                        dr["AddressNum"] = Convert.ToDouble(Data.CastDbNull.To(reader["ABALKY"], "0"));
+                        dr["AlternateNum"] = Data.CastDbNull.To<decimal>(reader["ABAN8"], 0).ToString();
+                        dr["Name"] = Data.CastDbNull.To(reader["ABALPH"], string.Empty).Trim();
+                        dr["HomeCompany"] = Data.CastDbNull.To(reader["MCCO"], string.Empty).Trim();
+                        dr["HomeCompanyDesc"] = Data.CastDbNull.To(reader["MCDL01"], string.Empty).Trim();
+                        dr["Company"] = Data.CastDbNull.To(reader["MCRP02"], string.Empty).Trim();
+                        dr["HomeCostCenter"] = Data.CastDbNull.To(reader["ABMCU"], string.Empty).Trim();
+                        dr["CostCenter"] = Data.CastDbNull.To(reader["ABMCU"], string.Empty).Trim();
+                        dr["UnionCode"] = Data.CastDbNull.To(reader["MCRP01"], string.Empty).Trim();
+                        dr["PayStatus"] = Data.CastDbNull.To(reader["ABAT1"], string.Empty).Trim();
+                        var updateDateId = Data.CastDbNull.To<decimal>(reader["ABUPMJ"], 0);
+                        var updateTimeId = Data.CastDbNull.To<decimal>(reader["ABUPMT"], 0);
                         dr["UpdateDate"] = Utilities.Common.CastToDateTime(updateDateId, updateTimeId).AddHours(plant.TimeOffset);
                         Rows.Add(dr);
                     }

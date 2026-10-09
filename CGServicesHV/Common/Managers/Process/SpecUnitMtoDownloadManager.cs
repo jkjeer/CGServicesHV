@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using CGServicesHV.Common.Managers.E1;
@@ -477,7 +477,8 @@ namespace CGServicesHV.Common.Managers.Process
                     ((RDUPMJ = ? AND RDTDAY >= ? AND RDTDAY <= ?) OR (RDUPMJ >= ? AND RDUPMJ <= ?) OR (RDUPMJ = ? AND RDTDAY <= ?)) 
                 ORDER BY
                     RDUPMJ, RDTDAY
-                FOR READ ONLY";
+                FOR READ ONLY
+            ";
             cmd.Parameters.Add(new iDB2Parameter("MCU1", iDB2DbType.iDB2Graphic, 12));
             cmd.Parameters.Add(new iDB2Parameter("MCU2", iDB2DbType.iDB2Graphic, 12));
             cmd.Parameters.Add(new iDB2Parameter("MCU3", iDB2DbType.iDB2Graphic, 12));

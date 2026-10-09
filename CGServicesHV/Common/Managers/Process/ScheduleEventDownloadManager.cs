@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using CGServicesHV.Common.Managers.E1;
@@ -206,9 +206,9 @@ namespace CGServicesHV.Common.Managers.Process
                     while (reader.Read())
                     {
                         var dr = dt.NewRow();
-                        dr["ScheduleNum"] = CastDbNull.To<int>(reader["ScheduleNum"], 0);
-                        dr["ScheduleDate"] = CastDbNull.To<DateTime>(reader["ScheduleDate"], new DateTime(1900, 1, 1));
-                        dr["BoxedDate"] = CastDbNull.To<DateTime>(reader["StatusDate"], new DateTime(1900, 1, 1));
+                        dr["ScheduleNum"] = Data.CastDbNull.To<int>(reader["ScheduleNum"], 0);
+                        dr["ScheduleDate"] = Data.CastDbNull.To<DateTime>(reader["ScheduleDate"], new DateTime(1900, 1, 1));
+                        dr["BoxedDate"] = Data.CastDbNull.To<DateTime>(reader["StatusDate"], new DateTime(1900, 1, 1));
                         dr["RackedDate"] = new DateTime(1900, 1, 1);
                         dr["Boxed"] = 0;
                         dr["Racked"] = 0;
@@ -275,8 +275,8 @@ namespace CGServicesHV.Common.Managers.Process
                     while (reader.Read())
                     {
                         var dr = dt.NewRow();
-                        dr["Units"] = CastDbNull.To<int>(reader["Units"], 0);
-                        dr["TransactionDate"] = CastDbNull.To<DateTime>(reader["TransactionDate"], new DateTime(1900, 1, 1));
+                        dr["Units"] = Data.CastDbNull.To<int>(reader["Units"], 0);
+                        dr["TransactionDate"] = Data.CastDbNull.To<DateTime>(reader["TransactionDate"], new DateTime(1900, 1, 1));
                         dt.Rows.Add(dr);
                     }
 

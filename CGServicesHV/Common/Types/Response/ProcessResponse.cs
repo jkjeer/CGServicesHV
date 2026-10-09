@@ -1,4 +1,7 @@
-﻿using System;
+﻿using CGServicesHV.Common.Managers.Enterprise;
+using CGServicesHV.Common.Types.Enterprise;
+using CGServicesHV.Common.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
@@ -7,9 +10,6 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Xml.Linq;
 using System.Xml.Serialization;
-using CGServicesHV.Common.Managers.Enterprise;
-using CGServicesHV.Common.Types.Enterprise;
-using CGServicesHV.Common.Utilities;
 
 namespace CGServicesHV.Common.Types.Response
 {
@@ -30,6 +30,7 @@ namespace CGServicesHV.Common.Types.Response
             SqlBulkCopyResponses = new SqlBulkCopyResponses();
             SqlDmlResponses = new SqlDmlResponses();
             ConnectionStrings = new ConnectionStrings();
+            ConnectionStrings.Add(new ConnectionString("smtp", ConfigurationManager.AppSettings["SmtpHost"]));
             ProcessResponses = new ProcessResponses();
             Messages = new Messages();
             SerializedObjects = new SerializedObjects();
@@ -51,6 +52,7 @@ namespace CGServicesHV.Common.Types.Response
             SqlBulkCopyResponses = new SqlBulkCopyResponses();
             SqlDmlResponses = new SqlDmlResponses();
             ConnectionStrings = new ConnectionStrings();
+            ConnectionStrings.Add(new ConnectionString("smtp", ConfigurationManager.AppSettings["SmtpHost"]));
             ProcessResponses = new ProcessResponses();
             Messages = new Messages();
             SerializedObjects = new SerializedObjects();
@@ -72,6 +74,7 @@ namespace CGServicesHV.Common.Types.Response
             SqlBulkCopyResponses = new SqlBulkCopyResponses();
             SqlDmlResponses = new SqlDmlResponses();
             ConnectionStrings = new ConnectionStrings();
+            ConnectionStrings.Add(new ConnectionString("smtp", ConfigurationManager.AppSettings["SmtpHost"]));
             ProcessResponses = new ProcessResponses();
             Messages = new Messages();
             SerializedObjects = new SerializedObjects();

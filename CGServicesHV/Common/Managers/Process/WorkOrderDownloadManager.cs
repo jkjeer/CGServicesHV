@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using CGServicesHV.Common.Managers.E1;
@@ -219,6 +219,10 @@ namespace CGServicesHV.Common.Managers.Process
                 filters.Add("WAMCU = ? AND \r\n");
                 parameters.Add(new iDB2Parameter("MCU", iDB2DbType.iDB2Graphic, 12));
                 parameters.Last().Value = plantNum.PadLeft(12);
+
+                //filters.Add("WAMCU IN ('          05', '          04', '          08') AND \r\n");
+                //parameters.Add(new iDB2Parameter("MCU", iDB2DbType.iDB2Graphic, 12));
+                //parameters.Last().Value = plantNum.PadLeft(12);
 
                 // Process Run Span
                 if (!processRunSpan.IsEmpty)

@@ -272,28 +272,28 @@ namespace CGServicesHV.Common.Managers.Enterprise
                     while (reader.Read())
                     {
                         var rack = new Rack();
-                        rack.RackId = CastDbNull.To<Decimal>(reader["RHZ58RID"], 0);
-                        rack.CostCenter = CastDbNull.To<String>(reader["RHMCU"], String.Empty).Trim();
-                        rack.Location = CastDbNull.To<String>(reader["RHLOCN"], String.Empty).Trim();
-                        rack.RackType = CastDbNull.To<String>(reader["RHZ58RT"], String.Empty).Trim();
-                        rack.HeaderStatus = CastDbNull.To<String>(reader["RHZ58HST"], String.Empty).Trim();
-                        var statusDateId = CastDbNull.To<Decimal>(reader["RHZ58RSDT"], 0);
+                        rack.RackId = Data.CastDbNull.To<Decimal>(reader["RHZ58RID"], 0);
+                        rack.CostCenter = Data.CastDbNull.To<String>(reader["RHMCU"], String.Empty).Trim();
+                        rack.Location = Data.CastDbNull.To<String>(reader["RHLOCN"], String.Empty).Trim();
+                        rack.RackType = Data.CastDbNull.To<String>(reader["RHZ58RT"], String.Empty).Trim();
+                        rack.HeaderStatus = Data.CastDbNull.To<String>(reader["RHZ58HST"], String.Empty).Trim();
+                        var statusDateId = Data.CastDbNull.To<Decimal>(reader["RHZ58RSDT"], 0);
                         rack.HeaderStatusDate = Utilities.Common.CastToDateTime(statusDateId, 0);
-                        rack.GlassWeight = Math.Round(CastDbNull.To<Decimal>(reader["RHZ58GWTT"], 0), 4);
-                        rack.TareWeight = Math.Round(CastDbNull.To<Decimal>(reader["RHZ58RTWT"], 0), 4);
-                        rack.GrossWeight = CastDbNull.To<Decimal>(reader["RHGWEI"], 0);
-                        rack.ReasonCode = CastDbNull.To<String>(reader["RHZ58RCD"], String.Empty).Trim();
-                        rack.LoadNum = CastDbNull.To<Decimal>(reader["RHPSN"], 0);
-                        rack.ScheduleNum = CastDbNull.To<Decimal>(reader["RHZ58SCN"], 0);
-                        rack.BoxNum = CastDbNull.To<Decimal>(reader["RHZ58BOX"], 0);
-                        var updateDateId = CastDbNull.To<Decimal>(reader["RHUPMJ"], 0);
-                        var updateTimeId = CastDbNull.To<Decimal>(reader["RHTDAY"], 0);
+                        rack.GlassWeight = Math.Round(Data.CastDbNull.To<Decimal>(reader["RHZ58GWTT"], 0), 4);
+                        rack.TareWeight = Math.Round(Data.CastDbNull.To<Decimal>(reader["RHZ58RTWT"], 0), 4);
+                        rack.GrossWeight = Data.CastDbNull.To<Decimal>(reader["RHGWEI"], 0);
+                        rack.ReasonCode = Data.CastDbNull.To<String>(reader["RHZ58RCD"], String.Empty).Trim();
+                        rack.LoadNum = Data.CastDbNull.To<Decimal>(reader["RHPSN"], 0);
+                        rack.ScheduleNum = Data.CastDbNull.To<Decimal>(reader["RHZ58SCN"], 0);
+                        rack.BoxNum = Data.CastDbNull.To<Decimal>(reader["RHZ58BOX"], 0);
+                        var updateDateId = Data.CastDbNull.To<Decimal>(reader["RHUPMJ"], 0);
+                        var updateTimeId = Data.CastDbNull.To<Decimal>(reader["RHTDAY"], 0);
                         rack.UpdateDateTime = Utilities.Common.CastToDateTime(updateDateId, updateTimeId);
-                        var customerNum = CastDbNull.To<Decimal>(reader["RHAN8"], 0);
+                        var customerNum = Data.CastDbNull.To<Decimal>(reader["RHAN8"], 0);
                         rack.Customer = _customerMgr.GetCustomer(session, customerNum);
                         rack.RackItems = GetRackItems(session, rack.RackId, serialNum, attributes);
                         rack.SupplierNum = rack.RackItems[0].SupplierNum;
-                        rack.ProcessId = CastDbNull.To<String>(reader["RHPID"], String.Empty).Trim();
+                        rack.ProcessId = Data.CastDbNull.To<String>(reader["RHPID"], String.Empty).Trim();
                         racks.Add(rack);
                     }
 
@@ -323,24 +323,24 @@ namespace CGServicesHV.Common.Managers.Enterprise
                 {
                     while (reader.Read())
                     {
-                        rack.RackId = CastDbNull.To<Decimal>(reader["RHZ58RID"], 0);
-                        rack.CostCenter = CastDbNull.To<String>(reader["RHMCU"], String.Empty).Trim();
-                        rack.Location = CastDbNull.To<String>(reader["RHLOCN"], String.Empty).Trim();
-                        rack.RackType = CastDbNull.To<String>(reader["RHZ58RT"], String.Empty).Trim();
-                        rack.HeaderStatus = CastDbNull.To<String>(reader["RHZ58HST"], String.Empty).Trim();
-                        var statusDateId = CastDbNull.To<Decimal>(reader["RHZ58RSDT"], 0);
+                        rack.RackId = Data.CastDbNull.To<Decimal>(reader["RHZ58RID"], 0);
+                        rack.CostCenter = Data.CastDbNull.To<String>(reader["RHMCU"], String.Empty).Trim();
+                        rack.Location = Data.CastDbNull.To<String>(reader["RHLOCN"], String.Empty).Trim();
+                        rack.RackType = Data.CastDbNull.To<String>(reader["RHZ58RT"], String.Empty).Trim();
+                        rack.HeaderStatus = Data.CastDbNull.To<String>(reader["RHZ58HST"], String.Empty).Trim();
+                        var statusDateId = Data.CastDbNull.To<Decimal>(reader["RHZ58RSDT"], 0);
                         rack.HeaderStatusDate = Utilities.Common.CastToDateTime(statusDateId, 0);
-                        rack.GlassWeight = Math.Round(CastDbNull.To<Decimal>(reader["RHZ58GWTT"], 0), 4);
-                        rack.TareWeight = Math.Round(CastDbNull.To<Decimal>(reader["RHZ58RTWT"], 0), 4);
-                        rack.GrossWeight = CastDbNull.To<Decimal>(reader["RHGWEI"], 0);
-                        rack.ReasonCode = CastDbNull.To<String>(reader["RHZ58RCD"], String.Empty).Trim();
-                        rack.LoadNum = CastDbNull.To<Decimal>(reader["RHPSN"], 0);
-                        rack.ScheduleNum = CastDbNull.To<Decimal>(reader["RHZ58SCN"], 0);
-                        rack.BoxNum = CastDbNull.To<Decimal>(reader["RHZ58BOX"], 0);
-                        var updateDateId = CastDbNull.To<Decimal>(reader["RHUPMJ"], 0);
-                        var updateTimeId = CastDbNull.To<Decimal>(reader["RHTDAY"], 0);
+                        rack.GlassWeight = Math.Round(Data.CastDbNull.To<Decimal>(reader["RHZ58GWTT"], 0), 4);
+                        rack.TareWeight = Math.Round(Data.CastDbNull.To<Decimal>(reader["RHZ58RTWT"], 0), 4);
+                        rack.GrossWeight = Data.CastDbNull.To<Decimal>(reader["RHGWEI"], 0);
+                        rack.ReasonCode = Data.CastDbNull.To<String>(reader["RHZ58RCD"], String.Empty).Trim();
+                        rack.LoadNum = Data.CastDbNull.To<Decimal>(reader["RHPSN"], 0);
+                        rack.ScheduleNum = Data.CastDbNull.To<Decimal>(reader["RHZ58SCN"], 0);
+                        rack.BoxNum = Data.CastDbNull.To<Decimal>(reader["RHZ58BOX"], 0);
+                        var updateDateId = Data.CastDbNull.To<Decimal>(reader["RHUPMJ"], 0);
+                        var updateTimeId = Data.CastDbNull.To<Decimal>(reader["RHTDAY"], 0);
                         rack.UpdateDateTime = Utilities.Common.CastToDateTime(updateDateId, updateTimeId);
-                        var customerNum = CastDbNull.To<Decimal>(reader["RHAN8"], 0);
+                        var customerNum = Data.CastDbNull.To<Decimal>(reader["RHAN8"], 0);
                         rack.Customer = _customerMgr.GetCustomer(session, customerNum);
                         rack.RackItems = GetRackItems(session, rack.RackId, serialNum, attributes);
                         rack.SupplierNum = rack.RackItems[0].SupplierNum;
@@ -387,45 +387,45 @@ namespace CGServicesHV.Common.Managers.Enterprise
                     while (reader.Read())
                     {
                         var rackItem = new RackItem();
-                        rackItem.RackId = CastDbNull.To<Decimal>(reader["RDZ58RID"], 0);
-                        rackItem.SerialNum = CastDbNull.To<String>(reader["RDZ58SN"], String.Empty).Trim();
-                        rackItem.ItemNum = CastDbNull.To<Decimal>(reader["RDITM"], 0);
-                        rackItem.GLCategory = CastDbNull.To<String>(reader["IBGLPT"], String.Empty).Trim();
-                        rackItem.PlantNum = CastDbNull.To<String>(reader["RDMCU"], String.Empty).Trim();
-                        rackItem.Side = CastDbNull.To<String>(reader["RDZ58SD"], String.Empty).Trim();
-                        rackItem.Position = CastDbNull.To<Decimal>(reader["RDZ58PS"], 0);
-                        rackItem.StackTier = CastDbNull.To<Decimal>(reader["RDZ58STK"], 0);
-                        rackItem.Row = CastDbNull.To<Decimal>(reader["RDZ58ROW"], 0);
-                        rackItem.Slot = CastDbNull.To<Decimal>(reader["RDZ58SL"], 0);
-                        rackItem.LotNum = CastDbNull.To<String>(reader["RDLOTN"], String.Empty).Trim();
-                        rackItem.DetailStatus = CastDbNull.To<String>(reader["RDZ58DST"], String.Empty).Trim();
-                        var transactionDateId = CastDbNull.To<Decimal>(reader["RDTRDJ"], 0);
+                        rackItem.RackId = Data.CastDbNull.To<Decimal>(reader["RDZ58RID"], 0);
+                        rackItem.SerialNum = Data.CastDbNull.To<String>(reader["RDZ58SN"], String.Empty).Trim();
+                        rackItem.ItemNum = Data.CastDbNull.To<Decimal>(reader["RDITM"], 0);
+                        rackItem.GLCategory = Data.CastDbNull.To<String>(reader["IBGLPT"], String.Empty).Trim();
+                        rackItem.PlantNum = Data.CastDbNull.To<String>(reader["RDMCU"], String.Empty).Trim();
+                        rackItem.Side = Data.CastDbNull.To<String>(reader["RDZ58SD"], String.Empty).Trim();
+                        rackItem.Position = Data.CastDbNull.To<Decimal>(reader["RDZ58PS"], 0);
+                        rackItem.StackTier = Data.CastDbNull.To<Decimal>(reader["RDZ58STK"], 0);
+                        rackItem.Row = Data.CastDbNull.To<Decimal>(reader["RDZ58ROW"], 0);
+                        rackItem.Slot = Data.CastDbNull.To<Decimal>(reader["RDZ58SL"], 0);
+                        rackItem.LotNum = Data.CastDbNull.To<String>(reader["RDLOTN"], String.Empty).Trim();
+                        rackItem.DetailStatus = Data.CastDbNull.To<String>(reader["RDZ58DST"], String.Empty).Trim();
+                        var transactionDateId = Data.CastDbNull.To<Decimal>(reader["RDTRDJ"], 0);
                         rackItem.TransactionDate = Utilities.Common.CastToDateTime(transactionDateId, 0);
-                        var manufacturedDateId = CastDbNull.To<Decimal>(reader["RDZ58MDT"], 0);
+                        var manufacturedDateId = Data.CastDbNull.To<Decimal>(reader["RDZ58MDT"], 0);
                         rackItem.ManufacturedDate = Utilities.Common.CastToDateTime(manufacturedDateId, 0);
-                        //rackItem.ManufacturedPlant = CastDbNull.To<String>(reader["WAMCU"], String.Empty).Trim();
-                        var productionDateId = CastDbNull.To<Decimal>(reader["RDZ58PDT"], 0);
+                        //rackItem.ManufacturedPlant = Data.CastDbNull.To<String>(reader["WAMCU"], String.Empty).Trim();
+                        var productionDateId = Data.CastDbNull.To<Decimal>(reader["RDZ58PDT"], 0);
                         rackItem.ProductionDate = Utilities.Common.CastToDateTime(productionDateId, 0);
-                        var updateDateId = CastDbNull.To<Decimal>(reader["RDUPMJ"], 0);
-                        var updateTimeId = CastDbNull.To<Decimal>(reader["RDTDAY"], 0);
+                        var updateDateId = Data.CastDbNull.To<Decimal>(reader["RDUPMJ"], 0);
+                        var updateTimeId = Data.CastDbNull.To<Decimal>(reader["RDTDAY"], 0);
                         rackItem.UpdateDateTime = Utilities.Common.CastToDateTime(updateDateId, updateTimeId);
-                        rackItem.Quantity = CastDbNull.To<Decimal>(reader["RDPQOH"], 0) / 1000;
-                        rackItem.QuantityUom = CastDbNull.To<String>(reader["RDUOM1"], String.Empty).Trim();
-                        rackItem.GlassWeight = CastDbNull.To<Decimal>(reader["RDZ58GWT"], 0) / 100;
-                        rackItem.GlassWeightUom = CastDbNull.To<String>(reader["RDUWUM"], String.Empty).Trim();
-                        rackItem.ProcessId = CastDbNull.To<String>(reader["RDPID"], String.Empty).Trim();
-                        rackItem.WorkOrderNum = CastDbNull.To<Decimal>(reader["RDDOC1"], 0);
-                        //rackItem.WorkOrderPlantNum = CastDbNull.To<String>(reader["WAMCU"], String.Empty).Trim();
-                        rackItem.SalesOrderNum = CastDbNull.To<Decimal>(reader["RDDOCO"], 0);
-                        rackItem.SalesOrderType = CastDbNull.To<String>(reader["RDDCTO"], String.Empty).Trim();
-                        rackItem.SalesOrderLineNum = CastDbNull.To<Decimal>(reader["RDLNID"], 0) / 1000;
-                        rackItem.PurchaseOrderNum = CastDbNull.To<Decimal>(reader["RDDOC2"], 0);
-                        rackItem.PurchaseOrderType = CastDbNull.To<String>(reader["RDXCTO"], String.Empty).Trim();
-                        rackItem.PurchaseOrderLineNum = CastDbNull.To<Decimal>(reader["RDLNIC"], 0) / 1000;
+                        rackItem.Quantity = Data.CastDbNull.To<Decimal>(reader["RDPQOH"], 0) / 1000;
+                        rackItem.QuantityUom = Data.CastDbNull.To<String>(reader["RDUOM1"], String.Empty).Trim();
+                        rackItem.GlassWeight = Data.CastDbNull.To<Decimal>(reader["RDZ58GWT"], 0) / 100;
+                        rackItem.GlassWeightUom = Data.CastDbNull.To<String>(reader["RDUWUM"], String.Empty).Trim();
+                        rackItem.ProcessId = Data.CastDbNull.To<String>(reader["RDPID"], String.Empty).Trim();
+                        rackItem.WorkOrderNum = Data.CastDbNull.To<Decimal>(reader["RDDOC1"], 0);
+                        //rackItem.WorkOrderPlantNum = Data.CastDbNull.To<String>(reader["WAMCU"], String.Empty).Trim();
+                        rackItem.SalesOrderNum = Data.CastDbNull.To<Decimal>(reader["RDDOCO"], 0);
+                        rackItem.SalesOrderType = Data.CastDbNull.To<String>(reader["RDDCTO"], String.Empty).Trim();
+                        rackItem.SalesOrderLineNum = Data.CastDbNull.To<Decimal>(reader["RDLNID"], 0) / 1000;
+                        rackItem.PurchaseOrderNum = Data.CastDbNull.To<Decimal>(reader["RDDOC2"], 0);
+                        rackItem.PurchaseOrderType = Data.CastDbNull.To<String>(reader["RDXCTO"], String.Empty).Trim();
+                        rackItem.PurchaseOrderLineNum = Data.CastDbNull.To<Decimal>(reader["RDLNIC"], 0) / 1000;
                         if (attributes)
                         {
                             //var plant = PlantManager.GetPlant(rackItem.PlantNum);
-                            var stockingType = CastDbNull.To<String>(reader["IBSTKT"], String.Empty).Trim();
+                            var stockingType = Data.CastDbNull.To<String>(reader["IBSTKT"], String.Empty).Trim();
                             if (stockingType != "C")
                             {
                                 var itemAtts = _itemAttMgr.GetDiscreteItemAttributes(session, rackItem.ItemNum);
@@ -434,8 +434,8 @@ namespace CGServicesHV.Common.Managers.Enterprise
                             }
                             else
                             {
-                                var rdkcoo = CastDbNull.To<String>(reader["RDKCOO"], String.Empty).Trim();
-                                var rdpkco = CastDbNull.To<String>(reader["RDPKCO"], String.Empty).Trim();
+                                var rdkcoo = Data.CastDbNull.To<String>(reader["RDKCOO"], String.Empty).Trim();
+                                var rdpkco = Data.CastDbNull.To<String>(reader["RDPKCO"], String.Empty).Trim();
                                 var cfgId = _itemAttMgr.GetConfiguredId(session, rdkcoo, rackItem.SalesOrderNum, rackItem.SalesOrderType, rackItem.SalesOrderLineNum * 1000, rdpkco, rackItem.PurchaseOrderNum, rackItem.PurchaseOrderType, rackItem.PurchaseOrderLineNum * 1000, rackItem.WorkOrderNum);
                                 var itemAtts = _itemAttMgr.GetConfiguredItemAttributes(session, cfgId);
                                 rackItem.GlassItem = _glassUnitMgr.GetGlassUnit(session, itemAtts);
@@ -518,10 +518,10 @@ namespace CGServicesHV.Common.Managers.Enterprise
                     {
                         while (reader.Read())
                         {
-                            var recdDateId = CastDbNull.To<Decimal>(reader["DLUPMJ"], 0);
+                            var recdDateId = Data.CastDbNull.To<Decimal>(reader["DLUPMJ"], 0);
                             item.ReceivedDate = Utilities.Common.CastToDateTime(recdDateId, 0);
-                            //rackItem.SupplierNum = CastDbNull.To<Decimal>(reader["PHAN8"], 0);
-                            item.ReceivedQty = CastDbNull.To<Decimal>(reader["DLPQOH"], 0) / 1000;
+                            //rackItem.SupplierNum = Data.CastDbNull.To<Decimal>(reader["PHAN8"], 0);
+                            item.ReceivedQty = Data.CastDbNull.To<Decimal>(reader["DLPQOH"], 0) / 1000;
                             i++;
                         }
 
@@ -595,10 +595,10 @@ namespace CGServicesHV.Common.Managers.Enterprise
                         {
                             while (reader.Read())
                             {
-                                var recdDateId = CastDbNull.To<Decimal>(reader["DLUPMJ"], 0);
+                                var recdDateId = Data.CastDbNull.To<Decimal>(reader["DLUPMJ"], 0);
                                 rackItem.ReceivedDate = Utilities.Common.CastToDateTime(recdDateId, 0);
-                                rackItem.SupplierNum = CastDbNull.To<Decimal>(reader["PHAN8"], 0);
-                                rackItem.ReceivedQty = CastDbNull.To<Decimal>(reader["DLPQOH"], 0) / 1000;
+                                rackItem.SupplierNum = Data.CastDbNull.To<Decimal>(reader["PHAN8"], 0);
+                                rackItem.ReceivedQty = Data.CastDbNull.To<Decimal>(reader["DLPQOH"], 0) / 1000;
                                 tot = tot + rackItem.ReceivedQty;
                                 i++;
                             }
@@ -711,10 +711,10 @@ namespace CGServicesHV.Common.Managers.Enterprise
                         while (reader.Read())
                         {
                             var dr = dt.NewRow();
-                            dr["WorkOrderNum"] = CastDbNull.To<Decimal>(reader["BIDOCO"], 0);
-                            dr["ScheduleNum"] = CastDbNull.To<Decimal>(reader["BIZ58SCN"], 0);
-                            dr["IsPosted"] = CastDbNull.To<int>(reader["BOXED"], 0) > 0 ? "Y" : "N";
-                            dr["IsRacked"] = CastDbNull.To<int>(reader["RACKED"], 0) > 0 ? "Y" : "N";
+                            dr["WorkOrderNum"] = Data.CastDbNull.To<Decimal>(reader["BIDOCO"], 0);
+                            dr["ScheduleNum"] = Data.CastDbNull.To<Decimal>(reader["BIZ58SCN"], 0);
+                            dr["IsPosted"] = Data.CastDbNull.To<int>(reader["BOXED"], 0) > 0 ? "Y" : "N";
+                            dr["IsRacked"] = Data.CastDbNull.To<int>(reader["RACKED"], 0) > 0 ? "Y" : "N";
                             dt.Rows.Add(dr);
                         }
 
@@ -735,10 +735,10 @@ namespace CGServicesHV.Common.Managers.Enterprise
                             while (reader.Read())
                             {
                                 var dr = dt.NewRow();
-                                dr["WorkOrderNum"] = CastDbNull.To<Decimal>(reader["BIDOCO"], 0);
-                                dr["ScheduleNum"] = CastDbNull.To<Decimal>(reader["BIZ58SCN"], 0);
-                                dr["IsPosted"] = CastDbNull.To<int>(reader["BOXED"], 0) > 0 ? "Y" : "N";
-                                dr["IsRacked"] = CastDbNull.To<int>(reader["RACKED"], 0) > 0 ? "Y" : "N";
+                                dr["WorkOrderNum"] = Data.CastDbNull.To<Decimal>(reader["BIDOCO"], 0);
+                                dr["ScheduleNum"] = Data.CastDbNull.To<Decimal>(reader["BIZ58SCN"], 0);
+                                dr["IsPosted"] = Data.CastDbNull.To<int>(reader["BOXED"], 0) > 0 ? "Y" : "N";
+                                dr["IsRacked"] = Data.CastDbNull.To<int>(reader["RACKED"], 0) > 0 ? "Y" : "N";
                                 dt.Rows.Add(dr);
                             }
 
@@ -818,12 +818,12 @@ namespace CGServicesHV.Common.Managers.Enterprise
                     while (reader.Read())
                     {
                         var dr = dt.NewRow();
-                        dr["BatchNum"] = CastDbNull.To<string>(reader["BIEDBT"], String.Empty).Trim();
-                        dr["ScheduleNum"] = CastDbNull.To<Decimal>(reader["BIZ58SCN"], 0);
-                        dr["BoxedDate"] = E1TimeManager.CastToDateTime(CastDbNull.To<Decimal>(reader["BIUPMJ"], 0), CastDbNull.To<Decimal>(reader["BITDAY"], 0));
-                        dr["RackedDate"] = E1TimeManager.CastToDateTime(CastDbNull.To<Decimal>(reader["DLMUPM"], 0), CastDbNull.To<Decimal>(reader["DLUPMT"], 0));
-                        dr["Boxed"] = CastDbNull.To<int>(reader["F580220"], 0);
-                        dr["Racked"] = CastDbNull.To<int>(reader["F580569"], 0);
+                        dr["BatchNum"] = Data.CastDbNull.To<string>(reader["BIEDBT"], String.Empty).Trim();
+                        dr["ScheduleNum"] = Data.CastDbNull.To<Decimal>(reader["BIZ58SCN"], 0);
+                        dr["BoxedDate"] = E1TimeManager.CastToDateTime(Data.CastDbNull.To<Decimal>(reader["BIUPMJ"], 0), Data.CastDbNull.To<Decimal>(reader["BITDAY"], 0));
+                        dr["RackedDate"] = E1TimeManager.CastToDateTime(Data.CastDbNull.To<Decimal>(reader["DLMUPM"], 0), Data.CastDbNull.To<Decimal>(reader["DLUPMT"], 0));
+                        dr["Boxed"] = Data.CastDbNull.To<int>(reader["F580220"], 0);
+                        dr["Racked"] = Data.CastDbNull.To<int>(reader["F580569"], 0);
                         dt.Rows.Add(dr);
                     }
 
@@ -877,7 +877,7 @@ namespace CGServicesHV.Common.Managers.Enterprise
                 {
                     while (reader.Read())
                     {
-                        scheduleNum = CastDbNull.To<decimal>(reader["BIZ58SCN"], 0);
+                        scheduleNum = Data.CastDbNull.To<decimal>(reader["BIZ58SCN"], 0);
                     }
 
                     reader.Close();
@@ -934,8 +934,8 @@ namespace CGServicesHV.Common.Managers.Enterprise
                     hash.Add("RackId", (decimal) 0);
                     while (reader.Read())
                     {
-                        hash["ScheduleNum"] = CastDbNull.To<decimal>(reader["RHZ58SCN"], 0);
-                        hash["RackId"] = CastDbNull.To<decimal>(reader["RHZ58RID"], 0);
+                        hash["ScheduleNum"] = Data.CastDbNull.To<decimal>(reader["RHZ58SCN"], 0);
+                        hash["RackId"] = Data.CastDbNull.To<decimal>(reader["RHZ58RID"], 0);
                     }
 
                     reader.Close();

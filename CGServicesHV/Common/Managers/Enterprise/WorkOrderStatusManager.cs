@@ -66,13 +66,13 @@ namespace CGServicesHV.Common.Managers.Enterprise
                     while (reader.Read())
                     {
                         var record = new WorkOrderStatus();
-                        record.PlantNum = CastDbNull.To<String>(reader["WAMCU"], String.Empty).Trim();
-                        record.OrderNum = CastDbNull.To<Decimal>(reader["WADOCO"], 0);
-                        record.OrderType = CastDbNull.To<String>(reader["WADCTO"], String.Empty).Trim();
-                        record.PostedCode = CastDbNull.To<String>(reader["WAPOST"], String.Empty).Trim();
-                        record.StatusCode = CastDbNull.To<String>(reader["WASRST"], String.Empty).Trim();
-                        record.SystemDate = CastDbNull.To<Decimal>(reader["WADATE"], 0);
-                        record.SystemTime = CastDbNull.To<Decimal>(reader["WATIME"], 0);
+                        record.PlantNum = Data.CastDbNull.To<String>(reader["WAMCU"], String.Empty).Trim();
+                        record.OrderNum = Data.CastDbNull.To<Decimal>(reader["WADOCO"], 0);
+                        record.OrderType = Data.CastDbNull.To<String>(reader["WADCTO"], String.Empty).Trim();
+                        record.PostedCode = Data.CastDbNull.To<String>(reader["WAPOST"], String.Empty).Trim();
+                        record.StatusCode = Data.CastDbNull.To<String>(reader["WASRST"], String.Empty).Trim();
+                        record.SystemDate = Data.CastDbNull.To<Decimal>(reader["WADATE"], 0);
+                        record.SystemTime = Data.CastDbNull.To<Decimal>(reader["WATIME"], 0);
                         records.Add(record);
                     }
 
@@ -117,8 +117,8 @@ namespace CGServicesHV.Common.Managers.Enterprise
                     while (reader.Read())
                     {
                         var pendingUpdatesResult = new PendingUpdatesResult();
-                        pendingUpdatesResult.PlantNum = CastDbNull.To<String>(reader["WAMCU"], String.Empty).Trim();
-                        pendingUpdatesResult.Updates = CastDbNull.To<int>(reader["UPDATES"], 0);
+                        pendingUpdatesResult.PlantNum = Data.CastDbNull.To<String>(reader["WAMCU"], String.Empty).Trim();
+                        pendingUpdatesResult.Updates = Data.CastDbNull.To<int>(reader["UPDATES"], 0);
                         pendingUpdatesResults.Add(pendingUpdatesResult);
 
                     }

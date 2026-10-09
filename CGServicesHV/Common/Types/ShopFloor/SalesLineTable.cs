@@ -84,40 +84,40 @@ namespace CGServicesHV.Common.Types.ShopFloor
                 while (reader.Read())
                 {
                     DataRow dr = this.NewRow();
-                    dr["OrderNum"] = CastDbNull.To<decimal>(reader["SDDOCO"], 0);
-                    dr["OrderType"] = CastDbNull.To<string>(reader["SDDCTO"], String.Empty).Trim();
-                    dr["OrderLineNum"] = CastDbNull.To<decimal>(reader["SDLNID"], 0) / 1000;
+                    dr["OrderNum"] = Data.CastDbNull.To<decimal>(reader["SDDOCO"], 0);
+                    dr["OrderType"] = Data.CastDbNull.To<string>(reader["SDDCTO"], String.Empty).Trim();
+                    dr["OrderLineNum"] = Data.CastDbNull.To<decimal>(reader["SDLNID"], 0) / 1000;
 
-                    dr["LineType"] = CastDbNull.To<string>(reader["SDLNTY"], String.Empty).Trim();
-                    dr["VolumeType"] = CastDbNull.To<string>(reader["ATZ5840460"], String.Empty).Trim();
-                    dr["Quantity"] = CastDbNull.To<decimal>(reader["SDUORG"], 0) / 1000;
-                    dr["LastStatus"] = CastDbNull.To<string>(reader["SDLTTR"], String.Empty).Trim();
-                    dr["NextStatus"] = CastDbNull.To<string>(reader["SDNXTR"], String.Empty).Trim();
+                    dr["LineType"] = Data.CastDbNull.To<string>(reader["SDLNTY"], String.Empty).Trim();
+                    dr["VolumeType"] = Data.CastDbNull.To<string>(reader["ATZ5840460"], String.Empty).Trim();
+                    dr["Quantity"] = Data.CastDbNull.To<decimal>(reader["SDUORG"], 0) / 1000;
+                    dr["LastStatus"] = Data.CastDbNull.To<string>(reader["SDLTTR"], String.Empty).Trim();
+                    dr["NextStatus"] = Data.CastDbNull.To<string>(reader["SDNXTR"], String.Empty).Trim();
 
-                    if (CastDbNull.To<string>(reader["SDRCTO"], String.Empty).Trim() == "WO")
+                    if (Data.CastDbNull.To<string>(reader["SDRCTO"], String.Empty).Trim() == "WO")
                     {
-                        dr["WOrderNum"] = Data.CastStringToDecimal(CastDbNull.To<string>(reader["SDRORN"], String.Empty).Trim());
+                        dr["WOrderNum"] = Data.CastStringToDecimal(Data.CastDbNull.To<string>(reader["SDRORN"], String.Empty).Trim());
                     }
                     else
                     {
-                        if (CastDbNull.To<string>(reader["SDDCTO"], String.Empty).Trim() == "ST")
+                        if (Data.CastDbNull.To<string>(reader["SDDCTO"], String.Empty).Trim() == "ST")
                         {
-                            dr["WOrderNum"] = CastDbNull.To<decimal>(reader["ATZ58WODC"], 0);
+                            dr["WOrderNum"] = Data.CastDbNull.To<decimal>(reader["ATZ58WODC"], 0);
                         }
                         else
                         {
                             dr["WOrderNum"] = (decimal)0;
                         }
                     }
-                    dr["ROrderNum"] = Data.CastStringToDecimal(CastDbNull.To<string>(reader["SDRORN"], String.Empty).Trim());
-                    dr["ROrderType"] = CastDbNull.To<string>(reader["SDRCTO"], String.Empty).Trim();
-                    dr["ROrderLineNum"] = CastDbNull.To<decimal>(reader["SDRLLN"], 0) / 1000;
+                    dr["ROrderNum"] = Data.CastStringToDecimal(Data.CastDbNull.To<string>(reader["SDRORN"], String.Empty).Trim());
+                    dr["ROrderType"] = Data.CastDbNull.To<string>(reader["SDRCTO"], String.Empty).Trim();
+                    dr["ROrderLineNum"] = Data.CastDbNull.To<decimal>(reader["SDRLLN"], 0) / 1000;
 
-                    dr["ItemNum"] = CastDbNull.To<decimal>(reader["SDITM"], 0);
-                    dr["ConfigId"] = CastDbNull.To<decimal>(reader["CMCFGID"], 0);
-                    dr["GLCategory"] = CastDbNull.To<string>(reader["SDGLC"], String.Empty).Trim();
-                    dr["Description1"] = CastDbNull.To<string>(reader["SDDSC1"], String.Empty).Trim();
-                    dr["Description2"] = CastDbNull.To<string>(reader["SDDSC2"], String.Empty).Trim();
+                    dr["ItemNum"] = Data.CastDbNull.To<decimal>(reader["SDITM"], 0);
+                    dr["ConfigId"] = Data.CastDbNull.To<decimal>(reader["CMCFGID"], 0);
+                    dr["GLCategory"] = Data.CastDbNull.To<string>(reader["SDGLC"], String.Empty).Trim();
+                    dr["Description1"] = Data.CastDbNull.To<string>(reader["SDDSC1"], String.Empty).Trim();
+                    dr["Description2"] = Data.CastDbNull.To<string>(reader["SDDSC2"], String.Empty).Trim();
 
                     dr["OrderDate"] = Timestamp.CastToDateTime(Data.CastDbNull.To<decimal>(reader["SDTRDJ"], 0));
                     dr["RequestedDate"] = Timestamp.CastToDateTime(Data.CastDbNull.To<decimal>(reader["SDDRQJ"], 0));
@@ -128,33 +128,33 @@ namespace CGServicesHV.Common.Types.ShopFloor
                     dr["DeliveryDateTime"] = Timestamp.CastToDateTime(Data.CastDbNull.To<decimal>(reader["SDPDDJ"], 0),
                         Data.CastDbNull.To<decimal>(reader["SDDRQT"], 0));
 
-                    dr["CustomerSoldNum"] = CastDbNull.To<decimal>(reader["SDAN8"], 0);
-                    dr["CUstomerShipNum"] = CastDbNull.To<decimal>(reader["SDSHAN"], 0);
-                    dr["CustomerOrderNum"] = CastDbNull.To<string>(reader["SDVR01"], String.Empty).Trim();
-                    dr["CustomerPart1"] = CastDbNull.To<string>(reader["ATZ58CP2"], String.Empty).Trim();
-                    dr["CustomerPart2"] = CastDbNull.To<string>(reader["ATZ58CP3"], String.Empty).Trim();
-                    dr["CustomerPart3"] = CastDbNull.To<string>(reader["ATZ58CP4"], String.Empty).Trim();
-                    dr["CustomerSeqNum"] = CastDbNull.To<string>(reader["ATZ58CSQNO"], String.Empty).Trim();
-                    dr["GenericSeqNum"] = CastDbNull.To<string>(reader["ATZ58GSQNO"], String.Empty).Trim();
-                    dr["ProductType"] = CastDbNull.To<string>(reader["ATZ58PT"], String.Empty).Trim();
-                    dr["ReasonCode"] = CastDbNull.To<string>(reader["SDRCD"], String.Empty).Trim();
-                    dr["Priority"] = CastDbNull.To<string>(reader["SDURCD"], String.Empty).Trim();
+                    dr["CustomerSoldNum"] = Data.CastDbNull.To<decimal>(reader["SDAN8"], 0);
+                    dr["CUstomerShipNum"] = Data.CastDbNull.To<decimal>(reader["SDSHAN"], 0);
+                    dr["CustomerOrderNum"] = Data.CastDbNull.To<string>(reader["SDVR01"], String.Empty).Trim();
+                    dr["CustomerPart1"] = Data.CastDbNull.To<string>(reader["ATZ58CP2"], String.Empty).Trim();
+                    dr["CustomerPart2"] = Data.CastDbNull.To<string>(reader["ATZ58CP3"], String.Empty).Trim();
+                    dr["CustomerPart3"] = Data.CastDbNull.To<string>(reader["ATZ58CP4"], String.Empty).Trim();
+                    dr["CustomerSeqNum"] = Data.CastDbNull.To<string>(reader["ATZ58CSQNO"], String.Empty).Trim();
+                    dr["GenericSeqNum"] = Data.CastDbNull.To<string>(reader["ATZ58GSQNO"], String.Empty).Trim();
+                    dr["ProductType"] = Data.CastDbNull.To<string>(reader["ATZ58PT"], String.Empty).Trim();
+                    dr["ReasonCode"] = Data.CastDbNull.To<string>(reader["SDRCD"], String.Empty).Trim();
+                    dr["Priority"] = Data.CastDbNull.To<string>(reader["SDURCD"], String.Empty).Trim();
 
-                    dr["UnitCostAmt"] = CastDbNull.To<decimal>(reader["SDUNCS"], 0) / 10000;
-                    dr["UnitPriceAmt"] = CastDbNull.To<decimal>(reader["SDUPRC"], 0) / 10000;
-                    dr["UnitListPriceAmt"] = CastDbNull.To<decimal>(reader["SDLPRC"], 0) / 10000;
-                    dr["ExtendedPriceAmt"] = CastDbNull.To<decimal>(reader["SDAEXP"], 0) / 100;
-                    dr["PriceOverride"] = CastDbNull.To<string>(reader["SDPROV"], String.Empty).Trim();
-                    dr["ZeroPriceOverride"] = CastDbNull.To<string>(reader["ATZ58ZPO"], String.Empty).Trim();
+                    dr["UnitCostAmt"] = Data.CastDbNull.To<decimal>(reader["SDUNCS"], 0) / 10000;
+                    dr["UnitPriceAmt"] = Data.CastDbNull.To<decimal>(reader["SDUPRC"], 0) / 10000;
+                    dr["UnitListPriceAmt"] = Data.CastDbNull.To<decimal>(reader["SDLPRC"], 0) / 10000;
+                    dr["ExtendedPriceAmt"] = Data.CastDbNull.To<decimal>(reader["SDAEXP"], 0) / 100;
+                    dr["PriceOverride"] = Data.CastDbNull.To<string>(reader["SDPROV"], String.Empty).Trim();
+                    dr["ZeroPriceOverride"] = Data.CastDbNull.To<string>(reader["ATZ58ZPO"], String.Empty).Trim();
 
-                    dr["UnitActualSqft"] = CastDbNull.To<decimal>(reader["ATZ58USF"], 0) / 10000;
-                    dr["UnitBillableSqft"] = CastDbNull.To<decimal>(reader["ATZ58BSF"], 0) / 10000;
+                    dr["UnitActualSqft"] = Data.CastDbNull.To<decimal>(reader["ATZ58USF"], 0) / 10000;
+                    dr["UnitBillableSqft"] = Data.CastDbNull.To<decimal>(reader["ATZ58BSF"], 0) / 10000;
 
-                    dr["LoadNum"] = CastDbNull.To<decimal>(reader["SDPSN"], 0);
-                    dr["InvoiceNum"] = CastDbNull.To<decimal>(reader["SDDOC"], 0);
+                    dr["LoadNum"] = Data.CastDbNull.To<decimal>(reader["SDPSN"], 0);
+                    dr["InvoiceNum"] = Data.CastDbNull.To<decimal>(reader["SDDOC"], 0);
 
-                    dr["ScheduleBatchName"] = CastDbNull.To<string>(reader["BHZ58BDES"], String.Empty).Trim();
-                    dr["ScheduleGroupName"] = CastDbNull.To<string>(reader["BHZ58GDES"], String.Empty).Trim();
+                    dr["ScheduleBatchName"] = Data.CastDbNull.To<string>(reader["BHZ58BDES"], String.Empty).Trim();
+                    dr["ScheduleGroupName"] = Data.CastDbNull.To<string>(reader["BHZ58GDES"], String.Empty).Trim();
 
                     dr["TransactionDate"] = Timestamp.CastToDateTime(Data.CastDbNull.To<decimal>(reader["SDUPMJ"], 0),
                         Data.CastDbNull.To<decimal>(reader["SDTDAY"], 0)).AddMinutes(plant.BusinessSystemOffset);

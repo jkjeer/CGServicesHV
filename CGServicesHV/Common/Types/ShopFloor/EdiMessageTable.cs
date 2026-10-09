@@ -44,12 +44,12 @@ namespace CGServicesHV.Common.Types.ShopFloor
                     {
                         DataRow dr = NewRow();
                         dr["ORDER_NUM"] = Data.CastDbNull.To<decimal>(reader["ZDDOCO"], 0);
-                        dr["ORDER_TYPE_CD"] = CastDbNull.To(reader["ZDDCTO"], String.Empty).Trim();
-                        dr["ORDER_LINE_NUM"] = CastDbNull.To<decimal>(reader["ZDLNID"], 0) / 1000;
-                        dr["MESSAGE_LINE_NUM"] = CastDbNull.To<decimal>(reader["ZDLINS"], 0) / 100;
-                        dr["MESSAGE_TYPE_CD"] = CastDbNull.To(reader["ZDEDTY"], String.Empty).Trim();
-                        dr["MESSAGE_SEQ_NUM"] = CastDbNull.To<decimal>(reader["ZDEDSQ"], 0);
-                        dr["MESSAGE_TEXT"] = CastDbNull.To(reader["ZDTXLN"], String.Empty).Trim();
+                        dr["ORDER_TYPE_CD"] = Data.CastDbNull.To(reader["ZDDCTO"], String.Empty).Trim();
+                        dr["ORDER_LINE_NUM"] = Data.CastDbNull.To<decimal>(reader["ZDLNID"], 0) / 1000;
+                        dr["MESSAGE_LINE_NUM"] = Data.CastDbNull.To<decimal>(reader["ZDLINS"], 0) / 100;
+                        dr["MESSAGE_TYPE_CD"] = Data.CastDbNull.To(reader["ZDEDTY"], String.Empty).Trim();
+                        dr["MESSAGE_SEQ_NUM"] = Data.CastDbNull.To<decimal>(reader["ZDEDSQ"], 0);
+                        dr["MESSAGE_TEXT"] = Data.CastDbNull.To(reader["ZDTXLN"], String.Empty).Trim();
                         dr["UPDATE_DATE"] = Timestamp.CastToDateTime(Data.CastDbNull.To<decimal>(reader["ZDUPMJ"], 0),
                             Data.CastDbNull.To<decimal>(reader["ZDTDAY"], 0)).AddHours(plant.TimeOffset);
                         Rows.Add(dr);

@@ -89,20 +89,20 @@ namespace CGServicesHV.Common.Managers.Enterprise
                     {
                         var tran = new ProductionTransaction
                         {
-                            TransactionId = CastDbNull.To<decimal>(reader["SFUKID"], 0),
-                            TransactionDate = Utilities.Common.CastSttmToDateTime(CastDbNull.To(reader["SFSTTM"], string.Empty).Trim()),
-                            PlantNum = CastDbNull.To(reader["SFMMCU"], string.Empty).Trim(),
-                            WorkCenter = CastDbNull.To(reader["SFMCU"], string.Empty).Trim(),
-                            WorkCenterDesc = CastDbNull.To(reader["MCDL01"], string.Empty).Trim(),
-                            OrderNum = CastDbNull.To<decimal>(reader["SFDOCO"], 0),
-                            OrderType = CastDbNull.To(reader["SFDCTO"], string.Empty).Trim(),
-                            UnitId = CastDbNull.To(reader["SFLOTN"], string.Empty).Trim(),
-                            LiteNum = CastDbNull.To<decimal>(reader["SFZ58L1CLN"], 0),
-                            RackId = CastDbNull.To<decimal>(reader["SFZ58RID"], 0),
-                            DocumentType = CastDbNull.To(reader["SFEDCT"], string.Empty).Trim(),
-                            TransactionType = CastDbNull.To(reader["SFTYTN"], string.Empty).Trim(),
-                            RejectReason = CastDbNull.To(reader["SFZ58RCC"], string.Empty).Trim(),
-                            RejectQuantity = CastDbNull.To<decimal>(reader["SFSOCN"], 0) / 1000
+                            TransactionId = Data.CastDbNull.To<decimal>(reader["SFUKID"], 0),
+                            TransactionDate = Utilities.Common.CastSttmToDateTime(Data.CastDbNull.To(reader["SFSTTM"], string.Empty).Trim()),
+                            PlantNum = Data.CastDbNull.To(reader["SFMMCU"], string.Empty).Trim(),
+                            WorkCenter = Data.CastDbNull.To(reader["SFMCU"], string.Empty).Trim(),
+                            WorkCenterDesc = Data.CastDbNull.To(reader["MCDL01"], string.Empty).Trim(),
+                            OrderNum = Data.CastDbNull.To<decimal>(reader["SFDOCO"], 0),
+                            OrderType = Data.CastDbNull.To(reader["SFDCTO"], string.Empty).Trim(),
+                            UnitId = Data.CastDbNull.To(reader["SFLOTN"], string.Empty).Trim(),
+                            LiteNum = Data.CastDbNull.To<decimal>(reader["SFZ58L1CLN"], 0),
+                            RackId = Data.CastDbNull.To<decimal>(reader["SFZ58RID"], 0),
+                            DocumentType = Data.CastDbNull.To(reader["SFEDCT"], string.Empty).Trim(),
+                            TransactionType = Data.CastDbNull.To(reader["SFTYTN"], string.Empty).Trim(),
+                            RejectReason = Data.CastDbNull.To(reader["SFZ58RCC"], string.Empty).Trim(),
+                            RejectQuantity = Data.CastDbNull.To<decimal>(reader["SFSOCN"], 0) / 1000
                         };
                         transactions.Add(tran);
                     }

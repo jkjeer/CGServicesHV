@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -101,14 +101,14 @@ namespace CGServicesHV.Common.Managers.ShopFloor
                     {
                         var rec = new MachinePartConsumedItem();
                         rec.PlantNum = plant.PlantNum;
-                        rec.ConsumedId = CastDbNull.To<long>(reader["MachinePartConsumedId"], 0);
-                        rec.ItemNum = CastDbNull.To<decimal>(reader["ItemNum"], 0);
-                        rec.Quantity = CastDbNull.To(reader["Quantity"], 0);
-                        rec.UnitMeasure = CastDbNull.To(reader["UnitMeasure"], string.Empty).Trim();
-                        rec.Location = CastDbNull.To(reader["Location"], string.Empty);
-                        rec.TransactionId = CastDbNull.To<long>(reader["TransactionId"], 0);
-                        rec.TransactionDate = CastDbNull.To(reader["TransactionDate"], DateTime.MinValue);
-                        rec.WrittenDate = CastDbNull.To(reader["WrittenDate"], DateTime.MinValue);
+                        rec.ConsumedId = Data.CastDbNull.To<long>(reader["MachinePartConsumedId"], 0);
+                        rec.ItemNum = Data.CastDbNull.To<decimal>(reader["ItemNum"], 0);
+                        rec.Quantity = Data.CastDbNull.To(reader["Quantity"], 0);
+                        rec.UnitMeasure = Data.CastDbNull.To(reader["UnitMeasure"], string.Empty).Trim();
+                        rec.Location = Data.CastDbNull.To(reader["Location"], string.Empty);
+                        rec.TransactionId = Data.CastDbNull.To<long>(reader["TransactionId"], 0);
+                        rec.TransactionDate = Data.CastDbNull.To(reader["TransactionDate"], DateTime.MinValue);
+                        rec.WrittenDate = Data.CastDbNull.To(reader["WrittenDate"], DateTime.MinValue);
                         //rec.E1Location = GetItemLocation(session, rec.PlantNum, rec.Location);
                         items.Add(rec);
                     }
@@ -162,7 +162,7 @@ namespace CGServicesHV.Common.Managers.ShopFloor
                     {
                         while (reader.Read())
                         {
-                            item.E1Location = CastDbNull.To(reader["LMLOCN"], string.Empty);
+                            item.E1Location = Data.CastDbNull.To(reader["LMLOCN"], string.Empty);
                         }
 
                         reader.Close();
@@ -211,7 +211,7 @@ namespace CGServicesHV.Common.Managers.ShopFloor
                     {
                         while (reader.Read())
                         {
-                            item.ItemDesc = CastDbNull.To(reader["IMDSC1"], string.Empty);
+                            item.ItemDesc = Data.CastDbNull.To(reader["IMDSC1"], string.Empty);
                         }
 
                         reader.Close();

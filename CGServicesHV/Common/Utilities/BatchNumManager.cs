@@ -2,14 +2,12 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using CGServicesHV.Common.Types.E1;
-using CGServicesHV.Common.Utilities;
 using IBM.Data.DB2.iSeries;
 using NLog;
-// ReSharper disable InconsistentNaming
 
-namespace CGServicesHV.Common.Managers.Enterprise
+namespace CGServicesHV.Common.Utilities
 {
     public class BatchNumManager
     {
@@ -111,7 +109,7 @@ namespace CGServicesHV.Common.Managers.Enterprise
                     var counter = 0;
                     while (reader.Read())
                     {
-                        batchNum = CastDbNull.To<decimal>(reader[numberField], 0);
+                        batchNum = Data.CastDbNull.To<decimal>(reader[numberField], 0);
                         counter++;
                     }
 
@@ -208,7 +206,7 @@ namespace CGServicesHV.Common.Managers.Enterprise
                     var counter = 0;
                     while (reader.Read())
                     {
-                        batchNum = CastDbNull.To<decimal>(reader["NNN001"], 0);
+                        batchNum = Data.CastDbNull.To<decimal>(reader["NNN001"], 0);
                         counter++;
                     }
 
@@ -273,7 +271,7 @@ namespace CGServicesHV.Common.Managers.Enterprise
                     var rowCount = 0;
                     while (reader.Read())
                     {
-                        var batchNum = CastDbNull.To<long>(reader["BIEDBT"], 0);
+                        var batchNum = Data.CastDbNull.To<long>(reader["BIEDBT"], 0);
                         sBatchNum = Convert.ToString(batchNum);
                         rowCount++;
                     }
@@ -311,7 +309,7 @@ namespace CGServicesHV.Common.Managers.Enterprise
                     var rowCount = 0;
                     while (reader.Read())
                     {
-                        uniqueId = CastDbNull.To<long>(reader["QAUKID"], 0);
+                        uniqueId = Data.CastDbNull.To<long>(reader["QAUKID"], 0);
                         rowCount++;
                     }
 
@@ -356,7 +354,7 @@ namespace CGServicesHV.Common.Managers.Enterprise
                 Logger.Trace(Logging.DbCmdString(cmd));
                 var rowCount = cmd.ExecuteNonQuery();
                 Logger.Trace("ROWS: " + rowCount);
-                var firstBIUKID = CastDbNull.To<long>(firstValueInRange.Value, 0);
+                var firstBIUKID = Data.CastDbNull.To<long>(firstValueInRange.Value, 0);
                 dFirstBIUKID = Convert.ToDecimal(firstBIUKID);
             }
             catch (Exception e)

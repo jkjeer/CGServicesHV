@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using CGServicesHV.Common.Managers.E1;
@@ -382,64 +382,64 @@ namespace CGServicesHV.Common.Managers.Enterprise
                     {
                         var rackTag = new RackTagItem
                         {
-                            RackId = CastDbNull.To<decimal>(reader["RHZ58RID"], 0),
-                            CompanyNum = CastDbNull.To(reader["RDKCOO"], string.Empty).Trim(),
-                            PlantNum = CastDbNull.To(reader["RHMCU"], string.Empty).Trim(),
-                            SalesOrderNum = CastDbNull.To<decimal>(reader["RDDOCO"], 0),
-                            SalesOrderLineNum = Math.Round(CastDbNull.To<decimal>(reader["RDLNID"], 0) / 1000, 3),
-                            SalesOrderType = CastDbNull.To(reader["RDDCTO"], string.Empty).Trim(),
-                            WorkOrderNum = CastDbNull.To<decimal>(reader["RDDOC1"], 0),
-                            BeginSerialNum = CastDbNull.To(reader["MIN_RDZ58SN"], string.Empty).Trim(),
-                            EndSerialNum = CastDbNull.To(reader["MAX_RDZ58SN"], string.Empty).Trim(),
-                            ItemNum = CastDbNull.To<decimal>(reader["RDITM"], 0),
-                            SoldToNum = CastDbNull.To<decimal>(reader["RHAN8"], 0),
-                            SoldToName = CastDbNull.To(reader["AN8ALPH"], string.Empty).Trim(),
-                            ShipToNum = CastDbNull.To<decimal>(reader["RHSHAN"], 0),
-                            ShipToName = CastDbNull.To(reader["SHANALPH"], string.Empty).Trim(),
-                            CustPartNum1 = CastDbNull.To(reader["ATZ58CP2"], string.Empty).Trim(),
-                            CustPartNum2 = CastDbNull.To(reader["ATZ58CP3"], string.Empty).Trim(),
-                            CustPartNum3 = CastDbNull.To(reader["ATZ58CP4"], string.Empty).Trim(),
-                            CustSeqNum1 = CastDbNull.To(reader["ATZ58CSQNO"], string.Empty).Trim(),
-                            GenericSeqNum = CastDbNull.To(reader["ATZ58GSQNO"], string.Empty).Trim(),
-                            //IGLine = CastDbNull.To(reader["BIZ58IGLN"], string.Empty).Trim(),
+                            RackId = Data.CastDbNull.To<decimal>(reader["RHZ58RID"], 0),
+                            CompanyNum = Data.CastDbNull.To(reader["RDKCOO"], string.Empty).Trim(),
+                            PlantNum = Data.CastDbNull.To(reader["RHMCU"], string.Empty).Trim(),
+                            SalesOrderNum = Data.CastDbNull.To<decimal>(reader["RDDOCO"], 0),
+                            SalesOrderLineNum = Math.Round(Data.CastDbNull.To<decimal>(reader["RDLNID"], 0) / 1000, 3),
+                            SalesOrderType = Data.CastDbNull.To(reader["RDDCTO"], string.Empty).Trim(),
+                            WorkOrderNum = Data.CastDbNull.To<decimal>(reader["RDDOC1"], 0),
+                            BeginSerialNum = Data.CastDbNull.To(reader["MIN_RDZ58SN"], string.Empty).Trim(),
+                            EndSerialNum = Data.CastDbNull.To(reader["MAX_RDZ58SN"], string.Empty).Trim(),
+                            ItemNum = Data.CastDbNull.To<decimal>(reader["RDITM"], 0),
+                            SoldToNum = Data.CastDbNull.To<decimal>(reader["RHAN8"], 0),
+                            SoldToName = Data.CastDbNull.To(reader["AN8ALPH"], string.Empty).Trim(),
+                            ShipToNum = Data.CastDbNull.To<decimal>(reader["RHSHAN"], 0),
+                            ShipToName = Data.CastDbNull.To(reader["SHANALPH"], string.Empty).Trim(),
+                            CustPartNum1 = Data.CastDbNull.To(reader["ATZ58CP2"], string.Empty).Trim(),
+                            CustPartNum2 = Data.CastDbNull.To(reader["ATZ58CP3"], string.Empty).Trim(),
+                            CustPartNum3 = Data.CastDbNull.To(reader["ATZ58CP4"], string.Empty).Trim(),
+                            CustSeqNum1 = Data.CastDbNull.To(reader["ATZ58CSQNO"], string.Empty).Trim(),
+                            GenericSeqNum = Data.CastDbNull.To(reader["ATZ58GSQNO"], string.Empty).Trim(),
+                            //IGLine = Data.CastDbNull.To(reader["BIZ58IGLN"], string.Empty).Trim(),
                             IGLine = "0",
-                            RackType = CastDbNull.To(reader["RHZ58RT"], string.Empty).Trim(),
-                            RackTypeDesc = CastDbNull.To(reader["RHZ58RT_DESC"], string.Empty).Trim(),
-                            Location = CastDbNull.To(reader["RHLOCN"], string.Empty).Trim(),
-                            Status = CastDbNull.To(reader["RHZ58HST"], string.Empty).Trim(),
-                            StatusDate = Utilities.Common.ConvertE1Date(CastDbNull.To<decimal>(reader["RHZ58RSDT"], 0)),
-                            BoxNum = CastDbNull.To<decimal>(reader["RHZ58BOX"], 0),
-                            RackGlassWeight = CastDbNull.To<decimal>(reader["RHZ58GWTT"], 0) / 100,
-                            RackTareWeight = CastDbNull.To<decimal>(reader["RHZ58RTWT"], 0) / 100,
-                            ScheduleNum = CastDbNull.To<decimal>(reader["RHZ58SCN"], 0),
-                            ScheduleType = CastDbNull.To(reader["S1Z58SCTYP"], string.Empty).Trim(),
-                            Quantity = CastDbNull.To(reader["RDPQOH"], 0),
-                            CustomerPO = CastDbNull.To(reader["SDVR01"], string.Empty).Trim(),
-                            ShopFloorMessage1 = CastDbNull.To(reader["ATZ5899009"], string.Empty).Trim(),
-                            ShopFloorMessage2 = CastDbNull.To(reader["ATZ5899010"], string.Empty).Trim(),
-                            PickNotes = CastDbNull.To(reader["ATZ5899011"], string.Empty).Trim(),
-                            PackNotes = CastDbNull.To(reader["ATZ5899012"], string.Empty).Trim(),
-                            ProductType = CastDbNull.To(reader["ATZ58PT"], string.Empty).Trim(),
-                            CustomerDate = Utilities.Common.ConvertE1Date(CastDbNull.To<decimal>(reader["SDDRQJ"], 0)),
-                            DueDate = Utilities.Common.ConvertE1Date(CastDbNull.To<decimal>(reader["S1Z58SCDDJ"], 0)),
-                            DueDateString = Utilities.Common.ConvertE1Date(CastDbNull.To<decimal>(reader["S1Z58SCDDJ"], 0)).ToString("MM/dd/yyyy"),
-                            RackSide = CastDbNull.To(reader["RDZ58SD"], string.Empty).Trim(),
-                            RackPosition = CastDbNull.To<decimal>(reader["RDZ58PS"], 0),
-                            RackStack = CastDbNull.To<decimal>(reader["RDZ58STK"], 0),
-                            RackRow = CastDbNull.To<decimal>(reader["RDZ58ROW"], 0),
-                            RackSlot = CastDbNull.To<decimal>(reader["RDZ58SL"], 0),
-                            RackSlotPosition = (CastDbNull.To<decimal>(reader["RDZ58PS"], 0) > 0) ? CastDbNull.To<decimal>(reader["RDZ58PS"], 0) : CastDbNull.To<decimal>(reader["RDZ58SL"], 0),
-                            BoxRotated = CastDbNull.To(reader["RDZ58BXRO"], string.Empty).Trim(),
-                            Lite1Rack = CastDbNull.To(reader["BIZ58L1R"], string.Empty).Trim(),
-                            Lite1Slot = CastDbNull.To<decimal>(reader["BIZ58L1SLN"], 0),
-                            Lite2Rack = CastDbNull.To(reader["BIZ58L2R"], string.Empty).Trim(),
-                            Lite2Slot = CastDbNull.To<decimal>(reader["BIZ58L2SLN"], 0),
-                            Lite3Rack = CastDbNull.To(reader["BIZ58L3R"], string.Empty).Trim(),
-                            Lite3Slot = CastDbNull.To<decimal>(reader["BIZ58L3SLN"], 0)
+                            RackType = Data.CastDbNull.To(reader["RHZ58RT"], string.Empty).Trim(),
+                            RackTypeDesc = Data.CastDbNull.To(reader["RHZ58RT_DESC"], string.Empty).Trim(),
+                            Location = Data.CastDbNull.To(reader["RHLOCN"], string.Empty).Trim(),
+                            Status = Data.CastDbNull.To(reader["RHZ58HST"], string.Empty).Trim(),
+                            StatusDate = Utilities.Common.ConvertE1Date(Data.CastDbNull.To<decimal>(reader["RHZ58RSDT"], 0)),
+                            BoxNum = Data.CastDbNull.To<decimal>(reader["RHZ58BOX"], 0),
+                            RackGlassWeight = Data.CastDbNull.To<decimal>(reader["RHZ58GWTT"], 0) / 100,
+                            RackTareWeight = Data.CastDbNull.To<decimal>(reader["RHZ58RTWT"], 0) / 100,
+                            ScheduleNum = Data.CastDbNull.To<decimal>(reader["RHZ58SCN"], 0),
+                            ScheduleType = Data.CastDbNull.To(reader["S1Z58SCTYP"], string.Empty).Trim(),
+                            Quantity = Data.CastDbNull.To(reader["RDPQOH"], 0),
+                            CustomerPO = Data.CastDbNull.To(reader["SDVR01"], string.Empty).Trim(),
+                            ShopFloorMessage1 = Data.CastDbNull.To(reader["ATZ5899009"], string.Empty).Trim(),
+                            ShopFloorMessage2 = Data.CastDbNull.To(reader["ATZ5899010"], string.Empty).Trim(),
+                            PickNotes = Data.CastDbNull.To(reader["ATZ5899011"], string.Empty).Trim(),
+                            PackNotes = Data.CastDbNull.To(reader["ATZ5899012"], string.Empty).Trim(),
+                            ProductType = Data.CastDbNull.To(reader["ATZ58PT"], string.Empty).Trim(),
+                            CustomerDate = Utilities.Common.ConvertE1Date(Data.CastDbNull.To<decimal>(reader["SDDRQJ"], 0)),
+                            DueDate = Utilities.Common.ConvertE1Date(Data.CastDbNull.To<decimal>(reader["S1Z58SCDDJ"], 0)),
+                            DueDateString = Utilities.Common.ConvertE1Date(Data.CastDbNull.To<decimal>(reader["S1Z58SCDDJ"], 0)).ToString("MM/dd/yyyy"),
+                            RackSide = Data.CastDbNull.To(reader["RDZ58SD"], string.Empty).Trim(),
+                            RackPosition = Data.CastDbNull.To<decimal>(reader["RDZ58PS"], 0),
+                            RackStack = Data.CastDbNull.To<decimal>(reader["RDZ58STK"], 0),
+                            RackRow = Data.CastDbNull.To<decimal>(reader["RDZ58ROW"], 0),
+                            RackSlot = Data.CastDbNull.To<decimal>(reader["RDZ58SL"], 0),
+                            RackSlotPosition = (Data.CastDbNull.To<decimal>(reader["RDZ58PS"], 0) > 0) ? Data.CastDbNull.To<decimal>(reader["RDZ58PS"], 0) : Data.CastDbNull.To<decimal>(reader["RDZ58SL"], 0),
+                            BoxRotated = Data.CastDbNull.To(reader["RDZ58BXRO"], string.Empty).Trim(),
+                            Lite1Rack = Data.CastDbNull.To(reader["BIZ58L1R"], string.Empty).Trim(),
+                            Lite1Slot = Data.CastDbNull.To<decimal>(reader["BIZ58L1SLN"], 0),
+                            Lite2Rack = Data.CastDbNull.To(reader["BIZ58L2R"], string.Empty).Trim(),
+                            Lite2Slot = Data.CastDbNull.To<decimal>(reader["BIZ58L2SLN"], 0),
+                            Lite3Rack = Data.CastDbNull.To(reader["BIZ58L3R"], string.Empty).Trim(),
+                            Lite3Slot = Data.CastDbNull.To<decimal>(reader["BIZ58L3SLN"], 0)
                         };
-                        var rddoco = CastDbNull.To<decimal>(reader["RDDOCO"], 0);
-                        var rddoc1 = CastDbNull.To<decimal>(reader["RDDOC1"], 0);
-                        var rddoc2 = CastDbNull.To<decimal>(reader["RDDOC2"], 0);
+                        var rddoco = Data.CastDbNull.To<decimal>(reader["RDDOCO"], 0);
+                        var rddoc1 = Data.CastDbNull.To<decimal>(reader["RDDOC1"], 0);
+                        var rddoc2 = Data.CastDbNull.To<decimal>(reader["RDDOC2"], 0);
                         ItemAttributes segments;
                         // Item by Work
                         if (rddoc1 > 0)
@@ -451,9 +451,9 @@ namespace CGServicesHV.Common.Managers.Enterprise
                             // Item by Sale
                             if (rddoco > 0)
                             {
-                                var rdkcoo = CastDbNull.To(reader["RDKCOO"], string.Empty).Trim();
-                                var rddcto = CastDbNull.To(reader["RDDCTO"], string.Empty).Trim();
-                                var rdlnid = CastDbNull.To<decimal>(reader["RDLNID"], 0);
+                                var rdkcoo = Data.CastDbNull.To(reader["RDKCOO"], string.Empty).Trim();
+                                var rddcto = Data.CastDbNull.To(reader["RDDCTO"], string.Empty).Trim();
+                                var rdlnid = Data.CastDbNull.To<decimal>(reader["RDLNID"], 0);
                                 segments = _itemAttributeMgr.GetItemAttributes(e1Session, 0, rddoco, rddcto, rdlnid, rdkcoo);
                             }
                             else
@@ -461,9 +461,9 @@ namespace CGServicesHV.Common.Managers.Enterprise
                                 // Item by Purchase    
                                 if (rddoc2 > 0)
                                 {
-                                    var rdpkco = CastDbNull.To(reader["RDPKCO"], string.Empty).Trim();
-                                    var rdxcto = CastDbNull.To(reader["RDXCTO"], string.Empty).Trim();
-                                    var rdlnic = Math.Round(CastDbNull.To<decimal>(reader["RDLNIC"], 0) / 1000, 3);
+                                    var rdpkco = Data.CastDbNull.To(reader["RDPKCO"], string.Empty).Trim();
+                                    var rdxcto = Data.CastDbNull.To(reader["RDXCTO"], string.Empty).Trim();
+                                    var rdlnic = Math.Round(Data.CastDbNull.To<decimal>(reader["RDLNIC"], 0) / 1000, 3);
                                     segments = _itemAttributeMgr.GetItemAttributes(e1Session, 0, rddoc2, rdxcto, rdlnic, rdpkco);
                                 }
                                 else
@@ -590,28 +590,28 @@ namespace CGServicesHV.Common.Managers.Enterprise
                     {
                         while (reader2.Read())
                         {
-                            var msgType = CastDbNull.To(reader2["ZDEDTY"], string.Empty).Trim();
+                            var msgType = Data.CastDbNull.To(reader2["ZDEDTY"], string.Empty).Trim();
                             if (msgType == "R")
                             {
-                                switch (Convert.ToInt32(CastDbNull.To<decimal>(reader2["ZDEDSQ"], 0)))
+                                switch (Convert.ToInt32(Data.CastDbNull.To<decimal>(reader2["ZDEDSQ"], 0)))
                                 {
                                     case 1:
-                                        rackTag.FooterMsg1 = CastDbNull.To(reader2["ZDTXLN"], string.Empty).Trim();
+                                        rackTag.FooterMsg1 = Data.CastDbNull.To(reader2["ZDTXLN"], string.Empty).Trim();
                                         break;
                                     case 2:
-                                        rackTag.FooterMsg2 = CastDbNull.To(reader2["ZDTXLN"], string.Empty).Trim();
+                                        rackTag.FooterMsg2 = Data.CastDbNull.To(reader2["ZDTXLN"], string.Empty).Trim();
                                         break;
                                     case 3:
-                                        rackTag.FooterMsg3 = CastDbNull.To(reader2["ZDTXLN"], string.Empty).Trim();
+                                        rackTag.FooterMsg3 = Data.CastDbNull.To(reader2["ZDTXLN"], string.Empty).Trim();
                                         break;
                                     case 4:
-                                        rackTag.FooterMsg4 = CastDbNull.To(reader2["ZDTXLN"], string.Empty).Trim();
+                                        rackTag.FooterMsg4 = Data.CastDbNull.To(reader2["ZDTXLN"], string.Empty).Trim();
                                         break;
                                     case 5:
-                                        rackTag.FooterMsg5 = CastDbNull.To(reader2["ZDTXLN"], string.Empty).Trim();
+                                        rackTag.FooterMsg5 = Data.CastDbNull.To(reader2["ZDTXLN"], string.Empty).Trim();
                                         break;
                                     case 6:
-                                        rackTag.FooterMsg6 = CastDbNull.To(reader2["ZDTXLN"], string.Empty).Trim();
+                                        rackTag.FooterMsg6 = Data.CastDbNull.To(reader2["ZDTXLN"], string.Empty).Trim();
                                         break;
                                 }
                             }
@@ -619,22 +619,22 @@ namespace CGServicesHV.Common.Managers.Enterprise
                             {
                                 if (msgType == "L")
                                 {
-                                    switch (Convert.ToInt32(CastDbNull.To<decimal>(reader2["ZDEDSQ"], 0)))
+                                    switch (Convert.ToInt32(Data.CastDbNull.To<decimal>(reader2["ZDEDSQ"], 0)))
                                     {
                                         case 1:
-                                            rackTag.LabelMsg1 = CastDbNull.To(reader2["ZDTXLN"], string.Empty).Trim();
+                                            rackTag.LabelMsg1 = Data.CastDbNull.To(reader2["ZDTXLN"], string.Empty).Trim();
                                             break;
                                         case 2:
-                                            rackTag.LabelMsg2 = CastDbNull.To(reader2["ZDTXLN"], string.Empty).Trim();
+                                            rackTag.LabelMsg2 = Data.CastDbNull.To(reader2["ZDTXLN"], string.Empty).Trim();
                                             break;
                                         case 3:
-                                            rackTag.LabelMsg3 = CastDbNull.To(reader2["ZDTXLN"], string.Empty).Trim();
+                                            rackTag.LabelMsg3 = Data.CastDbNull.To(reader2["ZDTXLN"], string.Empty).Trim();
                                             break;
                                         case 4:
-                                            rackTag.LabelMsg4 = CastDbNull.To(reader2["ZDTXLN"], string.Empty).Trim();
+                                            rackTag.LabelMsg4 = Data.CastDbNull.To(reader2["ZDTXLN"], string.Empty).Trim();
                                             break;
                                         case 5:
-                                            rackTag.LabelMsg5 = CastDbNull.To(reader2["ZDTXLN"], string.Empty).Trim();
+                                            rackTag.LabelMsg5 = Data.CastDbNull.To(reader2["ZDTXLN"], string.Empty).Trim();
                                             break;
                                     }
                                 }
@@ -745,9 +745,9 @@ namespace CGServicesHV.Common.Managers.Enterprise
                 {
                     while (reader.Read())
                     {
-                        //var workOrderNum = CastDbNull.To<decimal>(reader["WOrderNum"], 0);
-                        var unitID = CastDbNull.To(reader["UnitID"], "");
-                        var hasMate = CastDbNull.To(reader["HasMate"], "");
+                        //var workOrderNum = Data.CastDbNull.To<decimal>(reader["WOrderNum"], 0);
+                        var unitID = Data.CastDbNull.To(reader["UnitID"], "");
+                        var hasMate = Data.CastDbNull.To(reader["HasMate"], "");
                         Logger.Trace($@"UnitID: {unitID}  D: {hasMate}");
                         hash.Add(unitID, hasMate);
                     }

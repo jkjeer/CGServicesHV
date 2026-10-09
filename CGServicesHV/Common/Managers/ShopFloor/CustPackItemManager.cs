@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.Linq;
 using System.ServiceModel;
 using System.Text;
@@ -103,19 +103,19 @@ namespace CGServicesHV.Common.Managers.ShopFloor
                     {
                         var rec = new CustPackItem();
                         rec.PlantNum = plant.PlantNum;
-                        rec.CustPackId = CastDbNull.To<int>(reader["ProdCustPackID"], 0);
-                        rec.WorkOrderNum = CastDbNull.To<int>(reader["WorkOrderNum"], 0);
-                        rec.ScheduleNum = CastDbNull.To<int>(reader["ScheduleNumber"], 0);
-                        rec.SerialNum = CastDbNull.To<String>(reader["SerialNumber"], String.Empty).Trim();
-                        rec.Location = CastDbNull.To<String>(reader["WarehouseLocation"], String.Empty).Trim();
-                        rec.ProductionLineCode = CastDbNull.To<String>(reader["LineID"], String.Empty).Trim();
-                        rec.ProductionType = CastDbNull.To<String>(reader["ProdType"], String.Empty).Trim();
-                        rec.RackType = CastDbNull.To<String>(reader["RackType"], String.Empty).Trim();
-                        rec.BoxSlot = CastDbNull.To<String>(reader["BoxRackSlot"], String.Empty).Trim();
-                        rec.WorkCenterCode = CastDbNull.To<String>(reader["Workcenter"], String.Empty).Trim();
-                        rec.Quantity = CastDbNull.To<int>(reader["Quantity"], 0);
-                        rec.TransactionDate = CastDbNull.To<DateTime>(reader["CreatedTS"], DateTime.MinValue);
-                        rec.Backout = CastDbNull.To<bool>(reader["IsBackout"], false);
+                        rec.CustPackId = Data.CastDbNull.To<int>(reader["ProdCustPackID"], 0);
+                        rec.WorkOrderNum = Data.CastDbNull.To<int>(reader["WorkOrderNum"], 0);
+                        rec.ScheduleNum = Data.CastDbNull.To<int>(reader["ScheduleNumber"], 0);
+                        rec.SerialNum = Data.CastDbNull.To<String>(reader["SerialNumber"], String.Empty).Trim();
+                        rec.Location = Data.CastDbNull.To<String>(reader["WarehouseLocation"], String.Empty).Trim();
+                        rec.ProductionLineCode = Data.CastDbNull.To<String>(reader["LineID"], String.Empty).Trim();
+                        rec.ProductionType = Data.CastDbNull.To<String>(reader["ProdType"], String.Empty).Trim();
+                        rec.RackType = Data.CastDbNull.To<String>(reader["RackType"], String.Empty).Trim();
+                        rec.BoxSlot = Data.CastDbNull.To<String>(reader["BoxRackSlot"], String.Empty).Trim();
+                        rec.WorkCenterCode = Data.CastDbNull.To<String>(reader["Workcenter"], String.Empty).Trim();
+                        rec.Quantity = Data.CastDbNull.To<int>(reader["Quantity"], 0);
+                        rec.TransactionDate = Data.CastDbNull.To<DateTime>(reader["CreatedTS"], DateTime.MinValue);
+                        rec.Backout = Data.CastDbNull.To<bool>(reader["IsBackout"], false);
                         records.Add(rec);
                     }
 

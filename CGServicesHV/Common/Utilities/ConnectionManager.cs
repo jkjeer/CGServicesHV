@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Configuration;
 using System.Data.OleDb;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.Net.NetworkInformation;
 using System.Text;
 using IBM.Data.DB2.iSeries;
 using NLog;
 
-namespace CGServicesHV.Common.Managers.Enterprise
+namespace CGServicesHV.Common.Utilities
 {
     public static class ConnectionManager
     {

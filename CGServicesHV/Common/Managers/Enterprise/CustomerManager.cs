@@ -244,17 +244,17 @@ namespace CGServicesHV.Common.Managers.Enterprise
                 //    //while (reader.Read())
                 //    //{
                 //    //    customer.CustomerNum = addressNum;
-                //    //    customer.LegacyCustomerNum = CastDbNull.To(reader["ABALKY"], string.Empty).Trim();
-                //    //    customer.CustomerType = CastDbNull.To(reader["ABAT1"], string.Empty).Trim();
-                //    //    customer.CustomerName = CastDbNull.To(reader["ABALPH"], string.Empty).Trim();
-                //    //    var abac30 = CastDbNull.To(reader["ABAC30"], string.Empty).Trim();
+                //    //    customer.LegacyCustomerNum = Data.CastDbNull.To(reader["ABALKY"], string.Empty).Trim();
+                //    //    customer.CustomerType = Data.CastDbNull.To(reader["ABAT1"], string.Empty).Trim();
+                //    //    customer.CustomerName = Data.CastDbNull.To(reader["ABALPH"], string.Empty).Trim();
+                //    //    var abac30 = Data.CastDbNull.To(reader["ABAC30"], string.Empty).Trim();
                 //    //    customer.IsPlant = (abac30 != string.Empty & customer.CustomerType == "F");
                 //    //    if (customer.IsPlant)
                 //    //    {
                 //    //        customer.PlantNum = abac30;
                 //    //        customer.PlantCode = e1Session.PlantMap.GetAttributesByNum(abac30).Code;
-                //    //        customer.ShortCompanyNum = CastDbNull.To(reader["ABAC29"], string.Empty).Trim();
-                //    //        customer.CompanyNum = CastDbNull.To(reader["ABAC29"], string.Empty).Trim().PadLeft(5).Replace(' ', '0');
+                //    //        customer.ShortCompanyNum = Data.CastDbNull.To(reader["ABAC29"], string.Empty).Trim();
+                //    //        customer.CompanyNum = Data.CastDbNull.To(reader["ABAC29"], string.Empty).Trim().PadLeft(5).Replace(' ', '0');
                 //    //    }
                 //    //    if (includeAddress)
                 //    //    {
@@ -289,17 +289,17 @@ namespace CGServicesHV.Common.Managers.Enterprise
                     while (reader.Read())
                     {
                         customer.CustomerNum = addressNum;
-                        customer.LegacyCustomerNum = CastDbNull.To(reader["ABALKY"], string.Empty).Trim();
-                        customer.CustomerType = CastDbNull.To(reader["ABAT1"], string.Empty).Trim();
-                        customer.CustomerName = CastDbNull.To(reader["ABALPH"], string.Empty).Trim();
-                        var abac30 = CastDbNull.To(reader["ABAC30"], string.Empty).Trim();
+                        customer.LegacyCustomerNum = Data.CastDbNull.To(reader["ABALKY"], string.Empty).Trim();
+                        customer.CustomerType = Data.CastDbNull.To(reader["ABAT1"], string.Empty).Trim();
+                        customer.CustomerName = Data.CastDbNull.To(reader["ABALPH"], string.Empty).Trim();
+                        var abac30 = Data.CastDbNull.To(reader["ABAC30"], string.Empty).Trim();
                         customer.IsPlant = (abac30 != string.Empty & customer.CustomerType == "F");
                         if (customer.IsPlant)
                         {
                             customer.PlantNum = abac30;
                             customer.PlantCode = PlantManager.GetPlant(abac30).PlantCode;
-                            customer.ShortCompanyNum = CastDbNull.To(reader["ABAC29"], string.Empty).Trim();
-                            customer.CompanyNum = CastDbNull.To(reader["ABAC29"], string.Empty).Trim().PadLeft(5).Replace(' ', '0');
+                            customer.ShortCompanyNum = Data.CastDbNull.To(reader["ABAC29"], string.Empty).Trim();
+                            customer.CompanyNum = Data.CastDbNull.To(reader["ABAC29"], string.Empty).Trim().PadLeft(5).Replace(' ', '0');
                         }
 
                         if (includeAddress)
@@ -335,10 +335,10 @@ namespace CGServicesHV.Common.Managers.Enterprise
                     {
                         var customer = new Customer
                         {
-                            CustomerNum = CastDbNull.To<decimal>(reader["ABAN8"], 0),
-                            LegacyCustomerNum = CastDbNull.To(reader["ABALKY"], string.Empty).Trim(),
-                            CustomerName = CastDbNull.To(reader["ABALPH"], string.Empty).Trim(),
-                            PlantNum = CastDbNull.To(reader["ABAC30"], string.Empty).Trim()
+                            CustomerNum = Data.CastDbNull.To<decimal>(reader["ABAN8"], 0),
+                            LegacyCustomerNum = Data.CastDbNull.To(reader["ABALKY"], string.Empty).Trim(),
+                            CustomerName = Data.CastDbNull.To(reader["ABALPH"], string.Empty).Trim(),
+                            PlantNum = Data.CastDbNull.To(reader["ABAC30"], string.Empty).Trim()
                         };
                         customer.IsPlant = (customer.PlantNum != string.Empty);
                         if (includeAddress)
@@ -372,10 +372,10 @@ namespace CGServicesHV.Common.Managers.Enterprise
                 {
                     while (reader.Read())
                     {
-                        customer.CustomerNum = CastDbNull.To<decimal>(reader["ABAN8"], 0);
+                        customer.CustomerNum = Data.CastDbNull.To<decimal>(reader["ABAN8"], 0);
                         customer.LegacyCustomerNum = legacyNum;
-                        customer.CustomerName = CastDbNull.To(reader["ABALPH"], string.Empty).Trim();
-                        customer.PlantNum = CastDbNull.To(reader["ABAC30"], string.Empty).Trim();
+                        customer.CustomerName = Data.CastDbNull.To(reader["ABALPH"], string.Empty).Trim();
+                        customer.PlantNum = Data.CastDbNull.To(reader["ABAC30"], string.Empty).Trim();
                         customer.IsPlant = (customer.PlantNum != string.Empty);
                         if (includeAddress)
                         {
@@ -456,10 +456,10 @@ namespace CGServicesHV.Common.Managers.Enterprise
                     while (reader.Read())
                     {
                         //itemReference.AddressNum = addressNum;
-                        itemReference.CustomerItemNum = CastDbNull.To(reader["IVCITM"], string.Empty).Trim();
-                        itemReference.ReferenceType = CastDbNull.To(reader["IVXRT"], string.Empty).Trim();
-                        itemReference.Description1 = CastDbNull.To(reader["IVDSC1"], string.Empty).Trim();
-                        itemReference.Description2 = CastDbNull.To(reader["IVDSC2"], string.Empty).Trim();
+                        itemReference.CustomerItemNum = Data.CastDbNull.To(reader["IVCITM"], string.Empty).Trim();
+                        itemReference.ReferenceType = Data.CastDbNull.To(reader["IVXRT"], string.Empty).Trim();
+                        itemReference.Description1 = Data.CastDbNull.To(reader["IVDSC1"], string.Empty).Trim();
+                        itemReference.Description2 = Data.CastDbNull.To(reader["IVDSC2"], string.Empty).Trim();
                     }
 
                     reader.Close();
@@ -528,16 +528,16 @@ namespace CGServicesHV.Common.Managers.Enterprise
                 {
                     while (reader.Read())
                     {
-                        address.AddressNum = CastDbNull.To<decimal>(reader["ABAN8"], 0);
-                        address.Name = CastDbNull.To(reader["ABALPH"], string.Empty).Trim();
-                        address.Address1 = CastDbNull.To(reader["ALADD1"], string.Empty).Trim();
-                        address.Address2 = CastDbNull.To(reader["ALADD2"], string.Empty).Trim();
-                        address.Address3 = CastDbNull.To(reader["ALADD3"], string.Empty).Trim();
-                        address.Address4 = CastDbNull.To(reader["ALADD4"], string.Empty).Trim();
-                        address.City = CastDbNull.To(reader["ALCTY1"], string.Empty).Trim();
-                        address.State = CastDbNull.To(reader["ALADDS"], string.Empty).Trim();
-                        address.PostalCode = CastDbNull.To(reader["ALADDZ"], string.Empty).Trim();
-                        address.Country = CastDbNull.To(reader["ALCTR"], string.Empty).Trim();
+                        address.AddressNum = Data.CastDbNull.To<decimal>(reader["ABAN8"], 0);
+                        address.Name = Data.CastDbNull.To(reader["ABALPH"], string.Empty).Trim();
+                        address.Address1 = Data.CastDbNull.To(reader["ALADD1"], string.Empty).Trim();
+                        address.Address2 = Data.CastDbNull.To(reader["ALADD2"], string.Empty).Trim();
+                        address.Address3 = Data.CastDbNull.To(reader["ALADD3"], string.Empty).Trim();
+                        address.Address4 = Data.CastDbNull.To(reader["ALADD4"], string.Empty).Trim();
+                        address.City = Data.CastDbNull.To(reader["ALCTY1"], string.Empty).Trim();
+                        address.State = Data.CastDbNull.To(reader["ALADDS"], string.Empty).Trim();
+                        address.PostalCode = Data.CastDbNull.To(reader["ALADDZ"], string.Empty).Trim();
+                        address.Country = Data.CastDbNull.To(reader["ALCTR"], string.Empty).Trim();
                     }
 
                     reader.Close();
@@ -584,7 +584,7 @@ namespace CGServicesHV.Common.Managers.Enterprise
                 {
                     while (reader.Read())
                     {
-                        returnNum = CastDbNull.To<decimal>(reader["MAPA8"], 0);
+                        returnNum = Data.CastDbNull.To<decimal>(reader["MAPA8"], 0);
                     }
 
                     reader.Close();
@@ -629,7 +629,7 @@ namespace CGServicesHV.Common.Managers.Enterprise
                 {
                     while (reader.Read())
                     {
-                        custName = CastDbNull.To(reader["ABALPH"], string.Empty).Trim();
+                        custName = Data.CastDbNull.To(reader["ABALPH"], string.Empty).Trim();
                     }
 
                     reader.Close();
@@ -674,7 +674,7 @@ namespace CGServicesHV.Common.Managers.Enterprise
                 {
                     while (reader.Read())
                     {
-                        returnNum = CastDbNull.To<decimal>(reader["ABAN8"], 0);
+                        returnNum = Data.CastDbNull.To<decimal>(reader["ABAN8"], 0);
                     }
 
                     reader.Close();
@@ -701,9 +701,9 @@ namespace CGServicesHV.Common.Managers.Enterprise
                     while (reader.Read())
                     {
                         plant.PlantNum = plantNum;
-                        plant.LegacyAddressNum = CastDbNull.To(reader["ABALKY"], string.Empty).Trim();
-                        plant.AddressNum = CastDbNull.To<decimal>(reader["ABAN8"], 0);
-                        plant.Name = CastDbNull.To(reader["ABALPH"], string.Empty).Trim();
+                        plant.LegacyAddressNum = Data.CastDbNull.To(reader["ABALKY"], string.Empty).Trim();
+                        plant.AddressNum = Data.CastDbNull.To<decimal>(reader["ABAN8"], 0);
+                        plant.Name = Data.CastDbNull.To(reader["ABALPH"], string.Empty).Trim();
                     }
 
                     reader.Close();
@@ -756,7 +756,7 @@ namespace CGServicesHV.Common.Managers.Enterprise
                 {
                     while (reader.Read())
                     {
-                        terms = CastDbNull.To(reader["AITRAR"], string.Empty).Trim();
+                        terms = Data.CastDbNull.To(reader["AITRAR"], string.Empty).Trim();
                     }
 
                     reader.Close();
@@ -809,7 +809,7 @@ namespace CGServicesHV.Common.Managers.Enterprise
                 {
                     while (reader.Read())
                     {
-                        terms = CastDbNull.To(reader["AITXA1"], string.Empty).Trim();
+                        terms = Data.CastDbNull.To(reader["AITXA1"], string.Empty).Trim();
                     }
 
                     reader.Close();

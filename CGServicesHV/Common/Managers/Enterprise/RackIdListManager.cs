@@ -103,7 +103,7 @@ namespace CGServicesHV.Common.Managers.Enterprise
                 {
                     while (reader.Read())
                     {
-                        rackIds.Add(CastDbNull.To<decimal>(reader["RHZ58RID"], 0));
+                        rackIds.Add(Data.CastDbNull.To<decimal>(reader["RHZ58RID"], 0));
                     }
 
                     reader.Close();
@@ -186,7 +186,7 @@ namespace CGServicesHV.Common.Managers.Enterprise
                 {
                     while (reader.Read())
                     {
-                        rackIds.Add(CastDbNull.To<decimal>(reader["RHZ58RID"], 0));
+                        rackIds.Add(Data.CastDbNull.To<decimal>(reader["RHZ58RID"], 0));
                     }
 
                     reader.Close();
@@ -265,7 +265,7 @@ namespace CGServicesHV.Common.Managers.Enterprise
                 {
                     while (reader.Read())
                     {
-                        rackIds.Add(CastDbNull.To<decimal>(reader["RHZ58RID"], 0));
+                        rackIds.Add(Data.CastDbNull.To<decimal>(reader["RHZ58RID"], 0));
                     }
 
                     reader.Close();
@@ -324,7 +324,7 @@ namespace CGServicesHV.Common.Managers.Enterprise
                 {
                     while (reader.Read())
                     {
-                        scheduleDateId = CastDbNull.To<decimal>(reader["S1Z58SCD"], 0);
+                        scheduleDateId = Data.CastDbNull.To<decimal>(reader["S1Z58SCD"], 0);
                     }
 
                     reader.Close();
@@ -376,7 +376,7 @@ namespace CGServicesHV.Common.Managers.Enterprise
                 {
                     while (reader.Read())
                     {
-                        rackIds.Add(CastDbNull.To<decimal>(reader["RHZ58RID"], 0));
+                        rackIds.Add(Data.CastDbNull.To<decimal>(reader["RHZ58RID"], 0));
                     }
 
                     reader.Close();
@@ -447,7 +447,7 @@ namespace CGServicesHV.Common.Managers.Enterprise
                 {
                     while (reader.Read())
                     {
-                        rackIds.Add(CastDbNull.To<decimal>(reader["HLZ58RID"], 0));
+                        rackIds.Add(Data.CastDbNull.To<decimal>(reader["HLZ58RID"], 0));
                     }
 
                     reader.Close();

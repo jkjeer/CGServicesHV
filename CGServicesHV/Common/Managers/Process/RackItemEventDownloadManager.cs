@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using CGServicesHV.Common.Managers.E1;
@@ -219,7 +219,7 @@ namespace CGServicesHV.Common.Managers.Process
                 {
                     filters.Add("DLZ58RID = ? AND \r\n");
                     parameters.Add(new iDB2Parameter("RID", iDB2DbType.iDB2Decimal));
-                    parameters.Last().Precision = 8;
+                    parameters.Last().Precision = 15;
                     parameters.Last().Scale = 0;
                     parameters.Last().Value = rackId;
                 }
@@ -322,17 +322,17 @@ namespace CGServicesHV.Common.Managers.Process
                         while (reader.Read())
                         {
                             dr["ReceivedQty"] = Data.CastDbNull.To<decimal>(reader["DLPQOH"], 0) / 1000;
-                            var dldoc2 = CastDbNull.To<decimal>(reader["DLDOC2"], 0);
+                            var dldoc2 = Data.CastDbNull.To<decimal>(reader["DLDOC2"], 0);
                             if (dldoc2 > 0)
                             {
-                                dr["DocumentNum"] = CastDbNull.To<decimal>(reader["DLDOC2"], 0);
-                                dr["DocumentType"] = CastDbNull.To(reader["DLXCTO"], String.Empty).Trim();
-                                dr["DocumentLineNum"] = CastDbNull.To<decimal>(reader["DLLNIC"], 0) / 1000;
+                                dr["DocumentNum"] = Data.CastDbNull.To<decimal>(reader["DLDOC2"], 0);
+                                dr["DocumentType"] = Data.CastDbNull.To(reader["DLXCTO"], String.Empty).Trim();
+                                dr["DocumentLineNum"] = Data.CastDbNull.To<decimal>(reader["DLLNIC"], 0) / 1000;
                             }
                             else
                             {
-                                dr["DocumentNum"] = CastDbNull.To<decimal>(reader["DLDOC1"], 0);
-                                dr["DocumentType"] = CastDbNull.To(reader["DLXDCTO"], String.Empty).Trim();
+                                dr["DocumentNum"] = Data.CastDbNull.To<decimal>(reader["DLDOC1"], 0);
+                                dr["DocumentType"] = Data.CastDbNull.To(reader["DLXDCTO"], String.Empty).Trim();
                                 dr["DocumentLineNum"] = 0;
                             }
                         }

@@ -70,8 +70,8 @@ namespace CGServicesHV.Common.Managers.E1
                 {
                     while (reader.Read())
                     {
-                        var family = CastDbNull.To(reader["IBPRP4"], string.Empty).Trim();
-                        var planner = CastDbNull.To<decimal>(reader["IBANPL"], 0);
+                        var family = Data.CastDbNull.To(reader["IBPRP4"], string.Empty).Trim();
+                        var planner = Data.CastDbNull.To<decimal>(reader["IBANPL"], 0);
                         if (family == "PLN")
                         {
                             customerNum = planner;

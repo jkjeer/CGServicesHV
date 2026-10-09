@@ -2,13 +2,12 @@ using System;
 using System.Configuration;
 using System.Linq;
 using System.ServiceModel;
-using CGServicesHV.Common.Managers;
-using CGServicesHV.Common.Types;
 using CGServicesHV.Common.Managers.E1;
 using CGServicesHV.Common.Managers.Enterprise;
 using CGServicesHV.Common.Types.E1;
 using CGServicesHV.Common.Types.Enterprise;
 using CGServicesHV.Common.Types.Response;
+using CGServicesHV.Common.Utilities;
 using NLog;
 
 namespace CGServicesHV.WOStatusSvc

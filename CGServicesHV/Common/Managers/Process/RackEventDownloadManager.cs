@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using CGServicesHV.Common.Managers.E1;
@@ -212,7 +212,7 @@ namespace CGServicesHV.Common.Managers.Process
                 {
                     filters.Add("HLZ58RID = ? AND \r\n");
                     parameters.Add(new iDB2Parameter("RID", iDB2DbType.iDB2Decimal));
-                    parameters.Last().Precision = 8;
+                    parameters.Last().Precision = 15;
                     parameters.Last().Scale = 0;
                     parameters.Last().Value = rackId;
                 }

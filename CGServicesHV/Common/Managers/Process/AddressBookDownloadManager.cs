@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.Data.SqlTypes;
 using System.Linq;
 using System.Text;
@@ -46,6 +46,7 @@ namespace CGServicesHV.Common.Managers.Process
             var response = new ProcessResponse("Address Book Download Manager");
             response.Plant = plant;
             response.ConnectionStrings.Add(new ConnectionString("E1", session.DbConnection.ConnectionString));
+
             foreach (var sqlCn in sqlCns)
             {
                 response.ConnectionStrings.Add(new ConnectionString(sqlCn.Key, sqlCn.Value.ConnectionString));
@@ -295,7 +296,7 @@ namespace CGServicesHV.Common.Managers.Process
                 while (reader.Read())
                 {
                     DataRow dr = table.NewRow();
-                    dr["AddressNum"] = CastDbNull.To<decimal>(reader["ABAN8"], 0);
+                    dr["AddressNum"] = Data.CastDbNull.To<decimal>(reader["ABAN8"], 0);
                     dr["ABDate"] = (DateTime)SqlDateTime.MinValue;
                     dr["ALDate"] = (DateTime)SqlDateTime.MinValue;
                     dr["MADate"] = (DateTime)SqlDateTime.MinValue;
@@ -381,7 +382,7 @@ namespace CGServicesHV.Common.Managers.Process
                 var reader = cmd.ExecuteReader(CommandBehavior.SingleResult);
                 while (reader.Read())
                 {
-                    nums.Add(CastDbNull.To<decimal>(reader["AN8"], 0));
+                    nums.Add(Data.CastDbNull.To<decimal>(reader["AN8"], 0));
                 }
                 reader.Close();
             }
@@ -470,36 +471,36 @@ namespace CGServicesHV.Common.Managers.Process
                     {
                         var addressNum = Data.CastDbNull.To<decimal>(reader["ABAN8"], 0);
                         dr["AddressNum"] = addressNum;
-                        dr["Name"] = CastDbNull.To(reader["ABALPH"], string.Empty).Trim();
-                        dr["AddressType"] = CastDbNull.To(reader["ABAT1"], string.Empty).Trim();
-                        dr["AddressTypeName"] = CastDbNull.To(reader["DRDL01"], string.Empty).Trim();
-                        dr["NationalAccountGroup"] = CastDbNull.To(reader["ABAC05"], string.Empty).Trim();
-                        dr["Address1"] = CastDbNull.To(reader["ALADD1"], string.Empty).Trim();
-                        dr["Address2"] = CastDbNull.To(reader["ALADD2"], string.Empty).Trim();
-                        dr["Address3"] = CastDbNull.To(reader["ALADD3"], string.Empty).Trim();
-                        dr["Address4"] = CastDbNull.To(reader["ALADD4"], string.Empty).Trim();
-                        dr["PostalCode"] = CastDbNull.To(reader["ALADDZ"], string.Empty).Trim();
-                        dr["City"] = CastDbNull.To(reader["ALCTY1"], string.Empty).Trim();
-                        dr["State"] = CastDbNull.To(reader["ALADDS"], string.Empty).Trim();
-                        dr["Country"] = CastDbNull.To(reader["ALCTR"], string.Empty).Trim();
-                        dr["AreaCode"] = CastDbNull.To(reader["WPAR1"], string.Empty).Trim();
-                        dr["Phone"] = CastDbNull.To(reader["WPPH1"], string.Empty).Trim();
-                        var parentAddressNum = CastDbNull.To<decimal>(reader["MAPA8"], 0);
+                        dr["Name"] = Data.CastDbNull.To(reader["ABALPH"], string.Empty).Trim();
+                        dr["AddressType"] = Data.CastDbNull.To(reader["ABAT1"], string.Empty).Trim();
+                        dr["AddressTypeName"] = Data.CastDbNull.To(reader["DRDL01"], string.Empty).Trim();
+                        dr["NationalAccountGroup"] = Data.CastDbNull.To(reader["ABAC05"], string.Empty).Trim();
+                        dr["Address1"] = Data.CastDbNull.To(reader["ALADD1"], string.Empty).Trim();
+                        dr["Address2"] = Data.CastDbNull.To(reader["ALADD2"], string.Empty).Trim();
+                        dr["Address3"] = Data.CastDbNull.To(reader["ALADD3"], string.Empty).Trim();
+                        dr["Address4"] = Data.CastDbNull.To(reader["ALADD4"], string.Empty).Trim();
+                        dr["PostalCode"] = Data.CastDbNull.To(reader["ALADDZ"], string.Empty).Trim();
+                        dr["City"] = Data.CastDbNull.To(reader["ALCTY1"], string.Empty).Trim();
+                        dr["State"] = Data.CastDbNull.To(reader["ALADDS"], string.Empty).Trim();
+                        dr["Country"] = Data.CastDbNull.To(reader["ALCTR"], string.Empty).Trim();
+                        dr["AreaCode"] = Data.CastDbNull.To(reader["WPAR1"], string.Empty).Trim();
+                        dr["Phone"] = Data.CastDbNull.To(reader["WPPH1"], string.Empty).Trim();
+                        var parentAddressNum = Data.CastDbNull.To<decimal>(reader["MAPA8"], 0);
                         dr["ParentAddressNum"] = (parentAddressNum == 0) ? addressNum : parentAddressNum;
-                        var company = CastDbNull.To(reader["ABAC29"], string.Empty).Trim();
+                        var company = Data.CastDbNull.To(reader["ABAC29"], string.Empty).Trim();
                         dr["Company"] = (company == "") ? 0 : Convert.ToDecimal(company);
                         dr["Company"] = (company == "") ? 0 : Convert.ToDecimal(company);
                         dr["ABDate"] = E1TimeManager
-                            .CastToDateTime(CastDbNull.To<decimal>(reader["ABUPMJ"], 0), CastDbNull.To<decimal>(reader["ABUPMT"], 0))
+                            .CastToDateTime(Data.CastDbNull.To<decimal>(reader["ABUPMJ"], 0), Data.CastDbNull.To<decimal>(reader["ABUPMT"], 0))
                             .AddHours(plant.TimeOffset);
                         dr["ALDate"] = E1TimeManager
-                            .CastToDateTime(CastDbNull.To<decimal>(reader["ALUPMJ"], 0), CastDbNull.To<decimal>(reader["ALUPMT"], 0))
+                            .CastToDateTime(Data.CastDbNull.To<decimal>(reader["ALUPMJ"], 0), Data.CastDbNull.To<decimal>(reader["ALUPMT"], 0))
                             .AddHours(plant.TimeOffset);
                         dr["MADate"] = E1TimeManager
-                            .CastToDateTime(CastDbNull.To<decimal>(reader["MAUPMJ"], 0), CastDbNull.To<decimal>(reader["MAUPMT"], 0))
+                            .CastToDateTime(Data.CastDbNull.To<decimal>(reader["MAUPMJ"], 0), Data.CastDbNull.To<decimal>(reader["MAUPMT"], 0))
                             .AddHours(plant.TimeOffset);
                         dr["WPDate"] = E1TimeManager
-                            .CastToDateTime(CastDbNull.To<decimal>(reader["WPUPMJ"], 0), CastDbNull.To<decimal>(reader["WPUPMT"], 0))
+                            .CastToDateTime(Data.CastDbNull.To<decimal>(reader["WPUPMJ"], 0), Data.CastDbNull.To<decimal>(reader["WPUPMT"], 0))
                             .AddHours(plant.TimeOffset);
                         dr["UpdateDate"] = new DateTime[] { (DateTime)dr["ABDate"], (DateTime)dr["ALDate"], (DateTime)dr["MADate"], (DateTime)dr["WPDate"] }.Max();
                     }

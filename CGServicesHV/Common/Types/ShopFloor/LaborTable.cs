@@ -39,14 +39,14 @@ namespace CGServicesHV.Common.Types.ShopFloor
                 while (reader.Read())
                 {
                     var dr = NewRow();
-                    dr["ProductionYear"] = CastDbNull.To<int>(reader["ProductionYear"], 0);
-                    dr["ProductionMonth"] = CastDbNull.To<int>(reader["ProductionMonth"], 0);
-                    dr["Workgroup1"] = CastDbNull.To(reader["Workgroup1"], string.Empty).Trim();
-                    dr["Workgroup2"] = CastDbNull.To(reader["Workgroup2"], string.Empty).Trim();
-                    dr["Workgroup3"] = CastDbNull.To(reader["Workgroup3"], string.Empty).Trim();
-                    dr["PaylineTypeCode"] = CastDbNull.To(reader["PaylineTypeCode"], string.Empty).Trim();
-                    dr["PayTypeDesc"] = CastDbNull.To(reader["PayTypeDesc"], string.Empty).Trim();
-                    dr["Amount"] = CastDbNull.To<decimal>(reader["Amount"], 0);
+                    dr["ProductionYear"] = Data.CastDbNull.To<int>(reader["ProductionYear"], 0);
+                    dr["ProductionMonth"] = Data.CastDbNull.To<int>(reader["ProductionMonth"], 0);
+                    dr["Workgroup1"] = Data.CastDbNull.To(reader["Workgroup1"], string.Empty).Trim();
+                    dr["Workgroup2"] = Data.CastDbNull.To(reader["Workgroup2"], string.Empty).Trim();
+                    dr["Workgroup3"] = Data.CastDbNull.To(reader["Workgroup3"], string.Empty).Trim();
+                    dr["PaylineTypeCode"] = Data.CastDbNull.To(reader["PaylineTypeCode"], string.Empty).Trim();
+                    dr["PayTypeDesc"] = Data.CastDbNull.To(reader["PayTypeDesc"], string.Empty).Trim();
+                    dr["Amount"] = Data.CastDbNull.To<decimal>(reader["Amount"], 0);
                     Rows.Add(dr);
                 }
                 reader.Close();

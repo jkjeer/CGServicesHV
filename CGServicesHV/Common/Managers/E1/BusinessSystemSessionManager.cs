@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using IBM.Data.DB2.iSeries;
-using CGServicesHV.Common.Managers.Enterprise;
 using CGServicesHV.Common.Types.E1;
+using CGServicesHV.Common.Utilities;
 using NLog;
 
 namespace CGServicesHV.Common.Managers.E1

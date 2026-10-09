@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -261,38 +261,38 @@ namespace CGServicesHV.Common.Managers.Enterprise
                     {
                         var invoice = new Invoice
                         {
-                            InvoiceId = CastDbNull.To(reader["INVOICE_ID"], 0),
-                            InvoiceNum = Convert.ToDecimal(CastDbNull.To(reader["REF_NO"], string.Empty).Trim()),
-                            InvoiceDate = CastDbNull.To(reader["TRAN_DATE"], new DateTime(1900, 1, 1)),
-                            OriginalInvoiceDate = CastDbNull.To(reader["ORIG_TRAN_DATE"], new DateTime(1900, 1, 1)),
-                            InvoiceType = CastDbNull.To(reader["E1_ORDER_TYPE"], string.Empty).Trim()
+                            InvoiceId = Data.CastDbNull.To(reader["INVOICE_ID"], 0),
+                            InvoiceNum = Convert.ToDecimal(Data.CastDbNull.To(reader["REF_NO"], string.Empty).Trim()),
+                            InvoiceDate = Data.CastDbNull.To(reader["TRAN_DATE"], new DateTime(1900, 1, 1)),
+                            OriginalInvoiceDate = Data.CastDbNull.To(reader["ORIG_TRAN_DATE"], new DateTime(1900, 1, 1)),
+                            InvoiceType = Data.CastDbNull.To(reader["E1_ORDER_TYPE"], string.Empty).Trim()
                         };
-                        var plantNum = CastDbNull.To(reader["PLANT_NO"], string.Empty).Trim();
+                        var plantNum = Data.CastDbNull.To(reader["PLANT_NO"], string.Empty).Trim();
                         invoice.Plant = PlantManager.GetPlant(plantNum);
-                        var soldToCustomerNum = CastDbNull.To<decimal>(reader["CUST_SOLD_NO"], 0);
+                        var soldToCustomerNum = Data.CastDbNull.To<decimal>(reader["CUST_SOLD_NO"], 0);
                         invoice.SoldToCustomer = _customerManager.GetCustomer(e1Session, soldToCustomerNum);
                         var taxCode = _customerManager.GetTaxRate(e1Session, soldToCustomerNum);
                         invoice.SoldToCustomer.TaxRateCode = taxCode;
-                        var shipToCustomerNum = CastDbNull.To<decimal>(reader["CUST_SHIP_NO"], 0);
+                        var shipToCustomerNum = Data.CastDbNull.To<decimal>(reader["CUST_SHIP_NO"], 0);
                         invoice.ShipToCustomer = _customerManager.GetCustomer(e1Session, shipToCustomerNum);
                         var taxCode1 = _customerManager.GetTaxRate(e1Session, shipToCustomerNum);
                         invoice.ShipToCustomer.TaxRateCode = taxCode1;
                         invoice.IsInternalCustomer = invoice.SoldToCustomer.IsPlant;
-                        invoice.Terms = CastDbNull.To(reader["E1_TERMS_CD"], string.Empty).Trim();
+                        invoice.Terms = Data.CastDbNull.To(reader["E1_TERMS_CD"], string.Empty).Trim();
                         //invoice.Terms = _customerManager.GetTerms(e1Session, invoice.SoldToCustomer.CustomerNum);
-                        invoice.GrossAmt = Convert.ToDecimal(CastDbNull.To<decimal>(reader["GROSS_AMT"], 0));
-                        invoice.ReceivedAmt = Convert.ToDecimal(CastDbNull.To<decimal>(reader["PAID_AMT"], 0));
-                        invoice.OpenAmt = Convert.ToDecimal(CastDbNull.To<decimal>(reader["OPEN_AMT"], 0));
+                        invoice.GrossAmt = Convert.ToDecimal(Data.CastDbNull.To<decimal>(reader["GROSS_AMT"], 0));
+                        invoice.ReceivedAmt = Convert.ToDecimal(Data.CastDbNull.To<decimal>(reader["PAID_AMT"], 0));
+                        invoice.OpenAmt = Convert.ToDecimal(Data.CastDbNull.To<decimal>(reader["OPEN_AMT"], 0));
                         //if (invoice.IsCredit)
                         //{
                         //    invoice.GrossAmt = invoice.GrossAmt * -1;
                         //    invoice.ReceivedAmt = invoice.ReceivedAmt * -1;
                         //    invoice.OpenAmt = invoice.OpenAmt * -1;
                         //}
-                        invoice.TransferBatchNum = CastDbNull.To(reader["TRANSFER_BATCH_NO"], string.Empty).Trim();
-                        invoice.TransferStatus = CastDbNull.To(reader["TRANSFER_STATUS"], string.Empty).Trim();
-                        invoice.TransferMessage = CastDbNull.To(reader["TRANSFER_MSG"], string.Empty).Trim();
-                        invoice.TransferDate = CastDbNull.To(reader["TRANSFER_DATE"], DateTime.MinValue);
+                        invoice.TransferBatchNum = Data.CastDbNull.To(reader["TRANSFER_BATCH_NO"], string.Empty).Trim();
+                        invoice.TransferStatus = Data.CastDbNull.To(reader["TRANSFER_STATUS"], string.Empty).Trim();
+                        invoice.TransferMessage = Data.CastDbNull.To(reader["TRANSFER_MSG"], string.Empty).Trim();
+                        invoice.TransferDate = Data.CastDbNull.To(reader["TRANSFER_DATE"], DateTime.MinValue);
                         // Discount Date
                         var dt = invoice.InvoiceDate;
                         //var dt = invoice.OriginalInvoiceDate; 
@@ -316,7 +316,7 @@ namespace CGServicesHV.Common.Managers.Enterprise
                         }
 
                         // Due Date
-                        invoice.DueDate = CastDbNull.To(reader["DUE_DATE"], new DateTime(1900, 1, 1));
+                        invoice.DueDate = Data.CastDbNull.To(reader["DUE_DATE"], new DateTime(1900, 1, 1));
                         if (invoice.DueDate < invoice.InvoiceDate)
                         {
                             invoice.DueDate = invoice.InvoiceDate;
@@ -582,7 +582,7 @@ namespace CGServicesHV.Common.Managers.Enterprise
                     var currLines = new InvoiceLines();
                     while (reader.Read())
                     {
-                        var currId = CastDbNull.To(reader["INVOICE_ID"], 0);
+                        var currId = Data.CastDbNull.To(reader["INVOICE_ID"], 0);
                         if (prevId != currId & prevId != 0)
                         {
                             var saveLines = new InvoiceLines();
@@ -594,10 +594,10 @@ namespace CGServicesHV.Common.Managers.Enterprise
                         var line = new InvoiceLine
                         {
                             InvoiceId = currId,
-                            OrderType = CastDbNull.To(reader["E1_ORDER_TYPE"], string.Empty).Trim(),
-                            GrossAmt = CastDbNull.To<decimal>(reader["GROSS_AMT"], 0),
-                            OpenAmt = CastDbNull.To<decimal>(reader["OPEN_AMT"], 0),
-                            GlCategory = CastDbNull.To(reader["E1_GL_CODE"], string.Empty).Trim()
+                            OrderType = Data.CastDbNull.To(reader["E1_ORDER_TYPE"], string.Empty).Trim(),
+                            GrossAmt = Data.CastDbNull.To<decimal>(reader["GROSS_AMT"], 0),
+                            OpenAmt = Data.CastDbNull.To<decimal>(reader["OPEN_AMT"], 0),
+                            GlCategory = Data.CastDbNull.To(reader["E1_GL_CODE"], string.Empty).Trim()
                         };
                         line.GlAccount = GetAaiAccount(e1Session, 4230, line.OrderType, line.GlCategory).ObjectAcct;
                         currLines.Add(line);
@@ -667,9 +667,9 @@ namespace CGServicesHV.Common.Managers.Enterprise
                     var counter = 0;
                     while (reader.Read())
                     {
-                        batch.BatchNum = Convert.ToInt32(CastDbNull.To(reader["TRANSFER_BATCH_NO"], string.Empty).Trim());
-                        batch.BatchDate = CastDbNull.To(reader["StartDate"], new DateTime(1900, 1, 1));
-                        batch.Lines = CastDbNull.To(reader["Lines"], 0);
+                        batch.BatchNum = Convert.ToInt32(Data.CastDbNull.To(reader["TRANSFER_BATCH_NO"], string.Empty).Trim());
+                        batch.BatchDate = Data.CastDbNull.To(reader["StartDate"], new DateTime(1900, 1, 1));
+                        batch.Lines = Data.CastDbNull.To(reader["Lines"], 0);
                         counter++;
                     }
 
@@ -923,15 +923,15 @@ namespace CGServicesHV.Common.Managers.Enterprise
                     var counter = 0;
                     while (reader.Read())
                     {
-                        account.TableNum = CastDbNull.To<decimal>(reader["MLANUM"], 0);
-                        account.Company = CastDbNull.To(reader["MLCO"], string.Empty).Trim();
-                        account.OrderType = CastDbNull.To(reader["MLDCTO"], string.Empty).Trim();
-                        account.DocumentType = CastDbNull.To(reader["MLDCT"], string.Empty).Trim();
-                        account.GlCategory = CastDbNull.To(reader["MLGLPT"], string.Empty).Trim();
-                        account.CostType = CastDbNull.To(reader["MLCOST"], string.Empty).Trim();
-                        account.CostCenter = CastDbNull.To(reader["MLMCU"], string.Empty).Trim();
-                        account.ObjectAcct = CastDbNull.To(reader["MLOBJ"], string.Empty).Trim();
-                        account.Subsidiary = CastDbNull.To(reader["MLSUB"], string.Empty).Trim();
+                        account.TableNum = Data.CastDbNull.To<decimal>(reader["MLANUM"], 0);
+                        account.Company = Data.CastDbNull.To(reader["MLCO"], string.Empty).Trim();
+                        account.OrderType = Data.CastDbNull.To(reader["MLDCTO"], string.Empty).Trim();
+                        account.DocumentType = Data.CastDbNull.To(reader["MLDCT"], string.Empty).Trim();
+                        account.GlCategory = Data.CastDbNull.To(reader["MLGLPT"], string.Empty).Trim();
+                        account.CostType = Data.CastDbNull.To(reader["MLCOST"], string.Empty).Trim();
+                        account.CostCenter = Data.CastDbNull.To(reader["MLMCU"], string.Empty).Trim();
+                        account.ObjectAcct = Data.CastDbNull.To(reader["MLOBJ"], string.Empty).Trim();
+                        account.Subsidiary = Data.CastDbNull.To(reader["MLSUB"], string.Empty).Trim();
                         counter++;
                     }
 
@@ -994,7 +994,7 @@ namespace CGServicesHV.Common.Managers.Enterprise
                     var counter = 0;
                     while (reader.Read())
                     {
-                        var recs = CastDbNull.To(reader["RECS"], 0);
+                        var recs = Data.CastDbNull.To(reader["RECS"], 0);
                         if (recs > 0)
                         {
                             retValue = true;
@@ -1059,7 +1059,7 @@ namespace CGServicesHV.Common.Managers.Enterprise
                     var counter = 0;
                     while (reader.Read())
                     {
-                        var recs = CastDbNull.To(reader["RECS"], 0);
+                        var recs = Data.CastDbNull.To(reader["RECS"], 0);
                         if (recs > 0)
                         {
                             retValue = true;
@@ -1124,7 +1124,7 @@ namespace CGServicesHV.Common.Managers.Enterprise
                     var counter = 0;
                     while (reader.Read())
                     {
-                        var recs = CastDbNull.To(reader["RECS"], 0);
+                        var recs = Data.CastDbNull.To(reader["RECS"], 0);
                         if (recs > 0)
                         {
                             retValue = true;

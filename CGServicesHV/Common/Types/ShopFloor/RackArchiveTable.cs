@@ -54,23 +54,23 @@ namespace CGServicesHV.Common.Types.ShopFloor
                 {
                     DataRow dr = this.NewRow();
                     dr["TransactionId"] = Data.CastDbNull.To<decimal>(reader["HLUKID"], 0);
-                    dr["RackId"] = CastDbNull.To<decimal>(reader["HLZ58RID"], 0);
-                    dr["RackType"] = CastDbNull.To<string>(reader["HLZ58RT"], String.Empty).Trim();
-                    dr["StatusCode"] = CastDbNull.To<string>(reader["HLZ58HST"], String.Empty).Trim();
-                    dr["Location"] = CastDbNull.To<string>(reader["HLLOCN"], String.Empty).Trim();
-                    dr["ReasonCode"] = CastDbNull.To<string>(reader["HLURCD"], String.Empty).Trim();
-                    dr["BoxNum"] = CastDbNull.To<decimal>(reader["HLZ58BOX"], 0);
+                    dr["RackId"] = Data.CastDbNull.To<decimal>(reader["HLZ58RID"], 0);
+                    dr["RackType"] = Data.CastDbNull.To<string>(reader["HLZ58RT"], String.Empty).Trim();
+                    dr["StatusCode"] = Data.CastDbNull.To<string>(reader["HLZ58HST"], String.Empty).Trim();
+                    dr["Location"] = Data.CastDbNull.To<string>(reader["HLLOCN"], String.Empty).Trim();
+                    dr["ReasonCode"] = Data.CastDbNull.To<string>(reader["HLURCD"], String.Empty).Trim();
+                    dr["BoxNum"] = Data.CastDbNull.To<decimal>(reader["HLZ58BOX"], 0);
                     dr["ScheduleNum"] = Data.CastDbNull.To<decimal>(reader["HLZ58SCN"], 0);
-                    dr["AssetId"] = CastDbNull.To<string>(reader["HLURRF"], String.Empty).Trim();
-                    dr["TareWeight"] = CastDbNull.To<decimal>(reader["HLZ58RTWT"], 0) / 100;
-                    dr["GlassWeight"] = CastDbNull.To<decimal>(reader["HLZ58GWTT"], 0) / 100;
+                    dr["AssetId"] = Data.CastDbNull.To<string>(reader["HLURRF"], String.Empty).Trim();
+                    dr["TareWeight"] = Data.CastDbNull.To<decimal>(reader["HLZ58RTWT"], 0) / 100;
+                    dr["GlassWeight"] = Data.CastDbNull.To<decimal>(reader["HLZ58GWTT"], 0) / 100;
                     dr["LoadNum"] = Data.CastDbNull.To<decimal>(reader["HLPSN"], 0);
                     dr["CustomerSoldNum"] = Data.CastDbNull.To<decimal>(reader["HLAN8"], 0);
                     dr["CustomerShipNum"] = Data.CastDbNull.To<decimal>(reader["HLSHAN"], 0);
-                    dr["OperationCode"] = CastDbNull.To<string>(reader["HLIOPR"], String.Empty).Trim();
+                    dr["OperationCode"] = Data.CastDbNull.To<string>(reader["HLIOPR"], String.Empty).Trim();
                     dr["TransactionDate"] = E1TimeManager.CastToDateTime(Data.CastDbNull.To<decimal>(reader["HLMUPM"], 0), Data.CastDbNull.To<decimal>(reader["HLUPMT"], 0)).AddMinutes(plant.BusinessSystemOffset);
-                    dr["UserId"] = CastDbNull.To<string>(reader["HLUSER"], String.Empty).Trim();
-                    dr["ProgramId"] = CastDbNull.To<string>(reader["HLPID"], String.Empty).Trim();
+                    dr["UserId"] = Data.CastDbNull.To<string>(reader["HLUSER"], String.Empty).Trim();
+                    dr["ProgramId"] = Data.CastDbNull.To<string>(reader["HLPID"], String.Empty).Trim();
                     this.Rows.Add(dr);
                 }
                 reader.Close();

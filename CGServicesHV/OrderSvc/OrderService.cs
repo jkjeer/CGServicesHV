@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using CGServicesHV.Common.Managers.Process;
 using CGServicesHV.Common.Types.Response;
+using CGServicesHV.Common.Utilities;
 using SoaCore.Wcf;
 
 namespace CGServicesHV.OrderSvc
@@ -49,6 +49,31 @@ namespace CGServicesHV.OrderSvc
                 parms.Add("Missing", missing);
                 var resources = new List<string> { "PLANT.SHOPFLOOR", "PLANT.INTEGRATION" };
                 return BusinessSystemTransferProcessor.Invoke(plants, OrderProcessor.DownloadConfiguredAttributes, parallel, parms, resources);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
+        public ProcessResponse DownloadConfiguredUnitAttributes(string plants, TimeSpan timeSpan, TimeSpan timeSpanEnd, bool useHighWaterMark, bool parallel, decimal configurationId, string rackStatusCodes, bool archived, bool missing)
+        {
+            if (string.IsNullOrEmpty(plants))
+            {
+                throw new Exception("Plant Code is REQUIRED");
+            }
+            try
+            {
+                var parms = new Dictionary<string, object>();
+                parms.Add("TimeSpan", timeSpan);
+                parms.Add("TimeSpanEnd", timeSpanEnd);
+                parms.Add("HighWaterMark", useHighWaterMark);
+                parms.Add("ConfigurationId", configurationId);
+                parms.Add("RackStatusCodes", rackStatusCodes?.Split(',').ToList());
+                parms.Add("Archived", archived);
+                parms.Add("Missing", missing);
+                var resources = new List<string> { "PLANT.SHOPFLOOR", "PLANT.INTEGRATION" };
+                return BusinessSystemTransferProcessor.Invoke(plants, OrderProcessor.DownloadConfiguredUnitAttributes, parallel, parms, resources);
             }
             catch (Exception e)
             {
@@ -112,7 +137,7 @@ namespace CGServicesHV.OrderSvc
                 parms.Add("HighWaterMark", useHighWaterMark);
                 parms.Add("WorkOrderNum", workOrderNum);
                 parms.Add("StatusCodes", statusCodes?.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).ToList());
-                parms.Add("StatusCodes", (!String.IsNullOrEmpty(statusCodes)) ? statusCodes?.Split(',').ToList() : null);
+                //parms.Add("StatusCodes", (!String.IsNullOrEmpty(statusCodes)) ? statusCodes?.Split(',').ToList() : null);
                 var resources = new List<string> { "PLANT.SHOPFLOOR", "PLANT.INTEGRATION" };
                 return BusinessSystemTransferProcessor.Invoke(plants, OrderProcessor.DownloadWorkOrders, parallel, parms, resources);
             }
@@ -297,6 +322,31 @@ namespace CGServicesHV.OrderSvc
                 parms.Add("Missing", missing);
                 var resources = new List<string> { "PLANT.SHOPFLOOR", "PLANT.INTEGRATION" };
                 return BusinessSystemTransferProcessor.Invoke(plants, OrderProcessor.DownloadConfiguredAttributes, parallel, parms, resources);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
+        public ProcessResponse DownloadConfiguredUnitAttributes(string plants, TimeSpan timeSpan, TimeSpan timeSpanEnd, bool useHighWaterMark, bool parallel, decimal configurationId, string rackStatusCodes, bool archived, bool missing)
+        {
+            if (string.IsNullOrEmpty(plants))
+            {
+                throw new Exception("Plant Code is REQUIRED");
+            }
+            try
+            {
+                var parms = new Dictionary<string, object>();
+                parms.Add("TimeSpan", timeSpan);
+                parms.Add("TimeSpanEnd", timeSpanEnd);
+                parms.Add("HighWaterMark", useHighWaterMark);
+                parms.Add("ConfigurationId", configurationId);
+                parms.Add("RackStatusCodes", rackStatusCodes?.Split(',').ToList());
+                parms.Add("Archived", archived);
+                parms.Add("Missing", missing);
+                var resources = new List<string> { "PLANT.SHOPFLOOR", "PLANT.INTEGRATION" };
+                return BusinessSystemTransferProcessor.Invoke(plants, OrderProcessor.DownloadConfiguredUnitAttributes, parallel, parms, resources);
             }
             catch (Exception e)
             {

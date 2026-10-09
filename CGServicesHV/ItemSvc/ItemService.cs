@@ -458,7 +458,7 @@ namespace CGServicesHV.ItemSvc
                 parms.Add("TimeSpan", timeSpan);
                 parms.Add("HighWaterMark", useHighWaterMark);
                 parms.Add("ItemNum", itemNum);
-                var resources = new List<string> { "PLANT.SHOPFLOOR", "CORP.INTEGRATION" };
+                var resources = new List<string> { "PLANT.SHOPFLOOR", "PLANT.INTEGRATION" };
                 return BusinessSystemTransferProcessor.Invoke(plants, ItemProcessor.DownloadItemAttributes, parallel, parms, resources);
             }
             catch (Exception e)

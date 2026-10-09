@@ -71,7 +71,7 @@ namespace CGServicesHV.Common.Utilities
         public static DateTime CastToDateTime(decimal dateId, decimal timeId = 0)
         {
             var dt = ConvertE1Date(dateId);
-            CastDbNull.To<decimal>(timeId, 0);
+            Data.CastDbNull.To<decimal>(timeId, 0);
             try
             {
                 var timeString = Convert.ToString(timeId, CultureInfo.InvariantCulture).PadLeft(6).Replace(" ", "0");

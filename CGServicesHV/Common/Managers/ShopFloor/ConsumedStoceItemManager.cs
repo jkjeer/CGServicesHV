@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.Linq;
 using System.ServiceModel;
 using System.Text;
@@ -123,21 +123,21 @@ namespace CGServicesHV.Common.Managers.ShopFloor
                     {
                         var rec = new ConsumedStoceItem();
                         rec.PlantID = plant.PlantNum;
-                        rec.GLStockID = CastDbNull.To<int>(reader["GLStockID"], 0);
-                        rec.ProductionLineCode = CastDbNull.To<String>(reader["ProductionLineCode"], String.Empty).Trim();
-                        rec.Shift = CastDbNull.To<String>(reader["Shift"], String.Empty).Trim();
-                        rec.Crew = CastDbNull.To<String>(reader["Crew"], String.Empty).Trim();
-                        rec.CuttingTable = CastDbNull.To<String>(reader["CuttingTable"], String.Empty).Trim();
-                        rec.E1WorkCenter = CastDbNull.To<String>(reader["E1WorkCenter"], String.Empty).Trim();
-                        rec.E1Operation = CastDbNull.To<String>(reader["E1Operation"], String.Empty).Trim();
-                        rec.RawCTCFCode = CastDbNull.To<String>(reader["RawCTCFCode"], String.Empty).Trim();
-                        rec.SheetsConsumed = CastDbNull.To<int>(reader["SheetsConsumed"], 0);
-                        rec.RawCrateNumber = CastDbNull.To<String>(reader["RawCrateNumber"], String.Empty).Trim();
-                        rec.RawGlassBaseL = CastDbNull.To<Byte>(reader["RawGlassBaseL"], 0);
-                        rec.RawGlassLeftL = CastDbNull.To<Byte>(reader["RawGlassLeftL"], 0);
-                        rec.ReportingOnly = CastDbNull.To<bool>(reader["ReportingOnly"], false);
-                        rec.ProductionDate = CastDbNull.To<DateTime>(reader["ProductionDate"], DateTime.MinValue);
-                        rec.WrittenDate = CastDbNull.To<DateTime>(reader["WrittenDate"], DateTime.MinValue);
+                        rec.GLStockID = Data.CastDbNull.To<int>(reader["GLStockID"], 0);
+                        rec.ProductionLineCode = Data.CastDbNull.To<String>(reader["ProductionLineCode"], String.Empty).Trim();
+                        rec.Shift = Data.CastDbNull.To<String>(reader["Shift"], String.Empty).Trim();
+                        rec.Crew = Data.CastDbNull.To<String>(reader["Crew"], String.Empty).Trim();
+                        rec.CuttingTable = Data.CastDbNull.To<String>(reader["CuttingTable"], String.Empty).Trim();
+                        rec.E1WorkCenter = Data.CastDbNull.To<String>(reader["E1WorkCenter"], String.Empty).Trim();
+                        rec.E1Operation = Data.CastDbNull.To<String>(reader["E1Operation"], String.Empty).Trim();
+                        rec.RawCTCFCode = Data.CastDbNull.To<String>(reader["RawCTCFCode"], String.Empty).Trim();
+                        rec.SheetsConsumed = Data.CastDbNull.To<int>(reader["SheetsConsumed"], 0);
+                        rec.RawCrateNumber = Data.CastDbNull.To<String>(reader["RawCrateNumber"], String.Empty).Trim();
+                        rec.RawGlassBaseL = Data.CastDbNull.To<Byte>(reader["RawGlassBaseL"], 0);
+                        rec.RawGlassLeftL = Data.CastDbNull.To<Byte>(reader["RawGlassLeftL"], 0);
+                        rec.ReportingOnly = Data.CastDbNull.To<bool>(reader["ReportingOnly"], false);
+                        rec.ProductionDate = Data.CastDbNull.To<DateTime>(reader["ProductionDate"], DateTime.MinValue);
+                        rec.WrittenDate = Data.CastDbNull.To<DateTime>(reader["WrittenDate"], DateTime.MinValue);
                         records.Add(rec);
                     }
 

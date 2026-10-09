@@ -10,7 +10,7 @@ using NLog;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.Linq;
 
 namespace CGServicesHV.Common.Managers.Process
@@ -221,22 +221,22 @@ namespace CGServicesHV.Common.Managers.Process
                         PLJOBN,
                         PLUPMJ,
                         PLUPMT,
-PLZ58IGLN,
-PLEV01,
-PLEV02,
-PLEV03,
-PLDATF01,
-PLDATF02,
-PLDATF03,
-PLAN8UR01,
-PLAN8UR02,
-PLAN8UR03,
-PLMATH01,
-PLMATH02,
-PLMATH03,
-PLRF1,
-PLRF2,
-PLRF3,
+                        PLZ58IGLN,
+                        PLEV01,
+                        PLEV02,
+                        PLEV03,
+                        PLDATF01,
+                        PLDATF02,
+                        PLDATF03,
+                        PLAN8UR01,
+                        PLAN8UR02,
+                        PLAN8UR03,
+                        PLMATH01,
+                        PLMATH02,
+                        PLMATH03,
+                        PLRF1,
+                        PLRF2,
+                        PLRF3,
                         PLUKID,
                         PLMUSE,
                         PLJBNM,
@@ -244,11 +244,18 @@ PLRF3,
                         PLIOPR,
                         PLMUPM,
                         PLMUPT,
-						RHLOCN
+                        PLDL01,
+                        PLDL02,
+                        PLPSIG,
+                        PLTRDJ,
+                        PLLOCN,
+                        PLDL03,
+                        PLDL04,
+                        PLUK01,
+                        PLZ58LSD,
+                        PLZ58LST
                     FROM 
                         F5803669
-						LEFT OUTER JOIN F580055
-						    ON RHZ58RID = PLZ58RID
                     WHERE 
                         PLUKID > ? 
                         AND PLMCU = ? 

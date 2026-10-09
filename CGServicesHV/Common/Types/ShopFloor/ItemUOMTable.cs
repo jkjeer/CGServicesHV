@@ -35,13 +35,13 @@ namespace CGServicesHV.Common.Types.ShopFloor
                 while (reader.Read())
                 {
                     var dr = NewRow();
-                    dr["ItemNum"] = CastDbNull.To<decimal>(reader["ITM"], 0);
-                    dr["Numerator"] = CastDbNull.To<string>(reader["RUM"], String.Empty).Trim();
-                    dr["Denominator"] = CastDbNull.To<string>(reader["UM"], String.Empty).Trim();
-                    dr["Factor"] = CastDbNull.To<decimal>(reader["CONV"], 0) / 10000000;
-                    dr["UserId"] = CastDbNull.To<string>(reader["USER"], String.Empty).Trim();
-                    dr["ProgramId"] = CastDbNull.To<string>(reader["PID"], String.Empty).Trim();
-                    dr["TransactionDate"] = Utilities.Common.CastToDateTime(CastDbNull.To<decimal>(reader["UPMJ"], 0), CastDbNull.To<decimal>(reader["TDAY"], 0)).AddMinutes(plant.BusinessSystemOffset);
+                    dr["ItemNum"] = Data.CastDbNull.To<decimal>(reader["ITM"], 0);
+                    dr["Numerator"] = Data.CastDbNull.To<string>(reader["RUM"], String.Empty).Trim();
+                    dr["Denominator"] = Data.CastDbNull.To<string>(reader["UM"], String.Empty).Trim();
+                    dr["Factor"] = Data.CastDbNull.To<decimal>(reader["CONV"], 0) / 10000000;
+                    dr["UserId"] = Data.CastDbNull.To<string>(reader["USER"], String.Empty).Trim();
+                    dr["ProgramId"] = Data.CastDbNull.To<string>(reader["PID"], String.Empty).Trim();
+                    dr["TransactionDate"] = Utilities.Common.CastToDateTime(Data.CastDbNull.To<decimal>(reader["UPMJ"], 0), Data.CastDbNull.To<decimal>(reader["TDAY"], 0)).AddMinutes(plant.BusinessSystemOffset);
                     Rows.Add(dr);
                 }
                 reader.Close();

@@ -40,13 +40,13 @@ namespace CGServicesHV.Common.Types.ShopFloor
                     while (reader.Read())
                     {
                         var dr = NewRow();
-                        dr["ProductCode"] = CastDbNull.To(reader["DTSY"], string.Empty).Trim();
-                        dr["UserCode"] = CastDbNull.To(reader["DTRT"], string.Empty).Trim();
-                        dr["Description"] = CastDbNull.To(reader["DTDL01"], string.Empty).Trim();
-                        dr["CodeLength"] = CastDbNull.To<decimal>(reader["DTCDL"], 0);
-                        dr["NumericYN"] = CastDbNull.To(reader["DTCNUM"], string.Empty).Trim();
-                        var updateDateId = CastDbNull.To<decimal>(reader["DTUPMJ"], 0);
-                        var updateTimeId = CastDbNull.To<decimal>(reader["DTUPMT"], 0);
+                        dr["ProductCode"] = Data.CastDbNull.To(reader["DTSY"], string.Empty).Trim();
+                        dr["UserCode"] = Data.CastDbNull.To(reader["DTRT"], string.Empty).Trim();
+                        dr["Description"] = Data.CastDbNull.To(reader["DTDL01"], string.Empty).Trim();
+                        dr["CodeLength"] = Data.CastDbNull.To<decimal>(reader["DTCDL"], 0);
+                        dr["NumericYN"] = Data.CastDbNull.To(reader["DTCNUM"], string.Empty).Trim();
+                        var updateDateId = Data.CastDbNull.To<decimal>(reader["DTUPMJ"], 0);
+                        var updateTimeId = Data.CastDbNull.To<decimal>(reader["DTUPMT"], 0);
                         dr["UpdateDate"] = Utilities.Common.CastToDateTime(updateDateId, updateTimeId).AddHours(plant.TimeOffset);
                         Rows.Add(dr);
                     }

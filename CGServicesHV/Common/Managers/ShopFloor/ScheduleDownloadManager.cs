@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.Linq;
 using System.ServiceModel;
 using System.Text;
@@ -207,8 +207,8 @@ namespace CGServicesHV.Common.Managers.ShopFloor
                     {
                         while (reader.Read())
                         {
-                            dr["LINES"] = CastDbNull.To<int>(reader["LINES"], 0);
-                            dr["QUANTITY"] = CastDbNull.To<decimal>(reader["UNITS"], 0);
+                            dr["LINES"] = Data.CastDbNull.To<int>(reader["LINES"], 0);
+                            dr["QUANTITY"] = Data.CastDbNull.To<decimal>(reader["UNITS"], 0);
                         }
 
                         reader.Close();

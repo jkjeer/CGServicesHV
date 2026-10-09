@@ -39,16 +39,16 @@ namespace CGServicesHV.Common.Types.ShopFloor
                 while (reader.Read())
                 {
                     var dr = NewRow();
-                    dr["ConfigurationId"] = CastDbNull.To<decimal>(reader["CCCFGID"], 0);
-                    dr["ComponentNum"] = Convert.ToDecimal(CastDbNull.To<long>(reader["CCCPNB"], 0));
-                    dr["ItemNum"] = CastDbNull.To<decimal>(reader["CCITM"], 0);
-                    dr["SequenceNum"] = CastDbNull.To<decimal>(reader["CCOPSQ"], 0) / 100;
-                    dr["PlannedQty"] = CastDbNull.To<decimal>(reader["CCQNTY"], 0) / 1000;
-                    dr["UOM"] = CastDbNull.To(reader["CCUOM"], string.Empty).Trim();
-                    dr["Location"] = CastDbNull.To(reader["CCLOCN"], string.Empty).Trim();
-                    dr["Description"] = CastDbNull.To(reader["CCDSC1"], string.Empty).Trim();
-                    var updateDateId = CastDbNull.To<decimal>(reader["CCUPMJ"], 0);
-                    var updateTimeId = CastDbNull.To<decimal>(reader["CCTDAY"], 0);
+                    dr["ConfigurationId"] = Data.CastDbNull.To<decimal>(reader["CCCFGID"], 0);
+                    dr["ComponentNum"] = Convert.ToDecimal(Data.CastDbNull.To<long>(reader["CCCPNB"], 0));
+                    dr["ItemNum"] = Data.CastDbNull.To<decimal>(reader["CCITM"], 0);
+                    dr["SequenceNum"] = Data.CastDbNull.To<decimal>(reader["CCOPSQ"], 0) / 100;
+                    dr["PlannedQty"] = Data.CastDbNull.To<decimal>(reader["CCQNTY"], 0) / 1000;
+                    dr["UOM"] = Data.CastDbNull.To(reader["CCUOM"], string.Empty).Trim();
+                    dr["Location"] = Data.CastDbNull.To(reader["CCLOCN"], string.Empty).Trim();
+                    dr["Description"] = Data.CastDbNull.To(reader["CCDSC1"], string.Empty).Trim();
+                    var updateDateId = Data.CastDbNull.To<decimal>(reader["CCUPMJ"], 0);
+                    var updateTimeId = Data.CastDbNull.To<decimal>(reader["CCTDAY"], 0);
                     dr["TransactionDate"] = CGServicesHV.Common.Utilities.Common.CastToDateTime(updateDateId, updateTimeId).AddMinutes(plant.BusinessSystemOffset);
                     Rows.Add(dr);
                 }

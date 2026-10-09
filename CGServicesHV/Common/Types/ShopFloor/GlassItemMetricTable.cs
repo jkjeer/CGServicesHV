@@ -28,10 +28,10 @@ namespace CGServicesHV.Common.Types.ShopFloor
                 {
                     var dr = NewRow();
                     dr["ItemNum"] = Data.CastDbNull.To<decimal>(reader["ILITM"], 0);
-                    dr["MetricName"] = CastDbNull.To<string>(reader["METRICNAME"], "");
-                    dr["MonthAmt"] = CastDbNull.To<decimal>(reader["MONTHAMT"], 0);
-                    dr["QuarterAmt"] = CastDbNull.To<decimal>(reader["QUARTERAMT"], 0);
-                    dr["YearAmt"] = CastDbNull.To<decimal>(reader["YEARAMT"], 0);
+                    dr["MetricName"] = Data.CastDbNull.To<string>(reader["METRICNAME"], "");
+                    dr["MonthAmt"] = Data.CastDbNull.To<decimal>(reader["MONTHAMT"], 0);
+                    dr["QuarterAmt"] = Data.CastDbNull.To<decimal>(reader["QUARTERAMT"], 0);
+                    dr["YearAmt"] = Data.CastDbNull.To<decimal>(reader["YEARAMT"], 0);
                     Rows.Add(dr);
                 }
                 reader.Close();

@@ -35,15 +35,15 @@ namespace CGServicesHV.Common.Types.ShopFloor
                 while (reader.Read())
                 {
                     var dr = NewRow();
-                    dr["CalendarName"] = CastDbNull.To(reader["CZWDCT"], string.Empty).Trim();
-                    dr["CalendarCode"] = CastDbNull.To(reader["VAL"], string.Empty).Trim();
-                    var ctry = CastDbNull.To<decimal>(reader["CZCTRY"], 0);
-                    var yr = CastDbNull.To<decimal>(reader["CZYR"], 0);
-                    var mt = CastDbNull.To<decimal>(reader["CZMT"], 0);
-                    var dy = CastDbNull.To<Int32>(reader["NAME"], 0);
+                    dr["CalendarName"] = Data.CastDbNull.To(reader["CZWDCT"], string.Empty).Trim();
+                    dr["CalendarCode"] = Data.CastDbNull.To(reader["VAL"], string.Empty).Trim();
+                    var ctry = Data.CastDbNull.To<decimal>(reader["CZCTRY"], 0);
+                    var yr = Data.CastDbNull.To<decimal>(reader["CZYR"], 0);
+                    var mt = Data.CastDbNull.To<decimal>(reader["CZMT"], 0);
+                    var dy = Data.CastDbNull.To<Int32>(reader["NAME"], 0);
                     dr["CalendarDate"] = new DateTime((int)(1900 + (ctry * 100) + yr), (int)mt, dy);
-                    var tranDateId = CastDbNull.To<decimal>(reader["CZUPMJ"], 0);
-                    var tranTimeId = CastDbNull.To<decimal>(reader["CZTDAY"], 0);
+                    var tranDateId = Data.CastDbNull.To<decimal>(reader["CZUPMJ"], 0);
+                    var tranTimeId = Data.CastDbNull.To<decimal>(reader["CZTDAY"], 0);
                     dr["TransactionDate"] = Utilities.Common.CastToDateTime(tranDateId, tranTimeId).AddMinutes(plant.BusinessSystemOffset);
                     Rows.Add(dr);
                 }

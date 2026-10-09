@@ -84,15 +84,15 @@ namespace CGServicesHV.Common.Managers.Enterprise
                     while (reader.Read())
                     {
                         DataRow dr = dt.NewRow();
-                        dr["DRZ58ATNM"] = CastDbNull.To<String>(reader["DRZ58ATNM"], String.Empty).Trim();
-                        dr["DRZ58APFX"] = CastDbNull.To<String>(reader["DRZ58APFX"], String.Empty).TrimEnd();
-                        dr["DRZ58APFXL"] = CastDbNull.To<Decimal>(reader["DRZ58APFXL"], 0);
-                        dr["DRZ58ASFX"] = CastDbNull.To<String>(reader["DRZ58ASFX"], String.Empty).Trim();
-                        dr["DRZ58ASFXL"] = CastDbNull.To<Decimal>(reader["DRZ58ASFXL"], 0);
-                        dr["DRZ58ACHS"] = CastDbNull.To<String>(reader["DRZ58ACHS"], String.Empty).Trim();
-                        dr["DRZ58AHSV"] = CastDbNull.To<String>(reader["DRZ58AHSV"], String.Empty).Trim();
-                        dr["DRZ58CRLF"] = CastDbNull.To<String>(reader["DRZ58CRLF"], String.Empty).Trim();
-                        dr["DRZ58ADSPU"] = CastDbNull.To<String>(reader["DRZ58ADSPU"], String.Empty).Trim();
+                        dr["DRZ58ATNM"] = Data.CastDbNull.To<String>(reader["DRZ58ATNM"], String.Empty).Trim();
+                        dr["DRZ58APFX"] = Data.CastDbNull.To<String>(reader["DRZ58APFX"], String.Empty).TrimEnd();
+                        dr["DRZ58APFXL"] = Data.CastDbNull.To<Decimal>(reader["DRZ58APFXL"], 0);
+                        dr["DRZ58ASFX"] = Data.CastDbNull.To<String>(reader["DRZ58ASFX"], String.Empty).Trim();
+                        dr["DRZ58ASFXL"] = Data.CastDbNull.To<Decimal>(reader["DRZ58ASFXL"], 0);
+                        dr["DRZ58ACHS"] = Data.CastDbNull.To<String>(reader["DRZ58ACHS"], String.Empty).Trim();
+                        dr["DRZ58AHSV"] = Data.CastDbNull.To<String>(reader["DRZ58AHSV"], String.Empty).Trim();
+                        dr["DRZ58CRLF"] = Data.CastDbNull.To<String>(reader["DRZ58CRLF"], String.Empty).Trim();
+                        dr["DRZ58ADSPU"] = Data.CastDbNull.To<String>(reader["DRZ58ADSPU"], String.Empty).Trim();
                         dt.Rows.Add(dr);
                     }
 
@@ -124,15 +124,15 @@ namespace CGServicesHV.Common.Managers.Enterprise
                 {
                     while (reader.Read())
                     {
-                        var attName = CastDbNull.To<String>(reader["DRZ58ATNM"], String.Empty).Trim();
-                        var prefix = CastDbNull.To<String>(reader["DRZ58APFX"], String.Empty).TrimEnd();
-                        var prefixLength = CastDbNull.To<Decimal>(reader["DRZ58APFXL"], 0);
-                        var suffix = CastDbNull.To<String>(reader["DRZ58ASFX"], String.Empty).Trim();
-                        var suffixLength = CastDbNull.To<Decimal>(reader["DRZ58ASFXL"], 0);
-                        var useIgnoreString = CastDbNull.To<String>(reader["DRZ58ACHS"], String.Empty).Trim();
-                        var ignoreString = CastDbNull.To<String>(reader["DRZ58AHSV"], String.Empty).Trim();
-                        var endLine = CastDbNull.To<String>(reader["DRZ58CRLF"], String.Empty).Trim();
-                        var displayType = CastDbNull.To<String>(reader["DRZ58ADSPU"], String.Empty).Trim();
+                        var attName = Data.CastDbNull.To<String>(reader["DRZ58ATNM"], String.Empty).Trim();
+                        var prefix = Data.CastDbNull.To<String>(reader["DRZ58APFX"], String.Empty).TrimEnd();
+                        var prefixLength = Data.CastDbNull.To<Decimal>(reader["DRZ58APFXL"], 0);
+                        var suffix = Data.CastDbNull.To<String>(reader["DRZ58ASFX"], String.Empty).Trim();
+                        var suffixLength = Data.CastDbNull.To<Decimal>(reader["DRZ58ASFXL"], 0);
+                        var useIgnoreString = Data.CastDbNull.To<String>(reader["DRZ58ACHS"], String.Empty).Trim();
+                        var ignoreString = Data.CastDbNull.To<String>(reader["DRZ58AHSV"], String.Empty).Trim();
+                        var endLine = Data.CastDbNull.To<String>(reader["DRZ58CRLF"], String.Empty).Trim();
+                        var displayType = Data.CastDbNull.To<String>(reader["DRZ58ADSPU"], String.Empty).Trim();
                         if (attributes.Contains(attName))
                         {
                             if (attributes[attName].Value != ignoreString || useIgnoreString == "N")

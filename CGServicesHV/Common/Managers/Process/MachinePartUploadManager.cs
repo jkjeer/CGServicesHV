@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using CGServicesHV.Common.Managers.E1;
+﻿using CGServicesHV.Common.Managers.E1;
 using CGServicesHV.Common.Managers.Enterprise;
 using CGServicesHV.Common.Managers.ShopFloor;
 using CGServicesHV.Common.Types.E1;
@@ -14,6 +8,13 @@ using CGServicesHV.Common.Types.ShopFloor;
 using CGServicesHV.Common.Utilities;
 using IBM.Data.DB2.iSeries;
 using NLog;
+using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
+using Microsoft.Data.SqlClient;
+using System.Linq;
+using System.Text;
 // ReSharper disable InconsistentNaming
 
 namespace CGServicesHV.Common.Managers.Process
@@ -38,6 +39,7 @@ namespace CGServicesHV.Common.Managers.Process
         {
             var response = new ProcessResponse("Machine Part Consumption", plant);
             response.ConnectionStrings.Add(new ConnectionString("E1", session.DbConnection.ConnectionString));
+
             foreach (var sqlCn in sqlCns)
             {
                 response.ConnectionStrings.Add(new ConnectionString(sqlCn.Key, sqlCn.Value.ConnectionString));
@@ -275,6 +277,9 @@ namespace CGServicesHV.Common.Managers.Process
                         var xslOutput = XsltManager.Transform(serializedXml,
                             "CGServicesHV.Common.Xslt.MachinePartUploadReport.xslt", Encoding.UTF8);
                         Logger.Info("Report XML: " + xslOutput);
+                        var subject = $@"{plant.PlantCode} [{System.Configuration.ConfigurationManager.AppSettings["PrimaryEnvironment"]}] Machine Part Upload ";
+                        Mail.StoreResponse($@"{ConfigurationManager.AppSettings["ProcessResponseFilePath"]}\{response.Plant.PlantCode}", subject, xslOutput);
+
                         Mail.SendHtmlAsync(System.Configuration.ConfigurationManager.AppSettings["SmtpHost"],
                             System.Configuration.ConfigurationManager.AppSettings["MailFromAddress"],
                             System.Configuration.ConfigurationManager.AppSettings["MailMachinePartAddress"],

@@ -86,62 +86,62 @@ namespace CGServicesHV.Common.Types.ShopFloor
                     while (reader.Read())
                     {
                         DataRow dr = this.NewRow();
-                        dr["ItemNum"] = CastDbNull.To<string>(reader["RELITM"], String.Empty).Trim();
-                        dr["SerialNum"] = CastDbNull.To<string>(reader["REZ58SN"], String.Empty).Trim();
-                        dr["VenderID"] = CastDbNull.To<decimal>(reader["REVEND"], 0).ToString();
-                        dr["BaseL"] = CastDbNull.To<decimal>(reader["REZ58L1BDM"], 0);
-                        dr["BaseN"] = CastDbNull.To<decimal>(reader["REZ58L1BNM"], 0);
-                        dr["BaseD"] = CastDbNull.To<decimal>(reader["REZ58L1BDN"], 0);
-                        dr["LeftL"] = CastDbNull.To<decimal>(reader["REZ58L1LDM"], 0);
-                        dr["LeftN"] = CastDbNull.To<decimal>(reader["REZ58L1LNM"], 0);
-                        dr["LeftD"] = CastDbNull.To<decimal>(reader["REZ58L1LDN"], 0);
-                        dr["RightL"] = CastDbNull.To<decimal>(reader["REZ58L1RDM"], 0);
-                        dr["RightN"] = CastDbNull.To<decimal>(reader["REZ58L1RNM"], 0);
-                        dr["RightD"] = CastDbNull.To<decimal>(reader["REZ58L1RDN"], 0);
-                        dr["TopL"] = CastDbNull.To<decimal>(reader["REZ58L1TDM"], 0);
-                        dr["TopN"] = CastDbNull.To<decimal>(reader["REZ58L1TNM"], 0);
-                        dr["TopD"] = CastDbNull.To<decimal>(reader["REZ58L1TDN"], 0);
-                        dr["ShapeNum"] = Data.CastStringToDecimal(CastDbNull.To<string>(reader["REZ58SHAPE"], String.Empty).Trim());
-                        dr["Lite1_Thick"] = CastDbNull.To<decimal>(reader["REZ58L1TK"], 0) / 10;
-                        dr["Lite1_Color"] = CastDbNull.To<string>(reader["REZ58L1CL"], String.Empty).Trim();
-                        dr["Lite1_Heat"] = CastDbNull.To<string>(reader["REZ58L1HT"], String.Empty).Trim();
-                        dr["Lite1_1stSrfCoating"] = CastDbNull.To<string>(reader["REZ58L11C"], String.Empty).Trim();
-                        dr["Lite1_2ndSrfCoating"] = CastDbNull.To<string>(reader["REZ58L12C"], String.Empty).Trim();
-                        dr["QtyOnHand"] = CastDbNull.To<decimal>(reader["REPQOH"], 0) / 1000;
-                        dr["SqftActual"] = CastDbNull.To<decimal>(reader["REZ58USF"], 0) / 10000;
-                        dr["SqftBillable"] = CastDbNull.To<decimal>(reader["REZ58BSF"], 0) / 10000;
-                        dr["Side1L"] = CastDbNull.To<decimal>(reader["REZ58L11DM"], 0);
-                        dr["Side1N"] = CastDbNull.To<decimal>(reader["REZ58L11NM"], 0);
-                        dr["Side1D"] = CastDbNull.To<decimal>(reader["REZ58L11DN"], 0);
-                        dr["Side2L"] = CastDbNull.To<decimal>(reader["REZ58L12DM"], 0);
-                        dr["Side2N"] = CastDbNull.To<decimal>(reader["REZ58L12NM"], 0);
-                        dr["Side2D"] = CastDbNull.To<decimal>(reader["REZ58L12DN"], 0);
-                        dr["Location"] = CastDbNull.To<string>(reader["RELOCN"], String.Empty).Trim();
-                        dr["Pattern"] = CastDbNull.To<string>(reader["REZ58L1PX"], String.Empty).Trim();
-                        dr["RackId"] = CastDbNull.To<decimal>(reader["REZ58RID"], 0);
+                        dr["ItemNum"] = Data.CastDbNull.To<string>(reader["RELITM"], String.Empty).Trim();
+                        dr["SerialNum"] = Data.CastDbNull.To<string>(reader["REZ58SN"], String.Empty).Trim();
+                        dr["VenderID"] = Data.CastDbNull.To<decimal>(reader["REVEND"], 0).ToString();
+                        dr["BaseL"] = Data.CastDbNull.To<decimal>(reader["REZ58L1BDM"], 0);
+                        dr["BaseN"] = Data.CastDbNull.To<decimal>(reader["REZ58L1BNM"], 0);
+                        dr["BaseD"] = Data.CastDbNull.To<decimal>(reader["REZ58L1BDN"], 0);
+                        dr["LeftL"] = Data.CastDbNull.To<decimal>(reader["REZ58L1LDM"], 0);
+                        dr["LeftN"] = Data.CastDbNull.To<decimal>(reader["REZ58L1LNM"], 0);
+                        dr["LeftD"] = Data.CastDbNull.To<decimal>(reader["REZ58L1LDN"], 0);
+                        dr["RightL"] = Data.CastDbNull.To<decimal>(reader["REZ58L1RDM"], 0);
+                        dr["RightN"] = Data.CastDbNull.To<decimal>(reader["REZ58L1RNM"], 0);
+                        dr["RightD"] = Data.CastDbNull.To<decimal>(reader["REZ58L1RDN"], 0);
+                        dr["TopL"] = Data.CastDbNull.To<decimal>(reader["REZ58L1TDM"], 0);
+                        dr["TopN"] = Data.CastDbNull.To<decimal>(reader["REZ58L1TNM"], 0);
+                        dr["TopD"] = Data.CastDbNull.To<decimal>(reader["REZ58L1TDN"], 0);
+                        dr["ShapeNum"] = Data.CastStringToDecimal(Data.CastDbNull.To<string>(reader["REZ58SHAPE"], String.Empty).Trim());
+                        dr["Lite1_Thick"] = Data.CastDbNull.To<decimal>(reader["REZ58L1TK"], 0) / 10;
+                        dr["Lite1_Color"] = Data.CastDbNull.To<string>(reader["REZ58L1CL"], String.Empty).Trim();
+                        dr["Lite1_Heat"] = Data.CastDbNull.To<string>(reader["REZ58L1HT"], String.Empty).Trim();
+                        dr["Lite1_1stSrfCoating"] = Data.CastDbNull.To<string>(reader["REZ58L11C"], String.Empty).Trim();
+                        dr["Lite1_2ndSrfCoating"] = Data.CastDbNull.To<string>(reader["REZ58L12C"], String.Empty).Trim();
+                        dr["QtyOnHand"] = Data.CastDbNull.To<decimal>(reader["REPQOH"], 0) / 1000;
+                        dr["SqftActual"] = Data.CastDbNull.To<decimal>(reader["REZ58USF"], 0) / 10000;
+                        dr["SqftBillable"] = Data.CastDbNull.To<decimal>(reader["REZ58BSF"], 0) / 10000;
+                        dr["Side1L"] = Data.CastDbNull.To<decimal>(reader["REZ58L11DM"], 0);
+                        dr["Side1N"] = Data.CastDbNull.To<decimal>(reader["REZ58L11NM"], 0);
+                        dr["Side1D"] = Data.CastDbNull.To<decimal>(reader["REZ58L11DN"], 0);
+                        dr["Side2L"] = Data.CastDbNull.To<decimal>(reader["REZ58L12DM"], 0);
+                        dr["Side2N"] = Data.CastDbNull.To<decimal>(reader["REZ58L12NM"], 0);
+                        dr["Side2D"] = Data.CastDbNull.To<decimal>(reader["REZ58L12DN"], 0);
+                        dr["Location"] = Data.CastDbNull.To<string>(reader["RELOCN"], String.Empty).Trim();
+                        dr["Pattern"] = Data.CastDbNull.To<string>(reader["REZ58L1PX"], String.Empty).Trim();
+                        dr["RackId"] = Data.CastDbNull.To<decimal>(reader["REZ58RID"], 0);
                         // dr["ReceivedQty"] = 0;
-                        dr["Status"] = CastDbNull.To<string>(reader["REZ58DST"], String.Empty).Trim();
-                        dr["Lite1_ProdQualityLevel"] = CastDbNull.To<string>(reader["REZ58L1PQL"], String.Empty).Trim();
-                        dr["Lite1_Lami"] = CastDbNull.To<string>(reader["REZ58L1LPT"], String.Empty).Trim();
-                        dr["RackType"] = CastDbNull.To<string>(reader["REZ58RT"], String.Empty).Trim();
-                        dr["LitesPerRack"] = CastDbNull.To<decimal>(reader["REZ58LPR"], 0);
-                        dr["SequenceNum"] = CastDbNull.To<decimal>(reader["RESEQNO"], 0);
-                        dr["PlantID"] = CastDbNull.To<string>(reader["REMCU"], String.Empty).Trim();
-                        dr["AnsiiLogoType"] = CastDbNull.To<string>(reader["REZ58L1ALT"], String.Empty).Trim();
-                        dr["GLCategory"] = CastDbNull.To<string>(reader["REGLPT"], String.Empty).Trim();
-                        dr["ReasonCode"] = CastDbNull.To<string>(reader["REZ58RCD"], String.Empty).Trim();
-                        dr["AssetId"] = CastDbNull.To<string>(reader["REZ58AID"], String.Empty).Trim();
+                        dr["Status"] = Data.CastDbNull.To<string>(reader["REZ58DST"], String.Empty).Trim();
+                        dr["Lite1_ProdQualityLevel"] = Data.CastDbNull.To<string>(reader["REZ58L1PQL"], String.Empty).Trim();
+                        dr["Lite1_Lami"] = Data.CastDbNull.To<string>(reader["REZ58L1LPT"], String.Empty).Trim();
+                        dr["RackType"] = Data.CastDbNull.To<string>(reader["REZ58RT"], String.Empty).Trim();
+                        dr["LitesPerRack"] = Data.CastDbNull.To<decimal>(reader["REZ58LPR"], 0);
+                        dr["SequenceNum"] = Data.CastDbNull.To<decimal>(reader["RESEQNO"], 0);
+                        dr["PlantID"] = Data.CastDbNull.To<string>(reader["REMCU"], String.Empty).Trim();
+                        dr["AnsiiLogoType"] = Data.CastDbNull.To<string>(reader["REZ58L1ALT"], String.Empty).Trim();
+                        dr["GLCategory"] = Data.CastDbNull.To<string>(reader["REGLPT"], String.Empty).Trim();
+                        dr["ReasonCode"] = Data.CastDbNull.To<string>(reader["REZ58RCD"], String.Empty).Trim();
+                        dr["AssetId"] = Data.CastDbNull.To<string>(reader["REZ58AID"], String.Empty).Trim();
                         // Dates
                         dr["WrittenDate"] = DateTime.Now;
-                        var pid = CastDbNull.To<string>(reader["REPID"], String.Empty).Trim();
-                        var upmj = CastDbNull.To<decimal>(reader["REUPMJ"], 0);
-                        var tday = CastDbNull.To<decimal>(reader["RETDAY"], 0);
-                        var mdt = CastDbNull.To<decimal>(reader["REZ58MDT"], 0);
+                        var pid = Data.CastDbNull.To<string>(reader["REPID"], String.Empty).Trim();
+                        var upmj = Data.CastDbNull.To<decimal>(reader["REUPMJ"], 0);
+                        var tday = Data.CastDbNull.To<decimal>(reader["RETDAY"], 0);
+                        var mdt = Data.CastDbNull.To<decimal>(reader["REZ58MDT"], 0);
                         dr["ProcessID"] = pid;
                         if (pid == "P4312" || pid == "R47071")
                         {
                             dr["ReceivedDate"] = Timestamp.CastToDateTime(upmj);
-                            dr["ReceivedQty"] = CastDbNull.To<decimal>(reader["REPQOH"], 0) / 1000;
+                            dr["ReceivedQty"] = Data.CastDbNull.To<decimal>(reader["REPQOH"], 0) / 1000;
                         }
                         else
                         {
@@ -157,8 +157,8 @@ namespace CGServicesHV.Common.Types.ShopFloor
                             dr["ProductionDate"] = Timestamp.CastToDateTime(mdt);
                         }
 
-                        var updateDateId = CastDbNull.To<decimal>(reader["REUPMJ"], 0);
-                        var updateTimeId = CastDbNull.To<decimal>(reader["RETDAY"], 0);
+                        var updateDateId = Data.CastDbNull.To<decimal>(reader["REUPMJ"], 0);
+                        var updateTimeId = Data.CastDbNull.To<decimal>(reader["RETDAY"], 0);
                         dr["TransactionDate"] = E1TimeManager.CastToDateTime(updateDateId, updateTimeId).AddHours(plant.TimeOffset);
                         this.Rows.Add(dr);
                     }

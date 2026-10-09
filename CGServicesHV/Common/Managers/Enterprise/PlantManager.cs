@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.Linq;
 using System.Runtime.Caching;
 using CGServicesHV.Common.Types.E1;
@@ -180,21 +180,21 @@ namespace CGServicesHV.Common.Managers.Enterprise
                     {
                         var plantItem = new PlantItem
                         {
-                            GroupCode = CastDbNull.To(reader["GROUP_CD"], string.Empty).Trim().ToUpper()
+                            GroupCode = Data.CastDbNull.To(reader["GROUP_CD"], string.Empty).Trim().ToUpper()
                         };
                         var plant = new Types.Enterprise.Plant
                         {
-                            PlantNum = CastDbNull.To(reader["PLANT_NUMERIC_CD"], string.Empty).Trim(),
-                            PlantCode = CastDbNull.To(reader["PLANT_ALPHA_CD"], string.Empty).Trim().ToUpper(),
-                            Name = CastDbNull.To(reader["PLANT_NAME"], string.Empty).Trim(),
-                            NumericValue = CastDbNull.To(reader["PLANT_NO"], 0),
-                            AddressNum = CastDbNull.To<decimal>(reader["CUSTOMER_NO"], 0),
-                            AddressName = CastDbNull.To(reader["PLANT_ADDRESS_NAME"], string.Empty).Trim(),
-                            TimeOffset = CastDbNull.To(reader["TIME_ZONE_OFFSET"], 0),
-                            TimeZone = CastDbNull.To(reader["TIME_ZONE_CD"], string.Empty).Trim(),
-                            TimeZoneName = CastDbNull.To(reader["TIME_ZONE_NAME"], string.Empty).Trim(),
-                            CompanyNum = CastDbNull.To(reader["COMPANY_CD"], string.Empty).Trim(),
-                            ShortCompanyNum = CastDbNull.To(reader["SHORT_COMPANY_CD"], string.Empty).Trim()
+                            PlantNum = Data.CastDbNull.To(reader["PLANT_NUMERIC_CD"], string.Empty).Trim(),
+                            PlantCode = Data.CastDbNull.To(reader["PLANT_ALPHA_CD"], string.Empty).Trim().ToUpper(),
+                            Name = Data.CastDbNull.To(reader["PLANT_NAME"], string.Empty).Trim(),
+                            NumericValue = Data.CastDbNull.To(reader["PLANT_NO"], 0),
+                            AddressNum = Data.CastDbNull.To<decimal>(reader["CUSTOMER_NO"], 0),
+                            AddressName = Data.CastDbNull.To(reader["PLANT_ADDRESS_NAME"], string.Empty).Trim(),
+                            TimeOffset = Data.CastDbNull.To(reader["TIME_ZONE_OFFSET"], 0),
+                            TimeZone = Data.CastDbNull.To(reader["TIME_ZONE_CD"], string.Empty).Trim(),
+                            TimeZoneName = Data.CastDbNull.To(reader["TIME_ZONE_NAME"], string.Empty).Trim(),
+                            CompanyNum = Data.CastDbNull.To(reader["COMPANY_CD"], string.Empty).Trim(),
+                            ShortCompanyNum = Data.CastDbNull.To(reader["SHORT_COMPANY_CD"], string.Empty).Trim()
                         };
                         plantItem.Plant = plant;
                         plantItems.Add(plantItem);
@@ -299,16 +299,16 @@ namespace CGServicesHV.Common.Managers.Enterprise
                     while (reader.Read())
                     {
                         var address = new Address();
-                        address.AddressNum = CastDbNull.To<decimal>(reader["ABAN8"], 0);
-                        address.Name = CastDbNull.To(reader["ABALPH"], string.Empty).Trim();
-                        address.Address1 = CastDbNull.To(reader["ALADD1"], string.Empty).Trim();
-                        address.Address2 = CastDbNull.To(reader["ALADD2"], string.Empty).Trim();
-                        address.Address3 = CastDbNull.To(reader["ALADD3"], string.Empty).Trim();
-                        address.Address4 = CastDbNull.To(reader["ALADD4"], string.Empty).Trim();
-                        address.City = CastDbNull.To(reader["ALCTY1"], string.Empty).Trim();
-                        address.State = CastDbNull.To(reader["ALADDS"], string.Empty).Trim();
-                        address.PostalCode = CastDbNull.To(reader["ALADDZ"], string.Empty).Trim();
-                        address.Country = CastDbNull.To(reader["ALCTR"], string.Empty).Trim();
+                        address.AddressNum = Data.CastDbNull.To<decimal>(reader["ABAN8"], 0);
+                        address.Name = Data.CastDbNull.To(reader["ABALPH"], string.Empty).Trim();
+                        address.Address1 = Data.CastDbNull.To(reader["ALADD1"], string.Empty).Trim();
+                        address.Address2 = Data.CastDbNull.To(reader["ALADD2"], string.Empty).Trim();
+                        address.Address3 = Data.CastDbNull.To(reader["ALADD3"], string.Empty).Trim();
+                        address.Address4 = Data.CastDbNull.To(reader["ALADD4"], string.Empty).Trim();
+                        address.City = Data.CastDbNull.To(reader["ALCTY1"], string.Empty).Trim();
+                        address.State = Data.CastDbNull.To(reader["ALADDS"], string.Empty).Trim();
+                        address.PostalCode = Data.CastDbNull.To(reader["ALADDZ"], string.Empty).Trim();
+                        address.Country = Data.CastDbNull.To(reader["ALCTR"], string.Empty).Trim();
                         addresses.Add(address);
                     }
 
@@ -339,16 +339,16 @@ namespace CGServicesHV.Common.Managers.Enterprise
                     var counter = 0;
                     while (reader.Read())
                     {
-                        address.AddressNum = CastDbNull.To<decimal>(reader["ABAN8"], 0);
-                        address.Name = CastDbNull.To(reader["ABALPH"], string.Empty).Trim();
-                        address.Address1 = CastDbNull.To(reader["ALADD1"], string.Empty).Trim();
-                        address.Address2 = CastDbNull.To(reader["ALADD2"], string.Empty).Trim();
-                        address.Address3 = CastDbNull.To(reader["ALADD3"], string.Empty).Trim();
-                        address.Address4 = CastDbNull.To(reader["ALADD4"], string.Empty).Trim();
-                        address.City = CastDbNull.To(reader["ALCTY1"], string.Empty).Trim();
-                        address.State = CastDbNull.To(reader["ALADDS"], string.Empty).Trim();
-                        address.PostalCode = CastDbNull.To(reader["ALADDZ"], string.Empty).Trim();
-                        address.Country = CastDbNull.To(reader["ALCTR"], string.Empty).Trim();
+                        address.AddressNum = Data.CastDbNull.To<decimal>(reader["ABAN8"], 0);
+                        address.Name = Data.CastDbNull.To(reader["ABALPH"], string.Empty).Trim();
+                        address.Address1 = Data.CastDbNull.To(reader["ALADD1"], string.Empty).Trim();
+                        address.Address2 = Data.CastDbNull.To(reader["ALADD2"], string.Empty).Trim();
+                        address.Address3 = Data.CastDbNull.To(reader["ALADD3"], string.Empty).Trim();
+                        address.Address4 = Data.CastDbNull.To(reader["ALADD4"], string.Empty).Trim();
+                        address.City = Data.CastDbNull.To(reader["ALCTY1"], string.Empty).Trim();
+                        address.State = Data.CastDbNull.To(reader["ALADDS"], string.Empty).Trim();
+                        address.PostalCode = Data.CastDbNull.To(reader["ALADDZ"], string.Empty).Trim();
+                        address.Country = Data.CastDbNull.To(reader["ALCTR"], string.Empty).Trim();
                         counter++;
                     }
 
@@ -485,15 +485,15 @@ namespace CGServicesHV.Common.Managers.Enterprise
                     while (reader.Read())
                     {
                         var plant = new Types.Enterprise.Plant();
-                        plant.PlantNum = CastDbNull.To(reader["PLANT_NUMERIC_CD"], string.Empty).Trim();
-                        plant.PlantCode = CastDbNull.To(reader["PLANT_ALPHA_CD"], string.Empty).Trim();
-                        plant.Name = CastDbNull.To(reader["PLANT_NAME"], string.Empty).Trim();
-                        plant.NumericValue = CastDbNull.To(reader["PLANT_NO"], 0);
-                        plant.AddressNum = CastDbNull.To<decimal>(reader["CUSTOMER_NO"], 0);
-                        plant.TimeOffset = CastDbNull.To(reader["TIME_ZONE_OFFSET"], 0);
-                        plant.TimeZone = CastDbNull.To(reader["TIME_ZONE_CD"], string.Empty).Trim();
-                        plant.CompanyNum = CastDbNull.To(reader["COMPANY_CD"], string.Empty).Trim();
-                        plant.ShortCompanyNum = CastDbNull.To(reader["SHORT_COMPANY_CD"], string.Empty).Trim();
+                        plant.PlantNum = Data.CastDbNull.To(reader["PLANT_NUMERIC_CD"], string.Empty).Trim();
+                        plant.PlantCode = Data.CastDbNull.To(reader["PLANT_ALPHA_CD"], string.Empty).Trim();
+                        plant.Name = Data.CastDbNull.To(reader["PLANT_NAME"], string.Empty).Trim();
+                        plant.NumericValue = Data.CastDbNull.To(reader["PLANT_NO"], 0);
+                        plant.AddressNum = Data.CastDbNull.To<decimal>(reader["CUSTOMER_NO"], 0);
+                        plant.TimeOffset = Data.CastDbNull.To(reader["TIME_ZONE_OFFSET"], 0);
+                        plant.TimeZone = Data.CastDbNull.To(reader["TIME_ZONE_CD"], string.Empty).Trim();
+                        plant.CompanyNum = Data.CastDbNull.To(reader["COMPANY_CD"], string.Empty).Trim();
+                        plant.ShortCompanyNum = Data.CastDbNull.To(reader["SHORT_COMPANY_CD"], string.Empty).Trim();
                         plants.Add(plant);
                     }
 
@@ -539,8 +539,8 @@ namespace CGServicesHV.Common.Managers.Enterprise
                     while (reader.Read())
                     {
                         var item = new PlantGroupItem();
-                        item.GroupCode = CastDbNull.To(reader["GROUP_CD"], string.Empty).Trim();
-                        item.PlantNumericCode = CastDbNull.To(reader["PLANT_NUMERIC_CD"], string.Empty).Trim();
+                        item.GroupCode = Data.CastDbNull.To(reader["GROUP_CD"], string.Empty).Trim();
+                        item.PlantNumericCode = Data.CastDbNull.To(reader["PLANT_NUMERIC_CD"], string.Empty).Trim();
                         items.Add(item);
                     }
 

@@ -63,8 +63,8 @@ namespace CGServicesHV.Common.Managers.Enterprise
                     {
                         var code = new RackStatusCode
                         {
-                            UserCode = CastDbNull.To(reader["DRKY"], string.Empty).Trim(),
-                            Description1 = CastDbNull.To(reader["DRDL01"], string.Empty).Trim()
+                            UserCode = Data.CastDbNull.To(reader["DRKY"], string.Empty).Trim(),
+                            Description1 = Data.CastDbNull.To(reader["DRDL01"], string.Empty).Trim()
                         };
                         rackStatusCodes.Add(code);
                     }

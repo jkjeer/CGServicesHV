@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 using CGServicesHV.Common.Managers.E1;
-using CGServicesHV.Common.Managers.Enterprise;
 using CGServicesHV.Common.Managers.ShopFloor;
 using CGServicesHV.Common.Types.E1;
 using CGServicesHV.Common.Types.Enterprise;
@@ -17,7 +16,6 @@ using CGServicesHV.Common.Types.ShopFloor;
 using CGServicesHV.Common.Utilities;
 using IBM.Data.DB2.iSeries;
 using NLog;
-// ReSharper disable InconsistentNaming
 
 namespace CGServicesHV.Common.Managers.Process
 {
@@ -42,6 +40,7 @@ namespace CGServicesHV.Common.Managers.Process
         {
             var response = new ProcessResponse("Consumed Stoce Upload Manager", plant);
             response.ConnectionStrings.Add(new ConnectionString("E1", session.DbConnection.ConnectionString));
+
             foreach (var sqlCn in sqlCns)
             {
                 response.ConnectionStrings.Add(new ConnectionString(sqlCn.Key, sqlCn.Value.ConnectionString));
@@ -283,11 +282,7 @@ namespace CGServicesHV.Common.Managers.Process
 
                         var subject = plant.PlantCode + " [" + System.Configuration.ConfigurationManager.AppSettings["PrimaryEnvironment"] + "] " + "Consumed Stoce Upload ";
 
-                        var plantPathName = $@"{ConfigurationManager.AppSettings["ProcessResponseFilePath"]}\{response.Plant.PlantCode}";
-                        Directory.CreateDirectory(plantPathName);
-                        var fileName = $@"{plantPathName}\{subject} {DateTime.Now:hhmmss}.htm";
-                        File.Delete(fileName);
-                        File.WriteAllText(fileName, xslOutput);
+                        Mail.StoreResponse($@"{ConfigurationManager.AppSettings["ProcessResponseFilePath"]}\{response.Plant.PlantCode}", subject, xslOutput);
 
                         //Mail.SendHtmlAsync(System.Configuration.ConfigurationManager.AppSettings["SmtpHost"],
                         //    System.Configuration.ConfigurationManager.AppSettings["MailFromAddress"],

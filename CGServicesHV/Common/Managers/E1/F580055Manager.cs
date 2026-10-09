@@ -62,7 +62,7 @@ namespace CGServicesHV.Common.Managers.E1
                 {
                     while (reader.Read())
                     {
-                        var serialNum = CastDbNull.To<string>(reader["RDZ58SN"], string.Empty).Trim();
+                        var serialNum = Data.CastDbNull.To<string>(reader["RDZ58SN"], string.Empty).Trim();
                         serialNums.Add(serialNum);
                     }
 
@@ -132,7 +132,7 @@ namespace CGServicesHV.Common.Managers.E1
                 {
                     while (reader.Read())
                     {
-                        var serialNum = CastDbNull.To<string>(reader["RDZ58SN"], string.Empty).Trim();
+                        var serialNum = Data.CastDbNull.To<string>(reader["RDZ58SN"], string.Empty).Trim();
                         serialNums.Add(serialNum);
                     }
 

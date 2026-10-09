@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using CGServicesHV.Common.Managers.E1;
@@ -99,26 +99,26 @@ namespace CGServicesHV.Common.Managers.ShopFloor
                     while (reader.Read())
                     {
                         var rec = new RackTransactionItem();
-                        var plantId = CastDbNull.To<string>(reader["PlantID"], String.Empty).Trim();
-                        var rtPlantId = CastDbNull.To<string>(reader["rtPlantID"], String.Empty).Trim();
+                        var plantId = Data.CastDbNull.To<string>(reader["PlantID"], String.Empty).Trim();
+                        var rtPlantId = Data.CastDbNull.To<string>(reader["rtPlantID"], String.Empty).Trim();
                         rec.PlantID = String.IsNullOrEmpty(plantId) ? rtPlantId : plantId;
-                        rec.E1RackingTransactionId = CastDbNull.To<int>(reader["E1RackingTransactionId"], 0);
-                        rec.DocumentType = CastDbNull.To<string>(reader["DocumentType"], String.Empty).Trim();
-                        rec.SerialNumber = CastDbNull.To<string>(reader["SerialNumber"], String.Empty).Trim();
-                        rec.RackId = CastDbNull.To<decimal>(reader["RackId"], 0);
-                        rec.Location = CastDbNull.To<string>(reader["Location"], String.Empty).Trim();
-                        rec.QtyOnHand = CastDbNull.To<decimal>(reader["QtyOnHand"], 0);
-                        rec.RackStatus = CastDbNull.To<string>(reader["RackStatus"], String.Empty).Trim();
-                        rec.CreateDate = CastDbNull.To<DateTime>(reader["CreateDate"], DateTime.MinValue);
-                        rec.Transferred = CastDbNull.To<bool>(reader["Transferred"], false);
-                        rec.TransferredDate = CastDbNull.To<DateTime>(reader["TransferredDate"], DateTime.MinValue);
-                        rec.PCName = CastDbNull.To<string>(reader["PCName"], String.Empty).Trim();
-                        rec.ItemNum = CastDbNull.To<string>(reader["ItemNum"], String.Empty).Trim();
-                        rec.DestinationSerialNumber = CastDbNull.To<string>(reader["DestinationSerialNumber"], String.Empty).Trim();
-                        rec.ReasonCode = CastDbNull.To<string>(reader["ReasonCode"], String.Empty).Trim();
-                        rec.RackType = CastDbNull.To<string>(reader["RackType"], String.Empty).Trim();
-                        rec.E1WorkCenter = CastDbNull.To<string>(reader["E1WorkCenter"], String.Empty).Trim();
-                        rec.DefaultSN = CastDbNull.To<bool>(reader["DefaultSN"], false);
+                        rec.E1RackingTransactionId = Data.CastDbNull.To<int>(reader["E1RackingTransactionId"], 0);
+                        rec.DocumentType = Data.CastDbNull.To<string>(reader["DocumentType"], String.Empty).Trim();
+                        rec.SerialNumber = Data.CastDbNull.To<string>(reader["SerialNumber"], String.Empty).Trim();
+                        rec.RackId = Data.CastDbNull.To<decimal>(reader["RackId"], 0);
+                        rec.Location = Data.CastDbNull.To<string>(reader["Location"], String.Empty).Trim();
+                        rec.QtyOnHand = Data.CastDbNull.To<decimal>(reader["QtyOnHand"], 0);
+                        rec.RackStatus = Data.CastDbNull.To<string>(reader["RackStatus"], String.Empty).Trim();
+                        rec.CreateDate = Data.CastDbNull.To<DateTime>(reader["CreateDate"], DateTime.MinValue);
+                        rec.Transferred = Data.CastDbNull.To<bool>(reader["Transferred"], false);
+                        rec.TransferredDate = Data.CastDbNull.To<DateTime>(reader["TransferredDate"], DateTime.MinValue);
+                        rec.PCName = Data.CastDbNull.To<string>(reader["PCName"], String.Empty).Trim();
+                        rec.ItemNum = Data.CastDbNull.To<string>(reader["ItemNum"], String.Empty).Trim();
+                        rec.DestinationSerialNumber = Data.CastDbNull.To<string>(reader["DestinationSerialNumber"], String.Empty).Trim();
+                        rec.ReasonCode = Data.CastDbNull.To<string>(reader["ReasonCode"], String.Empty).Trim();
+                        rec.RackType = Data.CastDbNull.To<string>(reader["RackType"], String.Empty).Trim();
+                        rec.E1WorkCenter = Data.CastDbNull.To<string>(reader["E1WorkCenter"], String.Empty).Trim();
+                        rec.DefaultSN = Data.CastDbNull.To<bool>(reader["DefaultSN"], false);
                         records.Add(rec);
                     }
 
@@ -156,7 +156,7 @@ namespace CGServicesHV.Common.Managers.ShopFloor
                     if (rowCount >= sFUpdateBatchSize)
                     {
                         cmd.CommandText = cmdStringBldr.ToString();
-                        Logger.Trace(Logging.DbCmdString(cmd));
+                        Logger.Debug(Logging.DbCmdString(cmd));
                         int rows = cmd.ExecuteNonQuery();
                         cmdStringBldr = new StringBuilder();
                         rowCount = 0;
@@ -167,7 +167,7 @@ namespace CGServicesHV.Common.Managers.ShopFloor
                     var dmlResponse = new SqlDmlResponse();
                     cmd.CommandText = cmdStringBldr.ToString();
                     dmlResponse.Init(cmd);
-                    Logger.Trace(Logging.DbCmdString(cmd));
+                    Logger.Debug(Logging.DbCmdString(cmd));
                     int rows = cmd.ExecuteNonQuery();
                     dmlResponse.RowsAffected = rows;
                     responses.Add(dmlResponse);
@@ -197,7 +197,7 @@ namespace CGServicesHV.Common.Managers.ShopFloor
             try
             {
                 cmd.CommandText = $"UPDATE dbo.E1RackingTransactions SET TransferStatus = '{postStatus}' WHERE TransferStatus = '{preStatus}'";
-                Logger.Trace(Logging.DbCmdString(cmd));
+                Logger.Debug(Logging.DbCmdString(cmd));
                 cmd.ExecuteNonQuery();
             }
             catch (Exception e)

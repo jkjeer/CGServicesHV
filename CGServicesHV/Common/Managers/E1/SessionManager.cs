@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using CGServicesHV.Common.Managers.Enterprise;
 using CGServicesHV.Common.Types.E1;
+using CGServicesHV.Common.Utilities;
 using IBM.Data.DB2.iSeries;
 
 namespace CGServicesHV.Common.Managers.E1

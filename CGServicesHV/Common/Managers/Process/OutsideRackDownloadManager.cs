@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using CGServicesHV.Common.Managers.E1;
-using CGServicesHV.Common.Managers.Enterprise;
 using CGServicesHV.Common.Types.E1;
 using CGServicesHV.Common.Types.Enterprise;
 using CGServicesHV.Common.Types.Response;
@@ -248,7 +247,8 @@ namespace CGServicesHV.Common.Managers.Process
                         ON  HLZ58RID = RHZ58RID 
 	                WHERE 
                         {filterString}
-                    FOR READ ONLY"
+                    FOR READ ONLY
+                "
             };
             return cmd;
         }
@@ -269,7 +269,7 @@ namespace CGServicesHV.Common.Managers.Process
                 {
                     filters.Add("RHZ58RID = ? AND \r\n");
                     parameters.Add(new iDB2Parameter("RID", iDB2DbType.iDB2Decimal));
-                    parameters.Last().Precision = 9;
+                    parameters.Last().Precision = 15;
                     parameters.Last().Scale = 0;
                     parameters.Last().Value = rackId;
                 }
@@ -366,7 +366,8 @@ namespace CGServicesHV.Common.Managers.Process
                         HLUKID >= ? AND 
                         HLMCU IN ('          05', '          04', '          08') AND 
                         HLLOCN LIKE 'MZ%'
-                    FOR READ ONLY"
+                    FOR READ ONLY
+                "
             };
             cmd.Parameters.Add(new iDB2Parameter("UKID", iDB2DbType.iDB2Decimal));
             cmd.Parameters["UKID"].Precision = 15;
@@ -453,7 +454,8 @@ namespace CGServicesHV.Common.Managers.Process
 		                F580569	
 	                WHERE
                         DLZ58RID = ?
-                    FOR READ ONLY"
+                    FOR READ ONLY
+                "
             };
             cmd.Parameters.Add(new iDB2Parameter("RackID", iDB2DbType.iDB2Decimal));
             cmd.Parameters["RackID"].Precision = 15;

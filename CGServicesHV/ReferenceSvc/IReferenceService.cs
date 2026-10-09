@@ -10,6 +10,9 @@ namespace CGServicesHV.ReferenceSvc
     public interface IReferenceService
     {
         [OperationContract, OperationInvokerLogger]
+        ProcessResponse DownloadSpecLegLengths(string plant, bool parallel);
+
+        [OperationContract, OperationInvokerLogger]
         ProcessResponse DownloadInventoryLocations(string plant, bool parallel = false);
 
         [OperationContract, OperationInvokerLogger]
@@ -22,7 +25,7 @@ namespace CGServicesHV.ReferenceSvc
         ProcessResponse DownloadRackTypes(string plant, bool parallel);
 
         [OperationContract, OperationInvokerLogger]
-        ProcessResponse DownloadConfiguratorRules(string plant, bool parallel);
+        ProcessResponse DownloadConfiguratorRules(string plant, TimeSpan timeSpan, bool useHighWaterMark = false, bool parallel = false);
 
         [OperationContract, OperationInvokerLogger]
         ProcessResponse DownloadRejectCodes(string plant, bool parallel);
@@ -77,6 +80,10 @@ namespace CGServicesHV.ReferenceSvc
     public interface IReferenceRestService
     {
         [OperationContract, OperationInvokerLogger]
+        [WebGet(UriTemplate = "/DownloadSpecLegLengths?Plant={plant}&Parallel={parallel}")]
+        ProcessResponse DownloadSpecLegLengths(string plant, bool parallel);
+
+        [OperationContract, OperationInvokerLogger]
         [WebGet(UriTemplate = "/DownloadInventoryLocations?Plant={plant}&Parallel={parallel}")]
         ProcessResponse DownloadInventoryLocations(string plant, bool parallel);
 
@@ -93,8 +100,8 @@ namespace CGServicesHV.ReferenceSvc
         ProcessResponse DownloadRackTypes(string plant, bool parallel);
 
         [OperationContract, OperationInvokerLogger]
-        [WebGet(UriTemplate = "/DownloadConfiguratorRules?Plant={plant}&Parallel={parallel}")]
-        ProcessResponse DownloadConfiguratorRules(string plant, bool parallel);
+        [WebGet(UriTemplate = "/DownloadConfiguratorRules?Plant={plant}&TimeSpan={timeSpan}&HighWaterMark={useHighWaterMark}&Parallel={parallel}")]
+        ProcessResponse DownloadConfiguratorRules(string plant, TimeSpan timeSpan, bool useHighWaterMark = false, bool parallel = false);
 
         [OperationContract, OperationInvokerLogger]
         [WebGet(UriTemplate = "/DownloadRejectCodes?Plant={plant}&Parallel={parallel}")]

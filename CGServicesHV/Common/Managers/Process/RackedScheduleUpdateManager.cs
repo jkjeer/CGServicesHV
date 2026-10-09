@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.Linq;
 using CGServicesHV.Common.Managers.Enterprise;
 using CGServicesHV.Common.Managers.ShopFloor;
@@ -145,9 +145,9 @@ namespace CGServicesHV.Common.Managers.Process
                     while (reader.Read())
                     {
                         var dr = dt.NewRow();
-                        dr["ScheduleNum"] = CastDbNull.To(reader["ScheduleNum"], 0);
-                        dr["ScheduleDate"] = CastDbNull.To(reader["ScheduleDate"], new DateTime(1900, 1, 1));
-                        dr["BoxedDate"] = CastDbNull.To(reader["StatusDate"], new DateTime(1900, 1, 1));
+                        dr["ScheduleNum"] = Data.CastDbNull.To(reader["ScheduleNum"], 0);
+                        dr["ScheduleDate"] = Data.CastDbNull.To(reader["ScheduleDate"], new DateTime(1900, 1, 1));
+                        dr["BoxedDate"] = Data.CastDbNull.To(reader["StatusDate"], new DateTime(1900, 1, 1));
                         dr["RackedDate"] = new DateTime(1900, 1, 1);
                         dr["Boxed"] = 0;
                         dr["Racked"] = 0;

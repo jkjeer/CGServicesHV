@@ -39,17 +39,17 @@ namespace CGServicesHV.Common.Types.ShopFloor
                 while (reader.Read())
                 {
                     var dr = NewRow();
-                    dr["ItemNum"] = CastDbNull.To<decimal>(reader["COITM"], 0);
-                    dr["Location"] = CastDbNull.To<string>(reader["COLOCN"], String.Empty).Trim();
-                    dr["Lot"] = CastDbNull.To<string>(reader["COLOTN"], String.Empty).Trim();
-                    dr["LedgerTypeCode"] = CastDbNull.To<string>(reader["COLEDG"], String.Empty).Trim();
-                    dr["UnitCostAmt"] = CastDbNull.To<decimal>(reader["COUNCS"], 0) / 10000;
-                    dr["PurchasingSelectionCode"] = CastDbNull.To<string>(reader["COCSPO"], String.Empty).Trim();
-                    dr["InventorySelectionCode"] = CastDbNull.To<string>(reader["COCSIN"], String.Empty).Trim();
-                    dr["CostChangedCode"] = CastDbNull.To<string>(reader["COCCFL"], String.Empty).Trim();
-                    dr["UserId"] = CastDbNull.To<string>(reader["COUSER"], String.Empty).Trim();
-                    dr["ProgramId"] = CastDbNull.To<string>(reader["COPID"], String.Empty).Trim();
-                    dr["TransactionDate"] = Utilities.Common.CastToDateTime(CastDbNull.To<decimal>(reader["COUPMJ"], 0), CastDbNull.To<decimal>(reader["COTDAY"], 0)).AddMinutes(plant.BusinessSystemOffset);
+                    dr["ItemNum"] = Data.CastDbNull.To<decimal>(reader["COITM"], 0);
+                    dr["Location"] = Data.CastDbNull.To<string>(reader["COLOCN"], String.Empty).Trim();
+                    dr["Lot"] = Data.CastDbNull.To<string>(reader["COLOTN"], String.Empty).Trim();
+                    dr["LedgerTypeCode"] = Data.CastDbNull.To<string>(reader["COLEDG"], String.Empty).Trim();
+                    dr["UnitCostAmt"] = Data.CastDbNull.To<decimal>(reader["COUNCS"], 0) / 10000;
+                    dr["PurchasingSelectionCode"] = Data.CastDbNull.To<string>(reader["COCSPO"], String.Empty).Trim();
+                    dr["InventorySelectionCode"] = Data.CastDbNull.To<string>(reader["COCSIN"], String.Empty).Trim();
+                    dr["CostChangedCode"] = Data.CastDbNull.To<string>(reader["COCCFL"], String.Empty).Trim();
+                    dr["UserId"] = Data.CastDbNull.To<string>(reader["COUSER"], String.Empty).Trim();
+                    dr["ProgramId"] = Data.CastDbNull.To<string>(reader["COPID"], String.Empty).Trim();
+                    dr["TransactionDate"] = Utilities.Common.CastToDateTime(Data.CastDbNull.To<decimal>(reader["COUPMJ"], 0), Data.CastDbNull.To<decimal>(reader["COTDAY"], 0)).AddMinutes(plant.BusinessSystemOffset);
                     Rows.Add(dr);
                 }
                 reader.Close();

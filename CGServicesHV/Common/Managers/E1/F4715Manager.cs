@@ -91,16 +91,16 @@ namespace CGServicesHV.Common.Managers.E1
                         {
                             var f4715 = new F4715
                             {
-                                ZDEDTY = CastDbNull.To(reader["ZDEDTY"], string.Empty).Trim(),
-                                ZDEDSQ = CastDbNull.To<decimal>(reader["ZDEDSQ"], 0),
-                                ZDKCOO = CastDbNull.To(reader["ZDKCOO"], string.Empty).Trim(),
-                                ZDDOCO = CastDbNull.To<decimal>(reader["ZDDOCO"], 0),
-                                ZDDCTO = CastDbNull.To(reader["ZDDCTO"], string.Empty).Trim(),
-                                ZDLNID = CastDbNull.To<decimal>(reader["ZDLNID"], 0),
-                                ZDLINS = CastDbNull.To<decimal>(reader["ZDLINS"], 0),
-                                ZDTXLN = CastDbNull.To(reader["ZDTXLN"], string.Empty).Trim(),
-                                ZDUPMJ = CastDbNull.To<decimal>(reader["ZDUPMJ"], 0),
-                                ZDTDAY = CastDbNull.To<decimal>(reader["ZDTDAY"], 0)
+                                ZDEDTY = Data.CastDbNull.To(reader["ZDEDTY"], string.Empty).Trim(),
+                                ZDEDSQ = Data.CastDbNull.To<decimal>(reader["ZDEDSQ"], 0),
+                                ZDKCOO = Data.CastDbNull.To(reader["ZDKCOO"], string.Empty).Trim(),
+                                ZDDOCO = Data.CastDbNull.To<decimal>(reader["ZDDOCO"], 0),
+                                ZDDCTO = Data.CastDbNull.To(reader["ZDDCTO"], string.Empty).Trim(),
+                                ZDLNID = Data.CastDbNull.To<decimal>(reader["ZDLNID"], 0),
+                                ZDLINS = Data.CastDbNull.To<decimal>(reader["ZDLINS"], 0),
+                                ZDTXLN = Data.CastDbNull.To(reader["ZDTXLN"], string.Empty).Trim(),
+                                ZDUPMJ = Data.CastDbNull.To<decimal>(reader["ZDUPMJ"], 0),
+                                ZDTDAY = Data.CastDbNull.To<decimal>(reader["ZDTDAY"], 0)
                             };
                             f4715S.Add(f4715);
                         }

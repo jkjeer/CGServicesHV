@@ -88,13 +88,13 @@ namespace CGServicesHV.Common.Managers.Enterprise
                     while (reader.Read())
                     {
                         item.PlantNum = plantNum;
-                        item.ItemNum = CastDbNull.To<decimal>(reader["IBITM"], 0);
-                        item.StockingType = CastDbNull.To(reader["IBSTKT"], string.Empty).Trim();
-                        item.GLCategory = CastDbNull.To(reader["IBGLPT"], string.Empty).Trim();
-                        item.Description = CastDbNull.To(reader["IMDSC1"], string.Empty).Trim();
-                        item.Construction = CastDbNull.To(reader["IMDSC2"], string.Empty).Trim();
-                        item.UnitType = CastDbNull.To(reader["IBSRP4"], string.Empty).Trim();
-                        item.UnitTypeDesc = CastDbNull.To(reader["DRDL01"], string.Empty).Trim();
+                        item.ItemNum = Data.CastDbNull.To<decimal>(reader["IBITM"], 0);
+                        item.StockingType = Data.CastDbNull.To(reader["IBSTKT"], string.Empty).Trim();
+                        item.GLCategory = Data.CastDbNull.To(reader["IBGLPT"], string.Empty).Trim();
+                        item.Description = Data.CastDbNull.To(reader["IMDSC1"], string.Empty).Trim();
+                        item.Construction = Data.CastDbNull.To(reader["IMDSC2"], string.Empty).Trim();
+                        item.UnitType = Data.CastDbNull.To(reader["IBSRP4"], string.Empty).Trim();
+                        item.UnitTypeDesc = Data.CastDbNull.To(reader["DRDL01"], string.Empty).Trim();
 
                         //var attributes = _itemAttributesManager.GetItemAttributes(e1Session, itemNum, documentNum, documentType, documentLine, companyCode, cache);
                         //item.ItemAttributes = attributes;
@@ -143,13 +143,13 @@ namespace CGServicesHV.Common.Managers.Enterprise
                     while (reader.Read())
                     {
                         item.PlantNum = plantNum;
-                        item.ItemNum = CastDbNull.To<decimal>(reader["IBITM"], 0);
-                        item.StockingType = CastDbNull.To(reader["IBSTKT"], string.Empty).Trim();
-                        item.GLCategory = CastDbNull.To(reader["IBGLPT"], string.Empty).Trim();
-                        item.Description = CastDbNull.To(reader["IMDSC1"], string.Empty).Trim();
-                        item.Construction = CastDbNull.To(reader["IMDSC2"], string.Empty).Trim();
-                        item.UnitType = CastDbNull.To(reader["IBSRP4"], string.Empty).Trim();
-                        item.UnitTypeDesc = CastDbNull.To(reader["DRDL01"], string.Empty).Trim();
+                        item.ItemNum = Data.CastDbNull.To<decimal>(reader["IBITM"], 0);
+                        item.StockingType = Data.CastDbNull.To(reader["IBSTKT"], string.Empty).Trim();
+                        item.GLCategory = Data.CastDbNull.To(reader["IBGLPT"], string.Empty).Trim();
+                        item.Description = Data.CastDbNull.To(reader["IMDSC1"], string.Empty).Trim();
+                        item.Construction = Data.CastDbNull.To(reader["IMDSC2"], string.Empty).Trim();
+                        item.UnitType = Data.CastDbNull.To(reader["IBSRP4"], string.Empty).Trim();
+                        item.UnitTypeDesc = Data.CastDbNull.To(reader["DRDL01"], string.Empty).Trim();
 
                         var attributes = _itemAttributesManager.GetItemAttributes(e1Session, itemNum, documentNum, documentType, documentLine, companyCode);
                         item.ItemAttributes = attributes;
@@ -381,13 +381,13 @@ namespace CGServicesHV.Common.Managers.Enterprise
                     {
                         var item = new GlassItem();
                         item.PlantNum = plantNum;
-                        item.ItemNum = CastDbNull.To<Decimal>(reader["IBITM"], 0);
-                        item.StockingType = CastDbNull.To<String>(reader["IBSTKT"], String.Empty).Trim();
-                        item.GLCategory = CastDbNull.To<String>(reader["IBGLPT"], String.Empty).Trim();
-                        item.Description = CastDbNull.To<String>(reader["IMDSC1"], String.Empty).Trim();
-                        item.Construction = CastDbNull.To<String>(reader["IMDSC2"], String.Empty).Trim();
-                        item.UnitType = CastDbNull.To<String>(reader["IBSRP4"], String.Empty).Trim();
-                        item.UnitTypeDesc = CastDbNull.To<String>(reader["DRDL01"], String.Empty).Trim();
+                        item.ItemNum = Data.CastDbNull.To<Decimal>(reader["IBITM"], 0);
+                        item.StockingType = Data.CastDbNull.To<String>(reader["IBSTKT"], String.Empty).Trim();
+                        item.GLCategory = Data.CastDbNull.To<String>(reader["IBGLPT"], String.Empty).Trim();
+                        item.Description = Data.CastDbNull.To<String>(reader["IMDSC1"], String.Empty).Trim();
+                        item.Construction = Data.CastDbNull.To<String>(reader["IMDSC2"], String.Empty).Trim();
+                        item.UnitType = Data.CastDbNull.To<String>(reader["IBSRP4"], String.Empty).Trim();
+                        item.UnitTypeDesc = Data.CastDbNull.To<String>(reader["DRDL01"], String.Empty).Trim();
                         ItemAttributes attributes = _itemAttributesManager.GetItemAttributes(e1Session, item.ItemNum, 0, "", 0, "");
                         item.ItemAttributes = attributes;
 

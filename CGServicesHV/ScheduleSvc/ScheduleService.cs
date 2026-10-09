@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using CGServicesHV.Common.Managers.Process;
 using CGServicesHV.Common.Types.Enterprise;
 using CGServicesHV.Common.Types.Response;
+using CGServicesHV.Common.Utilities;
 using SoaCore.Wcf;
 using NLog;
 

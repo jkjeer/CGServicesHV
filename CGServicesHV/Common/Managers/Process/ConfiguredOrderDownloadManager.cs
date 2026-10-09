@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.Linq;
 using IBM.Data.DB2.iSeries;
 using NLog;
 using CGServicesHV.Common.Managers.E1;
-using CGServicesHV.Common.Managers.Enterprise;
 using CGServicesHV.Common.Types.E1;
 using CGServicesHV.Common.Types.Enterprise;
 using CGServicesHV.Common.Types.Response;
@@ -28,6 +28,7 @@ namespace CGServicesHV.Common.Managers.Process
             /********************************************************/
             var response = new ProcessResponse("Configured Order Download Manager", plant);
             response.ConnectionStrings.Add(new ConnectionString("E1", session.DbConnection.ConnectionString));
+
             foreach (var sqlCn in sqlCns)
             {
                 response.ConnectionStrings.Add(new ConnectionString(sqlCn.Key, sqlCn.Value.ConnectionString));
@@ -168,28 +169,31 @@ namespace CGServicesHV.Common.Managers.Process
             {
                 CommandType = CommandType.Text,
                 CommandText = $@"
-                SELECT 
-                    CMCFGID,
-                    CMDOCO,
-                    CMDCTO,
-                    CMLNID,
-                    CMKCOO,
-                    CMAN8,
-                    CMSHAN,
-                    CMUSER,
-                    CMPID,
-                    CMUPMJ,
-                    CMTDAY
-                FROM
-                    F3201
-                WHERE
-                    {filters} 
-                ORDER BY
-                    CMCFGID,
-                    CMDOCO,
-                    CMDCTO,
-                    CMLNID
-                FOR READ ONLY"
+                    SELECT 
+                        CMCFGID,
+                        CMDOCO,
+                        CMDCTO,
+                        CMLNID,
+                        CMKCOO,
+                        CMAN8,
+                        CMSHAN,
+                        CMUSER,
+                        CMPID,
+                        CMUPMJ,
+                        CMTDAY,
+                        CCITM
+                    FROM
+                        F3201
+                        LEFT OUTER JOIN F3215
+                        ON  CMCFGID = CCCFGID AND
+                            CCCFGCID = 1
+                    WHERE
+                        {filters} 
+                    ORDER BY
+                        CMUPMJ,
+                        CMTDAY
+                    FOR READ ONLY
+                "
             };
             return cmd;
         }

@@ -2,11 +2,9 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.Linq;
 using System.Text;
-using IBM.Data.DB2.iSeries;
-using CGServicesHV.Common.Types.E1;
 using CGServicesHV.Common.Types.Enterprise;
 using CGServicesHV.Common.Types.Response;
 using CGServicesHV.Common.Utilities;
@@ -31,17 +29,17 @@ namespace CGServicesHV.Common.Managers.Process
         ********************************************************************************/
         public ProcessResponse Process(Plant plant, Dictionary<string, SqlConnection> sqlCns, int lookbackDays, bool sendReport)
         {
-            var response = new ProcessResponse("Spec Unit Audit Manager");
-            response.Plant = plant;
+            var response = new ProcessResponse("Spec Unit Audit Manager") { Plant = plant };
             foreach (var sqlCn in sqlCns)
             {
                 response.ConnectionStrings.Add(new ConnectionString(sqlCn.Key, sqlCn.Value.ConnectionString));
             }
+            int bizOnlyBufferMinutes = Int32.Parse(ConfigurationManager.AppSettings["BizOnlyBufferMinutes"]);
 
             try
             {
                 var stepPlantData = new ProcessStep("Get Plant Rack Data");
-                var rackItems = GetPlantRackItems(sqlCns["PLANT.SHOPFLOOR"], lookbackDays);
+                var rackItems = GetPlantRackItems(sqlCns["PLANT.SHOPFLOOR"], lookbackDays, bizOnlyBufferMinutes);
                 stepPlantData.RowsAffected = rackItems.Count();
                 stepPlantData.Done();
                 response.AddStep(stepPlantData);
@@ -101,27 +99,29 @@ namespace CGServicesHV.Common.Managers.Process
             try
             {
                 var actionLinks = new ActionLinks();
-                actionLinks.Add(new ActionLink("MTSItem", "Download MTS SpecUnits ItemNum", $"http://{hostName}/CGServicesHV/CGServicesHV.ItemRestService.svc/DownloadMtsSpecUnits?Plant=MZCG&ItemNum=566602"));
+                actionLinks.Add(new ActionLink("MTSItem", "Download MTS SpecUnits by ItemNum", $"http://{hostName}/CGServicesHV/CGServicesHV.ItemRestService.svc/DownloadMtsSpecUnits?Plant=MZCG&ItemNum=566602"));
                 actionLinks.Add(new ActionLink("MTS30", "Download MTS SpecUnits 30 days", $"http://{hostName}/CGServicesHV/CGServicesHV.ItemRestService.svc/DownloadMtsSpecUnits?Plant=MZCG&TimeSpan=30.00:00:00"));
                 actionLinks.Add(new ActionLink("Rerun", "Re-run the SpecUnit Audit", $"http://{hostName}/CGServicesHV/CGServicesHV.ItemRestService.svc/RunSpecUnitAudit?Plant=MZCG&SendReport=TRUE"));
                 response.SerializedObjects.Add("ActionLinks", actionLinks);
 
-                string xslOutput = "";
                 var serializedXml = response.Serialize();
                 Logger.Info("Serialized Process: " + serializedXml);
-                xslOutput = XsltManager.Transform(serializedXml, "CGServicesHV.Common.Xslt.SpecUnitAuditReport.xslt", Encoding.UTF8);
+                var xslOutput = XsltManager.Transform(serializedXml, "CGServicesHV.Common.Xslt.SpecUnitAuditReport.xslt", Encoding.UTF8);
                 Logger.Info("Report XML: " + xslOutput);
 
                 var recipients = new List<string>();
                 recipients.AddRange(Mail.GetRecipients(cn, "CGHV_SPECUNIT_AUDIT", "ADMIN", null, null));
                 recipients.AddRange(Mail.GetRecipients(cn, "CGHV_SPECUNIT_AUDIT", "PUBLIC", plant.PlantCode, null));
                 recipients.AddRange(Mail.GetRecipients(cn, "CGHV_SPECUNIT_AUDIT", "USER", plant.PlantCode, null));
+                var subject = $"{(response.HasErrors() ? "ERROR - " : string.Empty)}{plant.PlantCode} [{System.Configuration.ConfigurationManager.AppSettings["PrimaryEnvironment"]}] Spec Unit Audit";
+
+                Mail.StoreResponse($@"{ConfigurationManager.AppSettings["ProcessResponseFilePath"]}\{response.Plant.PlantCode}", subject, xslOutput);
 
                 Mail.SendHtmlAsync(System.Configuration.ConfigurationManager.AppSettings["SmtpHost"],
                     System.Configuration.ConfigurationManager.AppSettings["MailFromAddress"],
                     recipients,
                     null,
-                    $"{(response.HasErrors() ? "ERROR - " : string.Empty)}{plant.PlantCode} [{System.Configuration.ConfigurationManager.AppSettings["PrimaryEnvironment"]}] Spec Unit Audit",
+                    subject,
                     xslOutput);
             }
             catch (Exception e)
@@ -139,14 +139,14 @@ namespace CGServicesHV.Common.Managers.Process
         /********************************************************************************
         * Plant Racks
         ********************************************************************************/
-        public static RackItems GetPlantRackItems(SqlConnection cn, int lookbackDays)
+        public static RackItems GetPlantRackItems(SqlConnection cn, int lookbackDays, int bizOnlyBufferMinutes)
         {
             var startTime = DateTime.Now.ToLocalTime();
             Logger.Info($"BEGIN: {DateTime.Now.ToLocalTime()}");
             var rackItems = new RackItems();
             try
             {
-                var cmd = GetPlantRackItems(lookbackDays);
+                var cmd = GetPlantRackItems(lookbackDays, bizOnlyBufferMinutes);
                 cmd.Connection = cn;
                 Logger.Info(Logging.DbCmdString(cmd));
                 using (IDataReader reader = cmd.ExecuteReader(CommandBehavior.SingleResult))
@@ -155,19 +155,19 @@ namespace CGServicesHV.Common.Managers.Process
                     {
                         var rackItem = new RackItem
                         {
-                            RackId = CastDbNull.To<decimal>(reader["RackId"], 0),
-                            LotNum = CastDbNull.To(reader["LotNum"], string.Empty).Trim(),
-                            SerialNum = CastDbNull.To(reader["SerialNum"], string.Empty).Trim(),
-                            ItemNum = CastDbNull.To<decimal>(reader["ItemNum"], 0),
-                            StatusCode = CastDbNull.To(reader["StatusCode"], string.Empty).Trim(),
-                            Location = CastDbNull.To(reader["Location"], string.Empty).Trim(),
-                            ScheduleNum = CastDbNull.To<decimal>(reader["ScheduleNum"], 0),
-                            TransactionDate = CastDbNull.To<DateTime>(reader["TransactionDate"], DateTime.MinValue),
-                            PlantNum = CastDbNull.To(reader["PlantID"], string.Empty).Trim(),
-                            Quantity = CastDbNull.To<decimal>(reader["QtyOnHand"], 0),
-                            WorkOrderNum = CastDbNull.To<decimal>(reader["WorkOrderNum"], 0),
-                            ConfigId = CastDbNull.To<decimal>(reader["ConfigId"], 0),
-                            StockCode = CastDbNull.To(reader["StockCode"], string.Empty).Trim()
+                            RackId = Data.CastDbNull.To<decimal>(reader["RackId"], 0),
+                            LotNum = Data.CastDbNull.To(reader["LotNum"], string.Empty).Trim(),
+                            SerialNum = Data.CastDbNull.To(reader["SerialNum"], string.Empty).Trim(),
+                            ItemNum = Data.CastDbNull.To<decimal>(reader["ItemNum"], 0),
+                            StatusCode = Data.CastDbNull.To(reader["StatusCode"], string.Empty).Trim(),
+                            Location = Data.CastDbNull.To(reader["Location"], string.Empty).Trim(),
+                            ScheduleNum = Data.CastDbNull.To<decimal>(reader["ScheduleNum"], 0),
+                            TransactionDate = Data.CastDbNull.To<DateTime>(reader["TransactionDate"], DateTime.MinValue),
+                            PlantNum = Data.CastDbNull.To(reader["PlantID"], string.Empty).Trim(),
+                            Quantity = Data.CastDbNull.To<decimal>(reader["QtyOnHand"], 0),
+                            WorkOrderNum = Data.CastDbNull.To<decimal>(reader["WorkOrderNum"], 0),
+                            ConfigId = Data.CastDbNull.To<decimal>(reader["ConfigId"], 0),
+                            StockCode = Data.CastDbNull.To(reader["StockCode"], string.Empty).Trim()
                         };
                         rackItems.Add(rackItem);
                     }
@@ -186,7 +186,7 @@ namespace CGServicesHV.Common.Managers.Process
             return rackItems;
         }
 
-        private static SqlCommand GetPlantRackItems(int lookbackDays)
+        private static SqlCommand GetPlantRackItems(int lookbackDays, int bizOnlyBufferMinutes)
         {
             var cmd = new SqlCommand
             {
@@ -205,7 +205,8 @@ namespace CGServicesHV.Common.Managers.Process
                         rd.QtyOnHand,
                         rd.WorkOrderNum,
                         rd.ConfigId,
-                        rd.StockCode
+                        rd.StockCode,
+                        su.SpecUnitId
                     FROM EBS.Rack r WITH (NOLOCK)
                     INNER JOIN EBS.RackDetail rd WITH (NOLOCK)
 	                    ON rd.RackId = r.RackId
@@ -213,8 +214,10 @@ namespace CGServicesHV.Common.Managers.Process
 	                    ON su.ItemNum = rd.ItemNum
 	                    AND su.ConfigurationId = rd.ConfigId
                     WHERE su.SpecUnitId IS NULL
+                        AND [rd].[StockCode] = 'C'
                         --AND rd.ConfigId > 0
-                        AND r.StatusCode IN ('1','2','3','4','5','6','7','9','W','P')
+                        AND r.StatusCode NOT IN ('0','8')
+                        AND r.TransactionDate < '{DateTime.Now.AddMinutes(-bizOnlyBufferMinutes)}'  
                         AND r.TransactionDate > GETDATE()-{lookbackDays}   
                     ORDER BY r.TransactionDate DESC
                 "

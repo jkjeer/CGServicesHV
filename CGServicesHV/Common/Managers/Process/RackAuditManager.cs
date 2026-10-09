@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using IBM.Data.DB2.iSeries;
@@ -36,18 +36,19 @@ namespace CGServicesHV.Common.Managers.Process
         /********************************************************************************
         * PROCESS
         ********************************************************************************/
-        public ProcessResponse Process(BusinessSystemSession session, Dictionary<string, SqlConnection> sqlCns, Plant plant, bool showPlantOnly, bool isDelete, short maxDeletes, short retentionMinutes)
+        public ProcessResponse Process(BusinessSystemSession session, Dictionary<string, SqlConnection> sqlCns, Plant plant, bool showPlantOnly, bool isDelete, short maxDeletes, short retentionMinutes, bool sendReport)
         {
-            var response = new ProcessResponse("Rack Audit Manager");
-            response.Plant = plant;
-            var deletedRows = 0;
+            var response = new ProcessResponse("Spec Unit Audit Manager") { Plant = plant };
             response.ConnectionStrings.Add(new ConnectionString("E1", session.DbConnection.ConnectionString));
+            int bizOnlyBufferMinutes = Int32.Parse(ConfigurationManager.AppSettings["BizOnlyBufferMinutes"]);
+            int rackDataRetentionDays = Int32.Parse(ConfigurationManager.AppSettings["RackDataRetentionDays"]);
+            var archivedRows = 0;
             foreach (var sqlCn in sqlCns)
             {
                 response.ConnectionStrings.Add(new ConnectionString(sqlCn.Key, sqlCn.Value.ConnectionString));
             }
             var isBizOnly = false;
-
+            decimal firstRackId = 0;
             /********************************************************/
             var stepBizData = new ProcessStep("Get Business System Data");
             EnumerableRowCollection<DataRow> bizDataDt = null;
@@ -82,6 +83,11 @@ namespace CGServicesHV.Common.Managers.Process
             stepPlantData.Done();
             response.AddStep(stepPlantData);
 
+            if (stepPlantData.HasErrors() || stepBizData.HasErrors())
+            {
+                response.Close();
+                return response;
+            }
             /********************************************************/
             var stepBizOnlyRacks = new ProcessStep("Business Only Racks");
             try
@@ -90,19 +96,19 @@ namespace CGServicesHV.Common.Managers.Process
                     from z in bizDict.Values.Where(k => !plantDict.ContainsKey(k.Field<decimal>("RHZ58RID"))).ToList()
                     select new
                     {
-                        RackNum = z.Field<decimal>("RHZ58RID"),
+                        RackId = z.Field<decimal>("RHZ58RID"),
                         PlantId = z.Field<string>("RHMCU"),
                         StatusCode = z.Field<string>("RHZ58HST"),
                         Location = z.Field<string>("RHLOCN"),
                         RackType = z.Field<string>("RHZ58RT"),
                         Quantity = (int)1,
-                        TransactionDate = E1TimeManager.CastToDateTime(z.Field<decimal>("RHUPMJ"),
-                                z.Field<decimal>("RHTDAY"))
+                        TransactionDate = E1TimeManager.CastToDateTime(z.Field<decimal>("RHUPMJ"), z.Field<decimal>("RHTDAY"))
                     };
-                var bizOnlyCollection = bizOnlyCollection1.Where(x => x.TransactionDate < DateTime.Now.AddMinutes(-3)).ToList();
+                var bizOnlyCollection = bizOnlyCollection1.Where(x => x.TransactionDate < DateTime.Now.AddMinutes(-bizOnlyBufferMinutes)).ToList();
                 stepBizOnlyRacks.RowsAffected = bizOnlyCollection.Count;
                 response.SerializedObjects.Add("BizOnlyCollection", bizOnlyCollection, "Racks", "Rack");
                 isBizOnly = bizOnlyCollection.Any();
+                firstRackId = bizOnlyCollection.Any() ? bizOnlyCollection.First().RackId : 0;
             }
             catch (Exception e)
             {
@@ -118,7 +124,7 @@ namespace CGServicesHV.Common.Managers.Process
                     from z in plantDict.Values.Where(k => !bizDict.ContainsKey(k.Field<decimal>("RackId"))).ToList()
                     select new
                     {
-                        RackNum = z.Field<decimal>("RackId"),
+                        RackId = z.Field<decimal>("RackId"),
                         PlantId = z.Field<string>("PlantId"),
                         StatusCode = z.Field<string>("StatusCode"),
                         Location = z.Field<string>("Location"),
@@ -134,27 +140,32 @@ namespace CGServicesHV.Common.Managers.Process
                     response.SerializedObjects.Add("PlantOnlyCollection", plantOnlyCollection, "Racks", "Rack");
                 }
 
-                // Delete statement Messages
+                // Archive statement Messages
                 var statements = new List<string>();
                 var i = 0;
                 foreach (var rec in plantOnlyCollection)
                 {
-                    statements.Add($"DELETE FROM EBS.Rack WHERE RackId = {rec.RackNum} AND TransactionDate < DATEADD(MINUTE, -{retentionMinutes}, GETDATE()); ");
-                    //statements.Add($"DELETE FROM EBS.Rack WHERE RackId = {rec.RackNum} AND StatusCode IN ('0','8'); ");
+                    statements.Add($"UPDATE r SET r.[Archive] = 1 FROM EBS.Rack r WHERE r.RackId = {rec.RackId} AND TransactionDate < GETDATE()-{rackDataRetentionDays}; ");
+                    //statements.Add($"DELETE FROM EBS.Rack WHERE RackId = {rec.RackId} AND TransactionDate < DATEADD(MINUTE, -{retentionMinutes}, GETDATE()); ");
+                    //statements.Add($"DELETE FROM EBS.Rack WHERE RackId = {rec.RackId} AND StatusCode IN ('0','8'); ");
                     i++;
                     if (i >= maxDeletes) break;
                 }
 
-                if (isDelete)
-                {
+                //if (isDelete)
+                //{
                     var sqlResponses = Sql.SqlBatchExecution(statements, maxDeletes, sqlCns["PLANT.SHOPFLOOR"]);
-                    deletedRows = statements.Count();
-                    //stepPlantOnlyRacks.SqlDmlResponses.AddRange(sqlResponses);
-                    stepPlantOnlyRacks.Messages.Add(new Message("Deletes", $"{statements.Count} Racks Deleted"));
-                    foreach (var statement in statements)
-                    {
-                        stepPlantOnlyRacks.Messages.Add(new Message("Statement", statement));
-                    }
+                    archivedRows = statements.Count();
+                    stepPlantOnlyRacks.SqlDmlResponses.AddRange(sqlResponses);
+                    stepPlantOnlyRacks.Messages.Add(new Message("Archives", $"{statements.Count} Racks Archived"));
+                    //foreach (var statement in statements)
+                    //{
+                    //    stepPlantOnlyRacks.Messages.Add(new Message("Statement", statement));
+                    //}
+                //}
+                foreach (var statement in statements)
+                {
+                    stepPlantOnlyRacks.Messages.Add(new Message("", statement));
                 }
 
             }
@@ -177,7 +188,7 @@ namespace CGServicesHV.Common.Managers.Process
                           plantData.Field<string>("StatusCode").Trim() != bizData.Field<string>("RHZ58HST").Trim()
                     select new
                     {
-                        RackNum = plantData.Field<decimal>("RackId"),
+                        RackId = plantData.Field<decimal>("RackId"),
                         PlantId = plantData.Field<string>("PlantId"),
                         PlantStatusCode = plantData.Field<string>("StatusCode"),
                         PlantLocation = plantData.Field<string>("Location"),
@@ -208,8 +219,9 @@ namespace CGServicesHV.Common.Managers.Process
                 PlantRacks = stepPlantData.RowsAffected,
                 E1OnlyRacks = stepBizOnlyRacks.RowsAffected,
                 PlantOnlyRacks = stepPlantOnlyRacks.RowsAffected,
+                PlantOnlyRacksLabel = $@"{stepPlantOnlyRacks.RowsAffected} Records",
                 IsDelete = isDelete.ToString().ToUpper(),
-                DeletedRows = deletedRows,
+                ArchivedRows = archivedRows,
                 StartDate = response.ProcessSteps.Min(x => x.StartDate).ToString("MM/dd/yyyy hh:mm:ss tt"),
                 EndDate = response.ProcessSteps.Max(x => x.EndDate).ToString("MM/dd/yyyy hh:mm:ss tt"),
                 ElapsedSeconds =
@@ -221,41 +233,47 @@ namespace CGServicesHV.Common.Managers.Process
 
             /********************************************************/
             // Send Mail
-            string xslOutput = "";
-            //if (bizDataDt.Any())
-            //{
-                var stepMail = new ProcessStep("Send Mail");
-                try
+            var stepMail = new ProcessStep("Send Mail");
+            var hostName = $"SVC{ConfigurationManager.AppSettings["PrimaryEnvironment"]}";
+            try
+            {
+                var actionLinks = new ActionLinks();
+                actionLinks.Add(new ActionLink("RackId", "Download Racks by RackId", $"http://{hostName}/CGServicesHV/CGServicesHV.RackRestService.svc/DownloadRacks?Plant={plant.PlantCode}&RackId={firstRackId}"));
+                actionLinks.Add(new ActionLink("Rack30", "Download Racks 30 days", $"http://{hostName}/CGServicesHV/CGServicesHV.RackRestService.svc/DownloadRacks?Plant={plant.PlantCode}&TimeSpan=30.00:00:00"));
+                actionLinks.Add(new ActionLink("Rerun", "Re-run the Rack Audit", $"http://{hostName}/CGServicesHV/CGServicesHV.RackRestService.svc/RunRackAudit?Plant={plant.PlantCode}&SendReport=TRUE"));
+                response.SerializedObjects.Add("ActionLinks", actionLinks);
+
+                var serializedXml = response.Serialize();
+                Logger.Info("Serialized Process: " + serializedXml);
+                var xslOutput = XsltManager.Transform(serializedXml, "CGServicesHV.Common.Xslt.RackAuditReport.xslt", Encoding.UTF8);
+                Logger.Info("Report XML: " + xslOutput);
+
+                var subject = $"{plant.PlantCode} [{ConfigurationManager.AppSettings["PrimaryEnvironment"]}] Rack Audit";
+                if (isBizOnly || response.HasErrors()) subject = $"ERROR - {subject}";
+                Mail.StoreResponse($@"{ConfigurationManager.AppSettings["ProcessResponseFilePath"]}\{response.Plant.PlantCode}", subject, xslOutput);
+
+                if (isBizOnly || response.HasErrors() || sendReport)
                 {
-                    var serializedXml = response.Serialize();
-                    //Logger.Info("Serialized Process: " + serializedXml);
-                    xslOutput = XsltManager.Transform(serializedXml, "CGServicesHV.Common.Xslt.RackAuditReport.xslt", Encoding.UTF8);
-                    //Logger.Info("Report XML: " + xslOutput);
-
-                    //var recipients = new List<string>();
-                    //recipients.AddRange(Mail.GetRecipients(sqlCns["CORP.INTEGRATION"], "IG_RACK_AUDIT", "ADMIN", null, null));
-                    //recipients.AddRange(Mail.GetRecipients(sqlCns["CORP.INTEGRATION"], "IG_RACK_AUDIT", "PUBLIC", plant.PlantCode, null));
-                    //recipients.AddRange(Mail.GetRecipients(sqlCns["CORP.INTEGRATION"], "IG_RACK_AUDIT", "USER", plant.PlantCode, null));
-                    var recipients = ConfigurationManager.AppSettings["MailAuditConfirmToAddress"];
-
-                    Mail.SendHtmlAsync(System.Configuration.ConfigurationManager.AppSettings["SmtpHost"],
-                        System.Configuration.ConfigurationManager.AppSettings["MailFromAddress"],
+                    var recipients = new List<string>();
+                    recipients.AddRange(Mail.GetRecipients(sqlCns["CORP.INTEGRATION"], "CGHV_RACK_AUDIT", "ADMIN", null, null));
+                    recipients.AddRange(Mail.GetRecipients(sqlCns["CORP.INTEGRATION"], "CGHV_RACK_AUDIT", "PUBLIC", plant.PlantCode, null));
+                    recipients.AddRange(Mail.GetRecipients(sqlCns["CORP.INTEGRATION"], "CGHV_RACK_AUDIT", "USER", plant.PlantCode, null));
+                    Mail.SendHtmlAsync(ConfigurationManager.AppSettings["SmtpHost"],
+                        ConfigurationManager.AppSettings["MailFromAddress"],
                         recipients,
                         null,
-                        $"{(isBizOnly ? "ERROR - " : string.Empty)}{plant.PlantCode} [{System.Configuration.ConfigurationManager.AppSettings["PrimaryEnvironment"]}] Rack Audit",
+                        subject,
                         xslOutput);
                 }
-                catch (Exception e)
-                {
-                    stepMail.Errors.Add(new Error(e));
-                }
-                stepMail.Done();
-                response.AddStep(stepMail);
-            //}
-
+            }
+            catch (Exception e)
+            {
+                stepMail.Errors.Add(new Error(e));
+            }
+            stepMail.Done();
+            response.AddStep(stepMail);
             response.Close();
             return response;
-
         }
 
         /********************************************************************************
@@ -314,8 +332,8 @@ namespace CGServicesHV.Common.Managers.Process
                     FROM 
 	                    F580055
 	                WHERE 
-					    RHZ58HST NOT IN ('0') AND
                         RHMCU = '          32'  
+                        AND RHZ58HST NOT IN ('0','8')
                 UNION
 				    SELECT 
                         RHZ58RID,
@@ -329,10 +347,11 @@ namespace CGServicesHV.Common.Managers.Process
                     FROM 
 	                    F580055
 	                WHERE 
-					    RHZ58HST NOT IN ('0') AND
                         RHMCU IN ('          05', '          04', '          08') AND 
 					    RHLOCN LIKE 'MZ%'
-                    FOR READ ONLY  "
+                        AND RHZ58HST NOT IN ('0','8')
+                    FOR READ ONLY  
+            "
             };
             return cmd;
         }
@@ -381,16 +400,17 @@ namespace CGServicesHV.Common.Managers.Process
             {
                 CommandType = CommandType.Text,
                 CommandText = $@"
-                SELECT 
-                    RackId,
-                    PlantId,
-                    StatusCode,
-                    Location,
-                    RackType,
-                    ScheduleNum,
-                    TransactionDate
-                FROM 
-	                EBS.Rack WITH (NOLOCK)"
+                    SELECT 
+                        RackId,
+                        PlantId,
+                        StatusCode,
+                        Location,
+                        RackType,
+                        ScheduleNum,
+                        TransactionDate
+                    FROM 
+	                    EBS.Rack WITH (NOLOCK)
+                "
 	            //WHERE 
              //       {filterString}"
             };

@@ -111,7 +111,7 @@ namespace CGServicesHV.SubscriptionSvc
                 if (response.HasErrors())
                 {
                     SubscriptionManager.SummarizeRunSubscriptionType(response, plants, timeSpan, useHighWaterMark, parallel, subscriptionType);
-                    //SubscriptionManager.NotifyRunSubscriptionType(response);
+                    SubscriptionManager.NotifyRunSubscriptionType(response);
                     Logging.InsertProcessLog(response);
                 }
                 return response;

@@ -3,7 +3,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,9 +13,8 @@ using CGServicesHV.Common.Types.E1;
 using CGServicesHV.Common.Types.Enterprise;
 using CGServicesHV.Common.Types.Response;
 using NLog;
-// ReSharper disable StringLiteralTypo
 
-namespace CGServicesHV.Common.Managers.Process
+namespace CGServicesHV.Common.Utilities
 {
     public class BusinessSystemTransferProcessor
     {
@@ -100,11 +99,20 @@ namespace CGServicesHV.Common.Managers.Process
                     if (activeList.Contains(subscriptionType.SubscriptionTypeCode))
                     {
                         Logger.Trace($"Adding Subscription {plant.PlantCode} {subscriptionType.SubscriptionTypeCode}");
+                        var subParms = new Dictionary<string, object>();
+                        foreach (var item in parms)
+                        {
+                            subParms.Add(item.Key, item.Value);
+                        }
+                        foreach (var hashItem in subscriptionType.ArgumentsHash)
+                        {
+                            subParms.Add(hashItem.Key, hashItem.Value);
+                        }
                         var invocation = new InvocationObject
                         {
                             SubscriptionTypeCode = subscriptionType.SubscriptionTypeCode,
                             Processor = subscriptionType.DelegateMethod,
-                            Parms = parms,
+                            Parms = subParms,
                             Resources = subscriptionType.ResourceList,
                             Arguments = subscriptionType.Arguments,
                             ArgumentsHash = subscriptionType.ArgumentsHash

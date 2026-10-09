@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.Linq;
 using System.ServiceModel;
 using System.Text;
@@ -100,18 +100,18 @@ namespace CGServicesHV.Common.Managers.ShopFloor
                     while (reader.Read())
                     {
                         var rec = new RackAssetTransactionItem();
-                        rec.RackAssetTransactionId = CastDbNull.To<int>(reader["RackAssetTransactionId"], 0);
-                        rec.RackId = CastDbNull.To<decimal>(reader["RackId"], 0);
-                        rec.AssetId = CastDbNull.To<string>(reader["AssetId"], String.Empty).Trim();
-                        rec.TransactionDate = CastDbNull.To<DateTime>(reader["TransactionDate"], DateTime.MinValue);
-                        rec.TransactionType = CastDbNull.To<string>(reader["TransactionType"], String.Empty).Trim();
-                        rec.UserId = CastDbNull.To<string>(reader["UserId"], String.Empty).Trim();
-                        rec.WorkstationId = CastDbNull.To<string>(reader["WorkstationId"], String.Empty).Trim();
-                        rec.DoNotTransfer = CastDbNull.To<bool>(reader["DoNotTransfer"], false);
-                        rec.TransferId = CastDbNull.To<decimal>(reader["TransferId"], 0);
-                        rec.BatchNum = CastDbNull.To<string>(reader["BatchNum"], String.Empty).Trim();
-                        rec.TransferStatus = CastDbNull.To<string>(reader["TransferStatus"], String.Empty).Trim();
-                        rec.TransferDate = CastDbNull.To<DateTime?>(reader["TransferDate"], null);
+                        rec.RackAssetTransactionId = Data.CastDbNull.To<int>(reader["RackAssetTransactionId"], 0);
+                        rec.RackId = Data.CastDbNull.To<decimal>(reader["RackId"], 0);
+                        rec.AssetId = Data.CastDbNull.To<string>(reader["AssetId"], String.Empty).Trim();
+                        rec.TransactionDate = Data.CastDbNull.To<DateTime>(reader["TransactionDate"], DateTime.MinValue);
+                        rec.TransactionType = Data.CastDbNull.To<string>(reader["TransactionType"], String.Empty).Trim();
+                        rec.UserId = Data.CastDbNull.To<string>(reader["UserId"], String.Empty).Trim();
+                        rec.WorkstationId = Data.CastDbNull.To<string>(reader["WorkstationId"], String.Empty).Trim();
+                        rec.DoNotTransfer = Data.CastDbNull.To<bool>(reader["DoNotTransfer"], false);
+                        rec.TransferId = Data.CastDbNull.To<decimal>(reader["TransferId"], 0);
+                        rec.BatchNum = Data.CastDbNull.To<string>(reader["BatchNum"], String.Empty).Trim();
+                        rec.TransferStatus = Data.CastDbNull.To<string>(reader["TransferStatus"], String.Empty).Trim();
+                        rec.TransferDate = Data.CastDbNull.To<DateTime?>(reader["TransferDate"], null);
                         records.Add(rec);
                     }
 

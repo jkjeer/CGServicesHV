@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.Text;
 using CGServicesHV.Common.Types.Enterprise;
 using CGServicesHV.Common.Types.Response;
 using CGServicesHV.Common.Types.ShopFloor;
-using CGServicesHV.Common.Utilities;
 using NLog;
 
-namespace CGServicesHV.Common.Managers.Enterprise
+namespace CGServicesHV.Common.Utilities
 {
     public class HighWaterMarkManager
     {
@@ -64,15 +63,15 @@ namespace CGServicesHV.Common.Managers.Enterprise
                     {
                         var mark = new HighWaterMark();
                         mark.PlantCode = plant.PlantCode;
-                        mark.HighWaterMarkID = CastDbNull.To(reader["MarkId"], 0);
-                        mark.HighWaterMarkName = CastDbNull.To(reader["MarkName"], string.Empty).Trim();
-                        mark.EnterpriseDateTime = CastDbNull.To(reader["EnterpriseDateTime"], DateTime.MinValue);
-                        mark.LocalDateTime = CastDbNull.To(reader["LocalDateTime"], DateTime.MinValue);
-                        mark.LookbackSeconds = CastDbNull.To(reader["LookbackSeconds"], 0);
-                        mark.UniqueID = CastDbNull.To<long>(reader["UniqueID"], 0);
-                        mark.EnterpriseTimeSpan = (DateTime.Now - (mark.EnterpriseDateTime.AddSeconds(-CastDbNull.To(reader["LookbackSeconds"], 0))));
-                        mark.LocalTimeSpan = (DateTime.Now - (mark.LocalDateTime.AddSeconds(-CastDbNull.To(reader["LookbackSeconds"], 0))));
-                        mark.InitStatement = CastDbNull.To(reader["InitStatement"], string.Empty).Trim();
+                        mark.HighWaterMarkID = Data.CastDbNull.To(reader["MarkId"], 0);
+                        mark.HighWaterMarkName = Data.CastDbNull.To(reader["MarkName"], string.Empty).Trim();
+                        mark.EnterpriseDateTime = Data.CastDbNull.To(reader["EnterpriseDateTime"], DateTime.MinValue);
+                        mark.LocalDateTime = Data.CastDbNull.To(reader["LocalDateTime"], DateTime.MinValue);
+                        mark.LookbackSeconds = Data.CastDbNull.To(reader["LookbackSeconds"], 0);
+                        mark.UniqueID = Data.CastDbNull.To<long>(reader["UniqueID"], 0);
+                        mark.EnterpriseTimeSpan = (DateTime.Now - (mark.EnterpriseDateTime.AddSeconds(-Data.CastDbNull.To(reader["LookbackSeconds"], 0))));
+                        mark.LocalTimeSpan = (DateTime.Now - (mark.LocalDateTime.AddSeconds(-Data.CastDbNull.To(reader["LookbackSeconds"], 0))));
+                        mark.InitStatement = Data.CastDbNull.To(reader["InitStatement"], string.Empty).Trim();
                         mark.Exists = true;
                         marks.Add(mark);
                     }
@@ -132,14 +131,14 @@ namespace CGServicesHV.Common.Managers.Enterprise
                 {
                     while (reader.Read())
                     {
-                        mark.HighWaterMarkID = CastDbNull.To(reader["MarkId"], 0);
-                        mark.HighWaterMarkName = CastDbNull.To(reader["MarkName"], string.Empty).Trim();
-                        mark.EnterpriseDateTime = CastDbNull.To(reader["EnterpriseDateTime"], DateTime.MinValue);
-                        mark.LocalDateTime = CastDbNull.To(reader["LocalDateTime"], DateTime.MinValue);
-                        mark.LookbackSeconds = CastDbNull.To(reader["LookbackSeconds"], 0);
-                        mark.UniqueID = CastDbNull.To<long>(reader["UniqueID"], 0);
-                        mark.EnterpriseTimeSpan = (DateTime.Now - (mark.EnterpriseDateTime.AddSeconds(-CastDbNull.To(reader["LookbackSeconds"], 0))));
-                        mark.LocalTimeSpan = (DateTime.Now - (mark.LocalDateTime.AddSeconds(-CastDbNull.To(reader["LookbackSeconds"], 0))));
+                        mark.HighWaterMarkID = Data.CastDbNull.To(reader["MarkId"], 0);
+                        mark.HighWaterMarkName = Data.CastDbNull.To(reader["MarkName"], string.Empty).Trim();
+                        mark.EnterpriseDateTime = Data.CastDbNull.To(reader["EnterpriseDateTime"], DateTime.MinValue);
+                        mark.LocalDateTime = Data.CastDbNull.To(reader["LocalDateTime"], DateTime.MinValue);
+                        mark.LookbackSeconds = Data.CastDbNull.To(reader["LookbackSeconds"], 0);
+                        mark.UniqueID = Data.CastDbNull.To<long>(reader["UniqueID"], 0);
+                        mark.EnterpriseTimeSpan = (DateTime.Now - (mark.EnterpriseDateTime.AddSeconds(-Data.CastDbNull.To(reader["LookbackSeconds"], 0))));
+                        mark.LocalTimeSpan = (DateTime.Now - (mark.LocalDateTime.AddSeconds(-Data.CastDbNull.To(reader["LookbackSeconds"], 0))));
                         mark.Exists = true;
                         Logger.Trace($@"ROWS: 1");
                     }

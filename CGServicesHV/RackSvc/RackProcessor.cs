@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using CGServicesHV.Common.Managers.E1;
 using CGServicesHV.Common.Managers.Enterprise;
 using CGServicesHV.Common.Managers.Process;
@@ -252,14 +252,15 @@ namespace CGServicesHV.RackSvc
             var response = new ProcessResponse($"Rack Audit Processor", plant);
             try
             {
-                var showPlantOnly = Data.UnboxParm.To(parms, "ShowPlantOnly", false);
-                var isDelete = Data.UnboxParm.To(parms, "IsDelete", false);
+                var showPlantOnly = Data.UnboxParm.To(parms, "ShowPlantOnly", "").ToLower().Equals("true");
+                var isDelete = Data.UnboxParm.To(parms, "IsDelete", "").ToLower().Equals("true");
                 var maxDeletes = Data.UnboxParm.To<short>(parms, "MaxDeletes", 100);
                 if (maxDeletes == 0) maxDeletes = 100;
                 var retentionMinutes = Data.UnboxParm.To<short>(parms, "RetentionMinutes", 90);
                 if (retentionMinutes == 0) retentionMinutes = 90;
+                var sendReport = Data.UnboxParm.To(parms, "SendReport", "").ToLower().Equals("true");
                 var mgr = new RackAuditManager(session);
-                response.ProcessResponses.Add(mgr.Process(session, sqlCns, plant, showPlantOnly, isDelete, maxDeletes, retentionMinutes));
+                response.ProcessResponses.Add(mgr.Process(session, sqlCns, plant, showPlantOnly, isDelete, maxDeletes, retentionMinutes, sendReport));
             }
             catch (Exception e)
             {
@@ -274,14 +275,15 @@ namespace CGServicesHV.RackSvc
             var response = new ProcessResponse($"Rack Detail Audit Processor", plant);
             try
             {
-                var showPlantOnly = Data.UnboxParm.To(parms, "ShowPlantOnly", false);
-                var isDelete = Data.UnboxParm.To(parms, "IsDelete", false);
+                var showPlantOnly = Data.UnboxParm.To(parms, "ShowPlantOnly", "").ToLower().Equals("true");
+                var isDelete = Data.UnboxParm.To(parms, "IsDelete", "").ToLower().Equals("true");
                 var maxDeletes = Data.UnboxParm.To<short>(parms, "MaxDeletes", 100);
                 if (maxDeletes == 0) maxDeletes = 100;
                 var retentionMinutes = Data.UnboxParm.To<short>(parms, "RetentionMinutes", 90);
                 if (retentionMinutes == 0) retentionMinutes = 90;
+                var sendReport = Data.UnboxParm.To(parms, "SendReport", "").ToLower().Equals("true");
                 var mgr = new RackDetailAuditManager(session);
-                response.ProcessResponses.Add(mgr.Process(session, sqlCns, plant, showPlantOnly, isDelete, maxDeletes, retentionMinutes));
+                response.ProcessResponses.Add(mgr.Process(session, sqlCns, plant, showPlantOnly, isDelete, maxDeletes, retentionMinutes, sendReport));
             }
             catch (Exception e)
             {
@@ -296,14 +298,15 @@ namespace CGServicesHV.RackSvc
             var response = new ProcessResponse($"RawTags Audit Processor", plant);
             try
             {
-                var showPlantOnly = Data.UnboxParm.To(parms, "ShowPlantOnly", false);
-                var isDelete = Data.UnboxParm.To(parms, "IsDelete", false);
+                var showPlantOnly = Data.UnboxParm.To(parms, "ShowPlantOnly", "").ToLower().Equals("true");
+                var isDelete = Data.UnboxParm.To(parms, "IsDelete", "").ToLower().Equals("true");
                 var maxDeletes = Data.UnboxParm.To<short>(parms, "MaxDeletes", 100);
                 if (maxDeletes == 0) maxDeletes = 100;
                 var retentionMinutes = Data.UnboxParm.To<short>(parms, "RetentionMinutes", 90);
                 if (retentionMinutes == 0) retentionMinutes = 90;
+                var sendReport = Data.UnboxParm.To(parms, "SendReport", "").ToLower().Equals("true");
                 var mgr = new RawTagsAuditManager(session);
-                response.ProcessResponses.Add(mgr.Process(session, sqlCns, plant, showPlantOnly, isDelete, maxDeletes, retentionMinutes));
+                response.ProcessResponses.Add(mgr.Process(session, sqlCns, plant, showPlantOnly, isDelete, maxDeletes, retentionMinutes, sendReport));
             }
             catch (Exception e)
             {

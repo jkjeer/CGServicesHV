@@ -44,11 +44,11 @@ namespace CGServicesHV.Common.Types.ShopFloor
                     while (reader.Read())
                     {
                         var dr = NewRow();
-                        dr["WorkOrderNum"] = CastDbNull.To<decimal>(reader["WADOCO"], 0);
-                        dr["StatusCode"] = CastDbNull.To(reader["WASRST"], string.Empty);
-                        dr["TransactionId"] = CastDbNull.To<decimal>(reader["WAUKID"], 0);
-                        var updateDateId = CastDbNull.To<decimal>(reader["WAMUPM"], 0);
-                        var updateTimeId = CastDbNull.To<decimal>(reader["WAUPMT"], 0);
+                        dr["WorkOrderNum"] = Data.CastDbNull.To<decimal>(reader["WADOCO"], 0);
+                        dr["StatusCode"] = Data.CastDbNull.To(reader["WASRST"], string.Empty);
+                        dr["TransactionId"] = Data.CastDbNull.To<decimal>(reader["WAUKID"], 0);
+                        var updateDateId = Data.CastDbNull.To<decimal>(reader["WAMUPM"], 0);
+                        var updateTimeId = Data.CastDbNull.To<decimal>(reader["WAUPMT"], 0);
                         dr["TransactionDate"] = Utilities.Common.CastToDateTime(updateDateId, updateTimeId).AddHours(plant.TimeOffset);
                         Rows.Add(dr);
                     }

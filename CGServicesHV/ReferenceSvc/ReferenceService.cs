@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using CGServicesHV.Common.Managers.Process;
 using CGServicesHV.Common.Types.Response;
+using CGServicesHV.Common.Utilities;
 using SoaCore.Wcf;
 
 namespace CGServicesHV.ReferenceSvc
@@ -10,6 +10,23 @@ namespace CGServicesHV.ReferenceSvc
     [ParameterInspectorLogger, CGIErrorHandler]
     public class ReferenceService : IReferenceService
     {
+        public ProcessResponse DownloadSpecLegLengths(string plants, bool parallel)
+        {
+            if (string.IsNullOrEmpty(plants))
+            {
+                throw new Exception("Plant Code is REQUIRED.");
+            }
+            try
+            {
+                var resources = new List<string> { "PLANT.SHOPFLOOR", "PLANT.INTEGRATION", "CORP.INTEGRATION" };
+                return BusinessSystemTransferProcessor.Invoke(plants, ReferenceProcessor.DownloadSpecLegLengths, parallel, null, resources);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.ToString());
+            }
+        }
+
         public ProcessResponse DownloadInventoryLocations(string plants, bool parallel)
         {
             if (string.IsNullOrEmpty(plants))
@@ -77,7 +94,7 @@ namespace CGServicesHV.ReferenceSvc
             }
         }
 
-        public ProcessResponse DownloadConfiguratorRules(string plants, bool parallel)
+        public ProcessResponse DownloadConfiguratorRules(string plants, TimeSpan timeSpan, bool useHighWaterMark, bool parallel)
         {
             if (string.IsNullOrEmpty(plants))
             {
@@ -85,8 +102,13 @@ namespace CGServicesHV.ReferenceSvc
             }
             try
             {
+                var parms = new Dictionary<string, object>
+                {
+                    {"TimeSpan", timeSpan},
+                    {"HighWaterMark", useHighWaterMark},
+                };
                 var resources = new List<string> { "PLANT.SHOPFLOOR", "PLANT.INTEGRATION", "E1.HA" };
-                return BusinessSystemTransferProcessor.Invoke(plants, ReferenceProcessor.DownloadConfiguratorRules, parallel, null, resources);
+                return BusinessSystemTransferProcessor.Invoke(plants, ReferenceProcessor.DownloadConfiguratorRules, parallel, parms, resources);
             }
             catch (Exception e)
             {
@@ -438,6 +460,23 @@ namespace CGServicesHV.ReferenceSvc
     public class ReferenceRestService : IReferenceRestService
     {
 
+        public ProcessResponse DownloadSpecLegLengths(string plants, bool parallel)
+        {
+            if (string.IsNullOrEmpty(plants))
+            {
+                throw new Exception("Plant Code is REQUIRED.");
+            }
+            try
+            {
+                var resources = new List<string> { "PLANT.SHOPFLOOR", "PLANT.INTEGRATION", "CORP.INTEGRATION" };
+                return BusinessSystemTransferProcessor.Invoke(plants, ReferenceProcessor.DownloadSpecLegLengths, parallel, null, resources);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.ToString());
+            }
+        }
+
         public ProcessResponse DownloadInventoryLocations(string plants, bool parallel)
         {
             if (string.IsNullOrEmpty(plants))
@@ -506,7 +545,7 @@ namespace CGServicesHV.ReferenceSvc
             }
         }
 
-        public ProcessResponse DownloadConfiguratorRules(string plants, bool parallel)
+        public ProcessResponse DownloadConfiguratorRules(string plants, TimeSpan timeSpan, bool useHighWaterMark, bool parallel)
         {
             if (string.IsNullOrEmpty(plants))
             {
@@ -514,8 +553,13 @@ namespace CGServicesHV.ReferenceSvc
             }
             try
             {
+                var parms = new Dictionary<string, object>
+                {
+                    {"TimeSpan", timeSpan},
+                    {"HighWaterMark", useHighWaterMark},
+                };
                 var resources = new List<string> { "PLANT.SHOPFLOOR", "PLANT.INTEGRATION", "E1.HA" };
-                return BusinessSystemTransferProcessor.Invoke(plants, ReferenceProcessor.DownloadConfiguratorRules, parallel, null, resources);
+                return BusinessSystemTransferProcessor.Invoke(plants, ReferenceProcessor.DownloadConfiguratorRules, parallel, parms, resources);
             }
             catch (Exception e)
             {

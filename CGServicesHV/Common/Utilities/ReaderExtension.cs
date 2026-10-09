@@ -49,7 +49,7 @@ namespace CGServicesHV.Common.Utilities
                         case "datetime":
                             obj = r.GetDateTime(i);
                             break;
-                        case "bool":
+                        case "boolean":
                             obj = r.GetBoolean(i);
                             break;
                         case "byte":

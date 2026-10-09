@@ -46,20 +46,20 @@ namespace CGServicesHV.Common.Types.ShopFloor
                 while (reader.Read())
                 {
                     var dr = NewRow();
-                    dr["WOrderNum"] = CastDbNull.To<decimal>(reader["WMDOCO"], 0);
-                    dr["ComponentNum"] = CastDbNull.To<decimal>(reader["WMCPNB"], 0) / 100;
-                    dr["BillType"] = CastDbNull.To(reader["WMTBM"], string.Empty).Trim();
-                    dr["ItemNum"] = CastDbNull.To<decimal>(reader["WMCPIT"], 0);
-                    dr["LotNum"] = CastDbNull.To(reader["WMLOTN"], string.Empty).Trim();
-                    dr["Location"] = CastDbNull.To(reader["WMLOCN"], string.Empty).Trim();
-                    dr["SequenceNum"] = CastDbNull.To<decimal>(reader["WMOPSQ"], 0) / 100;
-                    dr["PlannedQty"] = CastDbNull.To<decimal>(reader["WMUORG"], 0) / 1000;
-                    dr["ActualQty"] = CastDbNull.To<decimal>(reader["WMTRQT"], 0) / 1000;
-                    dr["UOM"] = CastDbNull.To(reader["WMUM"], string.Empty).Trim();
-                    var updateDateId = CastDbNull.To<decimal>(reader["WMUPMJ"], 0);
-                    var updateTimeId = CastDbNull.To<decimal>(reader["WMTDAY"], 0);
+                    dr["WOrderNum"] = Data.CastDbNull.To<decimal>(reader["WMDOCO"], 0);
+                    dr["ComponentNum"] = Data.CastDbNull.To<decimal>(reader["WMCPNB"], 0) / 100;
+                    dr["BillType"] = Data.CastDbNull.To(reader["WMTBM"], string.Empty).Trim();
+                    dr["ItemNum"] = Data.CastDbNull.To<decimal>(reader["WMCPIT"], 0);
+                    dr["LotNum"] = Data.CastDbNull.To(reader["WMLOTN"], string.Empty).Trim();
+                    dr["Location"] = Data.CastDbNull.To(reader["WMLOCN"], string.Empty).Trim();
+                    dr["SequenceNum"] = Data.CastDbNull.To<decimal>(reader["WMOPSQ"], 0) / 100;
+                    dr["PlannedQty"] = Data.CastDbNull.To<decimal>(reader["WMUORG"], 0) / 1000;
+                    dr["ActualQty"] = Data.CastDbNull.To<decimal>(reader["WMTRQT"], 0) / 1000;
+                    dr["UOM"] = Data.CastDbNull.To(reader["WMUM"], string.Empty).Trim();
+                    var updateDateId = Data.CastDbNull.To<decimal>(reader["WMUPMJ"], 0);
+                    var updateTimeId = Data.CastDbNull.To<decimal>(reader["WMTDAY"], 0);
                     dr["TransactionDate"] = Utilities.Common.CastToDateTime(updateDateId, updateTimeId).AddMinutes(plant.BusinessSystemOffset);
-                    dr["TransactionId"] = CastDbNull.To<decimal>(reader["WMUKID"], 0);
+                    dr["TransactionId"] = Data.CastDbNull.To<decimal>(reader["WMUKID"], 0);
                     Rows.Add(dr);
                 }
                 reader.Close();

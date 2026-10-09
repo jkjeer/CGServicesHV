@@ -105,21 +105,21 @@ namespace CGServicesHV.Common.Managers.Enterprise
                     var rowCount = 0;
                     while (reader.Read())
                     {
-                        order.WorkOrderNum = CastDbNull.To<decimal>(reader["WADOCO"], 0);
-                        order.PlantNum = CastDbNull.To(reader["WAMCU"], string.Empty).Trim();
+                        order.WorkOrderNum = Data.CastDbNull.To<decimal>(reader["WADOCO"], 0);
+                        order.PlantNum = Data.CastDbNull.To(reader["WAMCU"], string.Empty).Trim();
                         order.PlantCode = PlantManager.GetPlant(order.PlantNum).PlantCode;
-                        order.StatusCode = CastDbNull.To(reader["WASRST"], string.Empty).Trim();
-                        order.StatusDesc = CastDbNull.To(reader["DRDL01"], string.Empty).Trim();
-                        order.OrderDate = Utilities.Common.CastToDateTime(CastDbNull.To<decimal>(reader["WATRDJ"], 0));
-                        order.RequestedDate = Utilities.Common.CastToDateTime(CastDbNull.To<decimal>(reader["WADRQJ"], 0));
-                        order.Quantity = CastDbNull.To<decimal>(reader["WAUORG"], 0) / 1000;
-                        order.ItemNum = CastDbNull.To<decimal>(reader["WAITM"], 0);
+                        order.StatusCode = Data.CastDbNull.To(reader["WASRST"], string.Empty).Trim();
+                        order.StatusDesc = Data.CastDbNull.To(reader["DRDL01"], string.Empty).Trim();
+                        order.OrderDate = Utilities.Common.CastToDateTime(Data.CastDbNull.To<decimal>(reader["WATRDJ"], 0));
+                        order.RequestedDate = Utilities.Common.CastToDateTime(Data.CastDbNull.To<decimal>(reader["WADRQJ"], 0));
+                        order.Quantity = Data.CastDbNull.To<decimal>(reader["WAUORG"], 0) / 1000;
+                        order.ItemNum = Data.CastDbNull.To<decimal>(reader["WAITM"], 0);
 
-                        var documentNum = Utilities.Common.CastStringToDecimal(CastDbNull.To(reader["WARORN"], string.Empty).Trim());
-                        var documentType = CastDbNull.To(reader["WARCTO"], string.Empty).Trim();
-                        var documentLineNum = CastDbNull.To<decimal>(reader["WALNID"], 0);
-                        var companyNum = CastDbNull.To(reader["WACO"], string.Empty).Trim();
-                        var stockingType = CastDbNull.To(reader["IBSTKT"], string.Empty).Trim();
+                        var documentNum = Utilities.Common.CastStringToDecimal(Data.CastDbNull.To(reader["WARORN"], string.Empty).Trim());
+                        var documentType = Data.CastDbNull.To(reader["WARCTO"], string.Empty).Trim();
+                        var documentLineNum = Data.CastDbNull.To<decimal>(reader["WALNID"], 0);
+                        var companyNum = Data.CastDbNull.To(reader["WACO"], string.Empty).Trim();
+                        var stockingType = Data.CastDbNull.To(reader["IBSTKT"], string.Empty).Trim();
                         order.RelatedSalesOrderLine = GetRelatedSalesOrderLine(e1Session, documentNum, documentType, companyNum, documentLineNum);
 
                         var glassItem = stockingType == "C" ? _glassItemMgr.GetGlassItem(e1Session, order.ItemNum, order.PlantCode, order.WorkOrderNum, "WO", 0, "*", cache) : _glassItemMgr.GetGlassItem(e1Session, order.ItemNum, order.PlantCode);
@@ -169,23 +169,23 @@ namespace CGServicesHV.Common.Managers.Enterprise
                     var rowCount = 0;
                     while (reader.Read())
                     {
-                        order.WorkOrderNum = CastDbNull.To<decimal>(reader["WADOCO"], 0);
-                        order.PlantNum = CastDbNull.To(reader["WAMCU"], string.Empty).Trim();
+                        order.WorkOrderNum = Data.CastDbNull.To<decimal>(reader["WADOCO"], 0);
+                        order.PlantNum = Data.CastDbNull.To(reader["WAMCU"], string.Empty).Trim();
                         order.PlantCode = PlantManager.GetPlant(order.PlantNum).PlantCode;
-                        order.StatusCode = CastDbNull.To(reader["WASRST"], string.Empty).Trim();
-                        order.StatusDesc = CastDbNull.To(reader["DRDL01"], string.Empty).Trim();
-                        order.OrderDate = Utilities.Common.CastToDateTime(CastDbNull.To<decimal>(reader["WATRDJ"], 0));
-                        order.RequestedDate = Utilities.Common.CastToDateTime(CastDbNull.To<decimal>(reader["WADRQJ"], 0));
-                        order.Quantity = CastDbNull.To<decimal>(reader["WAUORG"], 0) / 1000;
-                        order.ItemNum = CastDbNull.To<decimal>(reader["WAITM"], 0);
+                        order.StatusCode = Data.CastDbNull.To(reader["WASRST"], string.Empty).Trim();
+                        order.StatusDesc = Data.CastDbNull.To(reader["DRDL01"], string.Empty).Trim();
+                        order.OrderDate = Utilities.Common.CastToDateTime(Data.CastDbNull.To<decimal>(reader["WATRDJ"], 0));
+                        order.RequestedDate = Utilities.Common.CastToDateTime(Data.CastDbNull.To<decimal>(reader["WADRQJ"], 0));
+                        order.Quantity = Data.CastDbNull.To<decimal>(reader["WAUORG"], 0) / 1000;
+                        order.ItemNum = Data.CastDbNull.To<decimal>(reader["WAITM"], 0);
 
-                        var documentNum = Utilities.Common.CastStringToDecimal(CastDbNull.To(reader["WARORN"], string.Empty).Trim());
-                        var documentType = CastDbNull.To(reader["WARCTO"], string.Empty).Trim();
-                        var documentLineNum = CastDbNull.To<decimal>(reader["WALNID"], 0);
-                        var companyNum = CastDbNull.To(reader["WACO"], string.Empty).Trim();
+                        var documentNum = Utilities.Common.CastStringToDecimal(Data.CastDbNull.To(reader["WARORN"], string.Empty).Trim());
+                        var documentType = Data.CastDbNull.To(reader["WARCTO"], string.Empty).Trim();
+                        var documentLineNum = Data.CastDbNull.To<decimal>(reader["WALNID"], 0);
+                        var companyNum = Data.CastDbNull.To(reader["WACO"], string.Empty).Trim();
                         order.RelatedSalesOrderLine = GetWORelatedSalesOrderLine(e1Session, documentNum, documentType, companyNum, documentLineNum);
 
-                        var stockingType = CastDbNull.To(reader["IBSTKT"], string.Empty).Trim();
+                        var stockingType = Data.CastDbNull.To(reader["IBSTKT"], string.Empty).Trim();
                         var glassItem = stockingType == "C" ? _glassItemMgr.GetGlassItem(e1Session, order.ItemNum, order.PlantCode, order.WorkOrderNum, "WO", 0, "*") : _glassItemMgr.GetGlassItem(e1Session, order.ItemNum, order.PlantCode);
                         order.GlassItem = glassItem;
 
@@ -233,21 +233,21 @@ namespace CGServicesHV.Common.Managers.Enterprise
                     var counter = 0;
                     while (reader.Read())
                     {
-                        order.WorkOrderNum = CastDbNull.To<decimal>(reader["WADOCO"], 0);
-                        order.PlantNum = CastDbNull.To(reader["WAMCU"], string.Empty).Trim();
+                        order.WorkOrderNum = Data.CastDbNull.To<decimal>(reader["WADOCO"], 0);
+                        order.PlantNum = Data.CastDbNull.To(reader["WAMCU"], string.Empty).Trim();
                         order.PlantCode = PlantManager.GetPlant(order.PlantNum).PlantCode;
-                        order.StatusCode = CastDbNull.To(reader["WASRST"], string.Empty).Trim();
-                        order.StatusDesc = CastDbNull.To(reader["DRDL01"], string.Empty).Trim();
-                        order.OrderDate = Utilities.Common.CastToDateTime(CastDbNull.To<decimal>(reader["WATRDJ"], 0));
-                        order.RequestedDate = Utilities.Common.CastToDateTime(CastDbNull.To<decimal>(reader["WADRQJ"], 0));
-                        order.Quantity = CastDbNull.To<decimal>(reader["WAUORG"], 0) / 1000;
-                        order.ItemNum = CastDbNull.To<decimal>(reader["WAITM"], 0);
+                        order.StatusCode = Data.CastDbNull.To(reader["WASRST"], string.Empty).Trim();
+                        order.StatusDesc = Data.CastDbNull.To(reader["DRDL01"], string.Empty).Trim();
+                        order.OrderDate = Utilities.Common.CastToDateTime(Data.CastDbNull.To<decimal>(reader["WATRDJ"], 0));
+                        order.RequestedDate = Utilities.Common.CastToDateTime(Data.CastDbNull.To<decimal>(reader["WADRQJ"], 0));
+                        order.Quantity = Data.CastDbNull.To<decimal>(reader["WAUORG"], 0) / 1000;
+                        order.ItemNum = Data.CastDbNull.To<decimal>(reader["WAITM"], 0);
 
-                        order.RelatedOrderNum = Utilities.Common.CastStringToDecimal(CastDbNull.To(reader["WARORN"], string.Empty).Trim());
-                        order.RelatedOrderType = CastDbNull.To(reader["WARCTO"], string.Empty).Trim();
-                        order.RelatedOrderLineNum = CastDbNull.To<decimal>(reader["WALNID"], 0);
-                        order.RelatedOrderCompany = CastDbNull.To(reader["WACO"], string.Empty).Trim();
-                        order.StockingType = CastDbNull.To(reader["IBSTKT"], string.Empty).Trim();
+                        order.RelatedOrderNum = Utilities.Common.CastStringToDecimal(Data.CastDbNull.To(reader["WARORN"], string.Empty).Trim());
+                        order.RelatedOrderType = Data.CastDbNull.To(reader["WARCTO"], string.Empty).Trim();
+                        order.RelatedOrderLineNum = Data.CastDbNull.To<decimal>(reader["WALNID"], 0);
+                        order.RelatedOrderCompany = Data.CastDbNull.To(reader["WACO"], string.Empty).Trim();
+                        order.StockingType = Data.CastDbNull.To(reader["IBSTKT"], string.Empty).Trim();
                         counter++;
                     }
 
@@ -322,7 +322,7 @@ namespace CGServicesHV.Common.Managers.Enterprise
                 {
                     while (reader.Read())
                     {
-                        orderNums.Add(CastDbNull.To<decimal>(reader["WADOCO"], 0));
+                        orderNums.Add(Data.CastDbNull.To<decimal>(reader["WADOCO"], 0));
                     }
 
                     reader.Close();
@@ -390,11 +390,11 @@ namespace CGServicesHV.Common.Managers.Enterprise
                     {
                         var routing = new Routing
                         {
-                            RoutingType = CastDbNull.To(reader["WLTRT"], string.Empty).Trim(),
-                            WorkCenter = CastDbNull.To(reader["WLMCU"], string.Empty).Trim(),
-                            Description = CastDbNull.To(reader["WLDSC1"], string.Empty).Trim(),
-                            SequenceNum = CastDbNull.To<decimal>(reader["WLOPSQ"], 0) / 100,
-                            ShopFloorCode = CastDbNull.To(reader["DRDL02"], string.Empty).Trim()
+                            RoutingType = Data.CastDbNull.To(reader["WLTRT"], string.Empty).Trim(),
+                            WorkCenter = Data.CastDbNull.To(reader["WLMCU"], string.Empty).Trim(),
+                            Description = Data.CastDbNull.To(reader["WLDSC1"], string.Empty).Trim(),
+                            SequenceNum = Data.CastDbNull.To<decimal>(reader["WLOPSQ"], 0) / 100,
+                            ShopFloorCode = Data.CastDbNull.To(reader["DRDL02"], string.Empty).Trim()
                         };
                         routings.Add(routing);
                     }
@@ -468,17 +468,17 @@ namespace CGServicesHV.Common.Managers.Enterprise
                     {
                         var component = new WorkOrderComponent
                         {
-                            WorkOrderNum = CastDbNull.To<decimal>(reader["WMDOCO"], 0),
-                            SequenceNum = CastDbNull.To<decimal>(reader["WMOPSQ"], 0) / 100,
-                            Quantity = CastDbNull.To<decimal>(reader["WMUORG"], 0) / 1000,
-                            InventoryQuantity = CastDbNull.To<decimal>(reader["WMTRQT"], 0) / 1000,
-                            ComponentNum = CastDbNull.To<decimal>(reader["WMCPNB"], 0) / 100,
-                            Location = CastDbNull.To(reader["WMLOCN"], string.Empty).Trim(),
-                            UnitOfMeasure = CastDbNull.To(reader["WMUM"], string.Empty).Trim()
+                            WorkOrderNum = Data.CastDbNull.To<decimal>(reader["WMDOCO"], 0),
+                            SequenceNum = Data.CastDbNull.To<decimal>(reader["WMOPSQ"], 0) / 100,
+                            Quantity = Data.CastDbNull.To<decimal>(reader["WMUORG"], 0) / 1000,
+                            InventoryQuantity = Data.CastDbNull.To<decimal>(reader["WMTRQT"], 0) / 1000,
+                            ComponentNum = Data.CastDbNull.To<decimal>(reader["WMCPNB"], 0) / 100,
+                            Location = Data.CastDbNull.To(reader["WMLOCN"], string.Empty).Trim(),
+                            UnitOfMeasure = Data.CastDbNull.To(reader["WMUM"], string.Empty).Trim()
                         };
-                        //var itemNum = CastDbNull.To<decimal>(reader["WMCPIT"], 0);
-                        //var plantNum = CastDbNull.To(reader["WMMCU"], string.Empty).Trim();
-                        //var glCategory = CastDbNull.To(reader["IBGLPT"], string.Empty).Trim();
+                        //var itemNum = Data.CastDbNull.To<decimal>(reader["WMCPIT"], 0);
+                        //var plantNum = Data.CastDbNull.To(reader["WMMCU"], string.Empty).Trim();
+                        //var glCategory = Data.CastDbNull.To(reader["IBGLPT"], string.Empty).Trim();
                         //component.Item = _itemMgr.GetTypedItem(e1Session, plantNum, itemNum, glCategory);
                         components.Add(component);
                     }
@@ -534,7 +534,7 @@ namespace CGServicesHV.Common.Managers.Enterprise
                 {
                     while (reader.Read())
                     {
-                        unitIds.Add(Convert.ToDecimal(CastDbNull.To(reader["BIZ58UNID"], string.Empty).Trim()));
+                        unitIds.Add(Convert.ToDecimal(Data.CastDbNull.To(reader["BIZ58UNID"], string.Empty).Trim()));
                     }
 
                     reader.Close();
@@ -632,30 +632,30 @@ namespace CGServicesHV.Common.Managers.Enterprise
                     var counter = 0;
                     while (reader.Read())
                     {
-                        line.OrderNum = CastDbNull.To<decimal>(reader["SDDOCO"], 0);
-                        line.OrderType = CastDbNull.To(reader["SDDCTO"], string.Empty).Trim();
-                        line.OrderLineNum = CastDbNull.To<decimal>(reader["SDLNID"], 0) / 1000;
-                        line.OrderCompany = CastDbNull.To(reader["SDKCOO"], string.Empty).Trim();
-                        var soldToCustomerNum = CastDbNull.To<decimal>(reader["SHAN8"], 0);
-                        line.CustomerPO = CastDbNull.To(reader["SDVR01"], string.Empty).Trim();
-                        line.Reference2 = CastDbNull.To(reader["SDVR02"], string.Empty).Trim();
-                        line.ReasonCode = CastDbNull.To(reader["SDRCD"], string.Empty).Trim();
-                        line.PriorityCode = CastDbNull.To(reader["SDURCD"], string.Empty).Trim();
+                        line.OrderNum = Data.CastDbNull.To<decimal>(reader["SDDOCO"], 0);
+                        line.OrderType = Data.CastDbNull.To(reader["SDDCTO"], string.Empty).Trim();
+                        line.OrderLineNum = Data.CastDbNull.To<decimal>(reader["SDLNID"], 0) / 1000;
+                        line.OrderCompany = Data.CastDbNull.To(reader["SDKCOO"], string.Empty).Trim();
+                        var soldToCustomerNum = Data.CastDbNull.To<decimal>(reader["SHAN8"], 0);
+                        line.CustomerPO = Data.CastDbNull.To(reader["SDVR01"], string.Empty).Trim();
+                        line.Reference2 = Data.CastDbNull.To(reader["SDVR02"], string.Empty).Trim();
+                        line.ReasonCode = Data.CastDbNull.To(reader["SDRCD"], string.Empty).Trim();
+                        line.PriorityCode = Data.CastDbNull.To(reader["SDURCD"], string.Empty).Trim();
                         line.SoldToCustomer = _customerMgr.GetCustomer(e1Session, soldToCustomerNum);
-                        var shipToCustomerNum = CastDbNull.To<decimal>(reader["SHSHAN"], 0);
+                        var shipToCustomerNum = Data.CastDbNull.To<decimal>(reader["SHSHAN"], 0);
                         line.ShipToCustomer = _customerMgr.GetCustomer(e1Session, shipToCustomerNum);
-                        line.CustomerSequenceNum = CastDbNull.To(reader["ATZ58CSQNO"], string.Empty).Trim();
-                        line.GenericSequenceNum = CastDbNull.To(reader["ATZ58GSQNO"], string.Empty).Trim();
-                        line.ProductType = CastDbNull.To(reader["ATZ58PT"], string.Empty).Trim();
-                        line.CustomerPart2 = CastDbNull.To(reader["ATZ58CP2"], string.Empty).Trim();
-                        line.CustomerPart3 = CastDbNull.To(reader["ATZ58CP3"], string.Empty).Trim();
-                        line.CustomerPart4 = CastDbNull.To(reader["ATZ58CP4"], string.Empty).Trim();
-                        line.ShopFloorMsg1 = CastDbNull.To(reader["ATZ5899009"], string.Empty).Trim();
-                        line.ShopFloorMsg2 = CastDbNull.To(reader["ATZ5899010"], string.Empty).Trim();
-                        line.PickNotes = CastDbNull.To(reader["ATZ5899011"], string.Empty).Trim();
-                        line.PackNotes = CastDbNull.To(reader["ATZ5899012"], string.Empty).Trim();
-                        line.VolumeIndicator = CastDbNull.To(reader["ATZ5840460"], string.Empty).Trim();
-                        line.Crating = CastDbNull.To(reader["ATZ58CRATE"], string.Empty).Trim();
+                        line.CustomerSequenceNum = Data.CastDbNull.To(reader["ATZ58CSQNO"], string.Empty).Trim();
+                        line.GenericSequenceNum = Data.CastDbNull.To(reader["ATZ58GSQNO"], string.Empty).Trim();
+                        line.ProductType = Data.CastDbNull.To(reader["ATZ58PT"], string.Empty).Trim();
+                        line.CustomerPart2 = Data.CastDbNull.To(reader["ATZ58CP2"], string.Empty).Trim();
+                        line.CustomerPart3 = Data.CastDbNull.To(reader["ATZ58CP3"], string.Empty).Trim();
+                        line.CustomerPart4 = Data.CastDbNull.To(reader["ATZ58CP4"], string.Empty).Trim();
+                        line.ShopFloorMsg1 = Data.CastDbNull.To(reader["ATZ5899009"], string.Empty).Trim();
+                        line.ShopFloorMsg2 = Data.CastDbNull.To(reader["ATZ5899010"], string.Empty).Trim();
+                        line.PickNotes = Data.CastDbNull.To(reader["ATZ5899011"], string.Empty).Trim();
+                        line.PackNotes = Data.CastDbNull.To(reader["ATZ5899012"], string.Empty).Trim();
+                        line.VolumeIndicator = Data.CastDbNull.To(reader["ATZ5840460"], string.Empty).Trim();
+                        line.Crating = Data.CastDbNull.To(reader["ATZ58CRATE"], string.Empty).Trim();
                         line.CratingDesc = _udcMgr.GetUdcItem(e1Session, "57", "CR", line.Crating).Description1;
                         counter++;
                     }
@@ -768,30 +768,30 @@ namespace CGServicesHV.Common.Managers.Enterprise
                     var counter = 0;
                     while (reader.Read())
                     {
-                        line.OrderNum = CastDbNull.To<decimal>(reader["SDDOCO"], 0);
-                        line.OrderType = CastDbNull.To(reader["SDDCTO"], string.Empty).Trim();
-                        line.OrderLineNum = CastDbNull.To<decimal>(reader["SDLNID"], 0) / 1000;
-                        line.OrderCompany = CastDbNull.To(reader["SDKCOO"], string.Empty).Trim();
-                        line.SoldToCustNum = CastDbNull.To<decimal>(reader["SHAN8"], 0);
-                        line.RequestedTime = CastDbNull.To(reader["SHAN8"], 0);
-                        line.CustomerPO = CastDbNull.To(reader["SDVR01"], string.Empty).Trim();
-                        line.Reference2 = CastDbNull.To(reader["SDVR02"], string.Empty).Trim();
-                        line.ReasonCode = CastDbNull.To(reader["SDRCD"], string.Empty).Trim();
-                        line.PriorityCode = CastDbNull.To(reader["SDURCD"], string.Empty).Trim();
-                        line.ShipToCustNum = CastDbNull.To<decimal>(reader["SHSHAN"], 0);
-                        line.CustomerSequenceNum = CastDbNull.To(reader["ATZ58CSQNO"], string.Empty).Trim();
-                        line.GenericSequenceNum = CastDbNull.To(reader["ATZ58GSQNO"], string.Empty).Trim();
-                        line.ProductType = CastDbNull.To(reader["ATZ58PT"], string.Empty).Trim();
-                        line.CustomerPart2 = CastDbNull.To(reader["ATZ58CP2"], string.Empty).Trim();
-                        line.CustomerPart3 = CastDbNull.To(reader["ATZ58CP3"], string.Empty).Trim();
-                        line.CustomerPart4 = CastDbNull.To(reader["ATZ58CP4"], string.Empty).Trim();
-                        line.ShopFloorMsg1 = CastDbNull.To(reader["ATZ5899009"], string.Empty).Trim();
-                        line.ShopFloorMsg2 = CastDbNull.To(reader["ATZ5899010"], string.Empty).Trim();
-                        line.PickNotes = CastDbNull.To(reader["ATZ5899011"], string.Empty).Trim();
-                        line.PackNotes = CastDbNull.To(reader["ATZ5899012"], string.Empty).Trim();
-                        line.VolumeIndicator = CastDbNull.To(reader["ATZ5840460"], string.Empty).Trim();
-                        line.Crating = CastDbNull.To(reader["ATZ58CRATE"], string.Empty).Trim();
-                        line.CratingDesc = CastDbNull.To(reader["DRDL01"], string.Empty).Trim();
+                        line.OrderNum = Data.CastDbNull.To<decimal>(reader["SDDOCO"], 0);
+                        line.OrderType = Data.CastDbNull.To(reader["SDDCTO"], string.Empty).Trim();
+                        line.OrderLineNum = Data.CastDbNull.To<decimal>(reader["SDLNID"], 0) / 1000;
+                        line.OrderCompany = Data.CastDbNull.To(reader["SDKCOO"], string.Empty).Trim();
+                        line.SoldToCustNum = Data.CastDbNull.To<decimal>(reader["SHAN8"], 0);
+                        line.RequestedTime = Data.CastDbNull.To(reader["SHAN8"], 0);
+                        line.CustomerPO = Data.CastDbNull.To(reader["SDVR01"], string.Empty).Trim();
+                        line.Reference2 = Data.CastDbNull.To(reader["SDVR02"], string.Empty).Trim();
+                        line.ReasonCode = Data.CastDbNull.To(reader["SDRCD"], string.Empty).Trim();
+                        line.PriorityCode = Data.CastDbNull.To(reader["SDURCD"], string.Empty).Trim();
+                        line.ShipToCustNum = Data.CastDbNull.To<decimal>(reader["SHSHAN"], 0);
+                        line.CustomerSequenceNum = Data.CastDbNull.To(reader["ATZ58CSQNO"], string.Empty).Trim();
+                        line.GenericSequenceNum = Data.CastDbNull.To(reader["ATZ58GSQNO"], string.Empty).Trim();
+                        line.ProductType = Data.CastDbNull.To(reader["ATZ58PT"], string.Empty).Trim();
+                        line.CustomerPart2 = Data.CastDbNull.To(reader["ATZ58CP2"], string.Empty).Trim();
+                        line.CustomerPart3 = Data.CastDbNull.To(reader["ATZ58CP3"], string.Empty).Trim();
+                        line.CustomerPart4 = Data.CastDbNull.To(reader["ATZ58CP4"], string.Empty).Trim();
+                        line.ShopFloorMsg1 = Data.CastDbNull.To(reader["ATZ5899009"], string.Empty).Trim();
+                        line.ShopFloorMsg2 = Data.CastDbNull.To(reader["ATZ5899010"], string.Empty).Trim();
+                        line.PickNotes = Data.CastDbNull.To(reader["ATZ5899011"], string.Empty).Trim();
+                        line.PackNotes = Data.CastDbNull.To(reader["ATZ5899012"], string.Empty).Trim();
+                        line.VolumeIndicator = Data.CastDbNull.To(reader["ATZ5840460"], string.Empty).Trim();
+                        line.Crating = Data.CastDbNull.To(reader["ATZ58CRATE"], string.Empty).Trim();
+                        line.CratingDesc = Data.CastDbNull.To(reader["DRDL01"], string.Empty).Trim();
                         counter++;
                     }
 
@@ -921,31 +921,31 @@ namespace CGServicesHV.Common.Managers.Enterprise
                     var counter = 0;
                     while (reader.Read())
                     {
-                        line.OrderNum = CastDbNull.To<decimal>(reader["SDDOCO"], 0);
-                        line.OrderType = CastDbNull.To(reader["SDDCTO"], string.Empty).Trim();
-                        line.OrderLineNum = CastDbNull.To<decimal>(reader["SDLNID"], 0) / 1000;
-                        line.OrderCompany = CastDbNull.To(reader["SDKCOO"], string.Empty).Trim();
-                        var soldToCustomerNum = CastDbNull.To<decimal>(reader["SHAN8"], 0);
-                        line.CustomerPO = CastDbNull.To(reader["SDVR01"], string.Empty).Trim();
-                        line.Reference2 = CastDbNull.To(reader["SDVR02"], string.Empty).Trim();
-                        line.ReasonCode = CastDbNull.To(reader["SDRCD"], string.Empty).Trim();
-                        line.PriorityCode = CastDbNull.To(reader["SDURCD"], string.Empty).Trim();
+                        line.OrderNum = Data.CastDbNull.To<decimal>(reader["SDDOCO"], 0);
+                        line.OrderType = Data.CastDbNull.To(reader["SDDCTO"], string.Empty).Trim();
+                        line.OrderLineNum = Data.CastDbNull.To<decimal>(reader["SDLNID"], 0) / 1000;
+                        line.OrderCompany = Data.CastDbNull.To(reader["SDKCOO"], string.Empty).Trim();
+                        var soldToCustomerNum = Data.CastDbNull.To<decimal>(reader["SHAN8"], 0);
+                        line.CustomerPO = Data.CastDbNull.To(reader["SDVR01"], string.Empty).Trim();
+                        line.Reference2 = Data.CastDbNull.To(reader["SDVR02"], string.Empty).Trim();
+                        line.ReasonCode = Data.CastDbNull.To(reader["SDRCD"], string.Empty).Trim();
+                        line.PriorityCode = Data.CastDbNull.To(reader["SDURCD"], string.Empty).Trim();
                         line.SoldToCustomer = _customerMgr.GetCustomer(e1Session, soldToCustomerNum);
-                        var shipToCustomerNum = CastDbNull.To<decimal>(reader["SHSHAN"], 0);
+                        var shipToCustomerNum = Data.CastDbNull.To<decimal>(reader["SHSHAN"], 0);
                         line.ShipToCustomer = _customerMgr.GetCustomer(e1Session, shipToCustomerNum);
-                        line.CustomerSequenceNum = CastDbNull.To(reader["ATZ58CSQNO"], string.Empty).Trim();
-                        line.GenericSequenceNum = CastDbNull.To(reader["ATZ58GSQNO"], string.Empty).Trim();
-                        line.ProductType = CastDbNull.To(reader["ATZ58PT"], string.Empty).Trim();
-                        line.CustomerPart2 = CastDbNull.To(reader["ATZ58CP2"], string.Empty).Trim();
-                        line.CustomerPart3 = CastDbNull.To(reader["ATZ58CP3"], string.Empty).Trim();
-                        line.CustomerPart4 = CastDbNull.To(reader["ATZ58CP4"], string.Empty).Trim();
-                        line.ShopFloorMsg1 = CastDbNull.To(reader["ATZ5899009"], string.Empty).Trim();
-                        line.ShopFloorMsg2 = CastDbNull.To(reader["ATZ5899010"], string.Empty).Trim();
-                        line.PickNotes = CastDbNull.To(reader["ATZ5899011"], string.Empty).Trim();
-                        line.PackNotes = CastDbNull.To(reader["ATZ5899012"], string.Empty).Trim();
-                        line.VolumeIndicator = CastDbNull.To(reader["ATZ5840460"], string.Empty).Trim();
-                        line.Crating = CastDbNull.To(reader["ATZ58CRATE"], string.Empty).Trim();
-                        line.CratingDesc = CastDbNull.To(reader["DRDL0157CR"], string.Empty).Trim(); // _udcMgr.GetUdcItem(e1Session, "57", "CR", line.Crating).Description1;
+                        line.CustomerSequenceNum = Data.CastDbNull.To(reader["ATZ58CSQNO"], string.Empty).Trim();
+                        line.GenericSequenceNum = Data.CastDbNull.To(reader["ATZ58GSQNO"], string.Empty).Trim();
+                        line.ProductType = Data.CastDbNull.To(reader["ATZ58PT"], string.Empty).Trim();
+                        line.CustomerPart2 = Data.CastDbNull.To(reader["ATZ58CP2"], string.Empty).Trim();
+                        line.CustomerPart3 = Data.CastDbNull.To(reader["ATZ58CP3"], string.Empty).Trim();
+                        line.CustomerPart4 = Data.CastDbNull.To(reader["ATZ58CP4"], string.Empty).Trim();
+                        line.ShopFloorMsg1 = Data.CastDbNull.To(reader["ATZ5899009"], string.Empty).Trim();
+                        line.ShopFloorMsg2 = Data.CastDbNull.To(reader["ATZ5899010"], string.Empty).Trim();
+                        line.PickNotes = Data.CastDbNull.To(reader["ATZ5899011"], string.Empty).Trim();
+                        line.PackNotes = Data.CastDbNull.To(reader["ATZ5899012"], string.Empty).Trim();
+                        line.VolumeIndicator = Data.CastDbNull.To(reader["ATZ5840460"], string.Empty).Trim();
+                        line.Crating = Data.CastDbNull.To(reader["ATZ58CRATE"], string.Empty).Trim();
+                        line.CratingDesc = Data.CastDbNull.To(reader["DRDL0157CR"], string.Empty).Trim(); // _udcMgr.GetUdcItem(e1Session, "57", "CR", line.Crating).Description1;
                         counter++;
                     }
 

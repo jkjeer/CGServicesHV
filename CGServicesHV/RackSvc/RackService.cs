@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using CGServicesHV.Common.Managers.Process;
 using CGServicesHV.Common.Types.Enterprise;
 using CGServicesHV.Common.Types.Response;
-using CGServicesHV.RackTagSvc;
+using CGServicesHV.Common.Utilities;
 using SoaCore.Wcf;
 
 namespace CGServicesHV.RackSvc
@@ -96,8 +95,8 @@ namespace CGServicesHV.RackSvc
                     {"RackId", rackId},
                     {"StatusCodes", statusCodes?.Split(',').ToList()}
                 };
-                var resources = new List<string> { "PLANT.SHOPFLOOR", "PLANT.INTEGRATION", "E1.PD" };
-                BusinessSystemTransferProcessor.Invoke(plants, OutsideRackProcessor.DownloadOutsideRacks, parallel, parms, resources);
+                var resources = new List<string> { "PLANT.SHOPFLOOR", "PLANT.INTEGRATION", "E1.HA" };
+                //BusinessSystemTransferProcessor.Invoke(plants, OutsideRackProcessor.DownloadOutsideRacks, parallel, parms, resources);
                 return BusinessSystemTransferProcessor.Invoke(plants, RackProcessor.DownloadRacks, parallel, parms, resources);
             }
             catch (Exception e)
@@ -143,7 +142,7 @@ namespace CGServicesHV.RackSvc
                     {"RackId", rackId},
                     {"StatusCodes", statusCodes?.Split(',').ToList()}
                 };
-                var resources = new List<string> { "PLANT.SHOPFLOOR", "PLANT.INTEGRATION", "E1.PD" };
+                var resources = new List<string> { "PLANT.SHOPFLOOR", "PLANT.INTEGRATION", "E1.HA" };
                 return BusinessSystemTransferProcessor.Invoke(plants, OutsideRackProcessor.DownloadOutsideRacks, parallel, parms, resources);
             }
             catch (Exception e)
@@ -165,7 +164,7 @@ namespace CGServicesHV.RackSvc
                 parms.Add("HighWaterMark", useHighWaterMark);
                 parms.Add("RackId", rackId);
                 parms.Add("StatusCodes", statusCodes?.Split(',').ToList());
-                var resources = new List<string> { "PLANT.SHOPFLOOR", "PLANT.INTEGRATION", "E1.PD" };
+                var resources = new List<string> { "PLANT.SHOPFLOOR", "PLANT.INTEGRATION", "E1.HA" };
                 //BusinessSystemTransferProcessor.Invoke(plants, OutsideRackProcessor.DownloadOutsideRackDetails, parallel, parms, resources);
                 return BusinessSystemTransferProcessor.Invoke(plants, RackProcessor.DownloadRackDetails, parallel, parms, resources);
             }
@@ -210,7 +209,7 @@ namespace CGServicesHV.RackSvc
                 parms.Add("HighWaterMark", useHighWaterMark);
                 parms.Add("RackId", rackId);
                 parms.Add("StatusCodes", statusCodes?.Split(',').ToList());
-                var resources = new List<string> { "PLANT.SHOPFLOOR", "PLANT.INTEGRATION", "E1.PD" };
+                var resources = new List<string> { "PLANT.SHOPFLOOR", "PLANT.INTEGRATION", "E1.HA" };
                 return BusinessSystemTransferProcessor.Invoke(plants, OutsideRackProcessor.DownloadOutsideRackDetails, parallel, parms, resources);
             }
             catch (Exception e)
@@ -243,7 +242,7 @@ namespace CGServicesHV.RackSvc
             }
         }
 
-        public ProcessResponse RunRackAudit(string plants, bool showPlantOnly, bool isDelete, short maxDeletes, short retentionMinutes)
+        public ProcessResponse RunRackAudit(string plants, bool showPlantOnly, bool isDelete, short maxDeletes, short retentionMinutes, bool sendReport)
         {
             if (string.IsNullOrEmpty(plants))
             {
@@ -253,13 +252,14 @@ namespace CGServicesHV.RackSvc
             {
                 var parms = new Dictionary<string, object>
                 {
-                    {"ShowPlantOnly", showPlantOnly},
-                    {"IsDelete", isDelete},
+                    {"ShowPlantOnly", showPlantOnly.ToString()},
+                    {"IsDelete", isDelete.ToString()},
                     {"MaxDeletes", maxDeletes},
-                    {"RetentionMinutes", retentionMinutes}
+                    {"RetentionMinutes", retentionMinutes},
+                    {"SendReport", sendReport.ToString()}
                 };
                 var parallel = false;
-                var resources = new List<string> { "PLANT.SHOPFLOOR", "CORP.INTEGRATION", "E1.PD" };
+                var resources = new List<string> { "PLANT.SHOPFLOOR", "CORP.INTEGRATION", "E1.HA" };
                 return BusinessSystemTransferProcessor.Invoke(plants, RackProcessor.RunRackAudit, parallel, parms, resources);
             }
             catch (Exception e)
@@ -268,7 +268,7 @@ namespace CGServicesHV.RackSvc
             }
         }
 
-        public ProcessResponse RunRackDetailAudit(string plants, bool showPlantOnly, bool isDelete, short maxDeletes, short retentionMinutes)
+        public ProcessResponse RunRackDetailAudit(string plants, bool showPlantOnly, bool isDelete, short maxDeletes, short retentionMinutes, bool sendReport)
         {
             if (string.IsNullOrEmpty(plants))
             {
@@ -278,13 +278,14 @@ namespace CGServicesHV.RackSvc
             {
                 var parms = new Dictionary<string, object>
                 {
-                    {"ShowPlantOnly", showPlantOnly},
-                    {"IsDelete", isDelete},
+                    {"ShowPlantOnly", showPlantOnly.ToString()},
+                    {"IsDelete", isDelete.ToString()},
                     {"MaxDeletes", maxDeletes},
-                    {"RetentionMinutes", retentionMinutes}
+                    {"RetentionMinutes", retentionMinutes},
+                    {"SendReport", sendReport.ToString()}
                 };
                 var parallel = false;
-                var resources = new List<string> { "PLANT.SHOPFLOOR", "CORP.INTEGRATION", "E1.PD" };
+                var resources = new List<string> { "PLANT.SHOPFLOOR", "CORP.INTEGRATION", "E1.HA" };
                 return BusinessSystemTransferProcessor.Invoke(plants, RackProcessor.RunRackDetailAudit, parallel, parms, resources);
             }
             catch (Exception e)
@@ -293,7 +294,7 @@ namespace CGServicesHV.RackSvc
             }
         }
 
-        public ProcessResponse RunRawTagsAudit(string plants, bool showPlantOnly, bool isDelete, short maxDeletes, short retentionMinutes)
+        public ProcessResponse RunRawTagsAudit(string plants, bool showPlantOnly, bool isDelete, short maxDeletes, short retentionMinutes, bool sendReport)
         {
             if (string.IsNullOrEmpty(plants))
             {
@@ -303,13 +304,14 @@ namespace CGServicesHV.RackSvc
             {
                 var parms = new Dictionary<string, object>
                 {
-                    {"ShowPlantOnly", showPlantOnly},
-                    {"IsDelete", isDelete},
+                    {"ShowPlantOnly", showPlantOnly.ToString()},
+                    {"IsDelete", isDelete.ToString()},
                     {"MaxDeletes", maxDeletes},
-                    {"RetentionMinutes", retentionMinutes}
+                    {"RetentionMinutes", retentionMinutes},
+                    {"SendReport", sendReport.ToString()}
                 };
                 var parallel = false;
-                var resources = new List<string> { "PLANT.SHOPFLOOR", "CORP.INTEGRATION", "E1.PD" };
+                var resources = new List<string> { "PLANT.SHOPFLOOR", "CORP.INTEGRATION", "E1.HA" };
                 return BusinessSystemTransferProcessor.Invoke(plants, RackProcessor.RunRawTagsAudit, parallel, parms, resources);
             }
             catch (Exception e)
@@ -403,7 +405,7 @@ namespace CGServicesHV.RackSvc
                     {"RackId", rackId},
                     {"StatusCodes", statusCodes?.Split(',').ToList()}
                 };
-                var resources = new List<string> { "PLANT.SHOPFLOOR", "PLANT.INTEGRATION", "E1.PD" };
+                var resources = new List<string> { "PLANT.SHOPFLOOR", "PLANT.INTEGRATION", "E1.HA" };
                 //BusinessSystemTransferProcessor.Invoke(plants, OutsideRackProcessor.DownloadOutsideRawTags, parallel, parms, resources);
                 //return BusinessSystemTransferProcessor.Invoke(plants, RackProcessor.DownloadRawTags, parallel, parms, resources);
                 return BusinessSystemTransferProcessor.Invoke(plants, RackProcessor.DownloadRawTags, parallel, parms, resources);
@@ -430,7 +432,7 @@ namespace CGServicesHV.RackSvc
                     {"RackId", rackId},
                     {"StatusCodes", statusCodes?.Split(',').ToList()}
                 };
-                var resources = new List<string> { "PLANT.SHOPFLOOR", "PLANT.INTEGRATION", "E1.PD" };
+                var resources = new List<string> { "PLANT.SHOPFLOOR", "PLANT.INTEGRATION", "E1.HA" };
                 return BusinessSystemTransferProcessor.Invoke(plants, OutsideRackProcessor.DownloadOutsideRawTags, parallel, parms, resources);
             }
             catch (Exception e)
@@ -568,7 +570,7 @@ namespace CGServicesHV.RackSvc
                     {"RackId", rackId},
                     {"StatusCodes", statusCodes?.Split(',').ToList()}
                 };
-                var resources = new List<string> { "PLANT.SHOPFLOOR", "PLANT.INTEGRATION", "E1.PD" };
+                var resources = new List<string> { "PLANT.SHOPFLOOR", "PLANT.INTEGRATION", "E1.HA" };
                 BusinessSystemTransferProcessor.Invoke(plants, OutsideRackProcessor.DownloadOutsideRacks, parallel, parms, resources);
                 return BusinessSystemTransferProcessor.Invoke(plants, RackProcessor.DownloadRacks, parallel, parms, resources);
             }
@@ -615,7 +617,7 @@ namespace CGServicesHV.RackSvc
                     {"RackId", rackId},
                     {"StatusCodes", statusCodes?.Split(',').ToList()}
                 };
-                var resources = new List<string> { "PLANT.SHOPFLOOR", "PLANT.INTEGRATION", "E1.PD" };
+                var resources = new List<string> { "PLANT.SHOPFLOOR", "PLANT.INTEGRATION", "E1.HA" };
                 return BusinessSystemTransferProcessor.Invoke(plants, OutsideRackProcessor.DownloadOutsideRacks, parallel, parms, resources);
             }
             catch (Exception e)
@@ -637,7 +639,7 @@ namespace CGServicesHV.RackSvc
                 parms.Add("HighWaterMark", useHighWaterMark);
                 parms.Add("RackId", rackId);
                 parms.Add("StatusCodes", statusCodes?.Split(',').ToList());
-                var resources = new List<string> { "PLANT.SHOPFLOOR", "PLANT.INTEGRATION", "E1.PD" };
+                var resources = new List<string> { "PLANT.SHOPFLOOR", "PLANT.INTEGRATION", "E1.HA" };
                 //BusinessSystemTransferProcessor.Invoke(plants, OutsideRackProcessor.DownloadOutsideRackDetails, parallel, parms, resources);
                 return BusinessSystemTransferProcessor.Invoke(plants, RackProcessor.DownloadRackDetails, parallel, parms, resources);
             }
@@ -682,7 +684,7 @@ namespace CGServicesHV.RackSvc
                 parms.Add("HighWaterMark", useHighWaterMark);
                 parms.Add("RackId", rackId);
                 parms.Add("StatusCodes", statusCodes?.Split(',').ToList());
-                var resources = new List<string> { "PLANT.SHOPFLOOR", "PLANT.INTEGRATION", "E1.PD" };
+                var resources = new List<string> { "PLANT.SHOPFLOOR", "PLANT.INTEGRATION", "E1.HA" };
                 return BusinessSystemTransferProcessor.Invoke(plants, OutsideRackProcessor.DownloadOutsideRackDetails, parallel, parms, resources);
             }
             catch (Exception e)
@@ -706,7 +708,7 @@ namespace CGServicesHV.RackSvc
                     {"RackId", rackId},
                     {"StatusCodes", statusCodes?.Split(',').ToList()}
                 };
-                var resources = new List<string> { "PLANT.SHOPFLOOR", "PLANT.INTEGRATION", "E1.PD" };
+                var resources = new List<string> { "PLANT.SHOPFLOOR", "PLANT.INTEGRATION", "E1.HA" };
                 return BusinessSystemTransferProcessor.Invoke(plants, RackProcessor.DownloadRackItems, parallel, parms, resources);
             }
             catch (Exception e)
@@ -715,7 +717,7 @@ namespace CGServicesHV.RackSvc
             }
         }
 
-        public ProcessResponse RunRackAudit(string plants, bool showPlantOnly, bool isDelete, short maxDeletes, short retentionMinutes)
+        public ProcessResponse RunRackAudit(string plants, bool showPlantOnly, bool isDelete, short maxDeletes, short retentionMinutes, bool sendReport)
         {
             if (string.IsNullOrEmpty(plants))
             {
@@ -725,13 +727,14 @@ namespace CGServicesHV.RackSvc
             {
                 var parms = new Dictionary<string, object>
                 {
-                    {"ShowPlantOnly", showPlantOnly},
-                    {"IsDelete", isDelete},
+                    {"ShowPlantOnly", showPlantOnly.ToString()},
+                    {"IsDelete", isDelete.ToString()},
                     {"MaxDeletes", maxDeletes},
-                    {"RetentionMinutes", retentionMinutes}
+                    {"RetentionMinutes", retentionMinutes},
+                    {"SendReport", sendReport.ToString()}
                 };
                 var parallel = false;
-                var resources = new List<string> { "PLANT.SHOPFLOOR", "CORP.INTEGRATION", "E1.PD" };
+                var resources = new List<string> { "PLANT.SHOPFLOOR", "CORP.INTEGRATION", "E1.HA" };
                 return BusinessSystemTransferProcessor.Invoke(plants, RackProcessor.RunRackAudit, parallel, parms, resources);
             }
             catch (Exception e)
@@ -740,7 +743,7 @@ namespace CGServicesHV.RackSvc
             }
         }
 
-        public ProcessResponse RunRackDetailAudit(string plants, bool showPlantOnly, bool isDelete, short maxDeletes, short retentionMinutes)
+        public ProcessResponse RunRackDetailAudit(string plants, bool showPlantOnly, bool isDelete, short maxDeletes, short retentionMinutes, bool sendReport)
         {
             if (string.IsNullOrEmpty(plants))
             {
@@ -750,13 +753,14 @@ namespace CGServicesHV.RackSvc
             {
                 var parms = new Dictionary<string, object>
                 {
-                    {"ShowPlantOnly", showPlantOnly},
-                    {"IsDelete", isDelete},
+                    {"ShowPlantOnly", showPlantOnly.ToString()},
+                    {"IsDelete", isDelete.ToString()},
                     {"MaxDeletes", maxDeletes},
-                    {"RetentionMinutes", retentionMinutes}
+                    {"RetentionMinutes", retentionMinutes},
+                    {"SendReport", sendReport.ToString()}
                 };
                 var parallel = false;
-                var resources = new List<string> { "PLANT.SHOPFLOOR", "CORP.INTEGRATION", "E1.PD" };
+                var resources = new List<string> { "PLANT.SHOPFLOOR", "CORP.INTEGRATION", "E1.HA" };
                 return BusinessSystemTransferProcessor.Invoke(plants, RackProcessor.RunRackDetailAudit, parallel, parms, resources);
             }
             catch (Exception e)
@@ -765,7 +769,7 @@ namespace CGServicesHV.RackSvc
             }
         }
 
-        public ProcessResponse RunRawTagsAudit(string plants, bool showPlantOnly, bool isDelete, short maxDeletes, short retentionMinutes)
+        public ProcessResponse RunRawTagsAudit(string plants, bool showPlantOnly, bool isDelete, short maxDeletes, short retentionMinutes, bool sendReport)
         {
             if (string.IsNullOrEmpty(plants))
             {
@@ -775,13 +779,14 @@ namespace CGServicesHV.RackSvc
             {
                 var parms = new Dictionary<string, object>
                 {
-                    {"ShowPlantOnly", showPlantOnly},
-                    {"IsDelete", isDelete},
+                    {"ShowPlantOnly", showPlantOnly.ToString()},
+                    {"IsDelete", isDelete.ToString()},
                     {"MaxDeletes", maxDeletes},
-                    {"RetentionMinutes", retentionMinutes}
+                    {"RetentionMinutes", retentionMinutes},
+                    {"SendReport", sendReport.ToString()}
                 };
                 var parallel = false;
-                var resources = new List<string> { "PLANT.SHOPFLOOR", "CORP.INTEGRATION", "E1.PD" };
+                var resources = new List<string> { "PLANT.SHOPFLOOR", "CORP.INTEGRATION", "E1.HA" };
                 return BusinessSystemTransferProcessor.Invoke(plants, RackProcessor.RunRawTagsAudit, parallel, parms, resources);
             }
             catch (Exception e)
@@ -875,7 +880,7 @@ namespace CGServicesHV.RackSvc
                     {"RackId", rackId},
                     {"StatusCodes", statusCodes?.Split(',').ToList()}
                 };
-                var resources = new List<string> { "PLANT.SHOPFLOOR", "PLANT.INTEGRATION", "E1.PD" };
+                var resources = new List<string> { "PLANT.SHOPFLOOR", "PLANT.INTEGRATION", "E1.HA" };
                 BusinessSystemTransferProcessor.Invoke(plants, OutsideRackProcessor.DownloadOutsideRawTags, parallel, parms, resources);
                 return BusinessSystemTransferProcessor.Invoke(plants, RackProcessor.DownloadRawTags, parallel, parms, resources);
             }
@@ -900,7 +905,7 @@ namespace CGServicesHV.RackSvc
                     {"RackId", rackId},
                     {"StatusCodes", statusCodes?.Split(',').ToList()}
                 };
-                var resources = new List<string> { "PLANT.SHOPFLOOR", "PLANT.INTEGRATION", "E1.PD" };
+                var resources = new List<string> { "PLANT.SHOPFLOOR", "PLANT.INTEGRATION", "E1.HA" };
                 return BusinessSystemTransferProcessor.Invoke(plants, OutsideRackProcessor.DownloadOutsideRawTags, parallel, parms, resources);
             }
             catch (Exception e)

@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using CGServicesHV.Common.Managers.Process;
-using CGServicesHV.Common.Managers.ShopFloor;
 using CGServicesHV.Common.Types.E1;
 using CGServicesHV.Common.Types.Enterprise;
 using CGServicesHV.Common.Types.Response;
@@ -47,6 +46,28 @@ namespace CGServicesHV.OrderSvc
                 var archived = Data.UnboxParm.To<bool>(parms, "Archived", false);
                 var missing = Data.UnboxParm.To<bool>(parms, "Missing", false);
                 response.ProcessResponses.Add(ConfiguredAttributeDownloadManager.Process(session, sqlCns, plant, timeSpan, timeSpanEnd, useHighWaterMark, configurationId, rackStatusCodes, archived, missing));
+            }
+            catch (Exception e)
+            {
+                response.Errors.Add(new Error(e));
+            }
+            response.Close();
+            return response;
+        }
+
+        public static ProcessResponse DownloadConfiguredUnitAttributes(Plant plant, BusinessSystemSession session, Dictionary<string, SqlConnection> sqlCns, Dictionary<string, object> parms)
+        {
+            var response = new ProcessResponse($"Configured Unit Attribute Download Processor", plant);
+            try
+            {
+                var timeSpan = Data.UnboxParm.To(parms, "TimeSpan", new TimeSpan());
+                var timeSpanEnd = Data.UnboxParm.To(parms, "TimeSpanEnd", new TimeSpan());
+                var useHighWaterMark = Data.UnboxParm.To(parms, "HighWaterMark", false);
+                var configurationId = Data.UnboxParm.To<decimal>(parms, "ConfigurationId", 0);
+                var rackStatusCodes = Data.UnboxParm.To(parms, "RackStatusCodes", new List<string>());
+                var archived = Data.UnboxParm.To<bool>(parms, "Archived", false);
+                var missing = Data.UnboxParm.To<bool>(parms, "Missing", false);
+                response.ProcessResponses.Add(ConfiguredUnitAttributeDownloadManager.Process(session, sqlCns, plant, timeSpan, timeSpanEnd, useHighWaterMark, configurationId, rackStatusCodes, archived, missing));
             }
             catch (Exception e)
             {

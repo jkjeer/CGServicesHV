@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Data;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.Text;
 using CGServicesHV.Common.Types.ShopFloor;
-using CGServicesHV.Common.Utilities;
 using NLog;
 
-namespace CGServicesHV.Common.Managers.Enterprise
+namespace CGServicesHV.Common.Utilities
 {
     public class TriggerManager
     {
@@ -46,8 +45,8 @@ namespace CGServicesHV.Common.Managers.Enterprise
                         var trigger = new Trigger
                         {
                             TableName = tableName,
-                            TriggerName = CastDbNull.To(reader["TriggerName"], string.Empty).Trim(),
-                            InitialState = CastDbNull.To(reader["is_disabled"], false)
+                            TriggerName = Data.CastDbNull.To(reader["TriggerName"], string.Empty).Trim(),
+                            InitialState = Data.CastDbNull.To(reader["is_disabled"], false)
                         };
                         triggers.Add(trigger);
                     }

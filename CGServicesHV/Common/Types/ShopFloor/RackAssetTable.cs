@@ -57,24 +57,24 @@ namespace CGServicesHV.Common.Types.ShopFloor
                     while (reader.Read())
                     {
                         DataRow dr = this.NewRow();
-                        dr["AssetId"] = CastDbNull.To(reader["ALZ58AID"], String.Empty).Trim();
-                        dr["Plant"] = CastDbNull.To(reader["ALMCU"], String.Empty).Trim();
-                        dr["Location"] = CastDbNull.To(reader["ALLOCN"], String.Empty).Trim();
-                        dr["Status"] = CastDbNull.To(reader["ALZ58AST"], String.Empty).Trim();
-                        dr["CustomerSoldNum"] = CastDbNull.To<decimal>(reader["ALAN8"], 0);
-                        dr["CustomerShipNum"] = CastDbNull.To<decimal>(reader["ALSHAN"], 0);
-                        dr["AssetType"] = CastDbNull.To(reader["ALZ58ATY"], String.Empty).Trim();
-                        dr["RackType"] = CastDbNull.To(reader["ALZ58RT"], String.Empty).Trim();
-                        dr["RackId"] = CastDbNull.To<decimal>(reader["ALZ58RID"], 0);
-                        dr["CreationDate"] = E1TimeManager.CastToDateTime(CastDbNull.To<decimal>(reader["ALZ58ACD"], 0));
-                        dr["RelabelDate"] = E1TimeManager.CastToDateTime(CastDbNull.To<decimal>(reader["ALZ58RDT"], 0));
-                        dr["ShipDate"] = E1TimeManager.CastToDateTime(CastDbNull.To<decimal>(reader["ALSHPJ"], 0));
-                        dr["ReceivedDate"] = E1TimeManager.CastToDateTime(CastDbNull.To<decimal>(reader["ALRCDJ"], 0));
+                        dr["AssetId"] = Data.CastDbNull.To(reader["ALZ58AID"], String.Empty).Trim();
+                        dr["Plant"] = Data.CastDbNull.To(reader["ALMCU"], String.Empty).Trim();
+                        dr["Location"] = Data.CastDbNull.To(reader["ALLOCN"], String.Empty).Trim();
+                        dr["Status"] = Data.CastDbNull.To(reader["ALZ58AST"], String.Empty).Trim();
+                        dr["CustomerSoldNum"] = Data.CastDbNull.To<decimal>(reader["ALAN8"], 0);
+                        dr["CustomerShipNum"] = Data.CastDbNull.To<decimal>(reader["ALSHAN"], 0);
+                        dr["AssetType"] = Data.CastDbNull.To(reader["ALZ58ATY"], String.Empty).Trim();
+                        dr["RackType"] = Data.CastDbNull.To(reader["ALZ58RT"], String.Empty).Trim();
+                        dr["RackId"] = Data.CastDbNull.To<decimal>(reader["ALZ58RID"], 0);
+                        dr["CreationDate"] = E1TimeManager.CastToDateTime(Data.CastDbNull.To<decimal>(reader["ALZ58ACD"], 0));
+                        dr["RelabelDate"] = E1TimeManager.CastToDateTime(Data.CastDbNull.To<decimal>(reader["ALZ58RDT"], 0));
+                        dr["ShipDate"] = E1TimeManager.CastToDateTime(Data.CastDbNull.To<decimal>(reader["ALSHPJ"], 0));
+                        dr["ReceivedDate"] = E1TimeManager.CastToDateTime(Data.CastDbNull.To<decimal>(reader["ALRCDJ"], 0));
                         var updateDateId = Data.CastDbNull.To<decimal>(reader["ALMUPM"], 0);
                         var updateTimeId = Data.CastDbNull.To<decimal>(reader["ALTDAY"], 0);
                         dr["TransactionDate"] = E1TimeManager.CastToDateTime(updateDateId, updateTimeId).AddHours(plant.TimeOffset);
-                        dr["TransactionId"] = CastDbNull.To<decimal>(reader["ALUKID"], 0);
-                        dr["TransactionType"] = CastDbNull.To(reader["ALIOPR"], String.Empty).Trim();
+                        dr["TransactionId"] = Data.CastDbNull.To<decimal>(reader["ALUKID"], 0);
+                        dr["TransactionType"] = Data.CastDbNull.To(reader["ALIOPR"], String.Empty).Trim();
                         this.Rows.Add(dr);
                     }
 
